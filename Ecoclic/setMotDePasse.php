@@ -1,4 +1,14 @@
-<!DOCTYPE html>
+<?php
+    include "Autoload.php";
+
+    $Id = $_GET['Id'];
+
+    DbUtilisateur::setVerif($Id);
+
+    header('Location:' .Config::read('domaine'));
+?>
+
+<!-- <!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -30,14 +40,14 @@
                 <form action="#" method="post" class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
 
                     <?php
-                        include "./Autoload.php"; 
+                        // include "./Autoload.php"; 
                     ?>
 
                     <p class="text-center fs mt-5" style="margin-bottom: 65px;">Saisir votre nouveau mot de passe ci-dessous</p>
 
                     <fieldset>
                     <input type="text" hidden name="code">
-                        <!-- Mot de passe 1 -->
+                        
                         <fieldset class="formRow">
                             <div class="formRow--item col-12">
                                 <label for="password_input" class="formRow--input-wrapper js-inputWrapper">
@@ -55,7 +65,7 @@
                             </p>
                         </div>
 
-                        <!-- Mot de passe 2 -->
+                        
                         <fieldset class="formRow mb-3">
                             <div class="formRow--item col-12">
                                 <label for="nex_password_input" class="formRow--input-wrapper js-inputWrapper">
@@ -93,7 +103,7 @@
                     </footer>
                 </div>
 
-                <!-- Modal -->
+                
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
                         <div class="modal-content">
@@ -148,7 +158,7 @@
                 $mdp = document.getElementById("password_input").value;
                 
                 $json = $mdp;
-                $json2 = "<?php echo $_GET['Id'] ?>";
+                $json2 = "<?php // echo $_GET['Id'] ?>";
                 $.ajax({
                     url: 'AjaxLoader/createMDP.php',
                     type: 'post',
@@ -166,8 +176,7 @@
         }
     </script>
 
-    <!-- <script src="http://code.jquery.com/jquery-3.1.1.slim.min.js"></script> -->
 	<script src="./js/placeholderRGAA.js"></script>
 	<script src="./js/index.js"></script>
 
-</body>
+</body> -->

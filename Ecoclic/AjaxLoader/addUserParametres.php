@@ -13,7 +13,8 @@ $Utilisateur->Prenom = $_GET["Prenom"];
 $Utilisateur->Nom = $_GET["Nom"];  
 $Utilisateur->Mail = $_GET["Mail"];
 $Utilisateur->Identifiant = $_GET["Identifiant"];
-$Utilisateur->CGU = 0;
+$Utilisateur->Password = md5($_GET["Mot_de_passe"]);
+$Utilisateur->CGU = 1;
 $Utilisateur->CollectiviteId = SessionHelper::GetCurrentUser()->CollectiviteId;
 if (isset($_GET["Actif"])) {
     $Utilisateur->Actif = 1;
@@ -26,8 +27,6 @@ if (isset($_GET["Administrateur"])) {
 }else {
     $Utilisateur->Admin = 0;
 }
-
-$Utilisateur->Password = "";
 
 $results = DbUtilisateur::InsertUtilisateur($Utilisateur);
 

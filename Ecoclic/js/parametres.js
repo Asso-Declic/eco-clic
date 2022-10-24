@@ -154,7 +154,20 @@ $(function() {
                     type: "required",
                     message: "Mail ne peut pas être vide."
                 }]
-            }, {
+            },{
+                dataField: "Mot_de_passe",
+                label: {
+                    text: "Mot de passe"
+                },
+                editorType: "dxTextBox",
+                editorOptions: {
+                    valueChangeEvent: "keyup",
+                },
+                validationRules: [{
+                    type: "required",
+                    message: "Le mot de passe ne peut pas être vide."
+                }]
+            },{
                 dataField: "Actif",
                 label: {
                     text: "Actif "

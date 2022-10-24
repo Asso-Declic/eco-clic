@@ -55,8 +55,14 @@
                             <button type="submit" class="d-block btn btn-blueAdico rounded-pill white col-12 col-lg-12 fs" style="margin-top: 20%;"> Valider </button>
                         </div>
 
+                        
+
                     </fieldset>
                 </form>
+
+                <div class="col-7" style="margin-bottom: 65px;">
+                    <a href="index.php"><button type="submit" class="d-block btn btn-blueAdico rounded-pill white col-7 col-lg-7 fs"> Retour </button></a>
+                </div>
 
 				<div class="d-flex justify-content-center">
                     <footer class="text-center footer mt-auto py-3 bg-white" style="position: absolute;bottom: 0;">

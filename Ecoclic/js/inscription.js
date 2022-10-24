@@ -123,7 +123,6 @@ $(function() {
                     }]
                 }, {
                     dataField: "Denomination",
-                    cssClass: "d-none",
                     disabled: true,
                 }, {
                     dataField: "Population",
@@ -319,6 +318,7 @@ function sirene(siret) {
     if (test == true) {
         $("#form").dxForm('instance').itemOption("Population", "editorOptions", { placeholder: "Population" });
         $("#form").dxForm('instance').itemOption("Type_de_collectivité", "editorOptions", { placeholder: "Type de collectivité" });
+        $("#form").dxForm('instance').itemOption("Denomination", "editorOptions", { placeholder: "Dénomination" });
     }
     return test;
 }

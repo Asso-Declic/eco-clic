@@ -34,6 +34,10 @@
                     <div id="form"></div>
                 </form>
 
+                <div class="col-7" style="margin: 0 auto 65px auto;">
+                    <a href="index.php"><button type="submit" style="margin: 15px auto 0 auto;" class="d-block btn btn-blueAdico rounded-pill white col-7 col-lg-7 fs"> Retour </button></a>
+                </div>
+
 				<div class="d-flex justify-content-center">
                     <footer class="text-center footer mt-auto py-3 bg-white" style="position:absolute; bottom:0;">
                         <div class="container">
@@ -98,6 +102,58 @@
                 height: inherit;
                 width: inherit;
             }
+        }
+
+        .btn-blueAdico{
+            height: 34px !important;
+            width: 113px;
+            --blue: #007bff;
+            --indigo: #6610f2;
+            --purple: #6f42c1;
+            --pink: #e83e8c;
+            --red: #dc3545;
+            --orange: #fd7e14;
+            --yellow: #ffc107;
+            --green: #28a745;
+            --teal: #20c997;
+            --cyan: #17a2b8;
+            --white: #fff;
+            --gray: #6c757d;
+            --gray-dark: #343a40;
+            --primary: #007bff;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --breakpoint-xs: 0;
+            --breakpoint-sm: 576px;
+            --breakpoint-md: 768px;
+            --breakpoint-lg: 992px;
+            --breakpoint-xl: 1200px;
+            --font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+            --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+            -webkit-box-direction: normal;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-text-size-adjust: none;
+            -webkit-print-color-adjust: exact;
+            font-weight: 400;
+            font-size: 14px;
+            font-family: "Helvetica Neue","Segoe UI",helvetica,verdana,sans-serif;
+            cursor: pointer;
+            text-align: center;
+            user-select: none;
+            color: #fff !important;
+            box-sizing: border-box;
+            height: 100%;
+            max-height: 100%;
+            line-height: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 7px 18px 8px;
         }
 
         .dx-label-before {

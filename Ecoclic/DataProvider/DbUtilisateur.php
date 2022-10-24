@@ -2,6 +2,15 @@
 
 class Dbutilisateur
 {
+
+    public static function setVerif($Identifiant)
+    {
+        $bdd = PdoHelper::getInstance();
+        $req = $bdd->DataBase->prepare("UPDATE `utilisateur` SET `IsVerifie`= 1 WHERE `Id` = :Identifiant");
+        $req->bindParam(':Identifiant', $Identifiant);
+        $req->execute();
+    }
+
     public static function GetIdDisponibility($Identifiant)
     {
         try {

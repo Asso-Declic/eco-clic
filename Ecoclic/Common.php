@@ -1,5 +1,5 @@
 <?php
-ini_set('display_errors', 'Off');
+
 //on charge l'autoload des classes
 include "Autoload.php";
 
