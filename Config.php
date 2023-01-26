@@ -16,12 +16,12 @@ class Config
 }
 
 // db
-Config::write('db.host', 'ecoclimprod.mysql.db');
+Config::write('db.host', 'bdd');
 Config::write('db.port', '3306');
 Config::write('db.basename', 'ecoclimprod');
 
-Config::write('db.user', 'ecoclimprod');
-Config::write('db.password', '8VQkcmiWPmemcs7idnnrrnHblX9teL');
+Config::write('db.user', 'user');
+Config::write('db.password', 'password');
 //token
 Config::write('token.key', 'code_ultra_secret_a_changer');
 Config::write('token.validite', '14400');
@@ -30,8 +30,8 @@ Config::write('token.validite', '14400');
 Config::write('mail.enabled', true);
 Config::write('mail.senderName', 'Ecoclic');
 Config::write('mail.senderMail', 'nepasrepondre@ecoclic.fr');
-Config::write('mail.SMTPHost', 'envoisite@adico.fr');
-Config::write('mail.SMTPPassword', '3%Hb5i)S4mL}');
+Config::write('mail.SMTPHost', 'mail');
+Config::write('mail.SMTPPassword', 'password');
 
 Config::write('domaine', 'https://ecoclic.fr/');
 
