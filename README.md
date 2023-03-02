@@ -18,7 +18,7 @@ Il faut d’abord récupérer les sources du projet qui se trouve sur GitHub à 
 Après récupération des sources du projet, dézipper les sources et de déposer le contenu du zip à l’emplacement souhaité (cet emplacement doit être accessible depuis le web). 
 
 ## Création de la base de données
-Après récupération des sources, importer le script de création de base de données dans un outil dédié (PhpMyAdmin par ex) 
+Après récupération des sources, importer le script de création de base de données (ecoclimprod.sql) dans un outil dédié (PhpMyAdmin par ex) 
 
 ## Modification des éléments de connexion à la base de données
 Une fois la base de données créée, se rendre dans les sources dans le fichier Config.php qui se trouve à la racine du projet, puis modifier le fichier afin de renseigner les informations de connexion à la base de données. 
