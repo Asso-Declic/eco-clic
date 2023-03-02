@@ -1,8 +1,14 @@
 # eco-clic
 Solution L'éco-clic: Pilotage de la sobriété numérique 
 
-## Déploiement de la solution
-Pour le bon déploiement, il faut au préalable posséder une infrastructure permettant de pouvoir héberger une solution web. 
+## Hébergemement de la solution sur une pile LAMP
+### Serveur 
+Pour le serveur, il est recommandé d'utiliser Linux et Apache 
+### Base de données 
+MySQL 
+### Version de PHP 
+La version de PHP utilisée pour l'application L'éco-clic est PHP 7.2 
+
 Une fois l’infrastructure système prête, voici le déroulé pour pouvoir déployer la solution de l’éco-clic.
   
 ## Récupération du code
@@ -13,7 +19,6 @@ Après récupération des sources du projet, dézipper les sources et de dépose
 
 ## Création de la base de données
 Après récupération des sources, importer le script de création de base de données dans un outil dédié (PhpMyAdmin par ex) 
-
 
 ## Modification des éléments de connexion à la base de données
 Une fois la base de données créée, se rendre dans les sources dans le fichier Config.php qui se trouve à la racine du projet, puis modifier le fichier afin de renseigner les informations de connexion à la base de données. 
