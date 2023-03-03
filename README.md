@@ -1,5 +1,10 @@
-# eco-clic
-Solution L'éco-clic: Pilotage de la sobriété numérique 
+# L'éco-clic
+
+L'éco-clic est une solution de Pilotage de la sobriété numérique, distribuée en mode SaaS par l'association [Déclic](https://www.asso-declic.fr/) pour ses OPSN membres, ses partenaires, et pour les collectivités locales. 
+
+(voir le guide utilisateur: https://asso-declic.gitbook.io/guide-utilisateur-leco-clic/presentation-generale/leco-clic)
+
+Si vous ne souhaitez pas utiliser le service SaaS proposé par Déclic, vous pouvez déployer votre propre instance indépendante, en suivant les instructions suivantes: 
 
 ## Hébergemement de la solution sur une pile LAMP
 ### Serveur 
