@@ -28,13 +28,19 @@ cd eco-clic
 ```
 Il vous faudra utiliser [composer](https://getcomposer.org/download/) pour installer les dépendances PHP. S'il est bien installé sur votre système, téléchargez les dépendances :
 ```bash
-composer install
+composer install --no-dev
 ```
-Tous les fichiers PHP nécessaires au fonctionnement du projet sont là.
+Tous les fichiers PHP nécessaires au fonctionnement du projet sont là. Nous n'avons pas installé les dépendances de dev qui sont inutiles en production.
+
+### Configuration
+Il faut créer un fichier nommé `.env.local` à la racine du projet. Ajoutez la variable APP_ENV :
+```dotenv
+APP_ENV=prod
+```
+Il est bien important que vous utilisiez le fichier .env.local et surtout pas le fichier .env
 
 ### Base de données
-Installons la base de données. Le code utilise MySQL. Grâce à Symfony. Il y a peu de choses à faire. Il faut d'abord configurer l'accès à la base de données.
-Il faut créer un fichier nommé `.env.local` à la racine du projet. Copiez-y la variable `DATABASE_URL` et adaptez-la à votre serveur MySQL.
+Installons la base de données. Le code utilise MySQL. Grâce à Symfony. Il y a peu de choses à faire. Il faut d'abord configurer l'accès à la base de données. Copiez la variable `DATABASE_URL`  dans votre fichier `.env.local` et adaptez-la à votre serveur MySQL.
 ```dotenv
 DATABASE_URL="mysql://bduser:bdpass@bdserver:3306/bdname?serverVersion=5.7&charset=utf8mb4"
 ```
