@@ -6,12 +6,11 @@ use App\Repository\RecommandationLevelRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RecommandationLevelRepository::class)]
-#[ORM\Table(name: 'ref_NiveauReco')]
+// #[ORM\Table(name: 'ref_NiveauReco')]
 class RecommandationLevel
 {
     #[ORM\Id]
-    // #[ORM\GeneratedValue]
-    #[ORM\Column(name: 'Id')]
+    #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(name: 'Label', length: 50)]

@@ -6,7 +6,7 @@ use App\Repository\TemporarySiretRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TemporarySiretRepository::class)]
-#[ORM\Table(name: 'Siret_Temporaire')]
+// #[ORM\Table(name: 'Siret_Temporaire')]
 class TemporarySiret
 {
     #[ORM\Id]

@@ -9,12 +9,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OPSNRepository::class)]
-#[ORM\Table(name: 'OPSN')]
+// #[ORM\Table(name: 'OPSN')]
 class OPSN
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: 'Id', type: Types::GUID)]
+    #[ORM\Column(type: Types::GUID)]
     private ?int $id = null;
 
     #[ORM\Column(name: 'Nom', length: 500)]
@@ -51,8 +51,8 @@ class OPSN
     private ?string $longitude = null;
 
     #[ORM\ManyToMany(targetEntity: Departement::class, inversedBy: 'OPSNs')]
-    #[ORM\JoinTable(name: 'OPSN_Departement')]
-    #[ORM\JoinColumn(name: 'OPSNId', referencedColumnName: 'Id')]
+    // #[ORM\JoinTable(name: 'OPSN_Departement')]
+    #[ORM\JoinColumn(name: 'OPSNId', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'DepartementCode', referencedColumnName: 'Code')]
     private Collection $departements;
 

@@ -9,12 +9,12 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: 'Administrateur')]
+// #[ORM\Table(name: 'Administrateur')]
 class Admin implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: 'Id', type: 'guid')]
+    #[ORM\Column(type: 'guid')]
     private ?int $id = null;
 
     #[ORM\Column(name: 'Identifiant', length: 300, unique: true)]

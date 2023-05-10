@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserPreferenceRepository::class)]
-#[ORM\Table(name: 'preference')]
+// #[ORM\Table(name: 'preference')]
 class UserPreference
 {
     #[ORM\Id]
