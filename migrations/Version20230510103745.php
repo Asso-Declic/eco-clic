@@ -27,9 +27,7 @@ final class Version20230510103745 extends AbstractMigration
         $this->addSql('ALTER TABLE Siret_Temporaire CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
         $this->addSql('ALTER TABLE categorie CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
         $this->addSql('ALTER TABLE collectivite CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
-        $this->addSql('ALTER TABLE doctrine_migration_versions CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
         $this->addSql('ALTER TABLE historiqueScore CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
-        $this->addSql('ALTER TABLE messenger_messages CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
         $this->addSql('ALTER TABLE preference CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
         $this->addSql('ALTER TABLE question CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
         $this->addSql('ALTER TABLE recommandation CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
@@ -50,9 +48,7 @@ final class Version20230510103745 extends AbstractMigration
         $this->addSql('ALTER TABLE Siret_Temporaire COLLATE latin1_swedish_ci;');
         $this->addSql('ALTER TABLE categorie COLLATE utf8mb3_general_ci;');
         $this->addSql('ALTER TABLE collectivite COLLATE utf8mb3_general_ci;');
-        $this->addSql('ALTER TABLE doctrine_migration_versions COLLATE utf8mb3_unicode_ci;');
         $this->addSql('ALTER TABLE historiqueScore COLLATE utf8mb3_general_ci;');
-        $this->addSql('ALTER TABLE messenger_messages COLLATE utf8mb4_unicode_ci;');
         $this->addSql('ALTER TABLE preference COLLATE latin1_swedish_ci;');
         $this->addSql('ALTER TABLE question COLLATE utf8mb3_general_ci;');
         $this->addSql('ALTER TABLE recommandation COLLATE utf8mb3_general_ci;');
