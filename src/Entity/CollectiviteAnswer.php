@@ -14,9 +14,6 @@ class CollectiviteAnswer
     #[ORM\Column(type: Types::GUID)]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'IdQuestion', type: Types::GUID)]
-    private ?string $question = null;
-
     #[ORM\ManyToOne(targetEntity: Answer::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Answer $answer = null;
@@ -34,18 +31,6 @@ class CollectiviteAnswer
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getQuestion(): ?string
-    {
-        return $this->question;
-    }
-
-    public function setQuestion(string $question): self
-    {
-        $this->question = $question;
-
-        return $this;
     }
 
     public function getAnswer(): ?Answer

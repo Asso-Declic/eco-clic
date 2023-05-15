@@ -24,9 +24,6 @@ class Recommandation
     #[ORM\JoinColumn(nullable: false)]
     private ?Question $question = null;
 
-    #[ORM\Column(name: 'IdCategorie', type: Types::GUID)]
-    private ?string $category = null;
-
     // #[ORM\Column(name: 'NiveauReco', type: Types::SMALLINT)]
     #[ORM\ManyToOne(targetEntity: RecommandationLevel::class, inversedBy: 'recommandations')]
     #[ORM\JoinColumn(nullable: false)]
@@ -69,18 +66,6 @@ class Recommandation
     public function setQuestion(?Question $question): self
     {
         $this->question = $question;
-
-        return $this;
-    }
-
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): self
-    {
-        $this->category = $category;
 
         return $this;
     }

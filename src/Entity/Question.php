@@ -23,9 +23,6 @@ class Question
     #[ORM\JoinColumn(nullable: false)]
     private ?Theme $theme = null;
 
-    #[ORM\Column(type: Types::GUID)]
-    private ?string $category = null;
-
     #[ORM\Column(options: ['default' => 0])]
     private ?bool $multiple = null;
 
@@ -75,18 +72,6 @@ class Question
     public function setTheme(?Theme $theme): self
     {
         $this->theme = $theme;
-
-        return $this;
-    }
-
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): self
-    {
-        $this->category = $category;
 
         return $this;
     }
