@@ -55,12 +55,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $active = null;
 
-    #[ORM\Column(name: 'IdMotDePasseOublie', type: Types::GUID, nullable: true)]
-    private ?string $forgotPasswordId = null;
-
-    #[ORM\Column(name: 'DateMotDePasseOublie', nullable: true)]
-    private ?\DateTimeImmutable $forgotPasswordAt = null;
-
     #[ORM\Column(options: ['default'=>false])]
     private bool $cguChecked = false;
 
@@ -225,30 +219,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setActive(bool $active): self
     {
         $this->active = $active;
-
-        return $this;
-    }
-
-    public function getForgotPasswordId(): ?string
-    {
-        return $this->forgotPasswordId;
-    }
-
-    public function setForgotPasswordId(?string $forgotPasswordId): self
-    {
-        $this->forgotPasswordId = $forgotPasswordId;
-
-        return $this;
-    }
-
-    public function getForgotPasswordAt(): ?\DateTimeImmutable
-    {
-        return $this->forgotPasswordAt;
-    }
-
-    public function setForgotPasswordAt(?\DateTimeImmutable $forgotPasswordAt): self
-    {
-        $this->forgotPasswordAt = $forgotPasswordAt;
 
         return $this;
     }
