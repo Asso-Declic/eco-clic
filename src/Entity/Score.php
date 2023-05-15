@@ -9,26 +9,23 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ScoreRepository::class)]
 class Score
 {
-    // #[ORM\Id]
-    // #[ORM\GeneratedValue]
-    // #[ORM\Column]
-    // private ?int $id = null;
-
     #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::BIGINT, options: ['unsigned' => true])]
+    private ?int $id = null;
+
     #[ORM\Column(name: 'CollectiviteId', type: Types::GUID)]
     private ?string $collectivite = null;
-
     #[ORM\Column(name: 'Score')]
     private ?int $score = null;
 
-    #[ORM\Id]
     #[ORM\Column(name: 'Date')]
     private ?\DateTimeImmutable $scoredAt = null;
 
-    // public function getId(): ?int
-    // {
-    //     return $this->id;
-    // }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function getCollectivite(): ?string
     {

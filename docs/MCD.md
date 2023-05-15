@@ -3,7 +3,7 @@ Les MCD ont été réalisés avec [Mocodo](https://mocodo.net/)
 
 ## MCD d'origine
 Avant le passage à Symfony, la base de données n'avait pas de MCD.
-Dans un premier temps, il a fallu créer toutes les entités et les asstables actuelles. Ça donne un MCD sans relation puisque aucune clé étrangère n'existait. Une seule relation ManyToMany a été mise en place à cette étape, entre `OPSN` et `Departement`. À cette étape, les propriétés ont été renommées mais pas les champs. Ce qu'on observe ici représente plus les classes que la base de données.
+Dans un premier temps, il a fallu créer toutes les entités et les associations selon les tables actuelles. Ça donne un MCD sans relation puisque aucune clé étrangère n'existait. Une seule relation ManyToMany a été mise en place à cette étape, entre `OPSN` et `Departement`. À cette étape, les propriétés ont été renommées mais pas les champs. Ce qu'on observe ici représente plus les classes que la base de données.
 ```mocodo
 Departement: code, name, regionCode
 Couvre, 1N OPSN, 1N Departement
@@ -27,7 +27,7 @@ Category: id, name, image, description, sortOrder
 ```
 
 ## MCD Complet
-Quand il y a un 2, c'est qu'il y a une redondance de données
+En recréant les relations qui devraient apparemment exister, ça donne ça. Quand il y a un 2, c'est qu'il y a une redondance de données
 ```mocodo
 représenter, 11 Admin, 1N OPSN
 OPSN: id, name, email, departement,active, logo, phoneNumber, postalAddress, website, siret, latitude, longitude
@@ -51,7 +51,7 @@ répondre, 1N Collectivite, 11 CollectiviteAnswer
 CollectiviteAnswer: id, question, answer, collectivite, body, answeredAt
 associer2, 1N Question, 11 CollectiviteAnswer
 Question: id, question, theme, category, multiple, definition, additionalInformation, definitionTitle
-est une question sur le thème, 11 Question, 1N Theme
+découler, 11 Question, 1N Theme
 :
 
 TemporarySiret: siret, name

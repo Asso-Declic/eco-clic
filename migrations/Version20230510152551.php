@@ -36,7 +36,8 @@ final class Version20230510152551 extends AbstractMigration
         $this->addSql('DROP INDEX OPSNId ON collectivite');
         $this->addSql('ALTER TABLE collectivite CHANGE Id Id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE TypeId TypeId CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE OPSNId OPSNId CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\'');
         $this->addSql('DROP INDEX CollectiviteId ON historiqueScore');
-        $this->addSql('ALTER TABLE historiqueScore CHANGE CollectiviteId CollectiviteId CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE Date Date DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', ADD PRIMARY KEY (CollectiviteId, Date)');
+        $this->addSql('ALTER TABLE historiqueScore CHANGE CollectiviteId CollectiviteId CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE Date Date DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', ADD PRIMARY KEY (id)');
+        $this->addSql('DROP INDEX id ON historiqueScore;');
         $this->addSql('ALTER TABLE preference CHANGE UtilisateurId UtilisateurId CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', ADD PRIMARY KEY (UtilisateurId, Code)');
         $this->addSql('DROP INDEX IdCategorie ON question');
         $this->addSql('DROP INDEX IdTheme ON question');
