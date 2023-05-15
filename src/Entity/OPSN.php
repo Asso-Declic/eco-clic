@@ -9,7 +9,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OPSNRepository::class)]
-// #[ORM\Table(name: 'OPSN')]
 class OPSN
 {
     #[ORM\Id]
@@ -17,42 +16,43 @@ class OPSN
     #[ORM\Column(type: Types::GUID)]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'Nom', length: 500)]
+    #[ORM\Column(length: 500)]
     private ?string $name = null;
 
-    #[ORM\Column(name: 'Mail', length: 500, nullable: true)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $email = null;
 
-    #[ORM\Column(name: 'DepartementCode', length: 3, options: ['fixed' => true])]
+    // TODO : Voir s'il faut supprimer cette propriété
+    #[ORM\Column(length: 3, options: ['fixed' => true])]
     private ?string $departement = null;
 
-    #[ORM\Column(name: 'Actif')]
+    #[ORM\Column]
     private ?bool $active = null;
 
-    #[ORM\Column(name: 'Logo', length: 500, nullable: true)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $logo = null;
 
-    #[ORM\Column(name: 'Telephone', nullable: true)]
+    #[ORM\Column(nullable: true)]
     private ?int $phoneNumber = null;
 
-    #[ORM\Column(name: 'Adresse', length: 500, nullable: true)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $postalAddress = null;
 
-    #[ORM\Column(name: 'Site_Internet', length: 500, nullable: true)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $website = null;
 
-    #[ORM\Column(name: 'Siret', length: 14, nullable: true, options: ['fixed' => true])]
+    #[ORM\Column(length: 14, nullable: true, options: ['fixed' => true])]
     private ?string $siret = null;
 
-    #[ORM\Column(name: 'Latitude', length: 500, nullable: true)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $latitude = null;
 
-    #[ORM\Column(name: 'Longitude', length: 500, nullable: true)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $longitude = null;
 
     #[ORM\ManyToMany(targetEntity: Departement::class, inversedBy: 'OPSNs')]
-    #[ORM\JoinColumn(name: 'OPSNId', referencedColumnName: 'id')]
-    #[ORM\InverseJoinColumn(name: 'DepartementCode', referencedColumnName: 'Code')]
+    // #[ORM\JoinColumn(name: 'OPSNId', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(referencedColumnName: 'code')]
     private Collection $departements;
 
     #[ORM\OneToMany(targetEntity: Admin::class, mappedBy: 'opsn')]

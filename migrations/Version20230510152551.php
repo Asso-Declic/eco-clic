@@ -107,11 +107,14 @@ final class Version20230510152551 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE `historiqueScore` DROP `id`;');        
+        // $this->addSql('ALTER TABLE `historiqueScore` DROP PRIMARY KEY;');        
+        $this->addSql('ALTER TABLE `historiqueScore` DROP `Id`;');        
         $this->addSql('ALTER TABLE Administrateur DROP INDEX UNIQ_FF8F2A304F98863B, ADD INDEX Identifiant (Identifiant)');
         $this->addSql('ALTER TABLE Administrateur CHANGE Id Id CHAR(36) NOT NULL, CHANGE IdMotDePasseOublie IdMotDePasseOublie CHAR(36) DEFAULT NULL, CHANGE DateMotDePasseOublie DateMotDePasseOublie DATETIME DEFAULT NULL, CHANGE OPSNId OPSNId CHAR(36) DEFAULT NULL');
         $this->addSql('CREATE INDEX OPSNId ON Administrateur (OPSNId)');
+        $this->addSql('CREATE INDEX Code ON Departement (Code)');
         $this->addSql('CREATE INDEX CodeRegion ON Departement (CodeRegion)');
+        $this->addSql('ALTER TABLE Departement DROP PRIMARY KEY');
         $this->addSql('ALTER TABLE OPSN CHANGE Id Id CHAR(36) NOT NULL, CHANGE Actif Actif INT NOT NULL');
         $this->addSql('ALTER TABLE OPSN_Departement DROP FOREIGN KEY FK_BC35EDDFBF07875A');
         $this->addSql('ALTER TABLE OPSN_Departement DROP FOREIGN KEY FK_BC35EDDF839E14D2');
@@ -121,7 +124,6 @@ final class Version20230510152551 extends AbstractMigration
         $this->addSql('ALTER TABLE categorie CHANGE Id Id CHAR(36) NOT NULL');
         $this->addSql('ALTER TABLE collectivite CHANGE Id Id CHAR(36) NOT NULL, CHANGE TypeId TypeId CHAR(36) NOT NULL, CHANGE OPSNId OPSNId CHAR(36) DEFAULT NULL');
         $this->addSql('CREATE INDEX OPSNId ON collectivite (OPSNId)');
-        $this->addSql('DROP INDEX `primary` ON historiqueScore');
         $this->addSql('ALTER TABLE historiqueScore CHANGE CollectiviteId CollectiviteId CHAR(36) NOT NULL, CHANGE Date Date DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL');
         $this->addSql('CREATE INDEX CollectiviteId ON historiqueScore (CollectiviteId)');
         $this->addSql('DROP INDEX `primary` ON preference');
@@ -135,6 +137,7 @@ final class Version20230510152551 extends AbstractMigration
         $this->addSql('ALTER TABLE ref_TypeCollectivite CHANGE Id Id CHAR(36) NOT NULL');
         $this->addSql('ALTER TABLE reponse CHANGE Id Id CHAR(36) NOT NULL, CHANGE IdQuestion IdQuestion CHAR(36) NOT NULL');
         $this->addSql('CREATE INDEX IdQuestion ON reponse (IdQuestion)');
+        $this->addSql('UPDATE theme SET IdCategorie = \'\' WHERE IdCategorie IS NULL');
         $this->addSql('ALTER TABLE theme CHANGE Id Id CHAR(36) NOT NULL, CHANGE IdCategorie IdCategorie CHAR(36) NOT NULL');
         $this->addSql('CREATE INDEX IdCategorie ON theme (IdCategorie)');
         $this->addSql('DROP INDEX UNIQ_1D1C63B34F98863B ON utilisateur');

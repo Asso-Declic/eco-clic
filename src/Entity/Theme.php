@@ -9,7 +9,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ThemeRepository::class)]
-// #[ORM\Table(name: 'theme')]
 class Theme
 {
     #[ORM\Id]
@@ -17,12 +16,11 @@ class Theme
     #[ORM\Column(type: Types::GUID)]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'Theme', length: 500, nullable: true)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $label = null;
 
-    // #[ORM\Column(name: 'IdCategorie', type: Types::GUID)]
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'themes')]
-    #[ORM\JoinColumn(name: 'IdCategorie')]
+    #[ORM\JoinColumn]
     private ?Category $category = null;
 
     #[ORM\OneToMany(mappedBy: 'theme', targetEntity: Question::class)]

@@ -11,7 +11,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-// #[ORM\Table(name: 'utilisateur')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -19,7 +18,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'guid')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'Identifiant', length: 300, unique: true)]
+    #[ORM\Column(length: 300, unique: true)]
     private ?string $username = null;
 
     //#[ORM\Column]
@@ -30,30 +29,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column(name: 'MotDePasse', length: 200, nullable: true)]
+    #[ORM\Column(length: 200, nullable: true)]
     private ?string $password = null;
 
-    #[ORM\Column(name: 'Mail', length: 200, nullable: true)]
+    #[ORM\Column(length: 200, nullable: true)]
     private ?string $email = null;
 
-    #[ORM\Column(name: 'Nom', length: 50, nullable: true)]
-    private ?string $lastname = null;
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $lastName = null;
 
-    #[ORM\Column(name: 'Prenom', length: 50, nullable: true)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $firstName = null;
     
     // #[ORM\Column(name: 'CollectiviteId',type: Types::GUID, nullable: true)]
     #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(name: 'CollectiviteId', nullable: true)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Collectivite $collectivite = null;
 
-    #[ORM\Column(name: 'Admin')]
+    #[ORM\Column]
     private bool $admin = false;
 
-    #[ORM\Column(name: 'Token',length: 500, nullable: true)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $token = null;
 
-    #[ORM\Column(name: 'Actif')]
+    #[ORM\Column]
     private ?bool $active = null;
 
     #[ORM\Column(name: 'IdMotDePasseOublie', type: Types::GUID, nullable: true)]
@@ -62,10 +61,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'DateMotDePasseOublie', nullable: true)]
     private ?\DateTimeImmutable $forgotPasswordAt = null;
 
-    #[ORM\Column(name: 'CGU', options: ['default'=>false])]
+    #[ORM\Column(options: ['default'=>false])]
     private bool $cguChecked = false;
 
-    #[ORM\Column(name: 'IsVerifie', options: ['default'=>false])]
+    #[ORM\Column( options: ['default'=>false])]
     private bool $verified = false;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserPreference::class, orphanRemoval: true)]
@@ -158,14 +157,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getLastname(): ?string
+    public function getLastName(): ?string
     {
-        return $this->lastname;
+        return $this->lastName;
     }
 
-    public function setLastname(?string $lastname): self
+    public function setLastName(?string $lastName): self
     {
-        $this->lastname = $lastname;
+        $this->lastName = $lastName;
 
         return $this;
     }

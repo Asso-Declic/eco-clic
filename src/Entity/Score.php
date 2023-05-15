@@ -14,15 +14,14 @@ class Score
     #[ORM\Column(type: Types::BIGINT, options: ['unsigned' => true])]
     private ?int $id = null;
 
-    // #[ORM\Column(name: 'CollectiviteId', type: Types::GUID)]
     #[ORM\ManyToOne(targetEntity: Collectivite::class, inversedBy: 'scores')]
-    #[ORM\JoinColumn(name: 'CollectiviteId', nullable: false)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Collectivite $collectivite = null;
     
-    #[ORM\Column(name: 'Score')]
+    #[ORM\Column]
     private ?int $score = null;
 
-    #[ORM\Column(name: 'Date')]
+    #[ORM\Column]
     private ?\DateTimeImmutable $scoredAt = null;
 
     public function getId(): ?int

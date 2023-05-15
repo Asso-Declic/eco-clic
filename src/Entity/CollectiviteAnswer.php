@@ -7,7 +7,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CollectiviteAnswerRepository::class)]
-// #[ORM\Table(name: 'utilisateurReponse')]
 class CollectiviteAnswer
 {
     #[ORM\Id]
@@ -18,20 +17,18 @@ class CollectiviteAnswer
     #[ORM\Column(name: 'IdQuestion', type: Types::GUID)]
     private ?string $question = null;
 
-    // #[ORM\Column(name: 'IdReponse', type: Types::GUID)]
     #[ORM\ManyToOne(targetEntity: Answer::class)]
-    #[ORM\JoinColumn(name: 'IdReponse', nullable: false)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Answer $answer = null;
 
-    // #[ORM\Column(name: 'CollectiviteId', type: Types::GUID)]
     #[ORM\ManyToOne(targetEntity: Collectivite::class, inversedBy: 'collectiviteAnswers')]
-    #[ORM\JoinColumn(name: 'CollectiviteId', nullable: false)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Collectivite $collectivite = null;
 
-    #[ORM\Column(name: 'InputText', type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $body = null;
 
-    #[ORM\Column(name: 'Date')]
+    #[ORM\Column]
     private ?\DateTimeImmutable $answeredAt = null;
 
     public function getId(): ?int

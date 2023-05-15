@@ -9,7 +9,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
-// #[ORM\Table(name: 'categorie')]
 class Category
 {
     #[ORM\Id]
@@ -17,16 +16,16 @@ class Category
     #[ORM\Column(type: Types::GUID)]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'Nom',length: 200, nullable: true)]
+    #[ORM\Column(length: 200, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\Column(name: 'Img',length: 500, nullable: true)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\Column(name: 'Description',type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(name: 'Ordre',nullable: true)]
+    #[ORM\Column(nullable: true)]
     private ?int $sortOrder = null;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Theme::class)]

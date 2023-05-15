@@ -7,7 +7,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AnswerRepository::class)]
-// #[ORM\Table(name: 'reponse')]
 class Answer
 {
     #[ORM\Id]
@@ -15,19 +14,17 @@ class Answer
     #[ORM\Column(type: Types::GUID)]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'Type', length: 50, nullable: true)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $type = null;
 
-    #[ORM\Column(name: 'Text', type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $body = null;
 
-    
-    // #[ORM\Column(name: 'IdQuestion', type: Types::GUID)]
     #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'answers')]
-    #[ORM\JoinColumn(name: 'IdQuestion', nullable: false)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Question $question = null;
 
-    #[ORM\Column(name: 'Ponderation')]
+    #[ORM\Column]
     private ?int $ponderation = null;
 
     public function getId(): ?int

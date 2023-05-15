@@ -9,7 +9,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CollectiviteRepository::class)]
-// #[ORM\Table(name: 'collectivite')]
 class Collectivite
 {
     #[ORM\Id]
@@ -17,34 +16,31 @@ class Collectivite
     #[ORM\Column(type: Types::GUID)]
     private ?int $id = null;
 
-    #[ORM\Column(name:'Nom', length: 500)]
+    #[ORM\Column(length: 500)]
     private ?string $name = null;
 
-    #[ORM\Column(name:'Population')]
+    #[ORM\Column]
     private ?int $population = null;
 
-    // #[ORM\Column(name:'DepartementCode', length: 3, options: ['fixed' => true])]
     #[ORM\ManyToOne(targetEntity: Departement::class, inversedBy: 'collectivites')]
-    #[ORM\JoinColumn(name: 'DepartementCode', referencedColumnName: 'Code')]
+    #[ORM\JoinColumn(referencedColumnName: 'code')]
     private ?Departement $departement = null;
 
-    #[ORM\Column(name:'Siret', length: 14, options: ['fixed' => true])]
+    #[ORM\Column(length: 14, options: ['fixed' => true])]
     private ?string $siret = null;
 
-    #[ORM\Column(name:'Latitude', length: 500)]
+    #[ORM\Column(length: 500)]
     private ?string $latitude = null;
 
-    #[ORM\Column(name:'Longitude', length: 500)]
+    #[ORM\Column(length: 500)]
     private ?string $longitude = null;
 
-    // #[ORM\Column(name:'TypeId', type: Types::GUID)]
     #[ORM\ManyToOne(targetEntity: CollectiviteType::class, inversedBy: 'collectivites')]
-    #[ORM\JoinColumn(name: 'TypeId')]
+    #[ORM\JoinColumn]
     private ?CollectiviteType $type = null;
 
-    // #[ORM\Column(name:'OPSNId', type: Types::GUID, nullable: true)]
     #[ORM\ManyToOne(targetEntity: OPSN::class, inversedBy: 'collectivites')]
-    #[ORM\JoinColumn(name:'OPSNId', nullable: true)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?OPSN $opsn = null;
 
     #[ORM\OneToMany(mappedBy: 'collectivite', targetEntity: Score::class, orphanRemoval: true)]

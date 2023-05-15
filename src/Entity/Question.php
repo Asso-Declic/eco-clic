@@ -9,7 +9,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
-// #[ORM\Table(name: 'question')]
 class Question
 {
     #[ORM\Id]
@@ -17,27 +16,26 @@ class Question
     #[ORM\Column(type: Types::GUID)]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'Question', length: 500, nullable: true)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $question = null;
 
-    // #[ORM\Column(name: 'IdTheme', type: Types::GUID)]
     #[ORM\ManyToOne(targetEntity: Theme::class, inversedBy: 'questions')]
-    #[ORM\JoinColumn(name: 'IdTheme', nullable: false)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Theme $theme = null;
 
-    #[ORM\Column(name: 'IdCategorie', type: Types::GUID)]
+    #[ORM\Column(type: Types::GUID)]
     private ?string $category = null;
 
-    #[ORM\Column(name: 'Multiple', options: ['default' => 0])]
+    #[ORM\Column(options: ['default' => 0])]
     private ?bool $multiple = null;
 
-    #[ORM\Column(name: 'Definition', type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $definition = null;
 
-    #[ORM\Column(name: 'InfoComplementaire', type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $additionalInformation = null;
 
-    #[ORM\Column(name: 'Titre_definition', type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $definitionTitle = null;
 
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class, orphanRemoval: true)]

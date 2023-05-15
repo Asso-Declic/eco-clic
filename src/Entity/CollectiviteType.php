@@ -9,7 +9,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CollectiviteTypeRepository::class)]
-// #[ORM\Table(name: 'ref_TypeCollectivite')]
 class CollectiviteType
 {
     #[ORM\Id]
@@ -17,7 +16,7 @@ class CollectiviteType
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
-    #[ORM\Column(name: 'Nom', length: 250)]
+    #[ORM\Column(length: 250)]
     private ?string $label = null;
 
     #[ORM\OneToMany(targetEntity: Collectivite::class, mappedBy: 'type')]

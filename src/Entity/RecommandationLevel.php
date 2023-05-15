@@ -9,14 +9,13 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RecommandationLevelRepository::class)]
-// #[ORM\Table(name: 'ref_NiveauReco')]
 class RecommandationLevel
 {
     #[ORM\Id]
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'Label', length: 50)]
+    #[ORM\Column(length: 50)]
     private ?string $label = null;
 
     #[ORM\OneToMany(mappedBy: 'level', targetEntity: Recommandation::class)]

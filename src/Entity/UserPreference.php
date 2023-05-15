@@ -7,13 +7,11 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserPreferenceRepository::class)]
-// #[ORM\Table(name: 'preference')]
 class UserPreference
 {
-    // #[ORM\Column(name: 'UtilisateurId', type: Types::GUID)]
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userPreferences')]
-    #[ORM\JoinColumn(name: 'UtilisateurId', nullable: false)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
     
     #[ORM\Id]

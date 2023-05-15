@@ -104,65 +104,6 @@ On doit ajouter un id à Score, c'est Doctrine qui l'impose. On a désormais un 
 
 On supprime `forgotPasswordId` et `forgotPasswordAt` dans User et Admin car on a mis en place une solution proposée par Symfony.
 
-```mocodo
-représenter, 11 Admin, 1N OPSN
-OPSN: id, name, email, departement,active, logo, phoneNumber, postalAddress, website, siret, latitude, longitude
-couvrir, 1N OPSN, 1N Departement
-Departement: code, name, regionCode
-administrer, 11 Collectivite, 1N Departement
-typer, 11 Collectivite, 1N CollectiviteType
-CollectiviteType: id, label
-associer, 1N Answer, 11 CollectiviteAnswer
-Answer: id, type, body, question, ponderation
-proposer, 11 Answer, 1N Question
-:
-:
-
-Admin: id, username, password, email, lastname, firstname, token, active, superAdmin, opsn
-:
-:
-enregistrer, 11 Score, 1N Collectivite
-Collectivite: id, name, population, departmentCode, siret, latitude, longitude, type, opsn
-répondre, 1N Collectivite, 11 CollectiviteAnswer
-CollectiviteAnswer: id, answer, collectivite, body, answeredAt
-:
-Question: id, question, theme, multiple, definition, additionalInformation, definitionTitle
-découler, 11 Question, 1N Theme
-:
-
-TemporarySiret: siret, name
-accompagner, 11 Collectivite, 1N OPSN
-:
-Score: id, collectivite, score, _scoredAt
-dépendre, 11 User, 1N Collectivite
-User: id, username, password, email, lastname, firstname, collectivite, admin, token, active, cguChecked, verified
-préférer, 11 User, 11 UserPreference
-UserPreference: user, code, _json
-:
-Theme: id, label, category
-:
-
-:
-:
-:
-:
-:
-:
-:
-résoudre, 11 Recommandation, 1N Question
-Category: id, name, image, description, sortOrder
-grouper, 1N Category, 11 Theme
-:
-
-:
-:
-:
-RecommandationLevel: id, label
-déterminer, 11 Recommandation, 1N RecommandationLevel
-Recommandation: id, title, body, question, level
-:
-```
-
 ## MCD Idéal
 ```mocodo
 représenter, 11 Admin, 1N OPSN

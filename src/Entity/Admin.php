@@ -17,7 +17,7 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'guid')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'Identifiant', length: 300, unique: true)]
+    #[ORM\Column(length: 300, unique: true)]
     private ?string $username = null;
 
     //#[ORM\Column]
@@ -28,22 +28,22 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column(name: 'MotDePasse', length: 500)]
+    #[ORM\Column(length: 500)]
     private ?string $password = null;
 
-    #[ORM\Column(name: 'Mail', length: 250)]
+    #[ORM\Column(length: 250)]
     private ?string $email = null;
 
-    #[ORM\Column(name: 'Nom', length: 150)]
-    private ?string $lastname = null;
+    #[ORM\Column(length: 150)]
+    private ?string $lastName = null;
 
-    #[ORM\Column(name: 'Prenom', length: 150)]
+    #[ORM\Column(length: 150)]
     private ?string $firstName = null;
 
-    #[ORM\Column(name: 'Token',length: 2000, nullable: true)]
+    #[ORM\Column(length: 2000, nullable: true)]
     private ?string $token = null;
 
-    #[ORM\Column(name: 'Actif')]
+    #[ORM\Column]
     private ?bool $active = null;
 
     #[ORM\Column(name: 'IdMotDePasseOublie', type: Types::GUID, nullable: true)]
@@ -52,12 +52,11 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'DateMotDePasseOublie', nullable: true)]
     private ?\DateTimeImmutable $forgotPasswordAt = null;
 
-    #[ORM\Column(name: 'SuperAdmin', options: ['default' => false])]
+    #[ORM\Column(options: ['default' => false])]
     private ?bool $superAdmin = null;
 
-    // #[ORM\Column(name: 'OPSNId', type: Types::GUID, nullable: true)]
     #[ORM\ManyToOne(targetEntity: OPSN::class, inversedBy: 'admins')]
-    #[ORM\JoinColumn(name: 'OPSNId', nullable: true)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?OPSN $opsn = null;
 
     public function getId(): ?int
@@ -142,14 +141,14 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getLastname(): ?string
+    public function getLastName(): ?string
     {
-        return $this->lastname;
+        return $this->lastName;
     }
 
-    public function setLastname(?string $lastname): self
+    public function setLastName(?string $lastName): self
     {
-        $this->lastname = $lastname;
+        $this->lastName = $lastName;
 
         return $this;
     }

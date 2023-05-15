@@ -8,17 +8,16 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DepartementRepository::class)]
-// #[ORM\Table(name: 'Departement')]
 class Departement
 {
     #[ORM\Id]
-    #[ORM\Column(name: 'Code', length: 3, options: ['fixed' => true])]
+    #[ORM\Column(length: 3, options: ['fixed' => true])]
     private ?string $code = null;
 
-    #[ORM\Column(name: 'Nom',length: 100)]
+    #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(name: 'CodeRegion')]
+    #[ORM\Column]
     private ?int $regionCode = null;
 
     #[ORM\ManyToMany(targetEntity: OPSN::class, mappedBy: 'departements')]

@@ -7,7 +7,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RecommandationRepository::class)]
-// #[ORM\Table(name: 'recommandation')]
 class Recommandation
 {
     #[ORM\Id]
@@ -15,15 +14,14 @@ class Recommandation
     #[ORM\Column(type: Types::GUID)]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'Titre', length: 5000, nullable: true)]
+    #[ORM\Column(length: 5000, nullable: true)]
     private ?string $title = null;
 
-    #[ORM\Column(name: 'Text', type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $body = null;
 
-    // #[ORM\Column(name: 'IdQuestion', type: Types::GUID)]
     #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'recommandations')]
-    #[ORM\JoinColumn(name: 'IdQuestion', nullable: false)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Question $question = null;
 
     #[ORM\Column(name: 'IdCategorie', type: Types::GUID)]
@@ -31,7 +29,7 @@ class Recommandation
 
     // #[ORM\Column(name: 'NiveauReco', type: Types::SMALLINT)]
     #[ORM\ManyToOne(targetEntity: RecommandationLevel::class, inversedBy: 'recommandations')]
-    #[ORM\JoinColumn(name: 'NiveauReco', nullable: false)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?RecommandationLevel $level = null;
 
     public function getId(): ?int
