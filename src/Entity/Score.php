@@ -14,8 +14,11 @@ class Score
     #[ORM\Column(type: Types::BIGINT, options: ['unsigned' => true])]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'CollectiviteId', type: Types::GUID)]
-    private ?string $collectivite = null;
+    // #[ORM\Column(name: 'CollectiviteId', type: Types::GUID)]
+    #[ORM\ManyToOne(targetEntity: Collectivite::class, inversedBy: 'scores')]
+    #[ORM\JoinColumn(name: 'CollectiviteId', nullable: false)]
+    private ?Collectivite $collectivite = null;
+    
     #[ORM\Column(name: 'Score')]
     private ?int $score = null;
 
@@ -27,12 +30,12 @@ class Score
         return $this->id;
     }
 
-    public function getCollectivite(): ?string
+    public function getCollectivite(): ?Collectivite
     {
         return $this->collectivite;
     }
 
-    public function setCollectivite(string $collectivite): self
+    public function setCollectivite(?Collectivite $collectivite): self
     {
         $this->collectivite = $collectivite;
 

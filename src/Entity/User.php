@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -39,9 +41,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(name: 'Prenom', length: 50, nullable: true)]
     private ?string $firstName = null;
-
-    #[ORM\Column(name: 'CollectiviteId',type: Types::GUID, nullable: true)]
-    private ?string $collectivite = null;
+    
+    // #[ORM\Column(name: 'CollectiviteId',type: Types::GUID, nullable: true)]
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(name: 'CollectiviteId', nullable: true)]
+    private ?Collectivite $collectivite = null;
 
     #[ORM\Column(name: 'Admin')]
     private bool $admin = false;
@@ -63,6 +67,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(name: 'IsVerifie', options: ['default'=>false])]
     private bool $verified = false;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserPreference::class, orphanRemoval: true)]
+    private Collection $userPreferences;
+
+    public function __construct()
+    {
+        $this->userPreferences = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -170,12 +182,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCollectivite(): ?string
+    public function getCollectivite(): ?Collectivite
     {
         return $this->collectivite;
     }
 
-    public function setCollectivite(?string $collectivite): self
+    public function setCollectivite(?Collectivite $collectivite): self
     {
         $this->collectivite = $collectivite;
 
@@ -262,6 +274,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerified(bool $verified): self
     {
         $this->verified = $verified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserPreference>
+     */
+    public function getUserPreferences(): Collection
+    {
+        return $this->userPreferences;
+    }
+
+    public function addUserPreference(UserPreference $userPreference): self
+    {
+        if (!$this->userPreferences->contains($userPreference)) {
+            $this->userPreferences->add($userPreference);
+            $userPreference->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserPreference(UserPreference $userPreference): self
+    {
+        if ($this->userPreferences->removeElement($userPreference)) {
+            // set the owning side to null (unless already changed)
+            if ($userPreference->getUser() === $this) {
+                $userPreference->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CollectiviteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,8 +23,10 @@ class Collectivite
     #[ORM\Column(name:'Population')]
     private ?int $population = null;
 
-    #[ORM\Column(name:'DepartementCode', length: 3, options: ['fixed' => true])]
-    private ?string $departmentCode = null;
+    // #[ORM\Column(name:'DepartementCode', length: 3, options: ['fixed' => true])]
+    #[ORM\ManyToOne(targetEntity: Departement::class, inversedBy: 'collectivites')]
+    #[ORM\JoinColumn(name: 'DepartementCode', referencedColumnName: 'Code')]
+    private ?Departement $departement = null;
 
     #[ORM\Column(name:'Siret', length: 14, options: ['fixed' => true])]
     private ?string $siret = null;
@@ -33,11 +37,31 @@ class Collectivite
     #[ORM\Column(name:'Longitude', length: 500)]
     private ?string $longitude = null;
 
-    #[ORM\Column(name:'TypeId', type: Types::GUID)]
-    private ?string $type = null;
+    // #[ORM\Column(name:'TypeId', type: Types::GUID)]
+    #[ORM\ManyToOne(targetEntity: CollectiviteType::class, inversedBy: 'collectivites')]
+    #[ORM\JoinColumn(name: 'TypeId')]
+    private ?CollectiviteType $type = null;
 
-    #[ORM\Column(name:'OPSNId', type: Types::GUID, nullable: true)]
-    private ?string $opsn = null;
+    // #[ORM\Column(name:'OPSNId', type: Types::GUID, nullable: true)]
+    #[ORM\ManyToOne(targetEntity: OPSN::class, inversedBy: 'collectivites')]
+    #[ORM\JoinColumn(name:'OPSNId', nullable: true)]
+    private ?OPSN $opsn = null;
+
+    #[ORM\OneToMany(mappedBy: 'collectivite', targetEntity: Score::class, orphanRemoval: true)]
+    private Collection $scores;
+
+    #[ORM\OneToMany(mappedBy: 'collectivite', targetEntity: CollectiviteAnswer::class, orphanRemoval: true)]
+    private Collection $collectiviteAnswers;
+
+    #[ORM\OneToMany(mappedBy: 'collectivite', targetEntity: User::class)]
+    private Collection $users;
+
+    public function __construct()
+    {
+        $this->scores = new ArrayCollection();
+        $this->collectiviteAnswers = new ArrayCollection();
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -68,14 +92,14 @@ class Collectivite
         return $this;
     }
 
-    public function getDepartmentCode(): ?string
+    public function getDepartement(): ?Departement
     {
-        return $this->departmentCode;
+        return $this->departement;
     }
 
-    public function setDepartmentCode(string $departmentCode): self
+    public function setDepartement(?Departement $departement): self
     {
-        $this->departmentCode = $departmentCode;
+        $this->departement = $departement;
 
         return $this;
     }
@@ -116,26 +140,116 @@ class Collectivite
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?CollectiviteType
     {
         return $this->type;
     }
 
-    public function setType(string $type): self
+    public function setType(?CollectiviteType $type): self
     {
         $this->type = $type;
 
         return $this;
     }
 
-    public function getOpsn(): ?string
+    public function getOpsn(): ?OPSN
     {
         return $this->opsn;
     }
 
-    public function setOpsn(?string $opsn): self
+    public function setOpsn(?OPSN $opsn): self
     {
         $this->opsn = $opsn;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Score>
+     */
+    public function getScores(): Collection
+    {
+        return $this->scores;
+    }
+
+    public function addScore(Score $score): self
+    {
+        if (!$this->scores->contains($score)) {
+            $this->scores->add($score);
+            $score->setCollectivite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScore(Score $score): self
+    {
+        if ($this->scores->removeElement($score)) {
+            // set the owning side to null (unless already changed)
+            if ($score->getCollectivite() === $this) {
+                $score->setCollectivite(null);
+            }
+        }
+
+        return $this;
+    }
+
+        /**
+     * @return Collection<int, Score>
+     */
+    public function getCollectiviteAnswers(): Collection
+    {
+        return $this->collectiviteAnswers;
+    }
+
+    public function addcollectiviteAnswer(CollectiviteAnswer $collectiviteAnswer): self
+    {
+        if (!$this->collectiviteAnswers->contains($collectiviteAnswer)) {
+            $this->collectiviteAnswers->add($collectiviteAnswer);
+            $collectiviteAnswer->setCollectivite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollectiviteAnswer(collectiviteAnswer $collectiviteAnswer): self
+    {
+        if ($this->collectiviteAnswers->removeElement($collectiviteAnswer)) {
+            // set the owning side to null (unless already changed)
+            if ($collectiviteAnswer->getCollectivite() === $this) {
+                $collectiviteAnswer->setCollectivite(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setCollectivite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getCollectivite() === $this) {
+                $user->setCollectivite(null);
+            }
+        }
 
         return $this;
     }

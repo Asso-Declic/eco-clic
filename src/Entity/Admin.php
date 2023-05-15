@@ -55,8 +55,10 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'SuperAdmin', options: ['default' => false])]
     private ?bool $superAdmin = null;
 
-    #[ORM\Column(name: 'OPSNId', type: Types::GUID, nullable: true)]
-    private ?string $opsn = null;
+    // #[ORM\Column(name: 'OPSNId', type: Types::GUID, nullable: true)]
+    #[ORM\ManyToOne(targetEntity: OPSN::class, inversedBy: 'admins')]
+    #[ORM\JoinColumn(name: 'OPSNId', nullable: true)]
+    private ?OPSN $opsn = null;
 
     public function getId(): ?int
     {
@@ -224,12 +226,12 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getOpsn(): ?string
+    public function getOpsn(): ?OPSN
     {
         return $this->opsn;
     }
 
-    public function setOpsn(?string $opsn): self
+    public function setOpsn(?OPSN $opsn): self
     {
         $this->opsn = $opsn;
 

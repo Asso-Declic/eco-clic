@@ -51,14 +51,21 @@ class OPSN
     private ?string $longitude = null;
 
     #[ORM\ManyToMany(targetEntity: Departement::class, inversedBy: 'OPSNs')]
-    // #[ORM\JoinTable(name: 'OPSN_Departement')]
     #[ORM\JoinColumn(name: 'OPSNId', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'DepartementCode', referencedColumnName: 'Code')]
     private Collection $departements;
 
+    #[ORM\OneToMany(targetEntity: Admin::class, mappedBy: 'opsn')]
+    private Collection $admins;
+
+    #[ORM\OneToMany(mappedBy: 'opsn', targetEntity: Collectivite::class)]
+    private Collection $collectivites;
+
     public function __construct()
     {
         $this->departements = new ArrayCollection();
+        $this->admins = new ArrayCollection();
+        $this->collectivites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -218,6 +225,66 @@ class OPSN
     public function removeDepartement(Departement $departement): self
     {
         $this->departements->removeElement($departement);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Admin>
+     */
+    public function getAdmins(): Collection
+    {
+        return $this->admins;
+    }
+
+    public function addAdmin(Admin $admin): self
+    {
+        if (!$this->admins->contains($admin)) {
+            $this->admins->add($admin);
+            $admin->setOPSN($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdmin(Admin $admin): self
+    {
+        if ($this->admins->removeElement($admin)) {
+            // set the owning side to null (unless already changed)
+            if ($admin->getOPSN() === $this) {
+                $admin->setOPSN(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Collectivite>
+     */
+    public function getCollectivites(): Collection
+    {
+        return $this->collectivites;
+    }
+
+    public function addCollectivite(Collectivite $collectivite): self
+    {
+        if (!$this->collectivites->contains($collectivite)) {
+            $this->collectivites->add($collectivite);
+            $collectivite->setOpsn($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollectivite(Collectivite $collectivite): self
+    {
+        if ($this->collectivites->removeElement($collectivite)) {
+            // set the owning side to null (unless already changed)
+            if ($collectivite->getOpsn() === $this) {
+                $collectivite->setOpsn(null);
+            }
+        }
 
         return $this;
     }

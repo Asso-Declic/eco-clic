@@ -24,9 +24,13 @@ class Departement
     #[ORM\ManyToMany(targetEntity: OPSN::class, mappedBy: 'departements')]
     private Collection $OPSNs;
 
+    #[ORM\OneToMany(targetEntity: Collectivite::class, mappedBy: 'departement')]
+    private Collection $collectivites;
+
     public function __construct()
     {
         $this->OPSNs = new ArrayCollection();
+        $this->collectivites = new ArrayCollection();
     }
 
     /**
@@ -88,6 +92,33 @@ class Departement
     {
         if ($this->OPSNs->removeElement($oPSN)) {
             $oPSN->removeDepartement($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, collectivite>
+     */
+    public function getcollectivites(): Collection
+    {
+        return $this->collectivites;
+    }
+
+    public function addCollectivite(Collectivite $collectivite): self
+    {
+        if (!$this->collectivites->contains($collectivite)) {
+            $this->collectivites->add($collectivite);
+            $collectivite->setDepartement($this);
+        }
+
+        return $this;
+    }
+
+    public function removecollectivite(Collectivite $collectivite): self
+    {
+        if ($this->collectivites->removeElement($collectivite)) {
+            $collectivite->setDepartement(null);
         }
 
         return $this;

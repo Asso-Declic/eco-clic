@@ -18,11 +18,15 @@ class CollectiviteAnswer
     #[ORM\Column(name: 'IdQuestion', type: Types::GUID)]
     private ?string $question = null;
 
-    #[ORM\Column(name: 'IdReponse', type: Types::GUID)]
-    private ?string $answer = null;
+    // #[ORM\Column(name: 'IdReponse', type: Types::GUID)]
+    #[ORM\ManyToOne(targetEntity: Answer::class)]
+    #[ORM\JoinColumn(name: 'IdReponse', nullable: false)]
+    private ?Answer $answer = null;
 
-    #[ORM\Column(name: 'CollectiviteId', type: Types::GUID)]
-    private ?string $collectivite = null;
+    // #[ORM\Column(name: 'CollectiviteId', type: Types::GUID)]
+    #[ORM\ManyToOne(targetEntity: Collectivite::class, inversedBy: 'collectiviteAnswers')]
+    #[ORM\JoinColumn(name: 'CollectiviteId', nullable: false)]
+    private ?Collectivite $collectivite = null;
 
     #[ORM\Column(name: 'InputText', type: Types::TEXT, nullable: true)]
     private ?string $body = null;
@@ -47,24 +51,24 @@ class CollectiviteAnswer
         return $this;
     }
 
-    public function getAnswer(): ?string
+    public function getAnswer(): ?Answer
     {
         return $this->answer;
     }
 
-    public function setAnswer(string $answer): self
+    public function setAnswer(Answer $answer): self
     {
         $this->answer = $answer;
 
         return $this;
     }
 
-    public function getCollectivite(): ?string
+    public function getCollectivite(): ?Collectivite
     {
         return $this->collectivite;
     }
 
-    public function setCollectivite(string $collectivite): self
+    public function setCollectivite(?Collectivite $collectivite): self
     {
         $this->collectivite = $collectivite;
 

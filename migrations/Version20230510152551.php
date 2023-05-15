@@ -14,12 +14,58 @@ final class Version20230510152551 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Normalisation des tables après la création des entités';
     }
-
+    
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
+        // Les quatre prochaines requêtes sont irréversibles, elles n'ont pas d'équivalent dans down()
+        // On en profite pour supprimer les OPSNId dans OPSN_Departement qui n'existent pas dans la table OPSN
+        $this->addSql('DELETE FROM OPSN_Departement where OPSNId IN (
+            SELECT * FROM (
+                SELECT OPSNId
+                FROM OPSN_Departement AS od
+                LEFT JOIN OPSN AS o ON od.OPSNId = o.Id
+                WHERE Id IS NULL GROUP BY OPSNId
+            ) AS liste_a_supprimer
+        );');
+        // On supprime les CollectiviteID qui n'existenet pas dans
+        $this->addSql('DELETE FROM utilisateurReponse where CollectiviteId IN (
+            SELECT * FROM (
+                SELECT CollectiviteId
+                FROM utilisateurReponse AS ca
+                LEFT JOIN collectivite AS c ON ca.CollectiviteId = c.id
+                WHERE c.id IS NULL
+                GROUP BY CollectiviteId
+            ) AS liste_a_supprimer
+        );');
+        // Pareil pour historiqueScore
+        $this->addSql('DELETE FROM historiqueScore where CollectiviteId IN (
+            SELECT * FROM (
+                SELECT CollectiviteId
+                FROM historiqueScore AS ca
+                LEFT JOIN collectivite AS c ON ca.CollectiviteId = c.id
+                WHERE c.id IS NULL
+                GROUP BY CollectiviteId
+            ) AS liste_a_supprimer
+        );');
+        // Lors du nettoyage, des identifiants en double on été trouvés dans la base de données. Voici une requête pour les supprimer. Si on suppose que les doublons existent seulement pour les utilisateurs qui n'ont pas pu vérifier leur compte (mauvaise adresse email, par exemple), et qui en aurait recréé un qui fonctionne, on supprime donc les utilisateurs dont l'Identifiant est en doublon et IsVerifie est à 0 (false)
+        $this->addSql('DELETE FROM utilisateur
+        WHERE Identifiant IN (
+        SELECT Identifiant FROM (
+            SELECT Identifiant, COUNT(*) AS total
+            FROM utilisateur
+            GROUP BY Identifiant
+        ) AS calcul
+        WHERE total > 1
+        ) AND IsVerifie = 0;');
+        // Le tableau initialement appelée `historiqueScore` devient `score`. 
+        // Doctrine impose d'utiliser un identifiant avec toutes les entités sans exception.
+        // C'est une contrainte discutable mais on va s'y plier par simplicité.
+        // On va ajouter une colone `id` en première position et y affecter automatiquement des id.
+        $this->addSql('ALTER TABLE `historiqueScore` ADD COLUMN `id` BIGINT UNSIGNED AUTO_INCREMENT NOT NULL UNIQUE FIRST;');
+
+        // Reprise de la migration auto-générée
         $this->addSql('ALTER TABLE Administrateur DROP INDEX Identifiant, ADD UNIQUE INDEX UNIQ_FF8F2A304F98863B (Identifiant)');
         $this->addSql('DROP INDEX OPSNId ON Administrateur');
         $this->addSql('ALTER TABLE Administrateur CHANGE Id Id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE IdMotDePasseOublie IdMotDePasseOublie CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\', CHANGE DateMotDePasseOublie DateMotDePasseOublie DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', CHANGE OPSNId OPSNId CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\'');
@@ -61,7 +107,7 @@ final class Version20230510152551 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE `historiqueScore` DROP `id`;');        
         $this->addSql('ALTER TABLE Administrateur DROP INDEX UNIQ_FF8F2A304F98863B, ADD INDEX Identifiant (Identifiant)');
         $this->addSql('ALTER TABLE Administrateur CHANGE Id Id CHAR(36) NOT NULL, CHANGE IdMotDePasseOublie IdMotDePasseOublie CHAR(36) DEFAULT NULL, CHANGE DateMotDePasseOublie DateMotDePasseOublie DATETIME DEFAULT NULL, CHANGE OPSNId OPSNId CHAR(36) DEFAULT NULL');
         $this->addSql('CREATE INDEX OPSNId ON Administrateur (OPSNId)');

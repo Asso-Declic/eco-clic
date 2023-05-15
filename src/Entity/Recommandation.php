@@ -21,14 +21,18 @@ class Recommandation
     #[ORM\Column(name: 'Text', type: Types::TEXT, nullable: true)]
     private ?string $body = null;
 
-    #[ORM\Column(name: 'IdQuestion', type: Types::GUID)]
-    private ?string $question = null;
+    // #[ORM\Column(name: 'IdQuestion', type: Types::GUID)]
+    #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'recommandations')]
+    #[ORM\JoinColumn(name: 'IdQuestion', nullable: false)]
+    private ?Question $question = null;
 
     #[ORM\Column(name: 'IdCategorie', type: Types::GUID)]
     private ?string $category = null;
 
-    #[ORM\Column(name: 'NiveauReco', type: Types::SMALLINT)]
-    private ?int $level = null;
+    // #[ORM\Column(name: 'NiveauReco', type: Types::SMALLINT)]
+    #[ORM\ManyToOne(targetEntity: RecommandationLevel::class, inversedBy: 'recommandations')]
+    #[ORM\JoinColumn(name: 'NiveauReco', nullable: false)]
+    private ?RecommandationLevel $level = null;
 
     public function getId(): ?int
     {
@@ -59,12 +63,12 @@ class Recommandation
         return $this;
     }
 
-    public function getQuestion(): ?string
+    public function getQuestion(): ?Question
     {
         return $this->question;
     }
 
-    public function setQuestion(string $question): self
+    public function setQuestion(?Question $question): self
     {
         $this->question = $question;
 
@@ -83,12 +87,12 @@ class Recommandation
         return $this;
     }
 
-    public function getLevel(): ?int
+    public function getLevel(): ?RecommandationLevel
     {
         return $this->level;
     }
 
-    public function setLevel(int $level): self
+    public function setLevel(?RecommandationLevel $level): self
     {
         $this->level = $level;
 

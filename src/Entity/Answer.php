@@ -21,8 +21,11 @@ class Answer
     #[ORM\Column(name: 'Text', type: Types::TEXT, nullable: true)]
     private ?string $body = null;
 
-    #[ORM\Column(name: 'IdQuestion', type: Types::GUID)]
-    private ?string $question = null;
+    
+    // #[ORM\Column(name: 'IdQuestion', type: Types::GUID)]
+    #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'answers')]
+    #[ORM\JoinColumn(name: 'IdQuestion', nullable: false)]
+    private ?Question $question = null;
 
     #[ORM\Column(name: 'Ponderation')]
     private ?int $ponderation = null;
@@ -56,12 +59,12 @@ class Answer
         return $this;
     }
 
-    public function getQuestion(): ?string
+    public function getQuestion(): ?Question
     {
         return $this->question;
     }
 
-    public function setQuestion(string $question): self
+    public function setQuestion(?Question $question): self
     {
         $this->question = $question;
 

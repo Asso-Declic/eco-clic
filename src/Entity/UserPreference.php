@@ -10,9 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 // #[ORM\Table(name: 'preference')]
 class UserPreference
 {
+    // #[ORM\Column(name: 'UtilisateurId', type: Types::GUID)]
     #[ORM\Id]
-    #[ORM\Column(name: 'UtilisateurId', type: Types::GUID)]
-    private ?string $user = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userPreferences')]
+    #[ORM\JoinColumn(name: 'UtilisateurId', nullable: false)]
+    private ?User $user = null;
     
     #[ORM\Id]
     #[ORM\Column(name: 'Code', length: 20)]
@@ -21,12 +23,13 @@ class UserPreference
     #[ORM\Column(name: 'Json', length: 2000, nullable: true)]
     private ?string $json = null;
 
-    public function getUser(): ?string
+
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(string $user): self
+    public function setUser(?User $user): self
     {
         $this->user = $user;
 
