@@ -12,7 +12,7 @@ class CollectiviteAnswer
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::GUID)]
-    private ?int $id = null;
+    private ?string $id = null;
 
     #[ORM\ManyToOne(targetEntity: Answer::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -28,7 +28,7 @@ class CollectiviteAnswer
     #[ORM\Column]
     private ?\DateTimeImmutable $answeredAt = null;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

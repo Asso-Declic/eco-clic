@@ -41,7 +41,9 @@ final class Version20230515122348 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_85E830175E1EF114 ON collectivite_answer (CollectiviteId)');
         
         $this->addSql('ALTER TABLE question ADD CONSTRAINT FK_B6F7494E4F0C9D89 FOREIGN KEY (IdTheme) REFERENCES theme (id)');
+        $this->addSql('ALTER TABLE question ADD CONSTRAINT FK_B6F7494E12469DE2 FOREIGN KEY (IdCategorie) REFERENCES category (id)');
         $this->addSql('CREATE INDEX IDX_B6F7494E4F0C9D89 ON question (IdTheme)');
+        $this->addSql('CREATE INDEX IDX_B6F7494E12469DE2 ON question (IdCategorie)');
         
         // On ajoute UNSIGNED
         $this->addSql('ALTER TABLE recommandation_level CHANGE id id SMALLINT UNSIGNED NOT NULL');
@@ -99,7 +101,9 @@ final class Version20230515122348 extends AbstractMigration
         $this->addSql('ALTER TABLE collectivite_answer CHANGE IdReponse IdReponse CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\'');
 
         $this->addSql('ALTER TABLE question DROP FOREIGN KEY FK_B6F7494E4F0C9D89');
+        $this->addSql('ALTER TABLE question DROP FOREIGN KEY FK_B6F7494E12469DE2');
         $this->addSql('DROP INDEX IDX_B6F7494E4F0C9D89 ON question');
+        $this->addSql('DROP INDEX IDX_B6F7494E12469DE2 ON question');
 
         $this->addSql('ALTER TABLE recommandation DROP FOREIGN KEY FK_C7782A28AA0960C5');
         $this->addSql('ALTER TABLE recommandation DROP FOREIGN KEY FK_C7782A286ED7AAC0');

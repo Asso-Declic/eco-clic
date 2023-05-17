@@ -6,6 +6,7 @@ use App\Repository\TemporarySiretRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TemporarySiretRepository::class)]
+// TODO : Vérifier l'utilité de cette table
 class TemporarySiret
 {
     #[ORM\Id]

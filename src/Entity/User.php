@@ -15,8 +15,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'guid')]
-    private ?int $id = null;
+    #[ORM\Column(type: Types::GUID)]
+    private ?string $id = null;
 
     #[ORM\Column(length: 300, unique: true)]
     private ?string $username = null;
@@ -69,7 +69,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userPreferences = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

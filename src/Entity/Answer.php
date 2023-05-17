@@ -12,7 +12,7 @@ class Answer
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::GUID)]
-    private ?int $id = null;
+    private ?string $id = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $type = null;
@@ -27,7 +27,7 @@ class Answer
     #[ORM\Column]
     private ?int $ponderation = null;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

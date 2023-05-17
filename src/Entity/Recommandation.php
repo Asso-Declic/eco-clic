@@ -12,7 +12,7 @@ class Recommandation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::GUID)]
-    private ?int $id = null;
+    private ?string $id = null;
 
     #[ORM\Column(length: 5000, nullable: true)]
     private ?string $title = null;
@@ -24,12 +24,12 @@ class Recommandation
     #[ORM\JoinColumn(nullable: false)]
     private ?Question $question = null;
 
-    // #[ORM\Column(name: 'NiveauReco', type: Types::SMALLINT)]
+    // #[ORM\Column(name: 'NiveauReco', type: Types::SMALLstring)]
     #[ORM\ManyToOne(targetEntity: RecommandationLevel::class, inversedBy: 'recommandations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?RecommandationLevel $level = null;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

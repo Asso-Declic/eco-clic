@@ -99,7 +99,6 @@ final class Version20230515140604 extends AbstractMigration
         $this->addSql('ALTER TABLE `user_preference` RENAME COLUMN UtilisateurId TO user_id');
         $this->addSql('ALTER TABLE `user_preference` RENAME COLUMN Code TO code');
         $this->addSql('ALTER TABLE `user_preference` RENAME COLUMN `Json` TO `json`');
-        
     }
 
     public function down(Schema $schema): void

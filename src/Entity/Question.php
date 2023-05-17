@@ -14,7 +14,7 @@ class Question
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::GUID)]
-    private ?int $id = null;
+    private ?string $id = null;
 
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $question = null;
@@ -22,6 +22,9 @@ class Question
     #[ORM\ManyToOne(targetEntity: Theme::class, inversedBy: 'questions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Theme $theme = null;
+
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'questions')]
+    private ?string $category = null;
 
     #[ORM\Column(options: ['default' => 0])]
     private ?bool $multiple = null;
@@ -47,7 +50,7 @@ class Question
         $this->recommandations = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -72,6 +75,18 @@ class Question
     public function setTheme(?Theme $theme): self
     {
         $this->theme = $theme;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

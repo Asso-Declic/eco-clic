@@ -31,8 +31,6 @@ final class Version20230515210304 extends AbstractMigration
         $this->addSql('ALTER TABLE opsn_departement ADD CONSTRAINT FK_DB4914C6173BE8BE FOREIGN KEY (opsn_id) REFERENCES opsn (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE opsn_departement RENAME INDEX idx_db4914c6bf07875a TO IDX_DB4914C6173BE8BE');
         $this->addSql('ALTER TABLE opsn_departement RENAME INDEX idx_db4914c6839e14d2 TO IDX_DB4914C66A333750');
-        $this->addSql('ALTER TABLE question CHANGE category_id category CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\'');
-        $this->addSql('ALTER TABLE question RENAME INDEX idx_b6f7494e4f0c9d89 TO IDX_B6F7494E59027487');
         $this->addSql('ALTER TABLE recommandation DROP FOREIGN KEY FK_C7782A286ED7AAC0');
         $this->addSql('DROP INDEX IDX_C7782A286ED7AAC0 ON recommandation');
         $this->addSql('ALTER TABLE recommandation CHANGE recommandation_level_id level_id SMALLINT UNSIGNED NOT NULL');
@@ -60,8 +58,6 @@ final class Version20230515210304 extends AbstractMigration
         $this->addSql('ALTER TABLE opsn_departement ADD CONSTRAINT FK_BC35EDDFBF07875A FOREIGN KEY (opsn_id) REFERENCES opsn (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
         $this->addSql('ALTER TABLE opsn_departement RENAME INDEX idx_db4914c6173be8be TO IDX_DB4914C6BF07875A');
         $this->addSql('ALTER TABLE opsn_departement RENAME INDEX idx_db4914c66a333750 TO IDX_DB4914C6839E14D2');
-        $this->addSql('ALTER TABLE question CHANGE category category_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\'');
-        $this->addSql('ALTER TABLE question RENAME INDEX idx_b6f7494e59027487 TO IDX_B6F7494E4F0C9D89');
         $this->addSql('ALTER TABLE recommandation DROP FOREIGN KEY FK_C7782A285FB14BA7');
         $this->addSql('DROP INDEX IDX_C7782A285FB14BA7 ON recommandation');
         $this->addSql('ALTER TABLE recommandation CHANGE level_id recommandation_level_id SMALLINT UNSIGNED NOT NULL');

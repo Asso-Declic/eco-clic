@@ -89,12 +89,10 @@ classer2, 11 Recommandation, 1N Category
 
 ## Vers un MCD idéal
 On doit supprimer la relation «classer» entre Recommandation et Category.
-On peut retrouver la catégorie en joignant la table à Question puis à Theme puis à Category.
+On peut retrouver la catégorie en joignant la table à Question à Category.
 Pour des raisons des redondance, on supprime la catégorie dans Recommandation.
 
-On doit supprimer la relation «classer» entre Question et Category.
-On peut retrouver la catégorie en joignant la table à Theme puis à Category.
-Pour des raisons des redondance, on supprime la catégorie dans Question.
+Malgré le semblant de redondance, on doit conserver la relation «classer» entre Question et Category. On aurait pu se dire que tous les thèmes avec une catégorie et toutes les questions avaient un thème mais c'est plus compliqué que ça. Les questions sont 
 
 On doit supprimer la relation «associer» entre CollectiviteAnswer et Question.
 On peut retrouver la question en joignant la table à Answer puis à Question.
@@ -139,7 +137,7 @@ dépendre, 11 User, 1N Collectivite
 User: id, username, password, email, lastname, firstname, collectivite, admin, token, active, cguChecked, verified
 préférer, 11 User, 11 UserPreference
 UserPreference: user, code, _json
-:
+classer2, 11 Question, 1N Category
 Theme: id, label, category
 :
 

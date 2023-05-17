@@ -14,7 +14,7 @@ class Collectivite
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::GUID)]
-    private ?int $id = null;
+    private ?string $id = null;
 
     #[ORM\Column(length: 500)]
     private ?string $name = null;
@@ -59,7 +59,7 @@ class Collectivite
         $this->users = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
