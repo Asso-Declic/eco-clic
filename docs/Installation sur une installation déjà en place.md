@@ -20,3 +20,7 @@ L'état précédent de la table n'avait pas de clés étrangères. Les clés ét
 Dans le dump de la preprod, on retrouve des incohérences. Il existe des entrées dans `OPSN_Departement.OPSNId` qui n'existent pas dans `OPSN.Id`. Il est inutile de garder des relations entre des données qui n'existent pas.
 
 Cinq requêtes sont dans la migration Version20230510152551 et permettent de nettoyer la base de données pour que les clés étrangères fonctionnent.
+
+## Des mots de passe réellement hashés en base de donnée
+Actuellement les mots de passe sont en MD5(MD5()) en base de données. Il serait compliqué pour pas grand chose de modifier Symfony pour interpréter cette forme de hashage. Le parti pris a donc plutôt été de s'assurer que la fonctionnalité de réinitialisation de mot de passe fonctionnait pour encourager tous les utilisateurs à réinitialiser leur mot de passe. La connexion fonctionne très bien désormais !
+

@@ -39,6 +39,12 @@ APP_ENV=prod
 ```
 Il est bien important que vous utilisiez le fichier .env.local et surtout pas le fichier .env
 
+Il faudra également configurer l'accès au serveur de mails. Ajoutez cette variable dans `.env.local` :
+```dotenv
+MAILER_DSN=""
+```
+Les informations sur la valeur à mettre se trouve sur [la documentation de Symfony](https://symfony.com/doc/current/mailer.html). Pour le cas où vous ne souhaitez pas envoyer d'email, par exemple dans le cadre du développement, la valeur à entrer est `"null://null"`.
+
 ### Base de données
 Installons la base de données. Le code utilise MySQL. Grâce à Symfony. Il y a peu de choses à faire. Il faut d'abord configurer l'accès à la base de données. Copiez la variable `DATABASE_URL`  dans votre fichier `.env.local` et adaptez-la à votre serveur MySQL.
 ```dotenv

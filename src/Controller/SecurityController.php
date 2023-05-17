@@ -7,9 +7,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+#[Route(name: 'security_')]
 class SecurityController extends AbstractController
 {
-    #[Route(path: '/connexion', name: 'security_login')]
+    #[Route(path: '/inscription', name: 'registration')]
+    public function registration(AuthenticationUtils $authenticationUtils): Response
+    {
+        return new Response('inscription');
+    }
+
+    #[Route(path: '/connexion', name: 'login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // if ($this->getUser()) {
@@ -21,10 +28,10 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('security/user_login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    #[Route(path: '/deconnexion', name: 'security_logout')]
+    #[Route(path: '/deconnexion', name: 'logout')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
