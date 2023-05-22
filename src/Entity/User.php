@@ -97,6 +97,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * On garde cette fonction essentielle dans la gestion des droits avec Symfony
+     * Sans modifier la base de données, on peut vérifier l'état $admin pour ajouter le ROLE_ADMIN
+     * Ça permet de garder les deux logiques jusqu'à ce qu'une meilleure solution soit développée
      * @see UserInterface
      */
     public function getRoles(): array
@@ -104,6 +107,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
+
+        if ($this->admin) {
+            $roles[] = 'ROLE_ADMIN';
+        }
 
         return array_unique($roles);
     }
