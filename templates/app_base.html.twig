@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr" style="background-color: #F2F2F2;">
 <head>
-    <!-- <title>L'éco-clic</title> -->
+    <title>L'éco-clic{% if block('title') is defined %} - {{ block('title') }}{% endif %}</title>
     {% include "partials/metas.html.twig" %}
     <link rel="stylesheet" href="{{ asset('css/ecoclic.css') }}">
     <link rel="stylesheet" href="{{ asset('css/menu.css') }}">
@@ -20,10 +20,19 @@
         DevExpress.localization.locale(navigator.language);
         DevExpress.localization.loadMessages(navigator.language);
     </script>
-    
 </head>
 <body>
     <div class="wrapper" style="overflow: hidden;">
+    {# <script>
+    </script> #}
+    {# Sidebar #}
+    {% include "partials/menu.html.twig" %}
+    {% block header_scripts %}{% endblock %}
+{# Page Content #}
+<div id="content" class="container-fluid">
+{# Barre de recherche #}
+    {% include "partials/navbar.html.twig" %}
 
-    <script>
-    </script>
+{% block content %}{% endblock %}
+</body>
+</html>

@@ -1,6 +1,6 @@
 <nav class="navbar">
     <div class="menuPhone bouton" id="menuBurger">
-        <img src="img/menuBurger.svg" alt="Menu">
+        <img src="{{ asset('img/menuBurger.svg') }}" alt="Menu">
         <p>Menu</p>
     </div>
 
@@ -28,10 +28,10 @@
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{ app.user.firstName }} {{ app.user.lastName }}
             </a>
-            <img src="img/perso.svg" id="iconBonhomme" class="icon infoBarre" aria-label="menu utilisateur">
+            <img src="{{ asset('img/perso.svg') }}" id="iconBonhomme" class="icon infoBarre" aria-label="menu utilisateur">
             <div class="header-dropdown-menu dropdown-menu dropdown-menu-right" style="min-width: 270px !important;">
 
-                <a class="dropdown-item text-center" href="./profil.php">
+                <a class="dropdown-item text-center" href="{{ path('utilisateur_profil') }}">
                     <span style="cursor:pointer;">Gestion du profil</span>
                 </a>
 
@@ -125,7 +125,7 @@
     </div>
 </div>  #}
 
-<script src="./js/header.js"></script>
+<script src="{{ asset('/js/header.js') }}"></script>
 
 <style>
     .dx-button-mode-contained.dx-button-default {

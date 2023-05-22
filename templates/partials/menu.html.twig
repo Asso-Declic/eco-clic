@@ -43,7 +43,7 @@
 
                 {% if is_granted('ROLE_ADMIN') %}
                     <a id="gestUser" href="parametres.php" tabindex="2" >
-                        <img class="iconMenu" src="{{ asset('img/Icon feather') }}-users.svg">
+                        <img class="iconMenu" src="{{ asset('img/Icon feather-users.svg') }}">
                         <span>Gestion des utilisateurs</span>
                     </a>
                 {% endif %}
@@ -84,7 +84,7 @@
         $userProgression = [];
         $.ajax({
             url: '/api/collectivite/progression' ,
-            type: 'get',
+            type: 'GET',
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -96,7 +96,7 @@
         });
 
         $.ajax({
-            url: './api/category/infos',
+            url: '/api/category/infos',
             type: 'get',
             async: false,
             dataType: 'json',
@@ -126,8 +126,8 @@
         });
 
         $.ajax({
-            url: './api/category/all',
-            type: 'get',
+            url: '/api/category/all',
+            type: 'GET',
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -213,7 +213,7 @@
     function updatePreferences() {
         // TODO: Le mieux serait de stocker cette préférence en localStorage, ça éviterait des appels API
         $.ajax({
-            url: './api/utilisateur/preference',
+            url: '/api/utilisateur/preference',
             type: 'PATCH',
             async: true,
             data: {
@@ -231,7 +231,7 @@
 
     function getPreferences() {
         $.ajax({
-            url: './api/utilisateur/preference/menu-categories',
+            url: '/api/utilisateur/preference/menu-categories',
             type: 'GET',
             async: false,
             dataType: 'html',

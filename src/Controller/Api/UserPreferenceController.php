@@ -20,9 +20,10 @@ class UserPreferenceController extends AbstractController
             'user' => $this->getUser(),
             'code' => 'MENU_VISIBILITY',
         ]);
-        return $this->json($userPreference);
+        return $this->json($userPreference, 200, [], ['groups' => 'userPreference']);
     }
 
+    // TODO : Il semblerait que la préférence ne soit pas prise en compte au chargement de la page
     #[Route('', name: 'update', methods: ['PATCH'])]
     public function update(EntityManagerInterface $em, Request $request, UserPreferenceRepository $userPreferenceRepository)
     {

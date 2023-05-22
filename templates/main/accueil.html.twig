@@ -1,20 +1,13 @@
-{% include "partials/header.html.twig" %}
-<head>
-    <title>L'éco-clic - Accueil</title>
-</head>
-<!-- Sidebar  -->
-{% include "partials/menu.html.twig" %}
+{% extends "app_base.html.twig" %}
 
+{% block title %}Accueil{% endblock %}
+
+{% block header_scripts %}
 <script src="{{ asset('js/statistiques.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+{% endblock %}
 
-
-<!-- Page Content  -->
-<div id="content" class="container-fluid">
-
-    <!-- Barre de recherche  -->
-    {% include "partials/navbar.html.twig" %}
-
+{% block content %}
     <div class="page-content">
     {# TODO : Pourquoi la hauteur est-elle calculée ici ? Et par quoi ? #}
         <div class="row">
@@ -43,7 +36,7 @@
                     
                 </div>
 
-                {#} <div id="stat">
+                {# <div id="stat">
                     <div id="titreStat">
                         <h3 style="margin-bottom: 0;">Statistiques</h3>
                         <div id="trait"></div>
@@ -98,7 +91,7 @@
 <script>
     
     $(document).ready(function(){
-
+        
         function Timeout() {
             setTimeout(size, 300);
         }
@@ -230,7 +223,7 @@
                 
 
                 for (let i = 0; i < data['data'].length; i++) {
-
+                    
                     for (let y = 0; y < $userProgression.length; y++) {
                         if ($userProgression[y].category_id == data['data'][i].id) {
                             $userProgression2 = $userProgression[y];
@@ -278,7 +271,7 @@
                     let img = document.createElement('img');
                     img.setAttribute("class", "progressContent progressReco");
                     if (data['data'][i].image != null && data['data'][i].image != "") {
-                        img.setAttribute("src", "./img/"+data['data'][i].image);
+                        img.setAttribute("src", "/img/"+data['data'][i].image);
                         img.setAttribute("alt", data['data'][i].name);
                     }
                     div2.append(img);
@@ -294,7 +287,7 @@
 
                     let i1 = document.createElement('img');
                     i1.setAttribute("style", "padding-bottom: 15px;");
-                    i1.setAttribute("src", "./img/questionMessage.svg");
+                    i1.setAttribute("src", "/img/questionMessage.svg");
                     div3.append(i1);
 
                     let p2 = document.createElement('p');
@@ -329,7 +322,7 @@
 
                     let i2 = document.createElement('img');
                     i2.setAttribute("style", "padding-bottom: 15px;");
-                    i2.setAttribute("src", "./img/clipboard.svg");
+                    i2.setAttribute("src", "/img/clipboard.svg");
                     div4.append(i2);
 
                     let p4 = document.createElement('p');
@@ -363,5 +356,4 @@
         
     });
 </script>
-</body>
-</html>
+ {% endblock %}

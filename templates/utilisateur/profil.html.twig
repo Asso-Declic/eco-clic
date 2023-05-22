@@ -1,21 +1,12 @@
-<!-- Header  -->
-<?= $view->render('partials/header.php') ?>
-<head>
-    <title>L'éco-clic - Profil</title>
-</head>
-<!-- Sidebar  -->
-<?= $view->render('partials/menu.php') ?>
+{% extends "app_base.html.twig" %}
 
-<!-- Page Content  -->
-<div id="content" class="container-fluid">
+{% block title %}Profil{% endblock %}
 
-    <!-- Barre de recherche  -->
-    <?= $view->render('partials/recherche.php') ?>
-
-    <!-- <div class="col-12 fil-ariane py-2 px-4">
+{% block content %}
+    {# <div class="col-12 fil-ariane py-2 px-4">
         <img src="./img/parametres.svg" alt="">
         <a class="fil-ariane" href="./profil.php">Profil</a>
-    </div> -->
+    </div> #}
 
     <div id="header">
         <div class="info line col-xl-12">
@@ -25,8 +16,8 @@
                 </h2>
             </div>
             <div class="traitVertical" style="height: auto;"></div>
-            <!-- <div class="col-6" style="margin-right: 150px; height: 150px; overflow: hidden;"> -->
-            <!-- </div> -->
+            {# <div class="col-6" style="margin-right: 150px; height: 150px; overflow: hidden;"> #}
+            {# </div> #}
         </div>
         <button id="enregistrer"><i class="fas fa-save"></i>Enregistrer</button>
         <div class="traitHorizontal"></div>
@@ -39,7 +30,7 @@
         </div>
 
         <div class="monProfil">
-            <form action="<?= $urlGenerator->generate('utilisateur_update_profil') ?>?type=infos" id="formulaire">
+            <form action="{{ path("utilisateur_update_profil", {type: "infos"}) }}" id="formulaire">
                 <div id="form_profil" class="formBlock"></div>
             </form>
         </div>
@@ -50,7 +41,7 @@
         </div>
 
         <div class="motDePasse">
-            <form action="<?= $urlGenerator->generate('utilisateur_update_profil') ?>?type=mdp" id="formulaireMdp">
+            <form action="{{ path("utilisateur_update_profil", {type: "mdp"}) }}" id="formulaireMdp">
                 <div id="formMdp" class="formBlock" style="padding-top: 10px;"></div>
             </form>
         </div>
@@ -139,4 +130,5 @@
             padding-inline: 24px;
         }
     </style>
-    <script src="./js/profil.js"></script>
+    <script src="{{ asset('js/profil.js') }}"></script>
+{% endblock %}

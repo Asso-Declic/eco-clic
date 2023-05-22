@@ -10,13 +10,13 @@ $(function() {
     }
 
     $.ajax({
-        url: './AjaxLoader/GetUtilisateur.php',
-        type: 'get',
+        url: '/api/user/current',
+        type: 'GET',
         async: true,
         dataType: 'json',
         success: function(data) {
             $("#form_profil").dxForm({
-                formData: { Id: data.Id, Nom: data.Nom, Prenom: data.Prenom, Identifiant: data.Identifiant, Mail: data.Mail },
+                formData: { Id: data.id, Nom: data.lastName, Prenom: data.firstName, Identifiant: data.username, Mail: data.email },
                 readOnly: false,
                 showColonAfterLabel: true,
                 labelLocation: "top",
@@ -92,7 +92,7 @@ $(function() {
                         name: "password",
                         location: "after",
                         options: {
-                            icon: "./img/Oeil.svg",
+                            icon: "/img/Oeil.svg",
                             type: "default",
                             onClick: function(e) {
                                 $("[name=Ancien_mot_de_passe]").attr("type", $("[name=Ancien_mot_de_passe]").attr("type") === "text" ? "password" : "text")
@@ -119,7 +119,7 @@ $(function() {
                         name: "password",
                         location: "after",
                         options: {
-                            icon: "./img/Oeil.svg",
+                            icon: "/img/Oeil.svg",
                             type: "default",
                             onClick: function(e) {
                                 $("[name=Mot_de_passe]").attr("type", $("[name=Mot_de_passe]").attr("type") === "text" ? "password" : "text")
@@ -144,7 +144,7 @@ $(function() {
                         name: "password",
                         location: "after",
                         options: {
-                            icon: "./img/Oeil.svg",
+                            icon: "/img/Oeil.svg",
                             type: "default",
                             onClick: function(e) {
                                 $("[name=Confirmer_mot_de_passe]").attr("type", $("[name=Confirmer_mot_de_passe]").attr("type") === "text" ? "password" : "text")
@@ -170,7 +170,7 @@ $(function() {
             template: function(data, $itemElement) {
                 $(` 
                 <span id="r195624624">
-                    <img id="iconAlert" src="./img/Icone_alerte.svg" alt="alert">
+                    <img id="iconAlert" src="/img/Icone_alerte.svg" alt="alert">
                     <span class="">
                         Votre mot de passe doit comporter au minimum 12 caractères dont : 
                     </span>
