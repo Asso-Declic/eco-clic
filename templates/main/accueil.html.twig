@@ -14,9 +14,10 @@
 <div id="content" class="container-fluid">
 
     <!-- Barre de recherche  -->
-    <?php require "recherche.php";?>
+    {% include "partials/recherche.html.twig" %}
 
-    <div class="page-content ">
+    <div class="page-content">
+    {# TODO : Pourquoi la hauteur est-elle calculée ici ? Et par quoi ? #}
         <div class="row">
             <!-- Main  -->
             <div class="col-xl-6 col-md-12">
@@ -363,3 +364,5 @@
         
     });
 </script>
+</body>
+</html>

@@ -211,9 +211,10 @@
     });
 
     function updatePreferences() {
+        // TODO: Le mieux serait de stocker cette préférence en localStorage, ça éviterait des appels API
         $.ajax({
-            url: './AjaxLoader/UpdatePreferenceCategories.php',
-            type: 'GET',
+            url: './api/utilisateur/preference',
+            type: 'PATCH',
             async: true,
             data: {
                 display: $('#sousMenu').css("display")

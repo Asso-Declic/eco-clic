@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserPreferenceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserPreferenceRepository::class)]
 class UserPreference
@@ -14,13 +15,14 @@ class UserPreference
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
     
+    #[Groups('userPreference')]
     #[ORM\Id]
     #[ORM\Column(name: 'Code', length: 20)]
     private ?string $code = null;
-    
+
+    #[Groups('userPreference')]
     #[ORM\Column(name: 'Json', length: 2000, nullable: true)]
     private ?string $json = null;
-
 
     public function getUser(): ?User
     {
@@ -56,5 +58,11 @@ class UserPreference
         $this->json = $json;
 
         return $this;
+    }
+
+    #[Groups('userPreference')]
+    public function getUserId()
+    {
+        return $this->getUser()->getId();
     }
 }

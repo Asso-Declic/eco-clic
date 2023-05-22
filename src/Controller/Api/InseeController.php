@@ -13,7 +13,7 @@ class InseeController extends AbstractController
     #[Route('/siret/{siret}', name: 'siret', requirements: ['siret' => '\d+'])]
     public function siret(string $siret, InseeService $inseeService): Response
     {
-        // TODO : Pour optimiser, il faudrait que le code postal soit en BDD au lieu d'aller le chercher systématiquement. Idéalement, le front demande les infos sur la collectivité en une seule fois. Si le code postal est indisponible, on pourrait le demander à l'INSEE. Actuellement, on sollicite une API à chaque chargement d'une page pour une information qui ne change jamais ou presque.
+        // TODO : Pour optimiser, il faudrait que le code postal soit en BDD au lieu d'aller le chercher systématiquement. Idéalement, le front demande les infos sur la collectivité en une seule fois. Si le code postal est indisponible, on pourrait le demander à l'INSEE. Actuellement, on sollicite une API à chaque chargement d'une page pour une information qui ne change jamais ou presque et qui prend moins de place à stocker que le nom de la collectivité
         return $this->json($inseeService->getInformationFomSiret($siret));
     }
 }
