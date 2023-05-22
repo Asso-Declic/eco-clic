@@ -7,15 +7,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ThemeRepository::class)]
 class Theme
 {
+    #[Groups('category')]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
+    #[Groups('category')]
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $label = null;
 
@@ -29,6 +32,12 @@ class Theme
     public function __construct()
     {
         $this->questions = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        // TODO : Vérifier si le Theme avec l'id 0 ne devrait pas être supprimé
+        return $this->label ?? '';
     }
 
     public function getId(): ?string

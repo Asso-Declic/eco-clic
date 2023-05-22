@@ -29,6 +29,11 @@ class Recommandation
     #[ORM\JoinColumn(nullable: false)]
     private ?RecommandationLevel $level = null;
 
+    public function __toString()
+    {
+        return $this->body;
+    }
+
     public function getId(): ?string
     {
         return $this->id;

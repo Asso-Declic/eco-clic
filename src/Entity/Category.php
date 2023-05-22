@@ -7,30 +7,38 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
 {
+    #[Groups('category')]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
+    #[Groups('category')]
     #[ORM\Column(length: 200, nullable: true)]
     private ?string $name = null;
 
+    #[Groups('category')]
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $image = null;
 
+    #[Groups('category')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[Groups('category')]
     #[ORM\Column(nullable: true)]
     private ?int $sortOrder = null;
 
+    #[Groups('category')]
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Theme::class)]
     private Collection $themes;
 
+    #[Groups('category')]
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Question::class)]
     private Collection $questions;
 

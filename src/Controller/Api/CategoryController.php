@@ -15,4 +15,11 @@ class CategoryController extends AbstractController
     {
         return $this->json(['data' => $categoryRepository->findInfos()]);
     }
+
+    #[Route('/all', name: 'all')]
+    public function all(CategoryRepository $categoryRepository): Response
+    {
+        // "SELECT * FROM `categorie` order by `Ordre`
+        return $this->json(['data' => $categoryRepository->findBy([], ['sortOrder' => 'ASC'])], 200, [], ['groups' => 'category']);
+    }
 }

@@ -7,15 +7,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 class Question
 {
+    #[Groups('category')]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
+    #[Groups('category')]
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $question = null;
 
@@ -24,7 +27,7 @@ class Question
     private ?Theme $theme = null;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'questions')]
-    private ?string $category = null;
+    private ?Category $category = null;
 
     #[ORM\Column(options: ['default' => 0])]
     private ?bool $multiple = null;
@@ -48,6 +51,11 @@ class Question
     {
         $this->answers = new ArrayCollection();
         $this->recommandations = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->question;
     }
 
     public function getId(): ?string

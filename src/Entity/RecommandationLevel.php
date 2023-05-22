@@ -26,6 +26,11 @@ class RecommandationLevel
         $this->recommandations = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->label;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
