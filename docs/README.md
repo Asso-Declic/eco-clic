@@ -75,4 +75,8 @@ bin/console doctrine:migrations:migrate
 Bravo, votre code est à jour.
 
 ## Pour les devs
-Si vous souhaitez contribuer à L'éco-clic, il vous faudra l'installer un peu différemment. 
+Si vous souhaitez contribuer à L'éco-clic, il vous faudra l'installer un peu différemment. L'installation des dépendances nécessitera d'installer toutes les dépendances de dev.
+```shell
+composer install
+```
+Même si vous avez déjà installé les dépendances avec l'autre commande, vous pouvez exécuter celle-ci sans le moindre problème.

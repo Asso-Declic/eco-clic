@@ -11,7 +11,7 @@ class MainController extends AbstractController
     /**
      * Tableau de bord
      */
-    #[Route('/', name: 'root_page')]
+    #[Route('/', name: 'main_accueil')]
     public function accueil(): Response
     {
         return $this->render('main/accueil.html.twig');
