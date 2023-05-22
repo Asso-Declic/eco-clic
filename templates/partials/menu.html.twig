@@ -104,9 +104,9 @@
                 $Nbquestion = 0;
                 $Nbrep = 0;
                 for (let a = 0; a < data['data'].length; a++) {
-                    $Nbquestion += data['data'][a].nbQuestion;
+                    $Nbquestion += data['data'][a].nb_question;
                     if ($userProgression[a] != undefined) {
-                        $Nbrep += $userProgression[a].NbRepondu;
+                        $Nbrep += $userProgression[a].nb_repondu;
                     }
                     else {
                         $Nbrep += 0;
@@ -134,13 +134,13 @@
                 for (let i = 0; i < data['data'].length; i++) {
 
                     let a = document.createElement('a');
-                    a.setAttribute("href", "categories.php?CategorieId="+data['data'][i].Id);
+                    a.setAttribute("href", "categories.php?CategorieId="+data['data'][i].id);
                     a.setAttribute("tabindex", "2");
                     document.getElementById('sousMenu').append(a);
 
                     let p = document.createElement('p');
                     p.setAttribute("class", "space");
-                    p.textContent = data['data'][i].Nom;
+                    p.textContent = data['data'][i].name;
                     a.append(p);
 
                 }
@@ -230,12 +230,16 @@
 
     function getPreferences() {
         $.ajax({
-            url: './AjaxLoader/GetPreferenceCategories.php',
+            url: './api/utilisateur/preference/menu-categories',
             type: 'GET',
             async: false,
             dataType: 'html',
             success: function(reponse) {
-                $('#sousMenu').css("display", reponse)
+                if (reponse == null) {
+                    $('#sousMenu').css("display", 'none');
+                } else {
+                    $('#sousMenu').css("display", reponse.json);
+                }
             },
             error: function(resultat, statut, erreur) {
                 console.error(resultat + ' --- ' + statut + ' --- ' + erreur);

@@ -63,8 +63,7 @@ class CollectiviteRepository extends ServiceEntityRepository
                 GROUP BY categorie.Id
             */
             $qb = $this->createQueryBuilder('coll');
-            $qb
-            ->select('c.id category_id')
+            $qb->select('c.id category_id')
             ->addSelect($qb->expr()->countDistinct('c.id') . ' AS nb_repondu')
             ->innerJoin('coll.collectiviteAnswers', 'ca')
             ->innerJoin('ca.answer', 'a')

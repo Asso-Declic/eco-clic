@@ -74,7 +74,7 @@ $(function() {
 
                     let img = document.createElement('img');
                     img.setAttribute("class", "masterDetail-img");
-                    img.setAttribute("src", "../img/"+$avance[i].Img);
+                    img.setAttribute("src", "../img/"+$avance[i].image);
                     div1.append(img);
 
                     let p1 = document.createElement('p');

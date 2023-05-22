@@ -27,7 +27,11 @@ class InseeService
         $response = json_decode($responseJson);
         curl_close($curl);
         $informations = [];
-        $informations['CodePostal'] = $response->etablissement->adresseEtablissement->codePostalEtablissement;
+        if (isset($response->etablissement)) {
+            $informations['CodePostal'] = $response->etablissement->adresseEtablissement->codePostalEtablissement;
+        } else {
+            $informations = $response;
+        }
 
         return $informations;
     }

@@ -36,7 +36,14 @@ class CategoryRepository extends ServiceEntityRepository
         */
         $qb = $this->createQueryBuilder('c')
         ->innerJoin('c.questions', 'q')
-        ->addSelect('COUNT(q.id) as nbQuestion')
+        // Ces select sont des patchs pour avoir des noms de champs bien propres en JSON
+        ->select('c.id as id')
+        ->addSelect('c.name as name')
+        ->addSelect('c.image as image')
+        ->addSelect('c.description as description')
+        ->addSelect('c.sortOrder as sort_order')
+
+        ->addSelect('COUNT(q.id) as nb_question')
         ->groupBy('c.id')
         ->orderBy('c.sortOrder')
         ;
