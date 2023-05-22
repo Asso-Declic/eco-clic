@@ -20,6 +20,29 @@ class CategoryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Category::class);
     }
+    
+    public function findInfos()
+    {
+        /* Requête d'origine
+        SELECT categorie.Id, categorie.Nom, categorie.Img, COUNT(question.IdCategorie) as nbQuestion, 
+                (
+                    SELECT COUNT(recommandation.IdCategorie) FROM `recommandation` where recommandation.IdCategorie = categorie.Id
+                ) as nbReco
+        FROM `categorie`
+        INNER JOIN `question`
+        WHERE question.IdCategorie = categorie.Id 
+        GROUP BY question.IdCategorie // C'était sûrement erroné non ?
+        Order by categorie.Ordre
+        */
+        $qb = $this->createQueryBuilder('c')
+        ->innerJoin('c.questions', 'q')
+        ->addSelect('COUNT(q.id) as nbQuestion')
+        ->groupBy('c.id')
+        ->orderBy('c.sortOrder')
+        ;
+
+        return $qb->getQuery()->getScalarResult();
+    }
 
     public function save(Category $entity, bool $flush = false): void
     {
