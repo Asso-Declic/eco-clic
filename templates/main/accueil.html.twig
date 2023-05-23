@@ -4,7 +4,9 @@
 
 {% block header_scripts %}
 <script src="{{ asset('js/statistiques.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block content %}
@@ -17,25 +19,69 @@
                     <div>
                         <h2 id="col"></h2>
                         <h3><span id="type"></span><span> - </span><span id="CP"></span></h3>
+                        {# TODO #}
                         <a id="commencer" hidden style="text-decoration: underline; cursor: pointer;">Démarrer le questionnaire</a>
                     </div>
                     <div id="progress" class="">
                         <svg class="progress-ring" width="105" height="105">
-                            <circle id="cercle0" class="progress-ring__circle" stroke="white" stroke-width="4" fill="transparent" r="45" cx="50" cy="55" style="stroke-dasharray: 326.726, 326.726; stroke-dashoffset: 326.726;"></circle> 
+                            <circle id="cercle0" class="progress-ring__circle" stroke="white" stroke-width="4"
+                                fill="transparent" r="45" cx="50" cy="55"
+                                style="stroke-dasharray: 326.726, 326.726; stroke-dashoffset: 326.726;"></circle> 
                         </svg>
 
                         <p class="progressContent" id="completion" style="top: 40px; left: 22px;" hidden="true">
                             Complété à </br><span id="pourcentage" style="font-size: 18px;"></span>
                         </p>
 
-                        <p class="progressContent" id="indice" style="top: 14px; line-height: 1; left: 15px; color: #fafafa; font-size: 26px;background-image: linear-gradient(#08433D 0 0); background-position: bottom center; background-size: 79% 1.5px; background-repeat: no-repeat;" hidden="true">
-                            <!-- Score </br><span id="score" style="font-size: 18px; color: #000;"></span> -->
-                            <span id="A" class="scoreLetter" style="color: #038141;">A</span><span id="B" class="scoreLetter" style="color: #627A39;">B</span><span id="C" class="scoreLetter" style="color: #966A09;">C</span><span id="D" class="scoreLetter" style="color: #B65713;">D</span><span id="E" class="scoreLetter" style="color: #A80000;">E</span>
+                        <p class="progressContent" id="indice"
+                            style="top: 14px; line-height: 1; left: 15px; color: #fafafa; font-size: 26px;background-image: linear-gradient(#08433D 0 0); background-position: bottom center; background-size: 79% 1.5px; background-repeat: no-repeat;"
+                            hidden="true">
+                            {# Score </br><span id="score" style="font-size: 18px; color: #000;"></span> #}
+                            <span id="A" class="scoreLetter" style="color: #038141;">A</span><span id="B"
+                                class="scoreLetter" style="color: #627A39;">B</span><span id="C" class="scoreLetter"
+                                style="color: #966A09;">C</span><span id="D" class="scoreLetter"
+                                style="color: #B65713;">D</span><span id="E" class="scoreLetter"
+                                style="color: #A80000;">E</span>
                         </p>
                     </div>
                     
                 </div>
+                <div id="pasComplet" class="align-items-center flex-column justify-content-center m-5" style="height: 50vh;">
+                    <div class="align-items-center d-flex flex-column">
+                        <p style="text-align: center; font-size: 20px;">
+                            L'éco-clic est une plateforme conçue par des experts
+                            du numérique responsable pour donner des clefs aux
+                            collectivités qui veulent améliorer leurs actions en
+                            matière de développement numérique durable et
+                            ainsi aider à la préservation de notre planète.
+                        </p>
+                        <p style="font-size: 20px;">
+                            À vous de jouer
+                        </p>
+                    </div>
 
+                    
+                    <a id="commencer" hidden class="btn btn-blueAdico fs mt-5 p-4 rounded-pill" 
+                    style="background-color: #00857A; color: white; height: 80px; width: 50%; cursor: pointer; height: auto !important;">Commencer</a>
+                </div>
+
+                <div id="complet" hidden>
+                    <div id="Statistiques">
+                        <div class="divAcceuil">
+                            <div class="divRond" style="margin-right: 0px;">
+                                <img src="./img/statistiques.svg" style="filter: brightness(0) invert(1); padding: 5px; width: 23px; height: 23px;">
+                            </div>
+                            <p style="color: #08453F; font-size: 20px; min-inline-size: max-content; margin: 10px;">Statistiques</p>
+                            <div id="trait2"></div>
+                            <img id="imgdivStatistiquesContent" src="img/Flechetype2.svg" style="cursor: pointer; margin: auto 10px; filter: brightness(0) saturate(100%) invert(20%) sepia(88%) saturate(387%) hue-rotate(125deg) brightness(92%) contrast(99%);" onclick="reduire('divStatistiquesContent')">
+                        </div>
+                        <div id="divStatistiquesContent" style="background-color: #FFFFFF; border-radius: 6px;">
+                            <div class="demo-container">
+                                <div id="chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {# <div id="stat">
                     <div id="titreStat">
                         <h3 style="margin-bottom: 0;">Statistiques</h3>
@@ -86,11 +132,30 @@
         </div>
     </div>
 <style>
+@media (max-width: 650px) {
+    #indice, #progress {
+        position: inherit;
+        margin: 10px auto;
+    }
+
+    #completion {
+        top: unset !important;
+        left: unset !important;
+    }
+
+    #col {
+        font-size: 1.5rem;
+    }
+
+    #type {
+        font-size: 1.25rem;
+    }
+}
 </style>
 
 <script>
     
-    $(document).ready(function(){
+    $(document).ready(function () {
         
         function Timeout() {
             setTimeout(size, 300);
@@ -112,11 +177,11 @@
 
         $Siret = "";
         $.ajax({
-            url: '/api/collectivite/infos' ,
-            type: 'get',
+            url: '/api/collectivite/infos',
+            type: 'GET',
             async: false,
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 document.getElementById("col").textContent = data[0].c_name;
                 if (data[0].type == "Mairie") {
                     document.getElementById("type").textContent = "Commune";
@@ -126,20 +191,20 @@
                 
                 $Siret = data[0].c_siret;
             },
-            error: function(jqXhr, textStatus, errorThrown) {
+            error: function (jqXhr, textStatus, errorThrown) {
                 alert('Une erreur est survenue');
             }
         });
 
         $.ajax({
-            url: './api/insee/siret/' + $Siret ,
-            type: 'get',
+            url: '/api/insee/siret/' + $Siret,
+            type: 'GET',
             async: true,
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 document.getElementById("CP").textContent = data.CodePostal;
             },
-            error: function(jqXhr, textStatus, errorThrown) {
+            error: function (jqXhr, textStatus, errorThrown) {
                 document.getElementById("CP").textContent = "";
             }
         });
@@ -147,14 +212,14 @@
         $userProgression = [];
         
         $.ajax({
-            url: '/api/collectivite/progression' ,
-            type: 'get',
+            url: '/api/collectivite/progression',
+            type: 'GET',
             async: false,
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 $userProgression = data.data;
             },
-            error: function(jqXhr, textStatus, errorThrown) {
+            error: function (jqXhr, textStatus, errorThrown) {
                 alert('Une erreur est survenue');
             }
         });
@@ -162,8 +227,8 @@
         $userProgression2 = undefined;
         $count = 0;
         $.ajax({
-            url: './api/category/infos',
-            type: 'get',
+            url: '/api/category/infos',
+            type: 'GET',
             async: false,
             dataType: 'json',
             success: function(data) {
@@ -179,21 +244,46 @@
                     }
                 }
 
+                if ($Nbrep > $Nbquestion) {
+                    $Nbrep = $Nbquestion;
+                }
+
+                if ($Nbrep == $Nbquestion) {
+                    document.getElementById("pasComplet").hidden = true;
+                    document.getElementById("complet").hidden = false;
+                } else {
+                    document.getElementById("pasComplet").hidden = false;
+                    document.getElementById("pasComplet").classList.add("d-flex");
+                    document.getElementById("complet").hidden = true;
+                }
+
                 var circumference = 52 * 2 * Math.PI;
                 var percent = ($Nbrep / $Nbquestion) * 100;
                 const offset = circumference - percent / 100 * circumference;
                 if (offset != 0) {
                     document.querySelector('#cercle0').style.strokeDashoffset = offset;
-                    document.querySelector('#pourcentage').textContent = Math.round(percent)+"%";
+                    document.querySelector('#pourcentage').textContent = Math.round(percent) + "%";
                     $('#completion').removeAttr('hidden');
                 } else {
                     // appel ajax qui recup ponderation des questions
+                    // TODO : à tester
                     $.ajax({
-                        url: './AjaxLoader/getUserScore.php?CollectiviteId=<?php echo SessionHelper::GetCurrentUser()->CollectiviteId; ?>' ,
-                        type: 'get',
+                        url: '/api/collectivite-answer/score' ,
+                        type: 'GET',
                         async: false,
                         dataType: 'json',
-                        success: function(data) {
+                        success: function (data) {
+                            //Recupere Ponderation maximal pour calculer le score sur 100
+                            $.ajax({
+                                url: '/api/answer/ponderation-max',
+                                type: 'GET',
+                                async: false,
+                                dataType: 'json',
+                                success: function (data2) {
+                                    $PonderationMax = data2['data'];
+                                }
+                            });
+
                             $('#progress')[0].style.backgroundColor = "#fff";
                             document.getElementById("progress").classList.add("scoreRectangle");
 
@@ -271,7 +361,7 @@
                     let img = document.createElement('img');
                     img.setAttribute("class", "progressContent progressReco");
                     if (data['data'][i].image != null && data['data'][i].image != "") {
-                        img.setAttribute("src", "/img/"+data['data'][i].image);
+                        img.setAttribute("src", "/img/" + data['data'][i].image);
                         img.setAttribute("alt", data['data'][i].name);
                     }
                     div2.append(img);
@@ -293,16 +383,16 @@
                     let p2 = document.createElement('p');
                     p2.setAttribute("class", "recoNumber");
                     if ($userProgression2 != undefined) {
-                        p2.textContent = $userProgression2.nb_repondu+"/"+data['data'][i].nb_question;
+                        p2.textContent = $userProgression2.nb_repondu + "/" + data['data'][i].nb_question;
                         $count = 0;
 
                         if (document.getElementById("commencer").hidden == true && $userProgression2.nb_repondu != data['data'][i].nb_question) {
                             document.getElementById("commencer").hidden = false;
-                            document.getElementById("commencer").href = "categories.php?CategorieId="+data['data'][i].id;
+                            document.getElementById("commencer").href = "categories.php?CategorieId=" + data['data'][i].id;
                         }
                     } else {
-                        p2.textContent = 0+"/"+data['data'][i].nb_question;
-                        $count = $count+1;
+                        p2.textContent = 0 + "/" + data['data'][i].nb_question;
+                        $count = $count + 1;
 
                         if (document.getElementById("commencer").hidden == true) {
                             document.getElementById("commencer").hidden = false;
@@ -352,8 +442,6 @@
                 alert('Une erreur est survenue');
             }
         });
-
-        
     });
 </script>
  {% endblock %}

@@ -21,6 +21,25 @@ class AnswerRepository extends ServiceEntityRepository
         parent::__construct($registry, Answer::class);
     }
 
+    public function findPonderationMax()
+    {
+        /* Requête d'origine
+            SELECT SUM(reponse.Ponderation) as nb
+            FROM reponse
+            JOIN question ON question.Id = reponse.IdQuestion
+            JOIN categorie ON categorie.Id = question.IdCategorie
+            WHERE reponse.Text = 'Oui
+        */
+        $qb = $this->createQueryBuilder('a')
+        ->select('SUM(a.ponderation) as nb')
+        // Étant donné que le calcul se fait sur la table answer uniquement, les jointures semblent inutiles
+        // ->innerJoin('a.question', 'q')
+        // ->innerJoin('q.category', 'c')
+        ->where('a.body = :body')
+        ->setParameter('body', 'Oui');
+        return $qb->getQuery()->getScalarResult();
+    }
+
     public function save(Answer $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

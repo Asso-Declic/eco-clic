@@ -22,12 +22,12 @@
     </script>
 </head>
 <body>
+    {% block header_scripts %}{% endblock %}
     <div class="wrapper" style="overflow: hidden;">
     {# <script>
     </script> #}
     {# Sidebar #}
     {% include "partials/menu.html.twig" %}
-    {% block header_scripts %}{% endblock %}
 {# Page Content #}
 <div id="content" class="container-fluid">
 {# Barre de recherche #}

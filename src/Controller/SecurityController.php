@@ -10,12 +10,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 #[Route(name: 'security_')]
 class SecurityController extends AbstractController
 {
-    #[Route(path: '/inscription', name: 'registration')]
-    public function registration(AuthenticationUtils $authenticationUtils): Response
-    {
-        return new Response('inscription');
-    }
-
     #[Route(path: '/connexion', name: 'login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {

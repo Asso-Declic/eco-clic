@@ -34,14 +34,20 @@ class CategoryRepository extends ServiceEntityRepository
         GROUP BY question.IdCategorie // C'était sûrement erroné non ?
         Order by categorie.Ordre
         */
-        $qb = $this->createQueryBuilder('c')
-        ->innerJoin('c.questions', 'q')
+        $qb = $this->createQueryBuilder('c');
+        $qb->innerJoin('c.questions', 'q')
         // Ces select sont des patchs pour avoir des noms de champs bien propres en JSON
         ->select('c.id as id')
         ->addSelect('c.name as name')
         ->addSelect('c.image as image')
         ->addSelect('c.description as description')
         ->addSelect('c.sortOrder as sort_order')
+        ->addSelect('(
+            SELECT COUNT(recommandation.id)
+            FROM App\Entity\Recommandation recommandation
+            INNER JOIN recommandation.question question
+            WHERE question.category = c
+            ) as nbReco')
 
         ->addSelect('COUNT(q.id) as nb_question')
         ->groupBy('c.id')

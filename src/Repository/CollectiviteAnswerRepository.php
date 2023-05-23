@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Collectivite;
 use App\Entity\CollectiviteAnswer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,6 +20,23 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, CollectiviteAnswer::class);
+    }
+
+    public function findScore(Collectivite $collectivite)
+    {
+        /* Requête d'origine
+            SELECT SUM(reponse.Ponderation) as score, COUNT(reponse.Ponderation) as nb
+            FROM `reponse`, `utilisateurReponse` 
+            WHERE utilisateurReponse.CollectiviteId = :CollectiviteId
+            AND utilisateurReponse.IdReponse = reponse.Id
+        */
+        $qb = $this->createQueryBuilder('ca')
+        ->select('SUM(a.ponderation) AS score')
+        ->addSelect('COUNT(a.ponderation) AS nb')
+        ->innerJoin('ca.answer', 'a')
+        ->where('ca.collectivite = :collectivite')
+        ->setParameter('collectivite', $collectivite);
+        return $qb->getQuery()->getResult();
     }
 
     public function save(CollectiviteAnswer $entity, bool $flush = false): void
