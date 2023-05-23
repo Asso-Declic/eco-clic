@@ -234,7 +234,7 @@
             url: '/api/utilisateur/preference/menu-categories',
             type: 'GET',
             async: false,
-            dataType: 'html',
+            dataType: 'json',
             success: function(reponse) {
                 if (reponse == null) {
                     $('#sousMenu').css("display", 'none');
@@ -262,5 +262,4 @@
             }
         }
     }
-    
 </script>
