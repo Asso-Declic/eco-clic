@@ -102,6 +102,8 @@ On doit ajouter un id à Score, c'est Doctrine qui l'impose. On a désormais un 
 
 On supprime `forgotPasswordId` et `forgotPasswordAt` dans User et Admin car on a mis en place une solution proposée par Symfony.
 
+On supprime `TemporarySiret` qui disparaitra lorsque l'Éco-clic sera ouverte à toutes les collectivités.
+
 ## MCD Idéal
 ```mocodo
 représenter, 11 Admin, 1N OPSN
@@ -129,7 +131,7 @@ Question: id, question, theme, multiple, definition, additionalInformation, defi
 découler, 11 Question, 1N Theme
 :
 
-TemporarySiret: siret, name
+:
 accompagner, 11 Collectivite, 1N OPSN
 :
 Score: id, collectivite, score, _scoredAt
