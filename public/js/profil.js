@@ -189,25 +189,30 @@ $(function() {
 })
 
 $('#enregistrer').on("click", function() {
-    var oldPass = checkOldPass($('[name="Ancien_mot_de_passe"]').val());
-    if (oldPass == 1) {
-        newPass = $('[name="Mot_de_passe"]').val();
-    } else {
-        newPass = -1;
-    }
+    // var oldPass = checkOldPass($('[name="Ancien_mot_de_passe"]').val());
+    // if (oldPass == 1) {
+    //     newPass = $('[name="Mot_de_passe"]').val();
+    // } else {
+    //     newPass = -1;
+    // }
 
     $.ajax({
-        url: './api/utilisateur/update-profil',
-        type: 'GET',
+        url: '/api/user',
+        type: 'PUT',
         async: true,
-        data: {
-            Nom: $('[name="Nom"]').val(),
-            Prenom: $('[name="Prenom"]').val(),
-            Identifiant: $('[name="Identifiant"]').val(),
-            Mail: $('[name="Mail"]').val(),
-            MotDePasse: newPass
-        },
-        dataType: 'HTML',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            lastName: $('[name="Nom"]').val(),
+            firstName: $('[name="Prenom"]').val(),
+            username: $('[name="Identifiant"]').val(),
+            email: $('[name="Mail"]').val(),
+            oldPassword: $('[name="Ancien_mot_de_passe"]').val(),
+            newPassword : {
+                first: $('[name="Mot_de_passe"]').val(),
+                second: $('[name="Confirmer_mot_de_passe"]').val(),
+            },
+        }),
+        dataType: 'json',
         success: function(reponse) {
             window.location.reload()
         },
@@ -217,22 +222,22 @@ $('#enregistrer').on("click", function() {
     });
 })
 
-function checkOldPass(value) {
-    var retour;
-    $.ajax({
-        url: './AjaxLoader/checkOldPass.php',
-        type: 'POST',
-        async: false,
-        data: {
-            password: value
-        },
-        dataType: 'HTML',
-        success: function(reponse) {
-            retour = reponse
-        },
-        error: function(resultat, statut, erreur) {
-            console.error(resultat + ' --- ' + statut + ' --- ' + erreur);
-        }
-    });
-    return retour
-}
+// function checkOldPass(value) {
+//     var retour;
+//     $.ajax({
+//         url: './AjaxLoader/checkOldPass.php',
+//         type: 'POST',
+//         async: false,
+//         data: {
+//             password: value
+//         },
+//         dataType: 'HTML',
+//         success: function(reponse) {
+//             retour = reponse
+//         },
+//         error: function(resultat, statut, erreur) {
+//             console.error(resultat + ' --- ' + statut + ' --- ' + erreur);
+//         }
+//     });
+//     return retour
+// }

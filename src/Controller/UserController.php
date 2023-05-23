@@ -25,13 +25,4 @@ class UserController extends AbstractController
             'controller_name' => 'UtilisateurController',
         ]);
     }
-
-    // TODO : ASAP
-    #[Route('/profil/update', name: 'update_profil', methods: ['POST'])]
-    public function updateProfil(): Response
-    {
-        return $this->render('utilisateur/profil.html.twig', [
-            'controller_name' => 'UtilisateurController',
-        ]);
-    }
 }

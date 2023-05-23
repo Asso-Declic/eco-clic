@@ -30,7 +30,7 @@
         </div>
 
         <div class="monProfil">
-            <form action="{{ path("utilisateur_update_profil", {type: "infos"}) }}" id="formulaire">
+            <form action="{{ path("api_user_update", {type: "infos"}) }}" id="formulaire">
                 <div id="form_profil" class="formBlock"></div>
             </form>
         </div>
@@ -41,7 +41,7 @@
         </div>
 
         <div class="motDePasse">
-            <form action="{{ path("utilisateur_update_profil", {type: "mdp"}) }}" id="formulaireMdp">
+            <form action="{{ path("api_user_update", {type: "mdp"}) }}" id="formulaireMdp">
                 <div id="formMdp" class="formBlock" style="padding-top: 10px;"></div>
             </form>
         </div>

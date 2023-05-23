@@ -257,12 +257,12 @@ $(function() {
 })
 
 $('#enregistrer').on("click", function() {
-    var oldPass = checkOldPass($('[name="Ancien_mot_de_passe"]').val());
-    if (oldPass == 1) {
-        newPass = $('[name="Mot_de_passe"]').val();
-    } else {
-        newPass = -1;
-    }
+    // var oldPass = checkOldPass($('[name="Ancien_mot_de_passe"]').val());
+    // if (oldPass == 1) {
+    //     newPass = $('[name="Mot_de_passe"]').val();
+    // } else {
+    //     newPass = -1;
+    // }
 
     $.ajax({
         url: '../AjaxLoader/UpdateUtilisateurProfilAdmin.php',
@@ -285,22 +285,22 @@ $('#enregistrer').on("click", function() {
     });
 })
 
-function checkOldPass(value) {
-    var retour;
-    $.ajax({
-        url: '../AjaxLoader/checkOldPassAdmin.php',
-        type: 'POST',
-        async: false,
-        data: {
-            password: value
-        },
-        dataType: 'HTML',
-        success: function(reponse) {
-            retour = reponse
-        },
-        error: function(resultat, statut, erreur) {
-            console.error(resultat + ' --- ' + statut + ' --- ' + erreur);
-        }
-    });
-    return retour
-}
+// function checkOldPass(value) {
+//     var retour;
+//     $.ajax({
+//         url: '../AjaxLoader/checkOldPassAdmin.php',
+//         type: 'POST',
+//         async: false,
+//         data: {
+//             password: value
+//         },
+//         dataType: 'HTML',
+//         success: function(reponse) {
+//             retour = reponse
+//         },
+//         error: function(resultat, statut, erreur) {
+//             console.error(resultat + ' --- ' + statut + ' --- ' + erreur);
+//         }
+//     });
+//     return retour
+// }
