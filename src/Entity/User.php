@@ -115,7 +115,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles[] = 'ROLE_USER';
 
         if ($this->admin) {
-            $roles[] = 'ROLE_ADMIN';
+            $roles[] = 'ROLE_COLLECTIVITE_ADMIN';
         }
 
         return array_unique($roles);

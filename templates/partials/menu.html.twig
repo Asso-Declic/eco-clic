@@ -41,7 +41,7 @@
                     <span>Statistiques</span>
                 </a> #}
 
-                {% if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_COLLECTIVITE_ADMIN') %}
                     <a id="gestUser" href="parametres.php" tabindex="2" >
                         <img class="iconMenu" src="{{ asset('img/Icon feather-users.svg') }}">
                         <span>Gestion des utilisateurs</span>
