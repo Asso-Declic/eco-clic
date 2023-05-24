@@ -17,6 +17,21 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api/user', name: 'api_user_')]
 class UserController extends AbstractController
 {
+    #[Route('/check-username/{username}', name: 'check_username')]
+    public function checkUsername(string $username, UserRepository $userRepository)
+    {
+        /* Requête d'origine
+            SELECT Identifiant FROM `utilisateur` 
+            WHERE Identifiant = :Identifiant
+        */
+        $user = $userRepository->findOneBy(['username' => $username]);
+        if ($user == null) {
+            return $this->json('');
+        } else {
+            return $this->json($user->getUsername());
+        }
+    }
+
     #[Route('/current', name: 'get_current')]
     public function getCurrent()
     {

@@ -12,15 +12,12 @@
 
 {% block content %}
                 <p class='col- text-center fs mt-4'>Veuillez renseigner les champs ci-dessous</p>
-
-                <form id="signin_form" action="{{ path('user_registration') }}" method="post" style="padding-inline: 85px;">
+                <form id="signin_form" action="{{ path('security_registration') }}" method="post" style="padding-inline: 85px;">
                     <div id="form"></div>
                 </form>
-
-                <!-- <div class="col-7" style="margin: 0 auto 65px auto;">
+                {# <div class="col-7" style="margin: 0 auto 65px auto;">
                     <a href="index.php"><button style="margin: 15px auto 0 auto;" class="d-block btn btn-blueAdico rounded-pill white col-7 col-lg-7 fs"> Annuler </button></a>
-                </div> -->
-
+                </div> #}
 {% endblock %}
 
 {% block footer_scripts %}
@@ -176,7 +173,7 @@
             font-size: 15px;
         }
     </style>
-    <script src="./js/placeholderRGAA.js"></script>
-    <script src="./js/inscription.js"></script>
-    <script src="./js/index.js"></script>
+    <script src="{{ asset('js/placeholderRGAA.js') }}"></script>
+    <script src="{{ asset('js/inscription.js') }}"></script>
+    <script src="{{ asset('js/index.js') }}"></script>
 {% endblock %}

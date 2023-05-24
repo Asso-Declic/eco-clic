@@ -287,30 +287,43 @@
                             $('#progress')[0].style.backgroundColor = "#fff";
                             document.getElementById("progress").classList.add("scoreRectangle");
 
-                            $score = Math.floor(data['data'][0].score * 100 / data['data'][0].nb);
+                            $score = Math.floor(data['data'][0].score * 100 / $PonderationMax[0].nb);
 
-                            if ($score >= 80) {
+                            if ($score >= 99) {
                                 document.getElementById("A").classList.add("scoreZoom");
-                            } else if($score < 80  && $score >= 60) {
+                            }else if ($score < 99 && $score >= 80) {
                                 document.getElementById("B").classList.add("scoreZoom");
-                            } else if($score < 60 && $score >= 40) {
+                            } else if ($score < 80 && $score >= 60) {
                                 document.getElementById("C").classList.add("scoreZoom");
-                            } else if($score < 40 && $score >= 20) {
+                            } else if ($score < 60 && $score >= 40) {
                                 document.getElementById("D").classList.add("scoreZoom");
-                            } else if($score < 20) {
+                            } else if ($score < 40) {
                                 document.getElementById("E").classList.add("scoreZoom");
                             }
 
                             $('#indice').removeAttr('hidden');
                             $('#last').removeAttr('hidden');
                         },
-                        error: function(jqXhr, textStatus, errorThrown) {
+                        error: function (jqXhr, textStatus, errorThrown) {
                             alert('Une erreur est survenue');
                         }
                     });
                     
                 }
                 
+                // On récupère le nombre de recommandation disponibles que le user a au total que l'on va afficher séparément sur chaque catégories
+                // let nbRecommandationUser = [];
+                // $.ajax({
+                //     url: './AjaxLoader/GetNbRecoUser.php?CollectiviteId=<?php echo SessionHelper::GetCurrentUser()->CollectiviteId; ?>',
+                //     type: 'get',
+                //     async: false,
+                //     dataType: 'json',
+                //     success: function(data2) {
+                //         for (let i = 0; i < data['data'].length; i++) {
+                //             nbRecommandationUser[i] = data2['data'][i].nbRecommandation;
+                //         }
+                //     }
+                // });
 
                 for (let i = 0; i < data['data'].length; i++) {
                     

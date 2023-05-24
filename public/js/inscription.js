@@ -53,22 +53,21 @@ $(function() {
                             var test;
                             var response = null;
                             $.ajax({
-                                url: '/api/utilisateur/check-identifiant/' + params.value,
-                                type: 'get',
+                                url: '/api/user/check-username/' + params.value,
+                                type: 'GET',
                                 async: false,
-                                dataType: 'html',
+                                dataType: 'json',
                                 // data: {
                                 //     'identifiant': params.value,
                                 // },
-                                success: function(data) {
+                                success: function (data) {
                                     response = data;
                                 },
-                                error: function(jqXhr, textStatus, errorThrown) {
+                                error: function (jqXhr, textStatus, errorThrown) {
                                     alert('Une erreur est survenue');
                                 }
                             });
-                            test = (response == params.value) ? false : true
-                            return test
+                            return (response == params.value) ? false : true;
                         }
                     }]
                 }, {
@@ -94,13 +93,12 @@ $(function() {
                             type: "custom",
                             message: "Le siret est déjà enregistré.",
                             validationCallback: function(params) {
-                                var test;
                                 var response = null;
-                                $.ajax({
-                                    url: '/api/utilisateur/check-siret/' + params.value,
-                                    type: 'get',
+                                $.ajax({	
+                                    url: '/api/collectivite/check-siret/' + params.value,
+                                    type: 'GET',
                                     async: false,
-                                    dataType: 'html',
+                                    dataType: 'json',
                                     // data: {
                                     //     'Siret': params.value,
                                     // },
@@ -111,18 +109,17 @@ $(function() {
                                         alert('Une erreur est survenue');
                                     }
                                 });
-                                test = (response == params.value) ? false : true
-                                return test
+                                return (response == params.value) ? false : true;
                             }
                         },
                         ////////////////temporaire////////////////
                         {
                             type: "custom",
-                            message: "Vous ne faites pas partie de la liste des testeurs de m'Ecoclic",
+                            message: "Vous ne faites pas partie de la liste des testeurs de l'Ecoclic",
                             validationCallback: function(params) {
                                 var retour = true
                                 $.ajax({
-                                    url: '/api/utilisateur/check-siret-connu/' + params.value,
+                                    url: '/api/collectivite/check-siret-connu/' + params.value,
                                     type: 'GET',
                                     async: false,
                                     // data: {
