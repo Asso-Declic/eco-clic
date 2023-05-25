@@ -22,7 +22,7 @@ final class Version20230509120223 extends AbstractMigration
         // --------------
         // On installe toute les tables du fichier SQL d'origine
         // --------------
-        $this->addSql('CREATE TABLE `Administrateur` (// TODO Entité
+        $this->addSql('CREATE TABLE `Administrateur` (
             `Id` char(36) NOT NULL,
             `Nom` varchar(150) NOT NULL,
             `Prenom` varchar(150) NOT NULL,
@@ -185,10 +185,10 @@ final class Version20230509120223 extends AbstractMigration
         // --------------
         // Clés primaires
         // --------------
-        // $this->addSql('ALTER TABLE `Administrateur`
-        //     ADD PRIMARY KEY (`Id`),
-        //     ADD KEY `OPSNId` (`OPSNId`),
-        //     ADD KEY `Identifiant` (`Identifiant`);');
+        $this->addSql('ALTER TABLE `Administrateur`
+            ADD PRIMARY KEY (`Id`),
+            ADD KEY `OPSNId` (`OPSNId`),
+            ADD KEY `Identifiant` (`Identifiant`);');
         $this->addSql('ALTER TABLE `categorie`
             ADD PRIMARY KEY (`Id`);');
         $this->addSql('ALTER TABLE `collectivite`
@@ -251,7 +251,7 @@ final class Version20230509120223 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // Supprime toutes les tables crées avec la méthode up()
-        // $this->addSql('DROP TABLE `Administrateur`');
+        $this->addSql('DROP TABLE `Administrateur`');
         $this->addSql('DROP TABLE `categorie`');
         $this->addSql('DROP TABLE `collectivite`');
         $this->addSql('DROP TABLE `Departement`');
