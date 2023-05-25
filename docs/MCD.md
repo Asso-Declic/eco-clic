@@ -3,89 +3,7 @@ Les MCD ont été réalisés avec [Mocodo](https://mocodo.net/)
 
 ## MCD d'origine
 Avant le passage à Symfony, la base de données n'avait pas de MCD.
-Dans un premier temps, il a fallu créer toutes les entités et les associations selon les tables actuelles. Ça donne un MCD sans relation puisque aucune clé étrangère n'existait. Une seule relation ManyToMany a été mise en place à cette étape, entre `OPSN` et `Departement`. À cette étape, les propriétés ont été renommées mais pas les champs. Ce qu'on observe ici représente plus les classes que la base de données.
-```mocodo
-Departement: code, name, regionCode
-Couvre, 1N OPSN, 1N Departement
-OPSN: id, name, email, departement,active, logo, phoneNumber, postalAddress, website, siret, latitude, longitude
-Collectivite: id, name, population, departmentCode, siret, latitude, longitude, type, opsn
-CollectiviteType: id, label
-CollectiviteAnswer: id, question, answer, collectivite, body, answeredAt
-TemporarySiret: siret, name
-Score: collectivite, score, _scoredAt
-Theme: id, label, category
-
-Admin: id, username, password, email, lastname, firstname, token, active, forgotPasswordId, forgotPasswordAt, superAdmin, opsn
-User: id, username, password, email, lastname, firstname, collectivite, admin, token, active, forgotPasswordId, forgotPasswordAt, cguChecked, verified
-UserPreference: user, code, _json
-Answer: id, type, body, question, ponderation
-Question: id, question, theme, category, multiple, definition, additionalInformation, definitionTitleRecommandation: id, title, body, question, category, level
-Recommandation: id, title, body, question, category, level
-RecommandationLevel: id, label
-Category: id, name, image, description, sortOrder
-:
-```
-
-## MCD Complet
-En recréant les relations qui devraient apparemment exister, ça donne ça. Quand il y a un 2, c'est qu'il y a une redondance de données
-```mocodo
-représenter, 11 Admin, 1N OPSN
-OPSN: id, name, email, departement,active, logo, phoneNumber, postalAddress, website, siret, latitude, longitude
-couvrir, 1N OPSN, 1N Departement
-Departement: code, name, regionCode
-administrer, 11 Collectivite, 1N Departement
-typer, 11 Collectivite, 1N CollectiviteType
-CollectiviteType: id, label
-associer, 1N Answer, 11 CollectiviteAnswer
-Answer: id, type, body, question, ponderation
-proposer, 11 Answer, 1N Question
-:
-:
-
-Admin: id, username, password, email, lastname, firstname, token, active, forgotPasswordId, forgotPasswordAt, superAdmin, opsn
-:
-:
-enregistrer, 11 Score, 1N Collectivite
-Collectivite: id, name, population, departmentCode, siret, latitude, longitude, type, opsn
-répondre, 1N Collectivite, 11 CollectiviteAnswer
-CollectiviteAnswer: id, question, answer, collectivite, body, answeredAt
-associer2, 1N Question, 11 CollectiviteAnswer
-Question: id, question, theme, category, multiple, definition, additionalInformation, definitionTitle
-découler, 11 Question, 1N Theme
-:
-
-TemporarySiret: siret, name
-accompagner, 11 Collectivite, 1N OPSN
-:
-Score: collectivite, score, _scoredAt
-dépendre, 11 User, 1N Collectivite
-User: id, username, password, email, lastname, firstname, collectivite, admin, token, active, forgotPasswordId, forgotPasswordAt, cguChecked, verified
-préférer, 11 User, 11 UserPreference
-UserPreference: user, code, _json
-classer, 11 Question, 1N Category
-Theme: id, label, category
-:
-
-:
-:
-:
-:
-:
-:
-:
-résoudre, 11 Recommandation, 1N Question
-Category: id, name, image, description, sortOrder
-grouper, 1N Category, 11 Theme
-:
-
-:
-:
-:
-RecommandationLevel: id, label
-déterminer, 11 Recommandation, 1N RecommandationLevel
-Recommandation: id, title, body, question, category, level
-classer2, 11 Recommandation, 1N Category
-```
+Dans un premier temps, il a fallu créer toutes les entités et les associations selon les tables actuelles. Ça donne un MCD sans relation puisque aucune clé étrangère n'existait. Une seule relation ManyToMany a été mise en place à cette étape, entre `OPSN` et `Departement`.
 
 ## Vers un MCD idéal
 On doit supprimer la relation «classer» entre Recommandation et Category.
@@ -104,62 +22,78 @@ On supprime `forgotPasswordId` et `forgotPasswordAt` dans User et Admin car on a
 
 On supprime `TemporarySiret` qui disparaitra lorsque l'Éco-clic sera ouverte à toutes les collectivités.
 
-## MCD Idéal
+## MCD Complet
+En recréant les relations qui devraient apparemment exister, ça donne ça. Quand il y a un 2, c'est qu'il y a une redondance de données
 ```mocodo
-représenter, 11 Admin, 1N OPSN
-OPSN: id, name, email, departement,active, logo, phoneNumber, postalAddress, website, siret, latitude, longitude
-couvrir, 1N OPSN, 1N Departement
-Departement: code, name, regionCode
-administrer, 11 Collectivite, 1N Departement
-typer, 11 Collectivite, 1N CollectiviteType
-CollectiviteType: id, label
-associer, 1N Answer, 11 CollectiviteAnswer
-Answer: id, type, body, question, ponderation
-proposer, 11 Answer, 1N Question
-:
-:
-
-Admin: id, username, password, email, lastname, firstname, token, active, superAdmin, opsn
-:
-:
-enregistrer, 11 Score, 1N Collectivite
-Collectivite: id, name, population, departmentCode, siret, latitude, longitude, type, opsn
-répondre, 1N Collectivite, 11 CollectiviteAnswer
-CollectiviteAnswer: id, answer, collectivite, body, answeredAt
-:
-Question: id, question, theme, multiple, definition, additionalInformation, definitionTitle
-découler, 11 Question, 1N Theme
-:
-
-:
-accompagner, 11 Collectivite, 1N OPSN
-:
-Score: id, collectivite, score, _scoredAt
-dépendre, 11 User, 1N Collectivite
-User: id, username, password, email, lastname, firstname, collectivite, admin, token, active, cguChecked, verified
-préférer, 11 User, 11 UserPreference
-UserPreference: user, code, _json
-classer2, 11 Question, 1N Category
-Theme: id, label, category
-:
-
-:
-:
-:
-:
-:
-:
-:
-résoudre, 11 Recommandation, 1N Question
-Category: id, name, image, description, sortOrder
-grouper, 1N Category, 11 Theme
-:
-
-:
-:
 :
 RecommandationLevel: id, label
 déterminer, 11 Recommandation, 1N RecommandationLevel
-Recommandation: id, title, body, question, level
+:
+Theme: id, label, category
+grouper, 1N Category, 11 Theme
+:
+:
+
+RecommandationStatus: id, label
+positionner, 11 Recommandation, 1N RecommandationStatus
+Recommandation: id, title, body, question, level, status
+résoudre, 11 Recommandation, 1N Question
+découler, 11 Question, 1N Theme
+Category: id, name, image, description, sortOrder
+:
+:
+
+:
+définir2, 11 UserStatus, 1N Recommandation
+UserPreference: user, code, _json
+hyérarchiser, 11 Question, 1N Question
+Question: id, question, theme, category, multiple, definition, additionalInformation, definitionTitle, sortOrder, parent, parentAnswer
+classer2, 11 Question, 1N Category
+:
+:
+
+:
+UserStatus: id, recommandation, user, code
+préférer, 11 User, 11 UserPreference
+proposer, 11 Answer, 1N Question
+affilier, 11 Question, 1N Answer
+:
+:
+:
+
+:
+définir, 11 UserStatus, 1N User
+User: id, username, password, email, lastname, firstname, collectivite, admin, token, active, cguChecked, verified, superAdmin, superAdmin2, opsn
+CollectiviteType: id, label
+Answer: id, type, body, question, ponderation
+associer, 1N Answer, 11 CollectiviteAnswer
+:
+:
+
+:
+:
+dépendre, 11 User, 1N Collectivite
+typer, 11 Collectivite, 1N CollectiviteType
+répondre, 1N Collectivite, 11 CollectiviteAnswer
+CollectiviteAnswer: id, answer, collectivite, body, answeredAt
+:
+:
+
+:
+Score: id, collectivite, score, _scoredAt
+enregistrer, 11 Score, 1N Collectivite
+Collectivite: id, name, population, departmentCode, siret, latitude, longitude, type, opsn
+administrer, 11 Collectivite, 1N Departement
+Departement: code, name, regionCode
+constituer, 11 Departement, 1N Region
+TemporarySiret: siret, nom
+
+:
+Population: id, TypeCollectivite, minPop, maxPop
+peupler, 1N Population, 11 Collectivite
+accompagner, 11 Collectivite, 1N OPSN
+OPSN: id, name, email, departement,active, logo, phoneNumber, postalAddress, website, siret, latitude, longitude
+couvrir, 1N OPSN, 1N Departement
+Region: code, name
 :
 ```
