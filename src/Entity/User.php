@@ -79,9 +79,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?OPSN $opsn = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserStatus::class)]
+    private Collection $statuses;
+
     public function __construct()
     {
         $this->userPreferences = new ArrayCollection();
+        $this->statuses = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -331,6 +335,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setOpsn(?OPSN $opsn): self
     {
         $this->opsn = $opsn;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserStatus>
+     */
+    public function getStatuses(): Collection
+    {
+        return $this->statuses;
+    }
+
+    public function addStatus(UserStatus $status): self
+    {
+        if (!$this->statuses->contains($status)) {
+            $this->statuses->add($status);
+            $status->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStatus(UserStatus $status): self
+    {
+        if ($this->statuses->removeElement($status)) {
+            // set the owning side to null (unless already changed)
+            if ($status->getUser() === $this) {
+                $status->setUser(null);
+            }
+        }
 
         return $this;
     }
