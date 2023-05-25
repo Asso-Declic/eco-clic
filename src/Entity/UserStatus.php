@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserStatusRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserStatusRepository::class)]
@@ -10,7 +11,7 @@ class UserStatus
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: Types::GUID)]
     private ?int $id = null;
 
     #[ORM\ManyToOne]

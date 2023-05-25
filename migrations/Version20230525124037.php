@@ -25,8 +25,17 @@ final class Version20230525124037 extends AbstractMigration
         $this->addSql('ALTER TABLE `user_status` RENAME COLUMN UtilisateurId TO user_id');
         $this->addSql('ALTER TABLE `user_status` RENAME COLUMN StatutCode TO code');
         $this->addSql('DROP INDEX StatutCode ON user_status');
-        $this->addSql('ALTER TABLE user_status CHANGE Id id INT AUTO_INCREMENT NOT NULL, CHANGE recommandation_id recommandation_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE user_id user_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE code code INT NOT NULL');
+        $this->addSql('ALTER TABLE user_status CHANGE Id id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE recommandation_id recommandation_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE user_id user_id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE code code INT NOT NULL');
         $this->addSql('ALTER TABLE user_status ADD CONSTRAINT FK_1E527E2161AAE789 FOREIGN KEY (recommandation_id) REFERENCES recommandation (id)');
+        
+        // Il y a aurait dans cette table des id qui n'existent pas dans la table user. On tente donc d'abord de la supprimer
+        $this->addSql('DELETE FROM user_status
+        WHERE user_id IN (
+        SELECT user_id FROM (
+            SELECT user_id
+            FROM user_status LEFT JOIN user ON user_status.user_id = user.id
+            WHERE user.id IS NULL
+        ) AS listeASupprimer);');
         $this->addSql('ALTER TABLE user_status ADD CONSTRAINT FK_1E527E21A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE user_status RENAME INDEX recommandationid TO IDX_1E527E2161AAE789');
         $this->addSql('ALTER TABLE user_status RENAME INDEX utilisateurid TO IDX_1E527E21A76ED395');

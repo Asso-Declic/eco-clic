@@ -22,20 +22,20 @@ final class Version20230509120223 extends AbstractMigration
         // --------------
         // On installe toute les tables du fichier SQL d'origine
         // --------------
-        $this->addSql('CREATE TABLE `Administrateur` (
-            `Id` char(36) NOT NULL,
-            `Nom` varchar(150) NOT NULL,
-            `Prenom` varchar(150) NOT NULL,
-            `Identifiant` varchar(300) NOT NULL,
-            `Mail` varchar(250) NOT NULL,
-            `MotDePasse` varchar(500) NOT NULL,
-            `Actif` tinyint(1) NOT NULL,
-            `Token` varchar(2000) DEFAULT NULL,
-            `IdMotDePasseOublie` char(36) DEFAULT NULL,
-            `DateMotDePasseOublie` datetime DEFAULT NULL,
-            `SuperAdmin` tinyint(1) NOT NULL DEFAULT \'0\',
-            `OPSNId` char(36) DEFAULT NULL
-          ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
+        // $this->addSql('CREATE TABLE `Administrateur` (
+        //     `Id` char(36) NOT NULL,
+        //     `Nom` varchar(150) NOT NULL,
+        //     `Prenom` varchar(150) NOT NULL,
+        //     `Identifiant` varchar(300) NOT NULL,
+        //     `Mail` varchar(250) NOT NULL,
+        //     `MotDePasse` varchar(500) NOT NULL,
+        //     `Actif` tinyint(1) NOT NULL,
+        //     `Token` varchar(2000) DEFAULT NULL,
+        //     `IdMotDePasseOublie` char(36) DEFAULT NULL,
+        //     `DateMotDePasseOublie` datetime DEFAULT NULL,
+        //     `SuperAdmin` tinyint(1) NOT NULL DEFAULT \'0\',
+        //     `OPSNId` char(36) DEFAULT NULL
+        //   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
         $this->addSql('CREATE TABLE `categorie` (
             `Id` char(36) NOT NULL,
             `Nom` varchar(200) DEFAULT NULL,
@@ -185,10 +185,10 @@ final class Version20230509120223 extends AbstractMigration
         // --------------
         // Clés primaires
         // --------------
-        $this->addSql('ALTER TABLE `Administrateur`
-            ADD PRIMARY KEY (`Id`),
-            ADD KEY `OPSNId` (`OPSNId`),
-            ADD KEY `Identifiant` (`Identifiant`);');
+        // $this->addSql('ALTER TABLE `Administrateur`
+        //     ADD PRIMARY KEY (`Id`),
+        //     ADD KEY `OPSNId` (`OPSNId`),
+        //     ADD KEY `Identifiant` (`Identifiant`);');
         $this->addSql('ALTER TABLE `categorie`
             ADD PRIMARY KEY (`Id`);');
         $this->addSql('ALTER TABLE `collectivite`
@@ -251,7 +251,7 @@ final class Version20230509120223 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // Supprime toutes les tables crées avec la méthode up()
-        $this->addSql('DROP TABLE `Administrateur`');
+        // $this->addSql('DROP TABLE `Administrateur`');
         $this->addSql('DROP TABLE `categorie`');
         $this->addSql('DROP TABLE `collectivite`');
         $this->addSql('DROP TABLE `Departement`');

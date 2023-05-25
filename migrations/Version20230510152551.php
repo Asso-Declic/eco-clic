@@ -66,9 +66,9 @@ final class Version20230510152551 extends AbstractMigration
         $this->addSql('ALTER TABLE `historiqueScore` ADD COLUMN `id` BIGINT UNSIGNED AUTO_INCREMENT NOT NULL UNIQUE FIRST;');
 
         // Reprise de la migration auto-générée
-        $this->addSql('ALTER TABLE Administrateur DROP INDEX Identifiant, ADD UNIQUE INDEX UNIQ_FF8F2A304F98863B (Identifiant)');
-        $this->addSql('DROP INDEX OPSNId ON Administrateur');
-        $this->addSql('ALTER TABLE Administrateur CHANGE Id Id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE IdMotDePasseOublie IdMotDePasseOublie CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\', CHANGE DateMotDePasseOublie DateMotDePasseOublie DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', CHANGE OPSNId OPSNId CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\'');
+        // $this->addSql('ALTER TABLE Administrateur DROP INDEX Identifiant, ADD UNIQUE INDEX UNIQ_FF8F2A304F98863B (Identifiant)');
+        // $this->addSql('DROP INDEX OPSNId ON Administrateur');
+        // $this->addSql('ALTER TABLE Administrateur CHANGE Id Id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', CHANGE IdMotDePasseOublie IdMotDePasseOublie CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\', CHANGE DateMotDePasseOublie DateMotDePasseOublie DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', CHANGE OPSNId OPSNId CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:guid)\'');
         $this->addSql('DROP INDEX Code ON Departement');
         $this->addSql('DROP INDEX CodeRegion ON Departement');
         $this->addSql('ALTER TABLE Departement ADD PRIMARY KEY (Code)');
@@ -109,9 +109,9 @@ final class Version20230510152551 extends AbstractMigration
     {
         // $this->addSql('ALTER TABLE `historiqueScore` DROP PRIMARY KEY;');        
         $this->addSql('ALTER TABLE `historiqueScore` DROP `Id`;');        
-        $this->addSql('ALTER TABLE Administrateur DROP INDEX UNIQ_FF8F2A304F98863B, ADD INDEX Identifiant (Identifiant)');
-        $this->addSql('ALTER TABLE Administrateur CHANGE Id Id CHAR(36) NOT NULL, CHANGE IdMotDePasseOublie IdMotDePasseOublie CHAR(36) DEFAULT NULL, CHANGE DateMotDePasseOublie DateMotDePasseOublie DATETIME DEFAULT NULL, CHANGE OPSNId OPSNId CHAR(36) DEFAULT NULL');
-        $this->addSql('CREATE INDEX OPSNId ON Administrateur (OPSNId)');
+        // $this->addSql('ALTER TABLE Administrateur DROP INDEX UNIQ_FF8F2A304F98863B, ADD INDEX Identifiant (Identifiant)');
+        // $this->addSql('ALTER TABLE Administrateur CHANGE Id Id CHAR(36) NOT NULL, CHANGE IdMotDePasseOublie IdMotDePasseOublie CHAR(36) DEFAULT NULL, CHANGE DateMotDePasseOublie DateMotDePasseOublie DATETIME DEFAULT NULL, CHANGE OPSNId OPSNId CHAR(36) DEFAULT NULL');
+        // $this->addSql('CREATE INDEX OPSNId ON Administrateur (OPSNId)');
         $this->addSql('CREATE INDEX Code ON Departement (Code)');
         $this->addSql('CREATE INDEX CodeRegion ON Departement (CodeRegion)');
         $this->addSql('ALTER TABLE Departement DROP PRIMARY KEY');

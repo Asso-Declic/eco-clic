@@ -19,9 +19,8 @@ final class Version20230515122348 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `admin` ADD CONSTRAINT FK_880E0D76BF07875A FOREIGN KEY (OPSNId) REFERENCES opsn (id)');
-        $this->addSql('CREATE INDEX IDX_880E0D76BF07875A ON `admin` (OPSNId)');
+        // $this->addSql('ALTER TABLE `admin` ADD CONSTRAINT FK_880E0D76BF07875A FOREIGN KEY (OPSNId) REFERENCES opsn (id)');
+        // $this->addSql('CREATE INDEX IDX_880E0D76BF07875A ON `admin` (OPSNId)');
         
         $this->addSql('ALTER TABLE answer ADD CONSTRAINT FK_DADD4A25AA0960C5 FOREIGN KEY (IdQuestion) REFERENCES question (id)');
         $this->addSql('CREATE INDEX IDX_DADD4A25AA0960C5 ON answer (IdQuestion)');
@@ -73,15 +72,22 @@ final class Version20230515122348 extends AbstractMigration
         $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D6495E1EF114 FOREIGN KEY (CollectiviteId) REFERENCES collectivite (id)');
         $this->addSql('CREATE INDEX IDX_8D93D6495E1EF114 ON user (CollectiviteId)');
         
+        // Il y a aurait dans cette table des id qui n'existent pas dans la table user. On tente donc d'abord de la supprimer
+        $this->addSql('DELETE FROM user_preference
+        WHERE UtilisateurId IN (
+        SELECT UtilisateurId FROM (
+            SELECT UtilisateurId
+            FROM user_preference LEFT JOIN user ON user_preference.UtilisateurId = user.id
+            WHERE user.id IS NULL
+        ) AS listeASupprimer);');
         $this->addSql('ALTER TABLE user_preference ADD CONSTRAINT FK_FA0E76BF8290D882 FOREIGN KEY (UtilisateurId) REFERENCES user (id)');
         $this->addSql('CREATE INDEX IDX_FA0E76BF8290D882 ON user_preference (UtilisateurId)');
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `admin` DROP FOREIGN KEY FK_880E0D76BF07875A');
-        $this->addSql('DROP INDEX IDX_880E0D76BF07875A ON `admin`');
+        // $this->addSql('ALTER TABLE `admin` DROP FOREIGN KEY FK_880E0D76BF07875A');
+        // $this->addSql('DROP INDEX IDX_880E0D76BF07875A ON `admin`');
 
         $this->addSql('ALTER TABLE answer DROP FOREIGN KEY FK_DADD4A25AA0960C5');
         $this->addSql('DROP INDEX IDX_DADD4A25AA0960C5 ON answer');

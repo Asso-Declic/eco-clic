@@ -19,7 +19,7 @@ final class Version20230510154901 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE Administrateur RENAME COLUMN Id TO id');
+        // $this->addSql('ALTER TABLE Administrateur RENAME COLUMN Id TO id');
         $this->addSql('ALTER TABLE OPSN RENAME COLUMN Id TO id');
         $this->addSql('ALTER TABLE categorie RENAME COLUMN Id TO id');
         $this->addSql('ALTER TABLE collectivite RENAME COLUMN Id TO id');
@@ -35,7 +35,7 @@ final class Version20230510154901 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE Administrateur RENAME COLUMN id TO Id');
+        // $this->addSql('ALTER TABLE Administrateur RENAME COLUMN id TO Id');
         $this->addSql('ALTER TABLE OPSN RENAME COLUMN id TO Id');
         $this->addSql('ALTER TABLE categorie RENAME COLUMN id TO Id');
         $this->addSql('ALTER TABLE collectivite RENAME COLUMN id TO Id');

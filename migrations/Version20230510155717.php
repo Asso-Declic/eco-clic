@@ -19,7 +19,7 @@ final class Version20230510155717 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('RENAME TABLE Administrateur to admin');
+        // $this->addSql('RENAME TABLE Administrateur to admin');
         $this->addSql('RENAME TABLE reponse to answer');
         $this->addSql('RENAME TABLE categorie to category');
         // collectivite est une table correctement nommée
@@ -36,7 +36,7 @@ final class Version20230510155717 extends AbstractMigration
         // theme est une table correctement nommée
         $this->addSql('RENAME TABLE utilisateur to user');
         $this->addSql('RENAME TABLE preference to user_preference');
-        $this->addSql('ALTER TABLE `admin` RENAME INDEX uniq_ff8f2a304f98863b TO UNIQ_880E0D764F98863B;');
+        // $this->addSql('ALTER TABLE `admin` RENAME INDEX uniq_ff8f2a304f98863b TO UNIQ_880E0D764F98863B;');
         $this->addSql('ALTER TABLE user RENAME INDEX uniq_1d1c63b34f98863b TO UNIQ_8D93D6494F98863B;');
         $this->addSql('ALTER TABLE opsn_departement RENAME INDEX idx_bc35eddfbf07875a TO IDX_DB4914C6BF07875A;');
         $this->addSql('ALTER TABLE opsn_departement RENAME INDEX idx_bc35eddf839e14d2 TO IDX_DB4914C6839E14D2;');
@@ -44,11 +44,11 @@ final class Version20230510155717 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE `admin` RENAME INDEX UNIQ_880E0D764F98863B TO uniq_ff8f2a304f98863b;');
+        // $this->addSql('ALTER TABLE `admin` RENAME INDEX UNIQ_880E0D764F98863B TO uniq_ff8f2a304f98863b;');
         $this->addSql('ALTER TABLE user RENAME INDEX UNIQ_8D93D6494F98863B TO uniq_1d1c63b34f98863b;');
         $this->addSql('ALTER TABLE opsn_departement RENAME INDEX IDX_DB4914C6BF07875A TO idx_bc35eddfbf07875a;');
         $this->addSql('ALTER TABLE opsn_departement RENAME INDEX IDX_DB4914C6839E14D2 TO idx_bc35eddf839e14d2;');
-        $this->addSql('RENAME TABLE admin to Administrateur');
+        // $this->addSql('RENAME TABLE admin to Administrateur');
         $this->addSql('RENAME TABLE answer to reponse');
         $this->addSql('RENAME TABLE category to categorie');
         $this->addSql('RENAME TABLE score to historiqueScore');

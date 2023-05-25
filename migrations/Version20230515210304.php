@@ -19,8 +19,7 @@ final class Version20230515210304 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `admin` RENAME INDEX idx_880e0d76bf07875a TO IDX_880E0D76173BE8BE');
+        // $this->addSql('ALTER TABLE `admin` RENAME INDEX idx_880e0d76bf07875a TO IDX_880E0D76173BE8BE');
         $this->addSql('ALTER TABLE answer RENAME INDEX idx_dadd4a25aa0960c5 TO IDX_DADD4A251E27F6BF');
         $this->addSql('ALTER TABLE collectivite RENAME INDEX idx_cfa408a1839e14d2 TO IDX_CFA408A1CCF9E01E');
         $this->addSql('ALTER TABLE collectivite RENAME INDEX idx_cfa408a19c5891a6 TO IDX_CFA408A1C54C8C93');
@@ -46,8 +45,7 @@ final class Version20230515210304 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `admin` RENAME INDEX idx_880e0d76173be8be TO IDX_880E0D76BF07875A');
+        // $this->addSql('ALTER TABLE `admin` RENAME INDEX idx_880e0d76173be8be TO IDX_880E0D76BF07875A');
         $this->addSql('ALTER TABLE answer RENAME INDEX idx_dadd4a251e27f6bf TO IDX_DADD4A25AA0960C5');
         $this->addSql('ALTER TABLE collectivite RENAME INDEX idx_cfa408a1ccf9e01e TO IDX_CFA408A1839E14D2');
         $this->addSql('ALTER TABLE collectivite RENAME INDEX idx_cfa408a1c54c8c93 TO IDX_CFA408A19C5891A6');

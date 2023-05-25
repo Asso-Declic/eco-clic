@@ -19,18 +19,17 @@ final class Version20230515140604 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-
-        $this->addSql('DROP INDEX UNIQ_880E0D764F98863B ON `admin`');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN Identifiant TO username');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_880E0D76F85E0677 ON `admin` (username)');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN MotDePasse TO `password`');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN Mail TO email');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN Nom TO last_name');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN Prenom TO first_name');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN Token TO token');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN Actif TO active');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN SuperAdmin TO super_admin');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN OPSNId TO opsn_id');
+        // $this->addSql('DROP INDEX UNIQ_880E0D764F98863B ON `admin`');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN Identifiant TO username');
+        // $this->addSql('CREATE UNIQUE INDEX UNIQ_880E0D76F85E0677 ON `admin` (username)');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN MotDePasse TO `password`');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN Mail TO email');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN Nom TO last_name');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN Prenom TO first_name');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN Token TO token');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN Actif TO active');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN SuperAdmin TO super_admin');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN OPSNId TO opsn_id');
         $this->addSql('ALTER TABLE `answer` RENAME COLUMN `Type` TO `type`');
         $this->addSql('ALTER TABLE `answer` RENAME COLUMN `Text` TO body');
         $this->addSql('ALTER TABLE `answer` RENAME COLUMN IdQuestion TO question_id');
@@ -171,16 +170,16 @@ final class Version20230515140604 extends AbstractMigration
         $this->addSql('ALTER TABLE `answer` RENAME COLUMN `type` TO `Type`');
         $this->addSql('ALTER TABLE `answer` RENAME COLUMN body TO `Text`');
         $this->addSql('ALTER TABLE `answer` RENAME COLUMN question_id TO IdQuestion');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN `password` TO MotDePasse');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN email TO Mail');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN opsn_id TO OPSNId');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN last_name TO Nom');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN first_name TO Prenom');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN token TO Token');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN active TO Actif');
-        $this->addSql('ALTER TABLE `admin` RENAME COLUMN super_admin TO SuperAdmin');
-        $this->addSql('DROP INDEX UNIQ_880E0D76F85E0677 ON `admin`');
-        $this->addSql('ALTER TABLE `admin` CHANGE username Identifiant VARCHAR(300) NOT NULL');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_880E0D764F98863B ON `admin` (Identifiant)');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN `password` TO MotDePasse');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN email TO Mail');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN opsn_id TO OPSNId');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN last_name TO Nom');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN first_name TO Prenom');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN token TO Token');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN active TO Actif');
+        // $this->addSql('ALTER TABLE `admin` RENAME COLUMN super_admin TO SuperAdmin');
+        // $this->addSql('DROP INDEX UNIQ_880E0D76F85E0677 ON `admin`');
+        // $this->addSql('ALTER TABLE `admin` CHANGE username Identifiant VARCHAR(300) NOT NULL');
+        // $this->addSql('CREATE UNIQUE INDEX UNIQ_880E0D764F98863B ON `admin` (Identifiant)');
     }
 }

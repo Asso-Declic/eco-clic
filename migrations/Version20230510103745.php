@@ -20,7 +20,7 @@ final class Version20230510103745 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // Pas besoin de convertir la base, elle est déjà en utf8mb4 mais
-        $this->addSql('ALTER TABLE Administrateur CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
+        // $this->addSql('ALTER TABLE Administrateur CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
         $this->addSql('ALTER TABLE Departement CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
         $this->addSql('ALTER TABLE OPSN CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
         $this->addSql('ALTER TABLE OPSN_Departement CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
@@ -41,7 +41,7 @@ final class Version20230510103745 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE Administrateur COLLATE utf8mb3_general_ci;');
+        // $this->addSql('ALTER TABLE Administrateur COLLATE utf8mb3_general_ci;');
         $this->addSql('ALTER TABLE Departement COLLATE utf8mb3_general_ci;');
         $this->addSql('ALTER TABLE OPSN COLLATE latin1_swedish_ci;');
         $this->addSql('ALTER TABLE OPSN_Departement COLLATE utf8mb3_general_ci;');
