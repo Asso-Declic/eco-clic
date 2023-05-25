@@ -70,6 +70,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserPreference::class, orphanRemoval: true)]
     private Collection $userPreferences;
 
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $superAdmin = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $superAdmin2 = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?OPSN $opsn = null;
+
     public function __construct()
     {
         $this->userPreferences = new ArrayCollection();
@@ -286,6 +295,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $userPreference->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isSuperAdmin(): ?bool
+    {
+        return $this->superAdmin;
+    }
+
+    public function setSuperAdmin(bool $superAdmin): self
+    {
+        $this->superAdmin = $superAdmin;
+
+        return $this;
+    }
+
+    public function isSuperAdmin2(): ?bool
+    {
+        return $this->superAdmin2;
+    }
+
+    public function setSuperAdmin2(bool $superAdmin2): self
+    {
+        $this->superAdmin2 = $superAdmin2;
+
+        return $this;
+    }
+
+    public function getOpsn(): ?OPSN
+    {
+        return $this->opsn;
+    }
+
+    public function setOpsn(?OPSN $opsn): self
+    {
+        $this->opsn = $opsn;
 
         return $this;
     }

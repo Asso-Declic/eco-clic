@@ -58,10 +58,14 @@ class OPSN
     #[ORM\OneToMany(mappedBy: 'opsn', targetEntity: Collectivite::class)]
     private Collection $collectivites;
 
+    #[ORM\OneToMany(mappedBy: 'opsn', targetEntity: User::class)]
+    private Collection $users;
+
     public function __construct()
     {
         $this->departements = new ArrayCollection();
         $this->collectivites = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -249,6 +253,36 @@ class OPSN
             // set the owning side to null (unless already changed)
             if ($collectivite->getOpsn() === $this) {
                 $collectivite->setOpsn(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setOpsn($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getOpsn() === $this) {
+                $user->setOpsn(null);
             }
         }
 
