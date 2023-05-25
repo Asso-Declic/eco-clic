@@ -96,9 +96,9 @@ final class Version20230509120223 extends AbstractMigration
             `Definition` longtext DEFAULT NULL,
             `InfoComplementaire` longtext DEFAULT NULL,
             `Titre_definition` longtext DEFAULT NULL,
-            `Ordre` int(11) NOT NULL,// TODO Entité
-            `IdParent` char(36) DEFAULT NULL,// TODO Entité
-            `IdRepParent` char(36) DEFAULT NULL// TODO Entité
+            `Ordre` int(11) NOT NULL,
+            `IdParent` char(36) DEFAULT NULL,
+            `IdRepParent` char(36) DEFAULT NULL
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;');
         $this->addSql('CREATE TABLE `recommandation` (
             `Id` char(36) NOT NULL,
@@ -107,20 +107,20 @@ final class Version20230509120223 extends AbstractMigration
             `IdQuestion` char(36) NOT NULL,
             `IdCategorie` char(36) NOT NULL,
             `NiveauReco` int(11) NOT NULL DEFAULT 1,
-            `StatutReco` int(11) DEFAULT 4// TODO Entité
+            `StatutReco` int(11) DEFAULT 4
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;');
         $this->addSql('CREATE TABLE `ref_NiveauReco` (
             `Id` int(11) NOT NULL,
             `Label` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-            `Couleur` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL// TODO Entité
+            `Couleur` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL
           ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;');
-        $this->addSql('CREATE TABLE `ref_Population` (// TODO Entité
+        $this->addSql('CREATE TABLE `ref_Population` (
             `Id` int(3) NOT NULL,
             `TypeCollectivite` char(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
             `MinPop` int(8) NOT NULL,
             `MaxPop` int(8) DEFAULT NULL
           ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;');
-        $this->addSql('CREATE TABLE `ref_StatutReco` (// TODO Entité
+        $this->addSql('CREATE TABLE `ref_StatutReco` (
             `Id` int(11) NOT NULL,
             `Label` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL
           ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;');
@@ -128,14 +128,14 @@ final class Version20230509120223 extends AbstractMigration
             `Id` char(36) NOT NULL,
             `Nom` varchar(250) NOT NULL
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;');
-        $this->addSql('CREATE TABLE `Region` (// TODO Entité
+        $this->addSql('CREATE TABLE `Region` (
             `Code` char(3) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
             `Nom` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL
           ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;');
         $this->addSql('CREATE TABLE `reponse` (
             `Id` char(36) NOT NULL,
             `Type` varchar(50) DEFAULT NULL,
-            `Text` longtext DEFAULT NULL,// TODO Entité
+            `Text` longtext DEFAULT NULL,
             `IdQuestion` char(36) NOT NULL,
             `Ponderation` int(11) NOT NULL
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;');
@@ -147,7 +147,7 @@ final class Version20230509120223 extends AbstractMigration
             `Id` char(36) NOT NULL,
             `Theme` varchar(500) DEFAULT NULL,
             `IdCategorie` char(36) NOT NULL,
-            `Ordre` int(11) NOT NULL// TODO Entité
+            `Ordre` int(11) NOT NULL
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;');
         $this->addSql('CREATE TABLE `utilisateur` (
             `Id` char(36) NOT NULL,
@@ -164,17 +164,17 @@ final class Version20230509120223 extends AbstractMigration
             `DateMotDePasseOublie` datetime DEFAULT NULL,
             `CGU` tinyint(1) NOT NULL DEFAULT 0,
             `IsVerifie` tinyint(1) NOT NULL DEFAULT 0,
-            `SuperAdmin` tinyint(1) NOT NULL DEFAULT 0,// TODO Entité
-            `SuperAdmin2` tinyint(1) NOT NULL DEFAULT 0,// TODO Entité
-            `OPSNId` char(36) DEFAULT NULL// TODO Entité
+            `SuperAdmin` tinyint(1) NOT NULL DEFAULT 0,
+            `SuperAdmin2` tinyint(1) NOT NULL DEFAULT 0,
+            `OPSNId` char(36) DEFAULT NULL
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;');
         $this->addSql('CREATE TABLE `utilisateurReponse` (
             `Id` char(36) NOT NULL,
             `IdQuestion` char(36) NOT NULL,
             `IdReponse` char(36) NOT NULL,
             `CollectiviteId` char(36) NOT NULL,
-            `InputText` longtext DEFAULT NULL,// TODO Entité
-            `Date` datetime NOT NULL DEFAULT current_timestamp()// TODO Entité
+            `InputText` longtext DEFAULT NULL,
+            `Date` datetime NOT NULL DEFAULT current_timestamp()
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;');
         $this->addSql('CREATE TABLE `utilisateurStatut` (
             `Id` char(36) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
@@ -265,6 +265,7 @@ final class Version20230509120223 extends AbstractMigration
         $this->addSql('DROP TABLE `ref_Population`');
         $this->addSql('DROP TABLE `ref_StatutReco`');
         $this->addSql('DROP TABLE `ref_TypeCollectivite`');
+        $this->addSql('DROP TABLE `Region`');
         $this->addSql('DROP TABLE `reponse`');
         $this->addSql('DROP TABLE `Siret_Temporaire`');
         $this->addSql('DROP TABLE `theme`');

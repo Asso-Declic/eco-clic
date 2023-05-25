@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AnswerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,6 +28,14 @@ class Answer
 
     #[ORM\Column]
     private ?int $ponderation = null;
+
+    #[ORM\OneToMany(mappedBy: 'parentAnswer', targetEntity: Question::class)]
+    private Collection $dependentQuestions;
+
+    public function __construct()
+    {
+        $this->dependentQuestions = new ArrayCollection();
+    }
 
     public function getId(): ?string
     {
@@ -76,6 +86,36 @@ class Answer
     public function setPonderation(int $ponderation): self
     {
         $this->ponderation = $ponderation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Question>
+     */
+    public function getDependentQuestions(): Collection
+    {
+        return $this->dependentQuestions;
+    }
+
+    public function addDependentQuestion(Question $dependentQuestion): self
+    {
+        if (!$this->dependentQuestions->contains($dependentQuestion)) {
+            $this->dependentQuestions->add($dependentQuestion);
+            $dependentQuestion->setParentAnswer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDependentQuestion(Question $dependentQuestion): self
+    {
+        if ($this->dependentQuestions->removeElement($dependentQuestion)) {
+            // set the owning side to null (unless already changed)
+            if ($dependentQuestion->getParentAnswer() === $this) {
+                $dependentQuestion->setParentAnswer(null);
+            }
+        }
 
         return $this;
     }

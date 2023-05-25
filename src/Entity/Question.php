@@ -47,10 +47,23 @@ class Question
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: Recommandation::class)]
     private Collection $recommandations;
 
+    #[ORM\Column]
+    private ?int $sortOrder = null;
+
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'children')]
+    private ?self $parent = null;
+
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
+    private Collection $children;
+
+    #[ORM\ManyToOne(inversedBy: 'dependentQuestions')]
+    private ?Answer $parentAnswer = null;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
         $this->recommandations = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
     public function __toString()
@@ -203,6 +216,72 @@ class Question
                 $recommandation->setQuestion(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSortOrder(): ?int
+    {
+        return $this->sortOrder;
+    }
+
+    public function setSortOrder(int $sortOrder): self
+    {
+        $this->sortOrder = $sortOrder;
+
+        return $this;
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): self
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getChildren(): Collection
+    {
+        return $this->children;
+    }
+
+    public function addChild(self $child): self
+    {
+        if (!$this->children->contains($child)) {
+            $this->children->add($child);
+            $child->setParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChild(self $child): self
+    {
+        if ($this->children->removeElement($child)) {
+            // set the owning side to null (unless already changed)
+            if ($child->getParent() === $this) {
+                $child->setParent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getParentAnswer(): ?Answer
+    {
+        return $this->parentAnswer;
+    }
+
+    public function setParentAnswer(?Answer $parentAnswer): self
+    {
+        $this->parentAnswer = $parentAnswer;
 
         return $this;
     }
