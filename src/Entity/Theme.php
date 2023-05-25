@@ -29,6 +29,9 @@ class Theme
     #[ORM\OneToMany(mappedBy: 'theme', targetEntity: Question::class)]
     private Collection $questions;
 
+    #[ORM\Column]
+    private ?int $sortOrder = null;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -95,6 +98,18 @@ class Theme
                 $question->setTheme(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSortOrder(): ?int
+    {
+        return $this->sortOrder;
+    }
+
+    public function setSortOrder(int $sortOrder): self
+    {
+        $this->sortOrder = $sortOrder;
 
         return $this;
     }

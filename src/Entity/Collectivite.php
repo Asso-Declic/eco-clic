@@ -26,13 +26,13 @@ class Collectivite
     #[ORM\JoinColumn(referencedColumnName: 'code')]
     private ?Departement $departement = null;
 
-    #[ORM\Column(length: 14, options: ['fixed' => true])]
+    #[ORM\Column(length: 14, nullable: true, options: ['fixed' => true])]
     private ?string $siret = null;
 
-    #[ORM\Column(length: 500)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $latitude = null;
 
-    #[ORM\Column(length: 500)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $longitude = null;
 
     #[ORM\ManyToOne(targetEntity: CollectiviteType::class, inversedBy: 'collectivites')]

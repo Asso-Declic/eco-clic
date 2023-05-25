@@ -22,9 +22,13 @@ class CollectiviteType
     #[ORM\OneToMany(targetEntity: Collectivite::class, mappedBy: 'type')]
     private Collection $collectivites;
 
+    #[ORM\OneToMany(mappedBy: 'collectiviteType', targetEntity: Population::class)]
+    private Collection $populations;
+
     public function __construct()
     {
         $this->collectivites = new ArrayCollection();
+        $this->populations = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -66,6 +70,36 @@ class CollectiviteType
     {
         if ($this->collectivites->removeElement($collectivite)) {
             $collectivite->setType(null);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Population>
+     */
+    public function getPopulations(): Collection
+    {
+        return $this->populations;
+    }
+
+    public function addPopulation(Population $population): self
+    {
+        if (!$this->populations->contains($population)) {
+            $this->populations->add($population);
+            $population->setCollectiviteType($this);
+        }
+
+        return $this;
+    }
+
+    public function removePopulation(Population $population): self
+    {
+        if ($this->populations->removeElement($population)) {
+            // set the owning side to null (unless already changed)
+            if ($population->getCollectiviteType() === $this) {
+                $population->setCollectiviteType(null);
+            }
         }
 
         return $this;
