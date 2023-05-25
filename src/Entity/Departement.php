@@ -63,7 +63,7 @@ class Departement
         return $this->region;
     }
 
-    public function setRegion(inRegiont $region): self
+    public function setRegion(?Region $region): self
     {
         $this->region = $region;
 
