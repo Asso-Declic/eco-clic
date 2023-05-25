@@ -17,8 +17,9 @@ class Departement
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column]
-    private ?int $regionCode = null;
+    #[ORM\ManyToOne(targetEntity: Region::class, inversedBy: 'departements')]
+    #[ORM\JoinColumn(name: 'region_code', referencedColumnName: 'code')]
+    private ?int $region = null;
 
     #[ORM\ManyToMany(targetEntity: OPSN::class, mappedBy: 'departements')]
     private Collection $OPSNs;
@@ -57,14 +58,14 @@ class Departement
         return $this;
     }
 
-    public function getRegionCode(): ?int
+    public function getRegion(): ?Region
     {
-        return $this->regionCode;
+        return $this->region;
     }
 
-    public function setRegionCode(int $regionCode): self
+    public function setRegion(inRegiont $region): self
     {
-        $this->regionCode = $regionCode;
+        $this->region = $region;
 
         return $this;
     }
