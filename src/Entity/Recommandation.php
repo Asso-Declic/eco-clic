@@ -29,6 +29,10 @@ class Recommandation
     #[ORM\JoinColumn(nullable: false)]
     private ?RecommandationLevel $level = null;
 
+    #[ORM\ManyToOne(inversedBy: 'recommandations')]
+    #[ORM\JoinColumn(nullable: false, options: ['default' => 4])]
+    private ?RecommandationStatus $status = null;
+
     public function __toString()
     {
         return $this->body;
@@ -83,6 +87,18 @@ class Recommandation
     public function setLevel(?RecommandationLevel $level): self
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    public function getStatus(): ?RecommandationStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?RecommandationStatus $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

@@ -227,7 +227,6 @@ final class Version20230509124504 extends AbstractMigration
         (2, 'Réalisée'),
         (3, 'À planifier'),
         (4, 'À définir');");
-        // TODO Pas sûr de l'utilité de modier la cardinalité
         $this->addSql('ALTER TABLE `ref_StatutReco`
             MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;');
         $this->addSql("INSERT INTO `ref_TypeCollectivite` (`Id`, `Nom`) VALUES
