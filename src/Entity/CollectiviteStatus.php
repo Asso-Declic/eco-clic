@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\UserStatusRepository;
+use App\Repository\CollectiviteStatusRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: UserStatusRepository::class)]
-class UserStatus
+#[ORM\Entity(repositoryClass: CollectiviteStatusRepository::class)]
+class CollectiviteStatus
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,7 +20,7 @@ class UserStatus
 
     #[ORM\ManyToOne(inversedBy: 'statuses')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private ?Collectivite $collectivite = null;
 
     #[ORM\Column]
     private ?int $code = null;
@@ -42,14 +42,14 @@ class UserStatus
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getCollectivite(): ?Collectivite
     {
-        return $this->user;
+        return $this->collectivite;
     }
 
-    public function setUser(?User $user): self
+    public function setCollectivite(?Collectivite $collectivite): self
     {
-        $this->user = $user;
+        $this->collectivite = $collectivite;
 
         return $this;
     }

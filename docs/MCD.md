@@ -25,75 +25,61 @@ On supprime `TemporarySiret` qui disparaitra lorsque l'Éco-clic sera ouverte à
 ## MCD Complet
 En recréant les relations qui devraient apparemment exister, ça donne ça. Quand il y a un 2, c'est qu'il y a une redondance de données
 ```mocodo
-:
-RecommandationLevel: id, label
-déterminer, 11 Recommandation, 1N RecommandationLevel
-:
-Theme: id, label, category
-grouper, 1N Category, 11 Theme
-:
-:
-
-RecommandationStatus: id, label
-positionner, 11 Recommandation, 1N RecommandationStatus
-Recommandation: id, title, body, question, level, status
-résoudre, 11 Recommandation, 1N Question
-découler, 11 Question, 1N Theme
-Category: id, name, image, description, sortOrder
-:
-:
-
-:
-définir2, 11 UserStatus, 1N Recommandation
-UserPreference: user, code, _json
-hyérarchiser, 11 Question, 1N Question
-Question: id, question, theme, category, multiple, definition, additionalInformation, definitionTitle, sortOrder, parent, parentAnswer
-classer2, 11 Question, 1N Category
-:
-:
-
-:
-UserStatus: id, recommandation, user, code
-préférer, 11 User, 11 UserPreference
-proposer, 11 Answer, 1N Question
-affilier, 11 Question, 1N Answer
-:
-:
-:
-
-:
-définir, 11 UserStatus, 1N User
-User: id, username, password, email, lastname, firstname, collectivite, admin, token, active, cguChecked, verified, superAdmin, superAdmin2, opsn
-CollectiviteType: id, label
-Answer: id, type, body, question, ponderation
-associer, 1N Answer, 11 CollectiviteAnswer
-:
-:
-
-:
-:
-dépendre, 11 User, 1N Collectivite
-typer, 11 Collectivite, 1N CollectiviteType
-répondre, 1N Collectivite, 11 CollectiviteAnswer
-CollectiviteAnswer: id, answer, collectivite, body, answeredAt
-:
-:
-
-:
-Score: id, collectivite, score, _scoredAt
-enregistrer, 11 Score, 1N Collectivite
-Collectivite: id, name, population, departmentCode, siret, latitude, longitude, type, opsn
-administrer, 11 Collectivite, 1N Departement
-Departement: code, name, regionCode
+Region: code, name
 constituer, 11 Departement, 1N Region
-TemporarySiret: siret, nom
-
-:
 Population: id, TypeCollectivite, minPop, maxPop
 peupler, 1N Population, 11 Collectivite
-accompagner, 11 Collectivite, 1N OPSN
-OPSN: id, name, email, departement,active, logo, phoneNumber, postalAddress, website, siret, latitude, longitude
+User: id, username, password, email, lastname, firstname, collectivite, admin, token, active, cguChecked, verified, superAdmin, superAdmin2, opsn
+préférer, 11 User, 11 UserPreference
+UserPreference: user, code, _json
+:
+:
+
 couvrir, 1N OPSN, 1N Departement
-Region: code, name
+Departement: code, name, regionCode
+administrer, 11 Collectivite, 1N Departement
+dépendre, 11 User, 1N Collectivite
+définir, 11 CollectiviteStatus, 1N Collectivite
+CollectiviteStatus: id, recommandation, user, code
+définir2, 11 CollectiviteStatus, 1N Recommandation
+Recommandation: id, title, body, question, level, status
+:
+
+OPSN: id, name, email, departement,active, logo, phoneNumber, postalAddress, website, siret, latitude, longitude
+accompagner, 11 Collectivite, 1N OPSN
+Collectivite: id, name, population, departmentCode, siret, latitude, longitude, type, opsn
+enregistrer, 11 Score, 1N Collectivite
+Score: id, collectivite, score, _scoredAt
+RecommandationStatus: id, label
+positionner, 11 Recommandation, 1N RecommandationStatus
+déterminer, 11 Recommandation, 1N RecommandationLevel
+
+:
+:
+répondre, 1N Collectivite, 11 CollectiviteAnswer
+typer, 11 Collectivite, 1N CollectiviteType
+CollectiviteType: id, label
+hyérarchiser, 11 Question, 1N Question
+résoudre, 11 Recommandation, 1N Question
+RecommandationLevel: id, label
+
+:
+:
+CollectiviteAnswer: id, answer, collectivite, body, answeredAt
+:
+proposer, 11 Answer, 1N Question
+Question: id, question, theme, category, multiple, definition, additionalInformation, definitionTitle, sortOrder, parent, parentAnswer
+découler, 11 Question, 1N Theme
+Theme: id, label, category
+:
+
+TemporarySiret: siret, nom
+:
+associer, 1N Answer, 11 CollectiviteAnswer
+Answer: id, type, body, question, ponderation
+affilier, 11 Question, 1N Answer
+classer2, 11 Question, 1N Category
+Category: id, name, image, description, sortOrder
+grouper, 1N Category, 11 Theme
 :
 ```

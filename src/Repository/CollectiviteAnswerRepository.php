@@ -93,8 +93,11 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
             ->innerJoin('q.category', 'c')
             ->where('ca.collectivite = :collectivite')
             ->andWhere('c = :category')
+            ->setParameter('collectivite', $collectivite)
+            ->setParameter('category', $category)
             ->groupBy('c.id') 
             ;
+        return $qb->getQuery()->getScalarResult();
     }
 
     public function findScore(Collectivite $collectivite)

@@ -52,10 +52,14 @@ class Collectivite
     #[ORM\OneToMany(mappedBy: 'collectivite', targetEntity: User::class)]
     private Collection $users;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: CollectiviteStatus::class)]
+    private Collection $statuses;
+
     public function __construct()
     {
-        $this->scores = new ArrayCollection();
         $this->collectiviteAnswers = new ArrayCollection();
+        $this->scores = new ArrayCollection();
+        $this->statuses = new ArrayCollection();
         $this->users = new ArrayCollection();
     }
 
@@ -244,6 +248,36 @@ class Collectivite
             // set the owning side to null (unless already changed)
             if ($user->getCollectivite() === $this) {
                 $user->setCollectivite(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CollectiviteStatus>
+     */
+    public function getStatuses(): Collection
+    {
+        return $this->statuses;
+    }
+
+    public function addStatus(CollectiviteStatus $status): self
+    {
+        if (!$this->statuses->contains($status)) {
+            $this->statuses->add($status);
+            $status->setCollectivite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStatus(CollectiviteStatus $status): self
+    {
+        if ($this->statuses->removeElement($status)) {
+            // set the owning side to null (unless already changed)
+            if ($status->getCollectivite() === $this) {
+                $status->setCollectivite(null);
             }
         }
 
