@@ -50,12 +50,4 @@ class CollectiviteController extends AbstractController
         $data = $collectiviteRepository->findInfos($collectivite);
         return $this->json($data);
     }
-
-    #[Route('/progression', name: 'progression')]
-    public function progression(CollectiviteRepository $collectiviteRepository): Response
-    {
-        $collectivite = $this->getUser()->getCollectivite();
-        $data = $collectiviteRepository->findProgression($collectivite);
-        return $this->json(["data" => $data]);
-    }
 }

@@ -7,27 +7,36 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AnswerRepository::class)]
 class Answer
 {
+    #[Groups('answer', 'collectiviteAnswer')]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
+    #[Groups('answer')]
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $type = null;
 
+    #[Groups('answer')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $body = null;
-
+    
+    #[Groups('answer')]
     #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'answers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Question $question = null;
 
+    #[Groups('answer')]
     #[ORM\Column]
     private ?int $ponderation = null;
+
+    #[ORM\OneToMany(mappedBy: 'answer', targetEntity: CollectiviteAnswer::class)]
+    private Collection $collectiviteAnswers;
 
     #[ORM\OneToMany(mappedBy: 'parentAnswer', targetEntity: Question::class)]
     private Collection $dependentQuestions;
@@ -114,6 +123,36 @@ class Answer
             // set the owning side to null (unless already changed)
             if ($dependentQuestion->getParentAnswer() === $this) {
                 $dependentQuestion->setParentAnswer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CollectiviteAnswer>
+     */
+    public function getCollectiviteAnswers(): Collection
+    {
+        return $this->collectiviteAnswers;
+    }
+
+    public function addCollectiviteAnswer(CollectiviteAnswer $collectiviteAnswer): self
+    {
+        if (!$this->collectiviteAnswers->contains($collectiviteAnswer)) {
+            $this->collectiviteAnswers->add($collectiviteAnswer);
+            $collectiviteAnswer->setAnswer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollectiviteAnswer(CollectiviteAnswer $collectiviteAnswer): self
+    {
+        if ($this->collectiviteAnswers->removeElement($collectiviteAnswer)) {
+            // set the owning side to null (unless already changed)
+            if ($collectiviteAnswer->getAnswer() === $this) {
+                $collectiviteAnswer->setAnswer(null);
             }
         }
 

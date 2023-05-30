@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 class Question
 {
-    #[Groups('category')]
+    #[Groups('answer', 'category')]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::GUID)]

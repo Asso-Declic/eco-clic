@@ -2,6 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Answer;
+use App\Entity\Category;
+use App\Entity\Collectivite;
 use App\Entity\Score;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,6 +22,33 @@ class ScoreRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Score::class);
+    }
+
+    public function findScoreForCategory(Category $category, Collectivite $collectivite)
+    {
+        /* Requête d'origine
+            SELECT SUM(reponse.Ponderation) as score, COUNT(reponse.Ponderation) as nb
+            FROM reponse
+            JOIN question ON question.Id = reponse.IdQuestion
+            JOIN categorie ON categorie.Id = question.IdCategorie
+            JOIN utilisateurReponse ON utilisateurReponse.IdReponse = reponse.Id
+            WHERE utilisateurReponse.CollectiviteId = :CollectiviteId
+            AND utilisateurReponse.IdReponse = reponse.Id
+            AND categorie.Id = :CategorieId
+        */
+        $qb = $this->createQueryBuilder('s');
+        $qb->select('SUM(a.ponderation) as score, COUNT(a.ponderation) as nb')
+        ->from(Answer::class, 'a')
+        ->join('a.question', 'q')
+        ->join('q.category', 'c')
+        ->join('a.collectiviteAnswers', 'ca')
+        ->where('ca.collectivite = :collectivite')
+        ->andWhere('ca.answer = a')
+        ->andWhere('c = :category')
+        ->setParameter('collectivite', $collectivite)
+        ->setParameter('category', $category)
+        ;
+        return $qb->getQuery()->getScalarResult();
     }
 
     public function save(Score $entity, bool $flush = false): void

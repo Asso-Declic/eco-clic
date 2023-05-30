@@ -5,15 +5,18 @@ namespace App\Entity;
 use App\Repository\CollectiviteAnswerRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CollectiviteAnswerRepository::class)]
 class CollectiviteAnswer
 {
+    #[Groups('collectiviteAnswer')]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
+    #[Groups('collectiviteAnswer')]
     #[ORM\ManyToOne(targetEntity: Answer::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Answer $answer = null;
@@ -22,6 +25,7 @@ class CollectiviteAnswer
     #[ORM\JoinColumn(nullable: false)]
     private ?Collectivite $collectivite = null;
 
+    #[Groups('collectiviteAnswer')]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $body = null;
 
@@ -38,7 +42,7 @@ class CollectiviteAnswer
         return $this->answer;
     }
 
-    public function setAnswer(Answer $answer): self
+    public function setAnswer(?Answer $answer): self
     {
         $this->answer = $answer;
 

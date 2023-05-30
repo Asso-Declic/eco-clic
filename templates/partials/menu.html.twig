@@ -31,7 +31,7 @@
 
                 <div id="sousMenu" style="display: none;"></div>
                 
-                <a hidden id="reco2" href="recommandations.php" tabindex="2">
+                <a hidden id="reco2" href="{# {{ path('recommandation_index') }} #}" tabindex="2">
                     <img class="iconMenu" src="{{ asset('img/survey.png') }}">
                     <span>Plan d’action</span>
                 </a>
@@ -83,7 +83,7 @@
 
         $userProgression = [];
         $.ajax({
-            url: '/api/collectivite/progression' ,
+            url: '/api/progression' ,
             type: 'GET',
             async: false,
             dataType: 'json',
@@ -134,7 +134,7 @@
                 for (let i = 0; i < data['data'].length; i++) {
 
                     let a = document.createElement('a');
-                    a.setAttribute("href", "categories.php?CategorieId="+data['data'][i].id);
+                    a.setAttribute("href", "/category/" + data['data'][i].id);
                     a.setAttribute("tabindex", "2");
                     document.getElementById('sousMenu').append(a);
 

@@ -69,7 +69,7 @@
                     <div id="Statistiques">
                         <div class="divAcceuil">
                             <div class="divRond" style="margin-right: 0px;">
-                                <img src="./img/statistiques.svg" style="filter: brightness(0) invert(1); padding: 5px; width: 23px; height: 23px;">
+                                <img src="/img/statistiques.svg" style="filter: brightness(0) invert(1); padding: 5px; width: 23px; height: 23px;">
                             </div>
                             <p style="color: #08453F; font-size: 20px; min-inline-size: max-content; margin: 10px;">Statistiques</p>
                             <div id="trait2"></div>
@@ -212,7 +212,7 @@
         $userProgression = [];
         
         $.ajax({
-            url: '/api/collectivite/progression',
+            url: '/api/progression',
             type: 'GET',
             async: false,
             dataType: 'json',
@@ -232,10 +232,10 @@
             async: false,
             dataType: 'json',
             success: function(data) {
-                $Nbquestion = 0;
+                $nb_question = 0;
                 $Nbrep = 0;
                 for (let a = 0; a < data['data'].length; a++) {
-                    $Nbquestion += data['data'][a].nb_question;
+                    $nb_question += data['data'][a].nb_question;
                     if ($userProgression[a] != undefined) {
                         $Nbrep += $userProgression[a].nb_repondu;
                     }
@@ -244,11 +244,11 @@
                     }
                 }
 
-                if ($Nbrep > $Nbquestion) {
-                    $Nbrep = $Nbquestion;
+                if ($Nbrep > $nb_question) {
+                    $Nbrep = $nb_question;
                 }
 
-                if ($Nbrep == $Nbquestion) {
+                if ($Nbrep == $nb_question) {
                     document.getElementById("pasComplet").hidden = true;
                     document.getElementById("complet").hidden = false;
                 } else {
@@ -258,7 +258,7 @@
                 }
 
                 var circumference = 52 * 2 * Math.PI;
-                var percent = ($Nbrep / $Nbquestion) * 100;
+                var percent = ($Nbrep / $nb_question) * 100;
                 const offset = circumference - percent / 100 * circumference;
                 if (offset != 0) {
                     document.querySelector('#cercle0').style.strokeDashoffset = offset;
@@ -312,21 +312,21 @@
                 }
                 
                 // On récupère le nombre de recommandation disponibles que le user a au total que l'on va afficher séparément sur chaque catégories
-                // let nbRecommandationUser = [];
-                // $.ajax({
-                //     url: './AjaxLoader/GetNbRecoUser.php?CollectiviteId=<?php echo SessionHelper::GetCurrentUser()->CollectiviteId; ?>',
-                //     type: 'get',
-                //     async: false,
-                //     dataType: 'json',
-                //     success: function(data2) {
-                //         for (let i = 0; i < data['data'].length; i++) {
-                //             nbRecommandationUser[i] = data2['data'][i].nbRecommandation;
-                //         }
-                //     }
-                // });
+                let nbRecommandationUser = [];
+                $.ajax({
+                    url: '/api/recommandation/totals-per-categories',
+                    type: 'get',
+                    async: false,
+                    dataType: 'json',
+                    success: function(data2) {
+                        for (let i = 0; i < data['data'].length; i++) {
+                            nbRecommandationUser[i] = data2['data'][i].nb_recommandation;
+                        }
+                    }
+                });
 
                 for (let i = 0; i < data['data'].length; i++) {
-                    
+
                     for (let y = 0; y < $userProgression.length; y++) {
                         if ($userProgression[y].category_id == data['data'][i].id) {
                             $userProgression2 = $userProgression[y];
@@ -334,17 +334,21 @@
                         } else {
                             $userProgression2 = undefined;
                         }
-                        
+
                     }
 
                     var circumference2 = 32 * 2 * Math.PI;
                     if ($userProgression2 != undefined) {
+                        if ($userProgression2.nb_repondu > data['data'][i].nb_question) {
+                            $userProgression2.nb_repondu = data['data'][i].nb_question;
+                        }
+
                         var percent2 = ($userProgression2.nb_repondu / data['data'][i].nb_question) * 100;
                     } else {
                         var percent2 = (0 / data['data'][i].nb_question) * 100;
                     }
+                    //percent2 = cercle 
                     const offset2 = circumference2 - percent2 / 100 * circumference2;
-
                     let div1 = document.createElement('div');
                     div1.setAttribute("class", "reco div1 col-xl-5 col-md-12");
                     document.getElementById('recommandations').insertBefore(div1, document.getElementById('last'));
@@ -359,31 +363,31 @@
                     svg.setAttribute("height", "120");
                     div2.append(svg);
 
-                    let circle = document.createElementNS('http://www.w3.org/2000/svg' ,'circle');
-                    circle.setAttribute("id", "cercle"+i);
+                    let circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    circle.setAttribute("id", "cercle" + i);
                     circle.setAttribute("class", "progress-ring__circle");
-                    circle.setAttribute("stroke", "#12857A");
+
                     circle.setAttribute("stroke-width", "3");
                     circle.setAttribute("fill", "#fff");
                     circle.setAttribute("r", "32");
                     circle.setAttribute("cx", "60");
                     circle.setAttribute("cy", "60");
-                    circle.setAttribute("style", "stroke-dasharray: "+circumference2+", "+circumference2+"; stroke-dashoffset: "+offset2+";");
+                    circle.setAttribute("style", "stroke-dasharray: " + circumference2 + ", " + circumference2 + "; stroke-dashoffset: " + offset2 + ";");
                     svg.append(circle);
 
                     let img = document.createElement('img');
                     img.setAttribute("class", "progressContent progressReco");
                     if (data['data'][i].image != null && data['data'][i].image != "") {
                         img.setAttribute("src", "/img/" + data['data'][i].image);
-                        img.setAttribute("alt", data['data'][i].name);
+                        img.setAttribute("alt", data['data'][i].Nom);
                     }
                     div2.append(img);
 
                     let p1 = document.createElement('p');
                     p1.setAttribute("class", "pReco");
-                    p1.textContent = data['data'][i].name;
+                    p1.textContent = data['data'][i].Nom;
                     div2.append(p1);
-                    
+
                     let div3 = document.createElement('div');
                     div3.setAttribute("class", "recoQuestion row");
                     div1.append(div3);
@@ -395,13 +399,25 @@
 
                     let p2 = document.createElement('p');
                     p2.setAttribute("class", "recoNumber");
+                    console.log($userProgression2)
                     if ($userProgression2 != undefined) {
+
+                        if ($userProgression2.nb_repondu > data['data'][i].nb_question) {
+                            $userProgression2.nb_repondu = data['data'][i].nb_question;
+                        }
+
                         p2.textContent = $userProgression2.nb_repondu + "/" + data['data'][i].nb_question;
                         $count = 0;
 
+                        if ($userProgression2.nb_repondu > 0) {
+                            document.getElementById("commencer").innerHTML = "Reprendre";
+                        } else {
+                            document.getElementById("commencer").innerHTML = "Commencer";
+                        }
+
                         if (document.getElementById("commencer").hidden == true && $userProgression2.nb_repondu != data['data'][i].nb_question) {
                             document.getElementById("commencer").hidden = false;
-                            document.getElementById("commencer").href = "categories.php?CategorieId=" + data['data'][i].id;
+                            document.getElementById("commencer").href = "/categories/" + data['data'][i].id;
                         }
                     } else {
                         p2.textContent = 0 + "/" + data['data'][i].nb_question;
@@ -409,7 +425,7 @@
 
                         if (document.getElementById("commencer").hidden == true) {
                             document.getElementById("commencer").hidden = false;
-                            document.getElementById("commencer").href = "categories.php?CategorieId="+data['data'][i].id;
+                            document.getElementById("commencer").href = "/categories/" + data['data'][i].id;
                         }
                     }
                     div3.append(p2);
@@ -430,7 +446,8 @@
 
                     let p4 = document.createElement('p');
                     p4.setAttribute("class", "recoNumber");
-                    p4.textContent = data['data'][i].nbReco;
+                    // p4.textContent = data['data'][i].nbReco;
+                    p4.textContent = nbRecommandationUser[i];
                     div4.append(p4);
 
                     let p5 = document.createElement('p');
@@ -443,12 +460,27 @@
                     div1.append(div5);
 
                     let a = document.createElement('a');
-                    a.setAttribute("href", "categories.php?CategorieId="+data['data'][i].id);
+                    a.setAttribute("href", "/categories/" + data['data'][i].id);
                     div5.append(a);
 
                     let i3 = document.createElement('i');
                     i3.setAttribute("class", "fa-solid fa-arrow-right fa-xl");
                     a.append(i3);
+                    if (percent2 <= 25) {
+                        circle.setAttribute("stroke", "#D64309");
+                        $(".progressReco").addClass("black")
+                        $($(circle).parent().parent().children()[1]).addClass("pictoRed")
+                    }
+                    else if (percent2 >= 26 && percent2 <= 99) {
+                        circle.setAttribute("stroke", "#FFBA4D");
+                        $(".progressReco").addClass("black")
+                        $($(circle).parent().parent().children()[1]).addClass("pictoYellow")
+                    }
+                    else if (percent2 == 100) {
+                        circle.setAttribute("stroke", "#12857A");
+                        $(".progressReco").addClass("black")
+                        $($(circle).parent().parent().children()[1]).addClass("pictoGreen")
+                    }
                 }
             },
             error: function(jqXhr, textStatus, errorThrown) {
