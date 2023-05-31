@@ -55,7 +55,7 @@ class Collectivite
     #[ORM\OneToMany(mappedBy: 'collectivite', targetEntity: User::class)]
     private Collection $users;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: CollectiviteStatus::class)]
+    #[ORM\OneToMany(mappedBy: 'collectivite', targetEntity: CollectiviteStatus::class)]
     private Collection $statuses;
 
     public function __construct()
