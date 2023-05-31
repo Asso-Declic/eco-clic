@@ -215,7 +215,7 @@
                     $userProgression = data.data;
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
-                    alert('Une erreur est survenue');
+                    console.log('Une erreur est survenue');
                 }
             });
 
@@ -285,7 +285,7 @@
                     }
                 },
                 error: function(jqXhr, textStatus, errorThrown) {
-                    alert('Une erreur est survenue');
+                    console.log('Une erreur est survenue');
                 }
             });
 
@@ -313,7 +313,7 @@
                                 $questionnaire[$i].reponse = data1.data;
                             },
                             error: function(jqXhr, textStatus, errorThrown) {
-                                alert('Une erreur est survenue');
+                                console.log('Une erreur est survenue');
                             }
                         });
                     }
@@ -572,7 +572,7 @@
                                                     }
                                                 },
                                                 error: function(jqXhr, textStatus, errorThrown) {
-                                                    alert('Une erreur est survenue');
+                                                    console.log('Une erreur est survenue');
                                                 }
                                             });
                                         }
@@ -580,7 +580,7 @@
                                 }
                             },
                             error: function(jqXhr, textStatus, errorThrown) {
-                                alert('Une erreur est survenue');
+                                console.log('Une erreur est survenue');
                             }
                         });
                     }
@@ -624,7 +624,7 @@
 
                 },
                 error: function(jqXhr, textStatus, errorThrown) {
-                    alert('Une erreur est survenue');
+                    console.log('Une erreur est survenue');
                 }
             });
             userProgression();
@@ -762,7 +762,7 @@
                         }
                     },
                     error: function(jqXhr, textStatus, errorThrown) {
-                        alert('Une erreur est survenue');
+                        console.log('Une erreur est survenue');
                     }
                 });
             }
@@ -806,50 +806,44 @@
         function saveRep($questionId) {
             $elements = document.getElementsByName($questionId);
 
-            $jsonCollectiviteId2 = JSON.stringify("SessionHelper::GetCurrentUser()->CollectiviteI>");
-            $jsonQuestionId2 = JSON.stringify($elements[0].name);
+            $jsonQuestionId2 = $elements[0].name;
             $.ajax({
-                url: './AjaxLoader/DeleteReponseUser.php',
-                type: 'post',
+                url: '/api/collectivite-answer/by-question/' + $jsonQuestionId2,
+                type: 'DELETE',
                 async: false,
                 dataType: 'json',
-                data: {
-                    'CollectiviteId': $jsonCollectiviteId2,
-                    'QuestionId': $jsonQuestionId2
-                }
+                // data: {
+                //     'CollectiviteId': $jsonCollectiviteId2,
+                //     'QuestionId': $jsonQuestionId2
+                // }
             });
 
             for (let i = 0; i < $elements.length; i++) {
                 if ($elements[i].className == "inputRep2") {
                     if ($elements[i].checked == true) {
-                        $jsonCollectiviteId = JSON.stringify("SessionHelper::GetCurrentUser()->CollectiviteI>");
-                        $jsonReponseId = JSON.stringify($elements[i].id);
-                        $jsonQuestionId = JSON.stringify($elements[i].name);
-                        $jsonInputText = JSON.stringify("");
+                        $jsonReponseId = $elements[i].id;
+                        $jsonInputText = "";
                         $.ajax({
-                            url: './AjaxLoader/InsertReponseUser.php',
-                            type: 'post',
+                            url: '/api/collectivite-answer',
+                            type: 'POST',
                             async: true,
                             dataType: 'json',
                             data: {
-                                'CollectiviteId': $jsonCollectiviteId,
-                                'ReponseId': $jsonReponseId,
-                                'QuestionId': $jsonQuestionId,
-                                'InputText': $jsonInputText
+                                'answer_id': $jsonReponseId,
+                                'body': $jsonInputText
                             },
                             beforeSend: function() {
                                 document.getElementById('divSave').hidden = false;
                                 document.getElementById('textSave').innerHTML = "Enregistrement...";
                                 document.getElementById("completed2").style.left = "120px";
                             },
-                            success: function(data) {
-
-                                if (data != 1) {
-                                    alert('Une erreur est survenue');
+                            success: function(data, textStatus, jqXhr) {
+                                if (jqXhr.status != 201) {
+                                    console.log('Une erreur est survenue');
                                 }
                             },
                             error: function(jqXhr, textStatus, errorThrown) {
-                                alert('Une erreur est survenue');
+                                console.log('Une erreur est survenue');
                             },
                             complete: function() {
                                 document.getElementById('textSave').innerHTML = "Enregistré";
@@ -858,8 +852,8 @@
                         });
 
                         $.ajax({
-                            url: './AjaxLoader/GetRepEnfant.php?ReponseId='+$elements[i].id+'&QuestionId='+$elements[i].name+'&CategorieId=$_GET["CategorieId"]',
-                            type: 'get',
+                            url: '/api/question/by-parent-answer/' + $elements[i].id,
+                            type: 'GET',
                             async: false,
                             dataType: 'json',
                             success: function(data) {
@@ -893,27 +887,23 @@
                                 }
                             },
                             error: function(jqXhr, textStatus, errorThrown) {
-                                alert('Une erreur est survenue');
+                                console.log('Une erreur est survenue');
                             }
                         });
 
                     }
                 } else if ($elements[i].className == "inputRep") {
                     if ($elements[i].value != '') {
-                        $jsonCollectiviteId = JSON.stringify("SessionHelper::GetCurrentUser()->CollectiviteI>");
-                        $jsonReponseId = JSON.stringify($elements[i].id);
-                        $jsonQuestionId = JSON.stringify($elements[i].name);
-                        $jsonInputText = JSON.stringify($elements[i].value);
+                        $jsonReponseId = $elements[i].id;
+                        $jsonInputText = $elements[i].value;
                         $.ajax({
-                            url: './AjaxLoader/InsertReponseUser.php',
-                            type: 'post',
+                            url: '/api/collectivite-answer',
+                            type: 'POST',
                             async: true,
                             dataType: 'json',
                             data: {
-                                'CollectiviteId': $jsonCollectiviteId,
-                                'ReponseId': $jsonReponseId,
-                                'QuestionId': $jsonQuestionId,
-                                'InputText': $jsonInputText
+                                'answer_id': $jsonReponseId,
+                                'body': $jsonInputText
                             },
                             beforeSend: function() {
                                 document.getElementById('divSave').hidden = false;
@@ -922,11 +912,11 @@
                             },
                             success: function(data) {
                                 if (data != 1) {
-                                    alert('Une erreur est survenue');
+                                    console.log('Une erreur est survenue');
                                 }
                             },
                             error: function(jqXhr, textStatus, errorThrown) {
-                                alert('Une erreur est survenue');
+                                console.log('Une erreur est survenue');
                             },
                             complete: function() {
                                 document.getElementById('textSave').innerHTML = "Enregistré";
@@ -976,26 +966,22 @@
                     }
                 },
                 error: function(jqXhr, textStatus, errorThrown) {
-                    alert('Une erreur est survenue');
+                    console.log('Une erreur est survenue');
                 }
             });
         }
 
         function userHistorique() {
-            $jsonCollectiviteId3 = JSON.stringify("SessionHelper::GetCurrentUser()->CollectiviteI>");
             $.ajax({
-                url: './AjaxLoader/InsertHistoriqueScore.php',
-                type: 'post',
+                url: '/api/score',
+                type: 'POST',
                 async: true,
                 dataType: 'json',
-                data: {
-                    'CollectiviteId': $jsonCollectiviteId3
-                },
                 success: function(data) {
 
                 },
                 error: function(jqXhr, textStatus, errorThrown) {
-                    alert('Une erreur est survenue');
+                    console.log('Une erreur est survenue');
                 }
             });
         }

@@ -24,17 +24,24 @@ class ScoreRepository extends ServiceEntityRepository
         parent::__construct($registry, Score::class);
     }
 
+    /**
+     * Retourne le score d'une collectivité pour une catégorie
+     *
+     * @param Category $category
+     * @param Collectivite $collectivite
+     * @return array
+     */
     public function findScoreForCategory(Category $category, Collectivite $collectivite)
     {
         /* Requête d'origine
-            SELECT SUM(reponse.Ponderation) as score, COUNT(reponse.Ponderation) as nb
-            FROM reponse
-            JOIN question ON question.Id = reponse.IdQuestion
-            JOIN categorie ON categorie.Id = question.IdCategorie
-            JOIN utilisateurReponse ON utilisateurReponse.IdReponse = reponse.Id
-            WHERE utilisateurReponse.CollectiviteId = :CollectiviteId
-            AND utilisateurReponse.IdReponse = reponse.Id
-            AND categorie.Id = :CategorieId
+        SELECT SUM(reponse.Ponderation) as score, COUNT(reponse.Ponderation) as nb
+        FROM reponse
+        JOIN question ON question.Id = reponse.IdQuestion
+        JOIN categorie ON categorie.Id = question.IdCategorie
+        JOIN utilisateurReponse ON utilisateurReponse.IdReponse = reponse.Id
+        WHERE utilisateurReponse.CollectiviteId = :CollectiviteId
+        AND utilisateurReponse.IdReponse = reponse.Id
+        AND categorie.Id = :CategorieId
         */
         $qb = $this->createQueryBuilder('s');
         $qb->select('SUM(a.ponderation) as score, COUNT(a.ponderation) as nb')

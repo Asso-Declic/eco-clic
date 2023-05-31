@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Answer;
 use App\Entity\Category;
 use App\Entity\Question;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -20,6 +21,20 @@ class QuestionRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Question::class);
+    }
+
+    /**
+     * Retourne le nombre total de questions
+     *
+     * @return int
+     */
+    public function countAllQuestions()
+    {
+        $qb = $this->createQueryBuilder('q')
+            ->select('count(q.id)')
+            ;
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -52,6 +67,16 @@ class QuestionRepository extends ServiceEntityRepository
             ;
 
         return $qb->getQuery()->getScalarResult();
+    }
+
+    public function findByParentAnswer(Answer $answer): array
+    {
+        $qb = $this->createQueryBuilder('q')
+            ->andWhere('q.parentAnswer = :answer')
+            ->setParameter('answer', $answer)
+            ;
+
+        return $qb->getQuery()->getResult();
     }
 
     public function save(Question $entity, bool $flush = false): void

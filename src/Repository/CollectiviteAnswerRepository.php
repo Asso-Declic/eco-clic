@@ -7,6 +7,7 @@ use App\Entity\Collectivite;
 use App\Entity\CollectiviteAnswer;
 use App\Entity\Question;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -22,6 +23,93 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, CollectiviteAnswer::class);
+    }
+
+    /**
+     * Retourne le score d'une collectivité
+     *
+     * @param Collectivite $collectivite
+     * @return array
+     */
+    public function findCurrentScore(Collectivite $collectivite)
+    {
+        /* Requête d'origine
+        SELECT SUM(reponse.Ponderation) as score, COUNT(reponse.Ponderation) as nb
+        FROM `reponse`, `utilisateurReponse` 
+        WHERE utilisateurReponse.CollectiviteId = :CollectiviteId
+        AND utilisateurReponse.IdReponse = reponse.Id
+        */
+        $qb = $this->createQueryBuilder('ca');
+        $qb->select('SUM(a.ponderation) as score, COUNT(a.ponderation) as nb')
+        ->innerJoin('ca.answer', 'a')
+        ->where('ca.collectivite = :collectivite')
+        ->setParameter('collectivite', $collectivite)
+        ;
+
+        return $qb->getQuery()->getScalarResult()[0];
+    }
+
+    public function deleteWithChildrenAnswers(Collectivite $collectivite, Question $question)
+    {
+        /* Requête d'origine
+        DELETE FROM `utilisateurReponse` 
+        WHERE IdQuestion = :IdQuestion 
+        AND CollectiviteId = :CollectiviteId 
+        OR IdQuestion IN (
+            SELECT Id FROM question where IdParent = :IdQuestion3
+            OR IdParent = (SELECT Id FROM question where IdParent = :IdQuestion4) 
+            OR IdParent = (SELECT Id FROM question where IdParent = (SELECT Id FROM question where IdParent = :IdQuestion5)) 
+            OR IdParent = (SELECT Id FROM question 
+            where IdParent = (SELECT Id FROM question where IdParent = (SELECT Id FROM question where IdParent = :IdQuestion6))) 
+            OR IdParent = (SELECT Id FROM question where IdParent = (SELECT Id FROM question where IdParent = :IdQuestion7)) 
+            OR IdParent = (SELECT Id FROM question where IdParent = (SELECT Id FROM question 
+            where IdParent = (SELECT Id FROM question where IdParent = (SELECT Id FROM question where IdParent = :IdQuestion8))))
+        ) 
+        AND CollectiviteId = :CollectiviteId2
+        */
+        $rsm = new ResultSetMapping();
+        $qb = $this->getEntityManager()->createNativeQuery("
+        DELETE ca.*
+        FROM collectivite_answer As ca
+        INNER JOIN answer ON answer.id = ca.answer_id
+        WHERE (answer.question_id = :question_id 
+        OR answer.question_id IN (
+            SELECT id FROM question where parent_id = :question_id
+            OR parent_id = (SELECT id FROM question where parent_id = :question_id) 
+            OR parent_id = (SELECT id FROM question where parent_id = (SELECT id FROM question where parent_id = :question_id)) 
+            OR parent_id = (SELECT id FROM question 
+            where parent_id = (SELECT id FROM question where parent_id = (SELECT id FROM question where parent_id = :question_id))) 
+            OR parent_id = (SELECT id FROM question where parent_id = (SELECT id FROM question where parent_id = :question_id)) 
+            OR parent_id = (SELECT id FROM question where parent_id = (SELECT id FROM question 
+            where parent_id = (SELECT id FROM question where parent_id = (SELECT id FROM question where parent_id = :question_id))))
+        ))
+        AND collectivite_id = :collectivite_id", $rsm)
+        ->setParameter('question_id', $question->getId())
+        ->setParameter('collectivite_id', $collectivite->getId())
+        ;
+
+        return $qb->getResult();
+
+        /* Inspiration pour une optimisation de la requête
+        WITH RECURSIVE answer_hierarchy AS (
+        -- Anchor member: Select the answer you want to delete and its direct children
+        SELECT answer_id, parent_id
+        FROM answers
+        WHERE answer_id = :answerId -- Replace :answerId with the ID of the answer you want to delete
+
+        UNION ALL
+
+        -- Recursive member: Select the children of the previous level
+        SELECT a.answer_id, a.parent_id
+        FROM answers a
+        JOIN answer_hierarchy h ON a.parent_id = h.answer_id
+        )
+        DELETE FROM answers
+        WHERE answer_id IN (
+        SELECT answer_id
+        FROM answer_hierarchy
+        );
+        */
     }
 
     public function findByQuestion(Collectivite $collectivite, Question $question)
