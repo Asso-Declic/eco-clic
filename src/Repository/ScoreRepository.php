@@ -43,19 +43,19 @@ class ScoreRepository extends ServiceEntityRepository
         AND utilisateurReponse.IdReponse = reponse.Id
         AND categorie.Id = :CategorieId
         */
-        $qb = $this->createQueryBuilder('s');
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('SUM(a.ponderation) as score, COUNT(a.ponderation) as nb')
         ->from(Answer::class, 'a')
-        ->join('a.question', 'q')
-        ->join('q.category', 'c')
-        ->join('a.collectiviteAnswers', 'ca')
+        ->innerJoin('a.question', 'q')
+        ->innerJoin('q.category', 'c')
+        ->leftJoin('a.collectiviteAnswers', 'ca')
         ->where('ca.collectivite = :collectivite')
-        ->andWhere('ca.answer = a')
+        // ->andWhere('ca.answer = a')
         ->andWhere('c = :category')
         ->setParameter('collectivite', $collectivite)
         ->setParameter('category', $category)
         ;
-        return $qb->getQuery()->getScalarResult();
+        return $qb->getQuery()->getScalarResult()[0];
     }
 
     public function save(Score $entity, bool $flush = false): void

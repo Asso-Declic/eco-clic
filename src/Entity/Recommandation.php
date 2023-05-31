@@ -9,12 +9,14 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: RecommandationRepository::class)]
 class Recommandation
 {
+    #[Groups(['collectivite_status'])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator("doctrine.uuid_generator")]
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
+    #[Groups(['collectivite_status'])]
     #[ORM\Column(length: 5000, nullable: true)]
     private ?string $title = null;
 

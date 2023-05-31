@@ -11,13 +11,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: RecommandationStatusRepository::class)]
 class RecommandationStatus
 {
-    #[Groups(['recommandation_status'])]
+    #[Groups(['collectivite_status', 'recommandation_status'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['recommandation_status'])]
+    #[Groups(['collectivite_status', 'recommandation_status'])]
     #[ORM\Column(length: 50)]
     private ?string $label = null;
 

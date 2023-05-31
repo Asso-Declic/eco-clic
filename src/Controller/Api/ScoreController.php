@@ -19,7 +19,7 @@ class ScoreController extends AbstractController
     public function browseForCategory(Category $category, ScoreRepository $scoreRepository): Response
     {
         $score = $scoreRepository->findScoreForCategory($category, $this->getUser()->getCollectivite());
-        return $this->json(['data' => $score]);
+        return $this->json($score, 200, [], ['groups' => 'score']);
     }
 
     #[Route('', name: 'add', methods: ['POST'])]

@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: CollectiviteRepository::class)]
 class Collectivite
 {
-    #[Groups(['score'])]
+    #[Groups(['collectivite_status', 'score'])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator("doctrine.uuid_generator")]
