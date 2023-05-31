@@ -16,7 +16,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[Groups('user')]
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator("doctrine.uuid_generator")]
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
