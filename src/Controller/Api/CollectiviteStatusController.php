@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CollectiviteStatusController extends AbstractController
 {
     #[Route('/{id}/{status}', name: 'update', methods: ['PUT'])]
-    public function update(CollectiviteStatusRepository $collectivite, EntityManagerInterface $em, Recommandation $recommandation, string $status): JsonResponse
+    public function update(CollectiviteStatusRepository $collectiviteStatusRepository, EntityManagerInterface $em, Recommandation $recommandation, string $status): JsonResponse
     {
         $collectivite = $this->getUser()->getCollectivite();
 

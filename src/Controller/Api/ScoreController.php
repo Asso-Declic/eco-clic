@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api/score', name: 'api_score_')]
 class ScoreController extends AbstractController
 {
-    #[Route('/{id}', name: 'browse_for_category', methods: ['GET'])]
+    #[Route('/{id}', name: 'browse_for_category', methods: ['GET'], requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
     public function browseForCategory(Category $category, ScoreRepository $scoreRepository): Response
     {
         $score = $scoreRepository->findScoreForCategory($category, $this->getUser()->getCollectivite());

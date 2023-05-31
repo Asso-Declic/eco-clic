@@ -25,7 +25,7 @@ class AnswerController extends AbstractController
         return $this->json(['data' => $questions], 200, [], ['groups' => 'answer']);
     }
 
-    #[Route('/{id}', name: 'read')]
+    #[Route('/{id}', name: 'read', requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
     public function read(Answer $answer)
     {
         return $this->json(['data' => $answer]);

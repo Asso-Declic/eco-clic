@@ -19,7 +19,7 @@ class ProgressionController extends AbstractController
         return $this->json(["data" => $data]);
     }
 
-    #[Route('/by-category/{id}', name: 'by_category')]
+    #[Route('/by-category/{id}', name: 'by_category', requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
     public function byCategory(Category $category, CollectiviteAnswerRepository $collectiviteAnswerRepository): Response
     {
         $collectivite = $this->getUser()->getCollectivite();

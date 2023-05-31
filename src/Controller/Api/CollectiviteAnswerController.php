@@ -23,7 +23,7 @@ class CollectiviteAnswerController extends AbstractController
         return $this->json(['data' => $collectiviteAnswerRepository->findScore($collectivite)]);
     }
 
-    #[Route('/by-question/{id}', name: 'get_by_question', methods: ['GET'])]
+    #[Route('/by-question/{id}', name: 'get_by_question', methods: ['GET'], requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
     public function byQuestion(CollectiviteAnswerRepository $collectiviteAnswerRepository, Question $question): Response
     {
         $collectivite = $this->getUser()->getCollectivite();
@@ -31,7 +31,7 @@ class CollectiviteAnswerController extends AbstractController
         return $this->json(['data' => $collectiviteAnswers], 200, [], ['groups' => 'collectiviteAnswer']);
     }
 
-    #[Route('/by-question/{id}', name: 'delete_by_question', methods: ['DELETE'])]
+    #[Route('/by-question/{id}', name: 'delete_by_question', methods: ['DELETE'], requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
     public function delete(CollectiviteAnswerRepository $collectiviteAnswerRepository, Question $question): Response
     {
         $collectiviteAnswerRepository->deleteWithChildrenAnswers($this->getUser()->getCollectivite(), $question);
