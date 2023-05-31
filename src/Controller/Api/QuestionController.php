@@ -16,7 +16,7 @@ class QuestionController extends AbstractController
     public function byCategory(Category $category, QuestionRepository $questionRepository): JsonResponse
     {
         $questions = $questionRepository->findByCategory($category);
-        return $this->json(['data' => $questions], 200, [], ['groups' => 'question']);
+        return $this->json(['data' => $questions]);
     }
 
     #[Route('/by-parent-answer/{id}', name: 'by_parent_answer', requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]

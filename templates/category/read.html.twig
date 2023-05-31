@@ -299,11 +299,8 @@
                 async: false,
                 dataType: 'json',
                 success: function(data) {
-
                     $questionnaire = data.data;
-
                     for (let $i = 0; $i < data.data.length; $i++) {
-
                         $.ajax({
                             url: '/api/answer/by-question/' + data.data[$i].q_id,
                             type: 'GET',
@@ -319,7 +316,6 @@
                     }
 
                     $theme = [];
-
                     for (let e = 0; e < $questionnaire.length; e++) {
                         if (!$theme.includes($questionnaire[e].theme)) {
                             $theme.push($questionnaire[e].theme);
@@ -327,8 +323,6 @@
                     }
 
                     $count = 1;
-                    
-
                     for (let a = 0; a < $theme.length; a++) {
                         let div1 = document.createElement('div');
                         document.getElementById('questionnaire').append(div1);
@@ -339,7 +333,7 @@
                         div1.append(p);
 
                         for (let o = 0; o < $questionnaire.length; o++) {
-                            if ($questionnaire[o].Theme == $theme[a]) {
+                            if ($questionnaire[o].theme == $theme[a]) {
                                 let div2 = document.createElement('div');
                                 div2.setAttribute("class", "cadreQuestion");
                                 div2.setAttribute("id", $questionnaire[o].id);
@@ -348,9 +342,7 @@
                                 let div3 = document.createElement('div');
                                 div3.setAttribute("class", "num");
                                 div2.append(div3);
-
-                                
-                                if ($questionnaire[o].idParent != null) {
+                                if ($questionnaire[o].parent_id != null) {
                                     if (document.getElementsByClassName("num2")[o-1].textContent == $count-1) {
                                         $count3 = 1;
                                     }
@@ -380,7 +372,6 @@
                                 let div11 = document.createElement('div');
                                 div11.setAttribute("style", "margin-top: 40px;width: 25px;");
                                 div3.append(div11);
-
                                 if ($questionnaire[o].q_definition != null && $questionnaire[o].q_definition != "") {
                                     $def = JSON.stringify($questionnaire[o].q_definition);
                                     if ($questionnaire[o].q_definitionTitle != null && $questionnaire[o].q_definitionTitle != "") {
@@ -425,7 +416,6 @@
                                 let p1 = document.createElement('p');
                                 p1.textContent = $questionnaire[o].q_question;
                                 div6.append(p1);
-
 
                                 if ($questionnaire[o].q_additionalInformation != "" && $questionnaire[o].q_additionalInformation != null) {
                                     let p11 = document.createElement('p');
@@ -515,7 +505,6 @@
 
                     $userRep = [];
                     $questions = [];
-
                     for (let $e = 0; $e < data.data.length; $e++) {
                         $.ajax({
                             url: '/api/collectivite-answer/by-question/' + data.data[$e].q_id,
@@ -529,13 +518,9 @@
                                 }
 
                                 $questions = document.getElementsByName(data.data[$e].q_id);
-
                                 for (let $u = 0; $u < $userRep.length; $u++) {
-
                                     for (let $y = 0; $y < $questions.length; $y++) {
-
                                         if ($userRep[$u].idReponse == $questions[$y].id) {
-
                                             if ($questions[$y].className == 'inputRep2') {
                                                 $questions[$y].checked = true;
                                             } else if ($questions[$y].className == 'inputRep') {
@@ -548,8 +533,7 @@
                                                 async: false,
                                                 dataType: 'json',
                                                 success: function(data) {
-                                                    if (data.data.length != 0) {
-                                                        
+                                                    if (data.data.length != 0) {     
                                                         for (let r = 0; r < data.data.length; r++) {
                                                             if (data.data[r].Visible == "Oui") {
                                                                 document.getElementById(data.data[r].id).hidden = false;

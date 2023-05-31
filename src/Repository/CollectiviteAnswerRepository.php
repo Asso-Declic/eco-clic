@@ -148,7 +148,7 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
         */
         $qb = $this->createQueryBuilder('collectiviteAnswer');
         $qb->select('c.id category_id')
-        ->addSelect($qb->expr()->countDistinct('c.id') . ' AS nb_repondu')
+        ->addSelect($qb->expr()->countDistinct('ca.id') . ' AS nb_repondu')
         ->from('App\Entity\Collectivite', 'coll')
         ->innerJoin('coll.collectiviteAnswers', 'ca')
         ->innerJoin('ca.answer', 'a')
@@ -175,7 +175,7 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
         */
         $qb = $this->createQueryBuilder('ca');
         $qb->select('c.id category_id')
-            ->addSelect($qb->expr()->countDistinct('c.id') . ' AS nb_repondu')
+            ->addSelect($qb->expr()->countDistinct('ca.id') . ' AS nb_repondu')
             ->innerJoin('ca.answer', 'a')
             ->innerJoin('a.question', 'q')
             ->innerJoin('q.category', 'c')
