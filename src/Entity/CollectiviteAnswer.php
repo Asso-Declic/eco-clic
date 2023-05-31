@@ -18,7 +18,7 @@ class CollectiviteAnswer
     private ?string $id = null;
 
     #[Groups('collectiviteAnswer')]
-    #[ORM\ManyToOne(targetEntity: Answer::class)]
+    #[ORM\ManyToOne(targetEntity: Answer::class, inversedBy: 'collectiviteAnswers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Answer $answer = null;
 
