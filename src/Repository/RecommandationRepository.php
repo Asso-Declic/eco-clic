@@ -23,19 +23,54 @@ class RecommandationRepository extends ServiceEntityRepository
         parent::__construct($registry, Recommandation::class);
     }
 
+    public function findByCategory(Category $category, Collectivite $collectivite)
+    {
+        /* Requête d'origine
+        SELECT recommandation.Id, recommandation.Titre, recommandation.Text, categorie.Nom, ref_NiveauReco.Label as NiveauLabel, ref_NiveauReco.Couleur as NiveauCouleur, utilisateurStatut.StatutCode as StatutId, ref_StatutReco.Label as StatutLabel
+        FROM `recommandation`
+        INNER JOIN categorie ON recommandation.IdCategorie = categorie.Id
+        INNER JOIN utilisateurReponse ON recommandation.IdQuestion = utilisateurReponse.IdQuestion
+        INNER JOIN reponse ON utilisateurReponse.IdReponse = reponse.Id
+        INNER JOIN question ON question.Id = reponse.IdQuestion
+        INNER JOIN ref_NiveauReco ON recommandation.NiveauReco = ref_NiveauReco.Id
+        INNER JOIN utilisateurStatut ON recommandation.Id = utilisateurStatut.RecommandationId
+        INNER JOIN ref_StatutReco ON utilisateurStatut.StatutCode = ref_StatutReco.Id
+        WHERE recommandation.IdCategorie = :id
+        AND utilisateurReponse.CollectiviteId = :CollectiviteId
+        AND IF(question.Id = '96bb7d32-432e-11ed-af88-040300000000', reponse.Ponderation = 1, reponse.Ponderation = 0)"
+        */
+        $qb = $this->createQueryBuilder('r');
+        $qb->select('r.id, r.title, r.body, c.name, l.label as level_label, l.color as level_color, s.id as status_id, s.label as status_label')
+            ->innerJoin('r.level', 'l')
+            ->innerJoin('r.status', 's')
+            ->innerJoin('r.question', 'q')
+            ->innerJoin('q.category', 'c')
+            ->innerJoin('q.answers', 'a')
+            ->innerJoin('a.collectiviteAnswers', 'ca')
+            ->where('q.category = :category')
+            ->andWhere('ca.collectivite = :collectivite')
+            // ->andWhere('q.id = :questionId')
+            ->setParameter('category', $category)
+            ->setParameter('collectivite', $collectivite)
+            // ->setParameter('questionId', '96bb7d32-432e-11ed-af88-040300000000')
+            ->orderBy('r.title', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function findTotalsPerCategories(Collectivite $collectivite)
     {
         /* Requête d'origine
         SELECT IFNULL((SELECT COUNT(recommandation.Id)
-                        FROM recommandation
-                        JOIN question ON question.Id = recommandation.IdQuestion
-                        JOIN reponse ON reponse.IdQuestion = question.Id
-                        JOIN utilisateurReponse ON utilisateurReponse.IdReponse = reponse.Id
-                        WHERE utilisateurReponse.CollectiviteId = :CollectiviteId
-                        AND categorie.Id = recommandation.IdCategorie
-                        AND IF(question.Id = '96bb7d32-432e-11ed-af88-040300000000', reponse.Ponderation = 1, reponse.Ponderation = 0)
-                        GROUP BY categorie.Id
-                        ORDER BY categorie.Ordre),0) as nbRecommandation
+                FROM recommandation
+                JOIN question ON question.Id = recommandation.IdQuestion
+                JOIN reponse ON reponse.IdQuestion = question.Id
+                JOIN utilisateurReponse ON utilisateurReponse.IdReponse = reponse.Id
+                WHERE utilisateurReponse.CollectiviteId = :CollectiviteId
+                AND categorie.Id = recommandation.IdCategorie
+                AND IF(question.Id = '96bb7d32-432e-11ed-af88-040300000000', reponse.Ponderation = 1, reponse.Ponderation = 0)
+                GROUP BY categorie.Id
+                ORDER BY categorie.Ordre),0) as nbRecommandation
             FROM categorie
             ORDER BY categorie.Ordre
         */

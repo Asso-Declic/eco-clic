@@ -638,8 +638,8 @@
             } else {
                 document.getElementById('msgReco2').hidden = true;
                 $.ajax({
-                    url: './AjaxLoader/GetRecommandationsCateg.php?CategorieId=$_GET["CategorieId"]&CollectiviteId=SessionHelper::GetCurrentUser()->CollectiviteI>',
-                    type: 'get',
+                    url: '/api/recommandation/by-category/{{ category.id }}',
+                    type: 'GET',
                     async: true,
                     dataType: 'json',
                     success: function(data) {
@@ -673,15 +673,15 @@
                                 div1.append(div9);
 
                                 // for (let t = 0; t < 2; t++) {
-                                    if ($recommandation[i].NiveauLabel != undefined) {
+                                    if ($recommandation[i].level_label != undefined) {
                                         let div15 = document.createElement('div');
                                         div15.setAttribute("id", "NiveauLabel");
-                                        div15.setAttribute('style', "background-color: " + $recommandation[i].NiveauCouleur + ";")
+                                        div15.setAttribute('style', "background-color: " + $recommandation[i].level_color + ";")
                                         div9.append(div15);
 
                                         let p0 = document.createElement('p');
                                         p0.setAttribute("style", "margin: 0px;");
-                                        p0.textContent = $recommandation[i].NiveauLabel;
+                                        p0.textContent = $recommandation[i].level_label;
                                         div15.append(p0);
                                     }
                                 // }
@@ -693,17 +693,17 @@
 
                                 let p6 = document.createElement('p');
                                 p6.setAttribute("style", "display: inline-block; vertical-align: middle; margin-top: 25px");
-                                p6.textContent = $recommandation[i].StatutLabel;
+                                p6.textContent = $recommandation[i].status_label;
                                 div14.append(p6);
 
                                 let button1 = document.createElement('button');
                                 button1.setAttribute("style", "width: 15px; height: 15px; border: none; background: none; padding: 0px; margin-left: 10px; outline: none; vertical-align: -webkit-baseline-middle");
-                                button1.setAttribute('onclick', "openModale('" + $recommandation[i].id + "', '" + $recommandation[i].StatutId + "')");
+                                button1.setAttribute('onclick', "openModale('" + $recommandation[i].id + "', '" + $recommandation[i].status_id + "')");
                                 button1.setAttribute("id", "ouvrir");
                                 div14.append(button1);
                                 
                                 let img1 = document.createElement('img');
-                                img1.setAttribute("src", "./img/Modifier.svg");
+                                img1.setAttribute("src", "/img/Modifier.svg");
                                 img1.setAttribute("style", "display: inline-block; width: 15px; height: 15px; vertical-align: inherit; outline: none");
                                 button1.append(img1);
 
@@ -717,7 +717,7 @@
                                 div16.append(a3);
                                 
                                 let img3 = document.createElement('img');
-                                img3.setAttribute("src", "./img/awesome-plus-circle.svg");
+                                img3.setAttribute("src", "/img/awesome-plus-circle.svg");
                                 img3.setAttribute("style", "margin-right: 10px");
                                 a3.append(img3);
 
@@ -732,7 +732,7 @@
 
                                 let h3bis = document.createElement('p');
                                 h3bis.setAttribute("style", "margin-bottom: 0rem;");
-                                h3bis.textContent = $recommandation[i].Titre;
+                                h3bis.textContent = $recommandation[i].title;
                                 div4.append(h3bis);
 
                                 let div5 = document.createElement('div');
@@ -740,7 +740,7 @@
                                 div3.append(div5);
 
                                 let p = document.createElement('p');
-                                p.textContent = $recommandation[i].Text;
+                                p.textContent = $recommandation[i].body;
                                 div5.append(p);
                             }
                         }
