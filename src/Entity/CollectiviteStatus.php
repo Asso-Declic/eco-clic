@@ -23,8 +23,9 @@ class CollectiviteStatus
     #[ORM\JoinColumn(nullable: false)]
     private ?Collectivite $collectivite = null;
 
-    #[ORM\Column]
-    private ?int $code = null;
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?RecommandationStatus $status = null;
 
     public function getId(): ?int
     {
@@ -55,14 +56,14 @@ class CollectiviteStatus
         return $this;
     }
 
-    public function getCode(): ?int
+    public function getStatus(): ?RecommandationStatus
     {
-        return $this->code;
+        return $this->status;
     }
 
-    public function setCode(int $code): self
+    public function setStatus(?RecommandationStatus $status): self
     {
-        $this->code = $code;
+        $this->status = $status;
 
         return $this;
     }
