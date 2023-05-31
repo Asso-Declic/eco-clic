@@ -58,6 +58,54 @@ class RecommandationRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findFiltersPrio(Collectivite $collectivite)
+    {
+        /* Requête d'origine
+        SELECT recommandation.Id as 'recommandationId', recommandation.Titre, recommandation.Text, question.Question,theme.Id as themeId, theme.Theme, categorie.Id as categorieId, categorie.Nom as 'Categorie', categorie.Img as Img, ref_NiveauReco.Label as NiveauLabel, ref_NiveauReco.Id as NiveauId, ref_NiveauReco.Couleur as NiveauCouleur, utilisateurStatut.StatutCode as StatutId, ref_StatutReco.Label as StatutLabel
+        FROM `recommandation`
+        INNER JOIN question
+        INNER JOIN theme
+        INNER JOIN categorie
+        INNER JOIN ref_NiveauReco ON recommandation.NiveauReco = ref_NiveauReco.Id
+        INNER JOIN utilisateurStatut ON recommandation.Id = utilisateurStatut.RecommandationId
+        INNER JOIN ref_StatutReco ON utilisateurStatut.StatutCode = ref_StatutReco.Id
+        INNER JOIN utilisateurReponse ON recommandation.IdQuestion = utilisateurReponse.IdQuestion
+        INNER JOIN reponse ON utilisateurReponse.IdQuestion = reponse.IdQuestion
+        WHERE utilisateurReponse.CollectiviteId = :CollectiviteId
+        AND utilisateurReponse.IdReponse = reponse.Id
+        AND reponse.Text = 'Non'
+        AND recommandation.IdQuestion = question.Id
+        AND question.IdTheme = theme.Id
+        AND question.IdCategorie = categorie.Id
+
+        -- AND ref_NiveauReco.Id IN ()
+        -- AND ref_StatutReco.Id IN ()
+        -- AND categorie.Id IN ()
+
+        Order by categorie.Ordre
+        */
+
+        $qb = $this->createQueryBuilder('r');
+        $qb->select('r.id as recommandationId, r.title, r.body, q.question, t.id as themeId, t.label as themeName, c.id as categoryId, c.name as categoryName, c.image as categoryImg, l.label as levelLabel, l.id as levelId, l.color as levelColor, s.id as statusId, s.label as statusLabel')
+        ->innerJoin('r.question', 'q')
+        ->innerJoin('q.theme', 't')
+        ->innerJoin('q.category', 'c')
+        ->innerJoin('r.level', 'l')
+        ->innerJoin('r.status', 's')
+        ->innerJoin('q.answers', 'a')
+        ->innerJoin('a.collectiviteAnswers', 'ca')
+        ->where('ca.collectivite = :collectivite')
+        ->setParameter('collectivite', $collectivite)
+        ->andWhere('a.body = :answerBody')
+        ->setParameter('answerBody', 'Non')
+        ->orderBy('c.sortOrder', 'ASC')
+        ;
+        
+        return $qb->getQuery()->getResult();
+
+            
+    }
+
     public function findTotalsPerCategories(Collectivite $collectivite)
     {
         /* Requête d'origine

@@ -29,4 +29,10 @@ class CategoryController extends AbstractController
     {
         return $this->json(['data' => $category], 200, [], ['groups' => 'category']);
     }
+
+    #[Route('/filters', name: 'filters')]
+    public function filters(CategoryRepository $categoryRepository): Response
+    {
+        return $this->json(['data' => $categoryRepository->findFilters()], 200, [], ['groups' => 'category']);
+    }
 }

@@ -32,6 +32,14 @@ class RecommandationController extends AbstractController
         $totals = $recommandationRepository->findTotalsPerCategories($this->getUser()->getCollectivite());
         return $this->json(['data' => $totals]);
     }
+    
+    #[Route('/filters', name: 'filters')]
+    public function filters(RecommandationRepository $recommandationRepository): JsonResponse
+    {
+        $filters = $recommandationRepository->findFilters($this->getUser()->getCollectivite());
+        // return $this->json(['data' => $filters]);
+        return $this->json(['data' => $filters]);
+    }
 }
 
 

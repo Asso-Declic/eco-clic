@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,6 +22,33 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
     
+    public function findFilters()
+    {
+        /* Requte d'origine
+        SELECT categorie.Id, categorie.Nom, null as IdCategorie, Ordre from categorie
+        UNION
+        Select theme.Id, theme.Theme, theme.IdCategorie, null from theme
+        WHERE theme.Id != '0'
+        order by Ordre
+        */
+        // $rsm = new ResultSetMapping();
+        // $query = $this->getEntityManager()->createNativeQuery('
+        //     SELECT category.id, category.name, null AS category_id, sort_order from category
+        //     UNION
+        //     SELECT theme.id, theme.label, theme.category_id, null from theme
+        //     WHERE theme.id != \'0\'
+        //     ORDER BY sort_order', $rsm);
+
+        // return dd($query->getScalarResult());
+        $qb = $this->createQueryBuilder('c');
+        $qb->select('c, t')
+        ->leftJoin('c.themes', 't')
+        ->orderBy('c.sortOrder, t.sortOrder')
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function findInfos()
     {
         /* Requête d'origine
