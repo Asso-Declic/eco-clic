@@ -165,7 +165,7 @@
                 success: function(data) {
                     let statuts = data.data;
                     for (let i = 0; i < data.data.length; i++) {
-                        $("#statut").append('<option value="' + statuts[i].Id + '">' + statuts[i].Label + '</option>');   
+                        $("#statut").append('<option value="' + statuts[i].id + '">' + statuts[i].Label + '</option>');   
                     }
                     
                 }
@@ -191,7 +191,7 @@
         function changeStatut(Id) {
             $.ajax({
                 url: './AjaxLoader/UpdateRecomandationStatut.php?Id=' + Id + '&statutId=' + $("#statut").val() + '&CollectiviteId=SessionHelper::GetCurrentUser()->CollectiviteI>',
-                type: 'post',
+                type: 'POST',
                 async: true,
                 dataType: "html",
                 success: function(data) {
@@ -273,13 +273,13 @@
                 async: true,
                 dataType: 'json',
                 success: function(data) {
-                    document.getElementById("col44").textContent = data.data[0].name;
-                    document.getElementById("description").textContent = data.data[0].description;
-                    if (data.data[0].description == "") {
+                    document.getElementById("col44").textContent = data.data.name;
+                    document.getElementById("description").textContent = data.data.description;
+                    if (data.data.description == "") {
                         $('#description').height("100px");
                     }
                     resize2();
-                    if ($('#description')[0].scrollHeight > $('#description').innerHeight()) {
+                    if ($('#description').scrollHeight > $('#description').innerHeight()) {
                         $("#description").after('<p class="align-items-center d-flex seeMore justify-content-end" onclick="openModal()">Voir plus</p>')
                         $("#description").addClass('seeMoreP')
                     }
@@ -342,7 +342,7 @@
                             if ($questionnaire[o].Theme == $theme[a]) {
                                 let div2 = document.createElement('div');
                                 div2.setAttribute("class", "cadreQuestion");
-                                div2.setAttribute("id", $questionnaire[o].Id);
+                                div2.setAttribute("id", $questionnaire[o].id);
                                 document.getElementById('questionnaire').append(div2);
 
                                 let div3 = document.createElement('div');
@@ -350,7 +350,7 @@
                                 div2.append(div3);
 
                                 
-                                if ($questionnaire[o].IdParent != null) {
+                                if ($questionnaire[o].idParent != null) {
                                     if (document.getElementsByClassName("num2")[o-1].textContent == $count-1) {
                                         $count3 = 1;
                                     }
@@ -489,7 +489,7 @@
 
                                             let input1 = document.createElement('input');
                                             input1.setAttribute("type", "radio");
-                                            input1.setAttribute("id", $questionnaire[o].reponse[y].Id);
+                                            input1.setAttribute("id", $questionnaire[o].reponse[y].id);
                                             input1.setAttribute("name", $questionnaire[o].reponse[y].question.id);
                                             input1.setAttribute("class", "inputRep2");
                                             input1.setAttribute("onclick", "saveRep('" + $questionnaire[o].reponse[y].question.id + "')");
@@ -504,7 +504,7 @@
                                     }
                                 }
 
-                                if ($questionnaire[o].IdParent != null) {
+                                if ($questionnaire[o].idParent != null) {
                                     div2.hidden = true;
                                 } else {
                                     $count += 1;
@@ -534,7 +534,7 @@
 
                                     for (let $y = 0; $y < $questions.length; $y++) {
 
-                                        if ($userRep[$u].IdReponse == $questions[$y].id) {
+                                        if ($userRep[$u].idReponse == $questions[$y].id) {
 
                                             if ($questions[$y].className == 'inputRep2') {
                                                 $questions[$y].checked = true;
@@ -543,7 +543,7 @@
                                             }
 
                                             $.ajax({
-                                                url: './AjaxLoader/GetRepEnfant.php?ReponseId=' + $userRep[$u].IdReponse + '&QuestionId=' + data.data[$e].Id + '&CategorieId=$_GET["CategorieId"]',
+                                                url: './AjaxLoader/GetRepEnfant.php?ReponseId=' + $userRep[$u].idReponse + '&QuestionId=' + data.data[$e].id + '&CategorieId=$_GET["CategorieId"]',
                                                 type: 'get',
                                                 async: false,
                                                 dataType: 'json',
@@ -552,9 +552,9 @@
                                                         
                                                         for (let r = 0; r < data.data.length; r++) {
                                                             if (data.data[r].Visible == "Oui") {
-                                                                document.getElementById(data.data[r].Id).hidden = false;
+                                                                document.getElementById(data.data[r].id).hidden = false;
                                                             } else {
-                                                                document.getElementById(data.data[r].Id).hidden = true;
+                                                                document.getElementById(data.data[r].id).hidden = true;
                                                             }
                                                         }
 
@@ -703,7 +703,7 @@
                                 // }
 
                                 let div14 = document.createElement('div');
-                                div14.setAttribute("class", "" + $recommandation[i].Id)
+                                div14.setAttribute("class", "" + $recommandation[i].id)
                                 div14.setAttribute('style', "padding: 3px 3px 3px 7px;")
                                 div9.append(div14);
 
@@ -714,7 +714,7 @@
 
                                 let button1 = document.createElement('button');
                                 button1.setAttribute("style", "width: 15px; height: 15px; border: none; background: none; padding: 0px; margin-left: 10px; outline: none; vertical-align: -webkit-baseline-middle");
-                                button1.setAttribute('onclick', "openModale('" + $recommandation[i].Id + "', '" + $recommandation[i].StatutId + "')");
+                                button1.setAttribute('onclick', "openModale('" + $recommandation[i].id + "', '" + $recommandation[i].StatutId + "')");
                                 button1.setAttribute("id", "ouvrir");
                                 div14.append(button1);
                                 
@@ -729,7 +729,7 @@
 
                                 let a3 = document.createElement('a');
                                 a3.setAttribute("class", "buttonDetail");
-                                a3.setAttribute("href", "./ficheRecommandation.php?recommandationId=" + $recommandation[i].Id)
+                                a3.setAttribute("href", "./ficheRecommandation.php?recommandationId=" + $recommandation[i].id)
                                 div16.append(a3);
                                 
                                 let img3 = document.createElement('img');
@@ -866,13 +866,13 @@
                                 if (data.data.length != 0) {
                                     for (let r = 0; r < data.data.length; r++) {
                                         if (data.data[r].Visible == "Oui") {
-                                            document.getElementById(data.data[r].Id).hidden = false;
-                                            for (let g = 0; g < document.getElementsByName(data.data[r].Id).length; g++) {
-                                                document.getElementsByName(data.data[r].Id)[g].checked = false;
+                                            document.getElementById(data.data[r].id).hidden = false;
+                                            for (let g = 0; g < document.getElementsByName(data.data[r].id).length; g++) {
+                                                document.getElementsByName(data.data[r].id)[g].checked = false;
                                             }
 
                                         } else {
-                                            document.getElementById(data.data[r].Id).hidden = true;
+                                            document.getElementById(data.data[r].id).hidden = true;
                                         }
                                     }
 
