@@ -108,6 +108,7 @@
                 $("#statut").empty();
             })
 
+            console.log($("#treeviewCateg").dxTreeView);
             ///////////////////////////////////// Devextreme treeview /////////////////////////////////////
             // TODO : Revoir le fonctionnements des trois menus, pour le moment ils ne s'affichent pas
             var treeViewCategCount = 0;
@@ -386,23 +387,23 @@
         }
 
         $.ajax({
-            url: './AjaxLoader/getUserScore.php?CollectiviteId=<?php echo SessionHelper::GetCurrentUser()->CollectiviteId; ?>',
-            type: 'get',
+            url: '/api/score',
+            type: 'GET',
             async: false,
             dataType: 'json',
-            success: function(data) {
+            success: function(globalScore) {
                 // $('#progress')[0].style.backgroundColor = "#E9FBF9";
                 // $('#progress')[0].style.borderRadius = "90px";
                 // $('#progress')[0].style.marginRight = "5px";
-                // document.querySelector('#score').textContent = Math.floor(data['data'][0].score * 100 / data['data'][0].nb)+"/100";
+                // document.querySelector('#score').textContent = Math.floor(globalScore.score * 100 / globalScore.nb)+"/100";
                 // $('#indice').removeAttr('hidden');
 
-                $Nbrep = data['data'][0].nb;
+                $Nbrep = globalScore.nb;
 
                 $('#progress')[0].style.backgroundColor = "#fff";
                 document.getElementById("progress").classList.add("scoreRectangle");
 
-                $score = Math.floor(data['data'][0].score * 100 / data['data'][0].nb);
+                $score = Math.floor(globalScore.score * 100 / globalScore.nb);
 
                 if ($score >= 99) {
                     document.getElementById("A").classList.add("scoreZoom");

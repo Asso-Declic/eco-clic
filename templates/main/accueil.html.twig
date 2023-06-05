@@ -268,7 +268,7 @@
                     // appel ajax qui recup ponderation des questions
                     // TODO : à tester
                     $.ajax({
-                        url: '/api/collectivite-answer/score' ,
+                        url: '/api/score' ,
                         type: 'GET',
                         async: false,
                         dataType: 'json',
@@ -287,7 +287,7 @@
                             $('#progress')[0].style.backgroundColor = "#fff";
                             document.getElementById("progress").classList.add("scoreRectangle");
 
-                            $score = Math.floor(data['data'][0].score * 100 / $PonderationMax[0].nb);
+                            $score = Math.floor(data.score * 100 / $PonderationMax[0].nb);
 
                             if ($score >= 99) {
                                 document.getElementById("A").classList.add("scoreZoom");

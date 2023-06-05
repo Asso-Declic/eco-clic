@@ -16,13 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api/collectivite-answer', name: 'api_collectivite_answer_')]
 class CollectiviteAnswerController extends AbstractController
 {
-    #[Route('/score', name: 'score', methods: ['GET'])]
-    public function score(CollectiviteAnswerRepository $collectiviteAnswerRepository): Response
-    {
-        $collectivite = $this->getUser()->getCollectivite();
-        return $this->json(['data' => $collectiviteAnswerRepository->findScore($collectivite)]);
-    }
-
     #[Route('/by-question/{id}', name: 'get_by_question', methods: ['GET'], requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
     public function byQuestion(CollectiviteAnswerRepository $collectiviteAnswerRepository, Question $question): Response
     {

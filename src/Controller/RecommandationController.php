@@ -14,7 +14,7 @@ class RecommandationController extends AbstractController
     public function browse(): Response
     {
         return $this->render('recommandation/read.html.twig', [
-            'recommandation' => $recommandation,
+            // 'recommandation' => $recommandation,
         ]);
     }
 

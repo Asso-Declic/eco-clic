@@ -203,7 +203,7 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
         ->innerJoin('ca.answer', 'a')
         ->where('ca.collectivite = :collectivite')
         ->setParameter('collectivite', $collectivite);
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()->getSingleResult();
     }
 
     public function save(CollectiviteAnswer $entity, bool $flush = false): void
