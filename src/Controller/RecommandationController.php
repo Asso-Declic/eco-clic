@@ -13,9 +13,7 @@ class RecommandationController extends AbstractController
     #[Route('', name: 'browse', methods: ['GET'])]
     public function browse(): Response
     {
-        return $this->render('recommandation/read.html.twig', [
-            // 'recommandation' => $recommandation,
-        ]);
+        return $this->render('recommandation/browse.html.twig');
     }
 
     #[Route('/{id}', name: 'read', methods: ['GET'], requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
