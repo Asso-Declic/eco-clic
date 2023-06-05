@@ -49,32 +49,16 @@
     </div>
 
 <script>
-// $.ajax({
-//     url: './AjaxLoader/GetRecommandation.php?recommandationId='+ "<?php echo $_GET['recommandationId'] ?>",
-//     type: 'get',
-//     async: false,
-//     dataType: 'json',
-//     success: function(data) {
-//         $recommandation = data.data[0];
-//         $("#CategorieReco").append($recommandation.Categorie);
-//         $("#TitreReco").append($recommandation.Titre);
-//         $("#textReco").text($recommandation.Text);
-//         $("#NiveauReco").text($recommandation.NiveauLabel);
-//         $("#NiveauLabel").css('background-color', $recommandation.NiveauCouleur);
-//         $("#StatutReco").text($recommandation.StatutLabel);
-//     }
-// });
-
 function remplirListeStatut(){
     $.ajax({
-        url: './AjaxLoader/GetRecommandationStatut.php',
-        type: 'get',
+        url: '/api/recommandation-status',
+        type: 'GET',
         async: false,
         dataType: 'json',
         success: function(data) {
-            let statuts = data.data;
-            for (let i = 0; i < data.data.length; i++) {
-                $("#StatutRecoSelect").append('<option value="'+ statuts[i].Id +'">' + statuts[i].Label + '</option>');
+            let statuts = data;
+            for (let i = 0; i < statuts.length; i++) {
+                $("#StatutRecoSelect").append('<option value="'+ statuts[i].id +'">' + statuts[i].label + '</option>');
             }
         }
     });
@@ -83,7 +67,7 @@ function remplirListeStatut(){
 function changeStatut(Id) {
     $.ajax({
         url: './AjaxLoader/UpdateRecomandationStatut.php?Id=' + Id + '&statutId=' + $("#StatutRecoSelect").val() + '&CollectiviteId=<?php echo SessionHelper::GetCurrentUser()->CollectiviteId; ?>',
-        type: 'post',
+        type: 'POST',
         async: true,
         dataType: "html",
         success: function(data) {
@@ -102,11 +86,11 @@ function Modify() {
 
 
     remplirListeStatut();
-    document.getElementById("StatutRecoSelect").value = $recommandation.StatutId
+    document.getElementById("StatutRecoSelect").value = {{ recommandation.status.id }}
 }
 
 function ValiderModif(){
-    changeStatut('<?php echo $_GET['recommandationId'] ?>')
+    changeStatut('{{ recommandation.id }}')
 
     document.getElementById("StatutReco").style.display = "block";
     document.getElementById("StatutRecoSelect").style.display = "none";

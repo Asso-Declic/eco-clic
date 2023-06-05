@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/recommandation', name: 'recommandation_')]
 class RecommandationController extends AbstractController
 {
-    #[Route('', name: 'browse', methods: ['GET'])]
+    #[Route('s', name: 'browse', methods: ['GET'])]
     public function browse(): Response
     {
         return $this->render('recommandation/browse.html.twig');
