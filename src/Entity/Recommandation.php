@@ -27,7 +27,6 @@ class Recommandation
     #[ORM\JoinColumn(nullable: false)]
     private ?Question $question = null;
 
-    // #[ORM\Column(name: 'NiveauReco', type: Types::SMALLstring)]
     #[ORM\ManyToOne(targetEntity: RecommandationLevel::class, inversedBy: 'recommandations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?RecommandationLevel $level = null;

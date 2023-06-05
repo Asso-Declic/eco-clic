@@ -618,12 +618,11 @@
                 async: true,
                 dataType: 'json',
                 success: function(data) {
-                    $recommandation = data.data;
+                    $recommandation = data;
                     if ($recommandation == 0) {
                         document.getElementById('msgReco1').hidden = false;
                     } else {
                         document.getElementById('msgReco1').hidden = true;
-
                         for (let i = 0; i < $recommandation.length; i++) {
                             let div1 = document.createElement('div');
                             div1.setAttribute("class", "cadreReco2");

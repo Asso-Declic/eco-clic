@@ -22,6 +22,11 @@ class RecommandationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Recommandation::class);
     }
+    
+    public function findAllForCollectivite(Collectivite $collectivite)
+    {
+        return $this->createQbForCollectivite($collectivite)->getQuery()->getResult();
+    }
 
     public function findByCategory(Category $category, Collectivite $collectivite)
     {
@@ -39,21 +44,9 @@ class RecommandationRepository extends ServiceEntityRepository
         AND utilisateurReponse.CollectiviteId = :CollectiviteId
         AND IF(question.Id = '96bb7d32-432e-11ed-af88-040300000000', reponse.Ponderation = 1, reponse.Ponderation = 0)"
         */
-        $qb = $this->createQueryBuilder('r');
-        $qb->select('r.id, r.title, r.body, c.name, l.label as level_label, l.color as level_color, s.id as status_id, s.label as status_label')
-            ->innerJoin('r.level', 'l')
-            ->innerJoin('r.status', 's')
-            ->innerJoin('r.question', 'q')
-            ->innerJoin('q.category', 'c')
-            ->innerJoin('q.answers', 'a')
-            ->innerJoin('a.collectiviteAnswers', 'ca')
-            ->where('q.category = :category')
-            ->andWhere('ca.collectivite = :collectivite')
-            // ->andWhere('q.id = :questionId')
-            ->setParameter('category', $category)
-            ->setParameter('collectivite', $collectivite)
-            // ->setParameter('questionId', '96bb7d32-432e-11ed-af88-040300000000')
-            ->orderBy('r.title', 'ASC');
+        $qb = $this->createQbForCollectivite($collectivite)
+            ->andWhere('q.category = :category')
+            ->setParameter('category', $category);
 
         return $qb->getQuery()->getResult();
     }
@@ -184,6 +177,24 @@ class RecommandationRepository extends ServiceEntityRepository
         ;
 
         return $qb->getQuery()->getScalarResult();
+    }
+
+    public function createQbForCollectivite(Collectivite $collectivite)
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->select('r.id, r.title, r.body, c.name as category_name, c.id as category_id, c.image as category_image, l.id as level_id, l.label as level_label, l.color as level_color, s.id as status_id, s.label as status_label, t.id as theme_id, t.label as theme_label, q.question as question')
+            ->innerJoin('r.level', 'l')
+            ->innerJoin('r.status', 's')
+            ->innerJoin('r.question', 'q')
+            ->innerJoin('q.category', 'c')
+            ->innerJoin('q.theme', 't')
+            ->innerJoin('q.answers', 'a')
+            ->innerJoin('a.collectiviteAnswers', 'ca')
+            ->where('ca.collectivite = :collectivite')
+            ->setParameter('collectivite', $collectivite)
+            ->orderBy('r.title', 'ASC');
+
+        return $qb;
     }
 
     public function save(Recommandation $entity, bool $flush = false): void
