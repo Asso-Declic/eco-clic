@@ -56,6 +56,7 @@ class UserController extends AbstractController
             $oldPassword = $form->get('oldPassword')->getData() ?? '';
             $newPassword = $form->get('newPassword')->getData(); // est null si les deux champs sont vides ou sont différents
             if ($passwordHasher->isPasswordValid($user, $oldPassword)) {
+                // TODO : Statuer sur le comportement : doit-on vérifier le mot de passe avant de mettre à jour le profil ?
                 // TODO : Vérifier que le mot de passe comporte au minimum 12 caractères dont : une minuscule, une majuscule, un chiffre et un caractère spécial : /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[+\-_!@#\$%\^&\*])(?=.{12,})/
                 if ($newPassword != null) {
                     $newHashedPassword = $passwordHasher->hashPassword($user, $newPassword);

@@ -14,7 +14,7 @@ class CategoryController extends AbstractController
     #[Route('/infos', name: 'infos')]
     public function infos(CategoryRepository $categoryRepository): Response
     {
-        return $this->json(['data' => $categoryRepository->findInfos()]);
+        return $this->json($categoryRepository->findInfos());
     }
 
     #[Route('/all', name: 'all')]
@@ -27,7 +27,7 @@ class CategoryController extends AbstractController
     #[Route('/{id}', name: 'read', requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
     public function read(Category $category): Response
     {
-        return $this->json(['data' => $category], 200, [], ['groups' => 'category']);
+        return $this->json($category, 200, [], ['groups' => 'category']);
     }
 
     #[Route('/filters', name: 'filters')]

@@ -10,14 +10,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: CollectiviteAnswerRepository::class)]
 class CollectiviteAnswer
 {
-    #[Groups('collectiviteAnswer')]
+    #[Groups(['collectiviteAnswer'])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator("doctrine.uuid_generator")]
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
-    #[Groups('collectiviteAnswer')]
+    #[Groups(['collectiviteAnswer'])]
     #[ORM\ManyToOne(targetEntity: Answer::class, inversedBy: 'collectiviteAnswers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Answer $answer = null;
@@ -26,7 +26,7 @@ class CollectiviteAnswer
     #[ORM\JoinColumn(nullable: false)]
     private ?Collectivite $collectivite = null;
 
-    #[Groups('collectiviteAnswer')]
+    #[Groups(['collectiviteAnswer'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $body = null;
 

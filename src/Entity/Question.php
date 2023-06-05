@@ -12,51 +12,59 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 class Question
 {
-    #[Groups('answer', 'category')]
+    #[Groups(['answer', 'category', 'question'])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator("doctrine.uuid_generator")]
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
-    #[Groups('category')]
+    #[Groups(['category', 'question'])]
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $question = null;
 
     #[ORM\ManyToOne(targetEntity: Theme::class, inversedBy: 'questions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Theme $theme = null;
-
+    
+    #[Groups(['question'])]
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'questions')]
     private ?Category $category = null;
 
+    #[Groups(['question'])]
     #[ORM\Column(options: ['default' => 0])]
     private ?bool $multiple = null;
 
+    #[Groups(['question'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $definition = null;
 
+    #[Groups(['question'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $additionalInformation = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $definitionTitle = null;
 
+    #[Groups(['question'])]
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class, orphanRemoval: true)]
     private Collection $answers;
 
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: Recommandation::class)]
     private Collection $recommandations;
 
+    #[Groups(['question'])]
     #[ORM\Column]
     private ?int $sortOrder = null;
 
+    #[Groups(['question'])]
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'children')]
     private ?self $parent = null;
 
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
     private Collection $children;
 
+    #[Groups(['question'])]
     #[ORM\ManyToOne(inversedBy: 'dependentQuestions')]
     private ?Answer $parentAnswer = null;
 

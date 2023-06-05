@@ -28,14 +28,15 @@ class CollectiviteAnswerController extends AbstractController
     {
         $collectivite = $this->getUser()->getCollectivite();
         $collectiviteAnswers = $collectiviteAnswerRepository->findbyQuestion($collectivite, $question);
-        return $this->json(['data' => $collectiviteAnswers], 200, [], ['groups' => 'collectiviteAnswer']);
+
+        return $this->json($collectiviteAnswers, 200, [], ['groups' => 'collectiviteAnswer']);
     }
 
     #[Route('/by-question/{id}', name: 'delete_by_question', methods: ['DELETE'], requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
     public function delete(CollectiviteAnswerRepository $collectiviteAnswerRepository, Question $question): Response
     {
         $collectiviteAnswerRepository->deleteWithChildrenAnswers($this->getUser()->getCollectivite(), $question);
-        return $this->json('', 203);
+        return $this->json('', 204);
     }
 
     #[Route('', name: 'add', methods: ['POST'])]
@@ -47,7 +48,7 @@ class CollectiviteAnswerController extends AbstractController
 
         $answer = $em->getRepository(Answer::class)->find($answer_id);
         
-        if (!$answer) {
+        if ($answer === null) {
             return $this->json(['error' => 'Answer not found with this id'], 404);
         }
 

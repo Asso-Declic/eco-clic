@@ -31,15 +31,15 @@
 
                 <div id="sousMenu" style="display: none;"></div>
                 
-                <a hidden id="reco2" href="{# {{ path('recommandation_index') }} #}" tabindex="2">
+                <a hidden id="reco2" href="{{ path('recommandation_browse') }}" tabindex="2">
                     <img class="iconMenu" src="{{ asset('img/survey.png') }}">
                     <span>Plan d’action</span>
                 </a>
 
-                {# <a href="statistiques.php" tabindex="2">
+                <a id="stats" href="{{ path('statistics_main') }}" tabindex="2">
                     <img class="iconMenu" src="{{ asset('img/statistiques.svg') }}">
                     <span>Statistiques</span>
-                </a> #}
+                </a>
 
                 {% if is_granted('ROLE_COLLECTIVITE_ADMIN') %}
                     <a id="gestUser" href="parametres.php" tabindex="2" >
@@ -88,7 +88,7 @@
             async: false,
             dataType: 'json',
             success: function(data) {
-                $userProgression = data.data;
+                $userProgression = data;
             },
             error: function(jqXhr, textStatus, errorThrown) {
                 alert('Une erreur est survenue');
@@ -100,11 +100,11 @@
             type: 'get',
             async: false,
             dataType: 'json',
-            success: function(data) {
+            success: function(categoryList) {
                 $Nbquestion = 0;
                 $Nbrep = 0;
-                for (let a = 0; a < data['data'].length; a++) {
-                    $Nbquestion += data['data'][a].nb_question;
+                for (let a = 0; a < categoryList.length; a++) {
+                    $Nbquestion += categoryList[a].nb_question;
                     if ($userProgression[a] != undefined) {
                         $Nbrep += $userProgression[a].nb_repondu;
                     }

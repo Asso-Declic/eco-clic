@@ -121,6 +121,7 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
             AND utilisateurReponse.CollectiviteId = :CollectiviteId
         */
         $qb = $this->createQueryBuilder('ca')
+        ->addSelect('a')
         ->innerJoin('ca.answer', 'a')
         ->where('ca.collectivite = :collectivite')
         ->andWhere('a.question = :question')

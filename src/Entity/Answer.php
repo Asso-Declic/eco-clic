@@ -12,27 +12,27 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: AnswerRepository::class)]
 class Answer
 {
-    #[Groups('answer', 'collectiviteAnswer')]
+    #[Groups(['answer', 'collectiviteAnswer', 'question'])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator("doctrine.uuid_generator")]
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
-    #[Groups('answer')]
+    #[Groups(['answer', 'question'])]
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $type = null;
 
-    #[Groups('answer')]
+    #[Groups(['answer', 'question', 'collectiviteAnswer'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $body = null;
     
-    #[Groups('answer')]
+    #[Groups(['answer'])]
     #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'answers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Question $question = null;
 
-    #[Groups('answer')]
+    #[Groups(['answer', 'question'])]
     #[ORM\Column]
     private ?int $ponderation = null;
 

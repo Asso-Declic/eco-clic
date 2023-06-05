@@ -16,6 +16,6 @@ class RecommandationStatusController extends AbstractController
         /* Requête d'origine
         SELECT Id, Label FROM ref_StatutReco ORDER BY Label
         */
-        return $this->json(['data' => $recommandationStatusRepository->findBy([], ['label' => 'ASC'])], 200, [], ['groups' => 'recommandation_status']);
+        return $this->json($recommandationStatusRepository->findBy([], ['label' => 'ASC']), 200, [], ['groups' => 'recommandation_status']);
     }
 }

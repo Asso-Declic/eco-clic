@@ -73,11 +73,50 @@ class QuestionRepository extends ServiceEntityRepository
 
     public function findByParentAnswer(Answer $answer): array
     {
+        /* Requête d'origine
+        SELECT question.Id, IF(question.IdRepParent = :ReponseId, 'Oui', 'Non') as Visible
+        FROM `question`
+        wHERE question.IdCategorie = :CategorieId
+        AND question.IdParent = :QuestionId
+        OR question.IdParent IN (
+            SELECT Id FROM question where IdParent = :QuestionId2
+            OR IdParent IN (SELECT Id FROM question where IdParent = :QuestionId3) 
+            OR IdParent IN (SELECT Id FROM question where IdParent IN (SELECT Id FROM question where IdParent = :QuestionId4)) 
+            OR IdParent IN (SELECT Id FROM question 
+            where IdParent IN (SELECT Id FROM question where IdParent IN (SELECT Id FROM question where IdParent = :QuestionId5))) 
+            OR IdParent IN (SELECT Id FROM question where IdParent IN (SELECT Id FROM question where IdParent = :QuestionId6)) 
+            OR IdParent IN (SELECT Id FROM question where IdParent IN (SELECT Id FROM question 
+            where IdParent IN (SELECT Id FROM question where IdParent IN (SELECT Id FROM question where IdParent = :QuestionId7))))
+        )
+        */
+        // $qb = $this->createQueryBuilder('q')
+        //     ->addSelect('IF(q.parentAnswer = a.id, \'Oui\', \'Non\') as Visible')
+        //     ->innerJoin('q.answers', 'a')
+        //     // ->where('q.category = :category')
+        //     // ->setParameter('category', $answer->getQuestion()->getCategory()) // TODO : Vérifier que c'est nécessaire
+        //     // ->andWhere('q.parent = :question') // TODO : Vérifier que c'est nécessaire
+        //     // ->setParameter('question', $answer->getQuestion())
+        //     ->andWhere('q.parentAnswer = :answer')
+        //     ->setParameter('answer', $answer)
+        //     ->orWhere('q.parent IN (
+        //         SELECT q2.id FROM App\Entity\Question q2 WHERE q2.parent = a.question
+        //         OR q2.parent IN (SELECT q3.id FROM App\Entity\Question q3 WHERE q3.parent = a.question)
+        //         OR q2.parent IN (SELECT q4.id FROM App\Entity\Question q4 WHERE q4.parent IN (SELECT q5.id FROM App\Entity\Question q5 WHERE q5.parent = a.question))
+        //         OR q2.parent IN (SELECT q6.id FROM App\Entity\Question q6 WHERE q6.parent IN (SELECT q7.id FROM App\Entity\Question q7 WHERE q7.parent IN (SELECT q8.id FROM App\Entity\Question q8 WHERE q8.parent = a.question)))
+        //         OR q2.parent IN (SELECT q9.id FROM App\Entity\Question q9 WHERE q9.parent IN (SELECT q10.id FROM App\Entity\Question q10 WHERE q10.parent = a.question))
+        //         OR q2.parent IN (SELECT q11.id FROM App\Entity\Question q11 WHERE q11.parent IN (SELECT q12.id FROM App\Entity\Question q12 WHERE q12.parent IN (SELECT q13.id FROM App\Entity\Question q13 WHERE q13.parent IN (SELECT q14.id FROM App\Entity\Question q14 WHERE q14.parent = a.question))))
+        //     )')
+        //     ;
+
+        // return dump($qb->getQuery()->getResult());
+
         $qb = $this->createQueryBuilder('q')
-            ->andWhere('q.parentAnswer = :answer')
+            // ->addSelect('IF(q.parentAnswer = a.id, \'Oui\', \'Non\') as Visible')
+            // ->innerJoin('q.answers', 'a')
+            ->Where('q.parentAnswer = :answer')
             ->setParameter('answer', $answer)
             ;
-
+        
         return $qb->getQuery()->getResult();
     }
 

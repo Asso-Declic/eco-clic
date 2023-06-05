@@ -15,8 +15,7 @@ class ProgressionController extends AbstractController
     public function global(CollectiviteAnswerRepository $collectiviteAnswerRepository): Response
     {
         $collectivite = $this->getUser()->getCollectivite();
-        $data = $collectiviteAnswerRepository->findProgression($collectivite);
-        return $this->json(["data" => $data]);
+        return $this->json($collectiviteAnswerRepository->findProgression($collectivite));
     }
 
     #[Route('/by-category/{id}', name: 'by_category', requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
