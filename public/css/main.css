@@ -326,3 +326,7 @@ input {
   margin-right: 5px;
   color: #4D4F5C;
 }
+
+#chart {
+  height: 450px;
+}

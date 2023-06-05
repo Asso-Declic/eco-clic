@@ -917,7 +917,6 @@ h5.skeleton {
     .menuPhone {
         display: block;
         background: #fff;
-        color: #FFFFFF;
         text-align: center;
         padding: 5px;
         padding-bottom: 0px;
@@ -1036,4 +1035,12 @@ h5.skeleton {
         transition: max-height 0.15s ease-in;
         background-color: #016066;
     }
+}
+
+#sidebar.active #logoEcoclic {
+    display: none;
+}
+
+#sidebar.active #faviconEcoclic {
+    display: block !important;
 }
