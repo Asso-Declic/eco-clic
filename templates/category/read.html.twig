@@ -135,12 +135,6 @@
     svg {
         vertical-align: bottom !important;
     }
-
-    /* .progressContent {
-        position: unset;
-        margin-left: 20px;
-    } */
-    
 </style>
 
 <script>
@@ -272,7 +266,7 @@
                     $('#description').height("100px");
                 }
                 resize2();
-                if ($('#description').scrollHeight > $('#description').innerHeight()) {
+                if ($('#description').prop('scrollHeight') > $('#description').innerHeight()) {
                     $("#description").after('<p class="align-items-center d-flex seeMore justify-content-end" onclick="openModal()">Voir plus</p>')
                     $("#description").addClass('seeMoreP')
                 }
