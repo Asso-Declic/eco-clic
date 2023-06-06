@@ -7,20 +7,24 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RecommandationLevelRepository::class)]
 class RecommandationLevel
 {
+    #[Groups(['recommandation_level'])]
     #[ORM\Id]
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     private ?int $id = null;
 
+    #[Groups(['recommandation_level'])]
     #[ORM\Column(length: 50)]
     private ?string $label = null;
 
     #[ORM\OneToMany(mappedBy: 'level', targetEntity: Recommandation::class)]
     private Collection $recommandations;
 
+    #[Groups(['recommandation_level'])]
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $color = null;
 

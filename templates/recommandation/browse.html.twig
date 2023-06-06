@@ -281,14 +281,14 @@
 
         var treeViewCount2 = 0;
         var treeView = $("#treeview2").dxTreeView({
-            dataSource: "./AjaxLoader/GetRecomandationFiltresPrio.php",
+            dataSource: "/api/recommandation-level",
             dataStructure: "plain",
             width: 340,
             height: 320,
             showCheckBoxesMode: "selectAll",
-            keyExpr: "Id",
+            keyExpr: "id",
             selectionMode: "multiple",
-            displayExpr: "Label",
+            displayExpr: "label",
             selectAllText: 'Toutes les prioritées',
             selectByClick: true,
             onSelectionChanged: function(e) {
