@@ -6,16 +6,16 @@ $(function() {
     var makeAsyncDataSource = function() {
         return new DevExpress.data.CustomStore({
             loadMode: "raw",
-            key: "Id",
+            key: "id",
             load: function() {
-                return $.getJSON(`./AjaxLoader/GetUtilisateursCollectivite.php`);
+                return $.getJSON(`/api/user/by-collectivite`);
             }
         });
     }
 
     $("#gridContainer").dxDataGrid({
         dataSource: makeAsyncDataSource(),
-        keyExpr: "Id",
+        keyExpr: "id",
         columnHidingEnabled: true,
         showBorders: true,
         rowAlternationEnabled: false,
@@ -31,26 +31,27 @@ $(function() {
         },
         columns: [{
             caption: "Prénom",
-            dataField: "Prenom",
+            dataField: "firstName",
             width: 150
         }, {
             caption: "Nom",
-            dataField: "Nom",
+            dataField: "lastName",
             width: 150
         }, {
             caption: "Identifiant",
-            dataField: "Identifiant",
+            dataField: "username",
             width: 200
         }, {
             caption: "Mail",
-            dataField: "Mail",
+            dataField: "email",
             // width: 300
         }, {
             caption: "isVerifié",
-            dataField: "MotDePasse",
+            dataField: "verified",
+            // TODO : Vérifier si ça reste utile d'avoir cette fonctionnalité
             cellTemplate: function(container, options) {
                 $("#dx-col-5>.dx-datagrid-text-content.dx-text-content-alignment-right").html('<i class="fas fa-envelope"></i>')
-                if (options.value == 1) {
+                if (options.value === true) {
                     $("<div>").append($(`<i class="fas fa-check-circle vertEcoclic"></i>`)).appendTo(container);
                 } else {
                     var str2 = JSON.stringify(options.data).replaceAll("\"", "\\\"").replaceAll("'", "@|%");
@@ -60,26 +61,26 @@ $(function() {
             width: 80
         }, {
             caption: "Actif / non actif",
-            dataField: "Actif",
+            dataField: "active",
             cellTemplate: function(container, options) {
-                if (options.data.Actif != "self") {
+                if (options.data.active != "self") {
                     $("<div>")
                         .append($(`<div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="customSwitch_${options.data.Id}" onchange='updateActif("${options.data.Id}")'>
-                    <label class="custom-control-label" for="customSwitch_${options.data.Id}" style='cursor:pointer;'></label>
+                    <input type="checkbox" class="custom-control-input" id="customSwitch_${options.data.id}" onchange='updateActive("${options.data.id}")'>
+                    <label class="custom-control-label" for="customSwitch_${options.data.id}" style='cursor:pointer;'></label>
                     </div>`))
                         .appendTo(container);
-                    if (options.data.Actif == 1) {
-                        $(`#customSwitch_${options.data.Id}`).attr("checked", true);
+                    if (options.data.active == 1) {
+                        $(`#customSwitch_${options.data.id}`).attr("checked", true);
                     }
                 } else {
                     $("<div>")
                         .append($(`<div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="customSwitch_${options.data.Id}" disabled>
-                        <label class="custom-control-label" for="customSwitch_${options.data.Id}" style='cursor:pointer;'></label>
+                        <input type="checkbox" class="custom-control-input" id="customSwitch_${options.data.id}" disabled>
+                        <label class="custom-control-label" for="customSwitch_${options.data.id}" style='cursor:pointer;'></label>
                         </div>`))
                         .appendTo(container);
-                    $(`#customSwitch_${options.data.Id}`).attr("checked", true);
+                    $(`#customSwitch_${options.data.id}`).attr("checked", true);
                 }
             },
             width: 150
@@ -111,13 +112,13 @@ $(function() {
         showColonAfterLabel: true,
         labelLocation: "top",
         items: [{
-            dataField: "Id",
+            dataField: "id",
             cssClass: "d-none"
         }, {
             colCount: 2,
             itemType: "group",
             items: [{
-                dataField: "Nom",
+                dataField: "lastName",
                 label: {
                     text: "Nom "
                 },
@@ -126,7 +127,7 @@ $(function() {
                     message: "Nom ne peut pas être vide."
                 }]
             }, {
-                dataField: "Prenom",
+                dataField: "firstName",
                 label: {
                     text: "Prénom "
                 },
@@ -135,7 +136,7 @@ $(function() {
                     message: "Prénom ne peut pas être vide."
                 }]
             }, {
-                dataField: "Identifiant",
+                dataField: "username",
                 label: {
                     text: "Identifiant "
                 },
@@ -154,7 +155,7 @@ $(function() {
                     }
                 }]
             }, {
-                dataField: "Mail",
+                dataField: "email",
                 label: {
                     text: "Mail "
                 },
@@ -166,7 +167,7 @@ $(function() {
                     message: "Mail ne peut pas être vide."
                 }]
             }, {
-                dataField: "Mot_de_passe",
+                dataField: "password",
                 label: {
                     text: "Mot de passe"
                 },
@@ -182,7 +183,7 @@ $(function() {
                 colCount: 2,
                 itemType: "group", 
                 items: [{
-                    dataField: "Administrateur",
+                    dataField: "admin",
                     label: {
                         text: "Droit d\'ajout des utilisateurs "
                     },
@@ -193,7 +194,7 @@ $(function() {
                     }
                 },
                 {
-                    dataField: "Actif",
+                    dataField: "active",
                     label: {
                         text: "Actif "
                     },
@@ -252,7 +253,7 @@ function openModal(data) {
     data = JSON.parse(data.replaceAll('@|%', "'"));
     $('#modaleModifUser').modal('show');
 
-    switch (data.Actif) {
+    switch (data.active) {
         case 1:
             var check = "checked";
             break;
@@ -264,7 +265,7 @@ function openModal(data) {
             break;
     }
 
-    switch (data.Admin) {
+    switch (data.admin) {
         case 1:
             var check2 = "checked";
             break;
@@ -277,19 +278,19 @@ function openModal(data) {
     }
 
     var formModaleModifUser = $("#form-modaleModifUser").dxForm({
-        formData: { Id: data.Id, Nom: data.Nom, Prenom: data.Prenom, Identifiant: data.Identifiant, Mail: data.Mail, Admin: data.Admin, Actif: data.Actif},
+        formData: { id: data.id, lastName: data.lastName, firstName: data.firstName, username: data.username, email: data.email, admin: data.admin, active: data.active},
         readOnly: false,
         showColonAfterLabel: true,
         labelLocation: "top",
         labelMode: 'floating',
         items: [{
-            dataField: "Id",
+            dataField: "id",
             cssClass: "d-none"
         }, {
             colCount: 2,
             itemType: "group",
             items: [{
-                dataField: "Nom",
+                dataField: "lastName",
                 label: {
                     text: "Nom "
                 },
@@ -298,7 +299,7 @@ function openModal(data) {
                     message: "Nom ne peut pas être vide."
                 }]
             }, {
-                dataField: "Prenom",
+                dataField: "firstName",
                 label: {
                     text: "Prénom "
                 },
@@ -307,7 +308,7 @@ function openModal(data) {
                     message: "Prénom ne peut pas être vide."
                 }]
             }, {
-                dataField: "Identifiant",
+                dataField: "username",
                 label: {
                     text: "Identifiant "
                 },
@@ -316,7 +317,7 @@ function openModal(data) {
                     message: "Identifiant ne peut pas être vide."
                 }]
             }, {
-                dataField: "Mail",
+                dataField: "email",
                 label: {
                     text: "Mail "
                 },
@@ -328,7 +329,7 @@ function openModal(data) {
                     message: "Mail ne peut pas être vide."
                 }]
             }, {
-                dataField: "Admin",
+                dataField: "admin",
                 
                 label: {
                     text: 'Droit d\'ajout des utilisateurs',
@@ -414,7 +415,6 @@ function openModal(data) {
 }
 
 function renvoiMail(data) {
-    //Id, Nom, Prenom, Identifiant, Mail
     data = JSON.parse(data.replaceAll('@|%', "'"));
     $.ajax({
         url: './AjaxLoader/ResendMailInscriptionUtilisateur.php',
@@ -422,15 +422,15 @@ function renvoiMail(data) {
         async: true,
         dataType: 'html',
         data: {
-            'Id': data.Id,
-            'Mail': data.Mail
+            'Id': data.id,
+            'Mail': data.email
         },
         success: function(data) {
             $("#gridContainer").dxDataGrid("instance").refresh();
             DevExpress.ui.notify("Le mail d'inscription a été renvoyé");
         },
         error: function(jqXhr, textStatus, errorThrown) {
-            alert('Une erreur est survenue');
+            console.error('Une erreur est survenue');
         }
     });
 }
@@ -449,13 +449,14 @@ function updateActif(utilisateurId) {
             $("#gridContainer").dxDataGrid("instance").refresh()
         },
         error: function(jqXhr, textStatus, errorThrown) {
-            alert('Une erreur est survenue');
+            console.error('Une erreur est survenue');
         }
     });
 }
 
 var sendRequest = function(value) {
     var valid;
+    $identifiant = value.replaceAll('ç', 'c');
     $.ajax({
         url: './AjaxLoader/checkIdentifiant.php',
         type: 'get',
@@ -471,7 +472,7 @@ var sendRequest = function(value) {
             }
         },
         error: function(jqXhr, textStatus, errorThrown) {
-            alert('Une erreur est survenue');
+            console.error('Une erreur est survenue');
         }
     });
     if (valid == -1) {
@@ -530,7 +531,7 @@ function deleteUser(data) {
                             $("#gridContainer").dxDataGrid('refresh')
                         },
                         error: function(jqXhr, textStatus, errorThrown) {
-                            alert('Une erreur est survenue');
+                            console.error('Une erreur est survenue');
                         }
                     })
                     popup.hide();

@@ -53,18 +53,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: true)]
     private ?Collectivite $collectivite = null;
 
+    #[Groups('user')]
     #[ORM\Column]
     private bool $admin = false;
 
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $token = null;
 
+    #[Groups('user')]
     #[ORM\Column]
     private ?bool $active = null;
 
     #[ORM\Column(options: ['default'=>false])]
     private bool $cguChecked = false;
 
+    #[Groups('user')]
     #[ORM\Column( options: ['default'=>false])]
     private bool $verified = false;
 
@@ -126,6 +129,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         if ($this->admin) {
             $roles[] = 'ROLE_COLLECTIVITE_ADMIN';
+        }
+        
+        if ($this->superAdmin) {
+            $roles[] = 'ROLE_ADMIN';
+        }
+
+        if ($this->superAdmin2) {
+            $roles[] = 'ROLE_SUPER_ADMIN';
         }
 
         return array_unique($roles);

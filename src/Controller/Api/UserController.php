@@ -3,7 +3,6 @@
 namespace App\Controller\Api;
 
 use App\Form\UserProfilType;
-use App\Repository\CollectiviteRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,12 +10,35 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 // TODO : Pour faire propre il faudrait envoyer un json qui dit true ou false ou une erreur
 // TODO : Voir pour faire une seule requête vers le serveur avec les deux checks et l'API de l'INSEE
 #[Route('/api/user', name: 'api_user_')]
 class UserController extends AbstractController
 {
+    #[Route('/by-collectivite', name: 'by_collectivite')]
+    public function byCollectivite(UserRepository $userRepository): Response
+    {
+        $user = $this->getUser();
+        $collectivite = $user->getCollectivite();
+        $users = $userRepository->findBy(['collectivite' => $collectivite], ['lastName' => 'ASC']);
+
+        return $this->json($users, 200, [], [
+            'groups' => 'user',
+            // Côté front, on manipule la valeur «self», elle a donc été recréée au moment de la sérialisation
+            AbstractNormalizer::CALLBACKS => [
+                'active' => function ($innerObject, $outerObject) use ($user) {
+                    if ($outerObject == $user) { return 'self'; }
+                    return $innerObject;
+                },
+                'admin' => function ($innerObject, $outerObject) use ($user) {
+                    if ($outerObject == $user) { return 'self'; }
+                    return $innerObject;
+                }],
+        ]);
+    }
+
     #[Route('/check-username/{username}', name: 'check_username')]
     public function checkUsername(string $username, UserRepository $userRepository)
     {
