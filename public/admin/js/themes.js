@@ -194,11 +194,11 @@ $(function() {
             cellTemplate: function(container, options) {
                 if (modifiable) {
                     $("<div>")
-                        .append($(`<a href='./categories.php?id=${options.data.Id}' class='fas fa-pen vertNumeriscore'></a>`))
+                        .append($(`<a href='/categories/${options.data.Id}' class='fas fa-pen vertNumeriscore'></a>`))
                         .appendTo(container);
                 } else {
                     $("<div>")
-                        .append($(`<a href='./categories.php?id=${options.data.Id}' class='fas fa-eye vertNumeriscore'></a>`))
+                        .append($(`<a href='/categories/${options.data.Id}' class='fas fa-eye vertNumeriscore'></a>`))
                         .appendTo(container);
                 }
             },

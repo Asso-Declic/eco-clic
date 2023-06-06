@@ -42,7 +42,7 @@
                 </a>
 
                 {% if is_granted('ROLE_COLLECTIVITE_ADMIN') %}
-                    <a id="gestUser" href="parametres.php" tabindex="2" >
+                    <a id="gestUser" href="{{ path('admin_user_browse') }}" tabindex="2" >
                         <img class="iconMenu" src="{{ asset('img/Icon feather-users.svg') }}">
                         <span>Gestion des utilisateurs</span>
                     </a>

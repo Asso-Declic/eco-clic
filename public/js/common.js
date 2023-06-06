@@ -155,7 +155,7 @@ function GoBack() {
     if (window.location.href.substring(0, 20) == backUrl.substring(0, 20)) {
         window.location.href = backUrl;
     } else {
-        window.location.href = './index.php"';
+        window.location.href = '/';
     }
 }
 

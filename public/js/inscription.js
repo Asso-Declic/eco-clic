@@ -282,7 +282,7 @@ $(function() {
 
     $(".dx-checkbox-text").html('J\'accepte les <a href="#" class="sousligne" data-toggle="modal" data-target="#exampleModal">conditions générales</a>')
     $("[accesskey=return]").on("click", function() {
-        window.location.href = "./index.php"
+        window.location.href = "/"
     })
     $("[accesskey=return]").css('background-color', '#F0F0F0')
     $("[accesskey=return]").css("color", "#08453F")

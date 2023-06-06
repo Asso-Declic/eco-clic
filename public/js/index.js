@@ -15,7 +15,7 @@ $(function() {
     })
 
     $("#annuler").on("click", function() {
-        window.location.href = "./index.php"
+        window.location.href = "/"
     })
 })
 
