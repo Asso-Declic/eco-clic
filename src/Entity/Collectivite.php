@@ -197,7 +197,7 @@ class Collectivite
         return $this;
     }
 
-        /**
+    /**
      * @return Collection<int, Score>
      */
     public function getCollectiviteAnswers(): Collection
@@ -255,6 +255,22 @@ class Collectivite
         }
 
         return $this;
+    }
+
+    /**
+     * Trouve le statut d'une recommandation dans la collection
+     *
+     * @param Recommandation $recommandation
+     * @return CollectiviteStatus|null
+     */
+    public function getStatus(Recommandation $recommandation): ?CollectiviteStatus
+    {
+        foreach ($this->getStatuses() as $status) {
+            if ($status->getRecommandation() === $recommandation) {
+                return $status;
+            }
+        }
+        return null;
     }
 
     /**

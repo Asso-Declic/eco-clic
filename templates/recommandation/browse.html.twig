@@ -526,13 +526,13 @@
             $('#modalOuvrir').modal('hide');
         }
 
-        function changeStatut(Id) {
+        function changeStatut(recommandationId) {
 
             $.ajax({
-                url: './AjaxLoader/UpdateRecomandationStatut.php?Id=' + Id + '&statutId=' + $("#statut").val() + '&CollectiviteId=<?php echo SessionHelper::GetCurrentUser()->CollectiviteId; ?>',
-                type: 'post',
+                url: '/api/collectivite-status/' + recommandationId + '/' + $("#statut").val(),
+                type: 'POST',
                 async: true,
-                dataType: "html",
+                dataType: "json",
                 success: function(data) {
                     closeModale();
                     location.reload();

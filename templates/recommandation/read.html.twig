@@ -18,7 +18,7 @@
         <button onclick="ValiderModif()" id="buttonValider" class="btn btn-blueAdico rounded-pill ml-2 mr-2" style="display: none;">Valider</button>
     </div>
     <div class="page-content" style="margin: 75px 15px 15px 15px;border-top: 1px solid #08433D; display: flex;">
-        <div class="col-9" style="padding: 0px; display: flex;">
+        <div class="col-9" style="padding: 0px;">
             <div class="cadreReco2" style="height: 15vh">
                 <div class="num3" style="height: 15vh"></div>
                 <div class="contenuReco" style="height: 15vh; display: flex;align-items: center; padding-left: 25px;">
@@ -35,7 +35,13 @@
                         <p id="NiveauReco" style="margin:0px;">{{ recommandation.level.label }}</p>
                     </div>
                     <div id="StatutLabel">
-                        <p id="StatutReco" style="margin:0px;">{{ recommandation.status.label }}</p>
+                        <p id="StatutReco" style="margin:0px;">
+                            {% if app.user.collectivite.getStatus(recommandation) is null %}
+                                {{ recommandation.status.label }}
+                            {% else %}
+                                {{ app.user.collectivite.getStatus(recommandation).status.label }}
+                            {% endif %}
+                        </p>
                         <select id="StatutRecoSelect" style="display: none;" class="form-control"></select>
                     </div>
                 </div>
@@ -64,13 +70,13 @@ function remplirListeStatut(){
     });
 }
 
-function changeStatut(Id) {
+function changeStatut(recommandationId) {
     $.ajax({
-        url: './AjaxLoader/UpdateRecomandationStatut.php?Id=' + Id + '&statutId=' + $("#StatutRecoSelect").val() + '&CollectiviteId=<?php echo SessionHelper::GetCurrentUser()->CollectiviteId; ?>',
+        url: '/api/collectivite-status/' + recommandationId + '/' + $("#StatutRecoSelect").val(),
         type: 'POST',
         async: true,
-        dataType: "html",
-        success: function(data) {
+        dataType: "json",
+        success: function() {
             location.reload();
         }
     });
