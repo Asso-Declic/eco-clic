@@ -20,6 +20,7 @@
         DevExpress.localization.locale(navigator.language);
         DevExpress.localization.loadMessages(navigator.language);
     </script>
+    {% block metas %}{% endblock %}
 </head>
 <body>
     {% block header_scripts %}{% endblock %}
@@ -27,7 +28,9 @@
     {# <script>
     </script> #}
     {# Sidebar #}
-    {% include "partials/menu.html.twig" %}
+    {% block menu %}
+        {% include "partials/menu.html.twig" %}
+    {% endblock %}
 {# Page Content #}
 <div id="content" class="container-fluid">
 {# Barre de recherche #}
