@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CollectiviteTypeRepository::class)]
 class CollectiviteType
@@ -17,6 +18,7 @@ class CollectiviteType
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
+    #[Groups(['collectivite'])]
     #[ORM\Column(length: 250)]
     private ?string $label = null;
 

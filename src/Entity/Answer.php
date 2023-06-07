@@ -47,6 +47,11 @@ class Answer
         $this->dependentQuestions = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->body ?? '';
+    }
+
     public function getId(): ?string
     {
         return $this->id;

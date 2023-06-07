@@ -35,6 +35,11 @@
                     <span style="cursor:pointer;">Gestion du profil</span>
                 </a>
 
+                {% if is_granted('ROLE_ADMIN') %}     
+                <a class="dropdown-item text-center" href="{{ path('admin_main_accueil') }}">
+                    <span style="cursor:pointer;">Administration</span>
+                </a>        
+                {% endif %}
                 {# <a class="dropdown-item param-util text-center" id="modifMDP">
                     <span style="cursor:pointer;">Modifier mon mot de passe</span>
                 </a> #}

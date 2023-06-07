@@ -12,32 +12,39 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: CollectiviteRepository::class)]
 class Collectivite
 {
-    #[Groups(['collectivite_status', 'score'])]
+    #[Groups(['collectivite', 'collectivite_status', 'score'])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator("doctrine.uuid_generator")]
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
+    #[Groups(['collectivite'])]
     #[ORM\Column(length: 500)]
     private ?string $name = null;
 
+    #[Groups(['collectivite'])]
     #[ORM\Column]
     private ?int $population = null;
 
+    #[Groups(['collectivite'])]
     #[ORM\ManyToOne(targetEntity: Departement::class, inversedBy: 'collectivites')]
     #[ORM\JoinColumn(referencedColumnName: 'code')]
     private ?Departement $departement = null;
 
+    #[Groups(['collectivite'])]
     #[ORM\Column(length: 14, nullable: true, options: ['fixed' => true])]
     private ?string $siret = null;
 
+    #[Groups(['collectivite'])]
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $latitude = null;
 
+    #[Groups(['collectivite'])]
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $longitude = null;
 
+    #[Groups(['collectivite'])]
     #[ORM\ManyToOne(targetEntity: CollectiviteType::class, inversedBy: 'collectivites')]
     #[ORM\JoinColumn]
     private ?CollectiviteType $type = null;

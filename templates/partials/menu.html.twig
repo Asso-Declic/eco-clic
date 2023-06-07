@@ -1,5 +1,4 @@
 <nav id="sidebar">
-
     <div id="fermer-telephone" class="bouton">
         <p>x</p>
         <div>Fermer</div>
@@ -8,13 +7,12 @@
     <div class="sidebar-header">
         <a href="{{ path('main_accueil') }}">
             <img id="logoEcoclic" src="{{ asset('img/logoEcoclic.png') }}" style="width: -webkit-fill-available;">
-            <img id="faviconEcoclic" src="{{ asset('img/favicon.png') }}" style="display:none; width: -webkit-fill-available;">
+            <img id="faviconEcoclic" src="{{ asset('img/favicon.png') }}" style="display:none; width: 50px; margin: 0 auto;">
         </a>
     </div>
 
     <ul class="list-unstyled components">
         <li>
-
             <div id="scrollNav" style="overflow-x: hidden; overflow-y: auto;">
                 <a id="accueil" href="{{ path('main_accueil') }}" tabindex="2">
                     <img class="iconMenu" src="{{ asset('img/Icongraphcool.svg') }}">
@@ -41,7 +39,7 @@
                     <span>Statistiques</span>
                 </a>
 
-                {% if is_granted('ROLE_COLLECTIVITE_ADMIN') %}
+                {% if is_granted('ROLE_COLLECTIVITE') %}
                     <a id="gestUser" href="{{ path('admin_user_browse') }}" tabindex="2" >
                         <img class="iconMenu" src="{{ asset('img/Icon feather-users.svg') }}">
                         <span>Gestion des utilisateurs</span>
@@ -68,7 +66,7 @@
                         <img src="{{ asset('img/Icon awesome-chevron-circle-left.svg') }}" alt="Tableau de bord" style="margin-left: 30px;">
                         Réduire le menu
                     </h3>
-                    <img src="{{ asset('img/menuBurger.svg') }}" id="retrecirBoutonP" alt="Menu" style="margin-left: 5px;">
+                    <i style='cursor: pointer; font-size: 19px;' id="retrecirBoutonP" class="fa-solid fa-bars"></i>
                 </a>
 
             </div>

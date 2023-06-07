@@ -35,13 +35,14 @@ security:
         - { path: ^/(connexion|inscription|reset-password), roles: PUBLIC_ACCESS }
         - { path: ^/api/collectivite/check-siret, roles: PUBLIC_ACCESS }
         - { path: ^/api/user/check-username, roles: PUBLIC_ACCESS }
-        - { path: ^/admin/utilisateurs, roles: ROLE_COLLECTIVITE_ADMIN }
+        - { path: ^/admin/utilisateurs, roles: ROLE_COLLECTIVITE }
+        - { path: ^/admin/(opsn|collectivites), roles: ROLE_ADMIN }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/, roles: ROLE_USER }
 
     role_hierarchy:
-        ROLE_COLLECTIVITE_ADMIN: ROLE_USER
-        ROLE_ADMIN : ROLE_COLLECTIVITE_ADMIN
+        ROLE_COLLECTIVITE: ROLE_USER
+        ROLE_ADMIN : ROLE_COLLECTIVITE
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 
 when@test:

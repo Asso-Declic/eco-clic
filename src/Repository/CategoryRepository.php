@@ -85,6 +85,17 @@ class CategoryRepository extends ServiceEntityRepository
         return $qb->getQuery()->getScalarResult();
     }
 
+    public function findWithQuestions()
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->select('c, q')
+        ->leftJoin('c.questions', 'q')
+        ->orderBy('c.sortOrder, q.sortOrder')
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function save(Category $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

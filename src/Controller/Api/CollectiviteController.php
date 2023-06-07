@@ -11,6 +11,13 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api/collectivite', name: 'api_collectivite_')]
 class CollectiviteController extends AbstractController
 {
+    #[Route('/by-opsn', name: 'by_opsn')]
+    public function byOpsn(CollectiviteRepository $collectiviteRepository)
+    {
+        $collectivites = $collectiviteRepository->findBy(['opsn' => $this->getUser()->getOpsn()]);
+        return $this->json($collectivites, 200, [], ['groups' => 'collectivite']);
+    }
+    
     // TODO : ajouter un requirement pour la forme du siret
     #[Route('/check-siret/{siret}', name: 'check_siret')]
     public function checkSiret(CollectiviteRepository $collectiviteRepository, string $siret)
