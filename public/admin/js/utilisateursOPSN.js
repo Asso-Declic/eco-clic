@@ -210,17 +210,22 @@ $(function() {
     })
 })
 var sendRequest = function(value) {
+    $identifiant = value.replaceAll('ç', 'c');
     var valid;
     $.ajax({
-        url: '../AjaxLoader/checkIdentifiantAdmin.php',
+        url: '../AjaxLoader/checkIdentifiant.php',
         type: 'get',
         async: false,
         dataType: 'html',
         data: {
-            'Identifiant': value,
+            'Identifiant': $identifiant,
         },
         success: function(data) {
-            valid = data
+            if (data != "") {
+                valid = -1;
+            } else {
+                valid = "";
+            }
         },
         error: function(jqXhr, textStatus, errorThrown) {
             alert('Une erreur est survenue');
@@ -324,12 +329,30 @@ function openModal(id, nom, prenom, identifiant, mail, actif) {
 }
 
 function renvoiMail(Id, Nom, Prenom, Identifiant, Mail) {
-    DevExpress.ui.notify("Le mail de changement de mot de passe a été envoyé");
+    //Id, Nom, Prenom, Identifiant, Mail
+    data = JSON.parse(data.replaceAll('@|%', "'"));
+    $.ajax({
+        url: '../AjaxLoader/ResendMailInscriptionUtilisateurAdmin.php',
+        type: 'post',
+        async: true,
+        dataType: 'html',
+        data: {
+            'Id': Id,
+            'Mail': Mail
+        },
+        success: function(data) {
+            $("#gridContainer").dxDataGrid("instance").refresh();
+            DevExpress.ui.notify("Le mail d'inscription a été renvoyé");
+        },
+        error: function(jqXhr, textStatus, errorThrown) {
+            alert('Une erreur est survenue');
+        }
+    });
 }
 
 function updateActif(utilisateurId) {
     $.ajax({
-        url: '../AjaxLoader/UpdateActifAdmin.php',
+        url: '../AjaxLoader/UpdateActif.php',
         type: 'post',
         async: true,
         dataType: 'html',

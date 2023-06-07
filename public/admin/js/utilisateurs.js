@@ -209,17 +209,22 @@ $(function() {
     })
 })
 var sendRequest = function(value) {
+    $identifiant = value.replaceAll('ç', 'c');
     var valid;
     $.ajax({
-        url: '../AjaxLoader/checkIdentifiantAdmin.php',
+        url: '../AjaxLoader/checkIdentifiant.php',
         type: 'get',
         async: false,
         dataType: 'html',
         data: {
-            'Identifiant': value,
+            'Identifiant': $identifiant,
         },
         success: function(data) {
-            valid = data
+            if (data != "") {
+                valid = -1;
+            } else {
+                valid = "";
+            }
         },
         error: function(jqXhr, textStatus, errorThrown) {
             alert('Une erreur est survenue');
@@ -341,7 +346,7 @@ function renvoiMail(data) {
     //Id, Nom, Prenom, Identifiant, Mail
     data = JSON.parse(data.replaceAll('@|%', "'"));
     $.ajax({
-        url: '../AjaxLoader/ResendMailInscriptionAdmin.php',
+        url: '../AjaxLoader/ResendMailInscriptionUtilisateurAdmin.php',
         type: 'post',
         async: true,
         dataType: 'html',
@@ -361,7 +366,7 @@ function renvoiMail(data) {
 
 function updateActif(utilisateurId) {
     $.ajax({
-        url: '../AjaxLoader/UpdateActifAdmin.php',
+        url: '../AjaxLoader/UpdateActif.php',
         type: 'post',
         async: true,
         dataType: 'html',

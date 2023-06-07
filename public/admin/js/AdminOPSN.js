@@ -360,17 +360,22 @@ function updateActif(id) {
 }
 
 var sendRequest = function(value) {
+    $identifiant = value.replaceAll('ç', 'c');
     var valid;
     $.ajax({
-        url: '../AjaxLoader/checkIdentifiantAdmin.php',
+        url: '../AjaxLoader/checkIdentifiant.php',
         type: 'get',
         async: false,
         dataType: 'html',
         data: {
-            'Identifiant': value,
+            'Identifiant': $identifiant,
         },
         success: function(data) {
-            valid = data
+            if (data != "") {
+                valid = -1;
+            } else {
+                valid = "";
+            }
         },
         error: function(jqXhr, textStatus, errorThrown) {
             alert('Une erreur est survenue');
