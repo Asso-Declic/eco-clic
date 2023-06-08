@@ -14,7 +14,7 @@ final class Version20230515210304 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Correction automatique des indes et des clés par Doctrine';
+        return 'Correction automatique des indexs et des clés par Doctrine';
     }
 
     public function up(Schema $schema): void

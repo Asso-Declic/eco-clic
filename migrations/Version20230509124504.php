@@ -22,7 +22,6 @@ final class Version20230509124504 extends AbstractMigration
         // --------------
         // Insertion des données de départ
         // --------------
-        // TODO : S'assurer que la dernière entrée a bien sa place dans categorie
         $this->addSql("INSERT INTO `categorie` (`Id`, `Nom`, `Img`, `Description`, `Ordre`) VALUES
         ('38e51811-4329-11ed-af88-040300000000', 'Sensibilisation et formation', 'Formation.svg', 'La sensibilisation et la formation sont le socle indispensable de l\'adhésion de tous à une démarche d\'amélioration continue. Les réponses apportées aux questions suivantes permettront de déterminer votre niveau de maturité en la matière. ', 2),
         ('54aa9a19-432e-11ed-af88-040300000000', 'Usages', 'Usages.svg', 'Il est important d\'impliquer l\'ensemble des utilisateurs dans la démarche. Cela passe par le questionnement de leurs usages au quotidien. ', 6),

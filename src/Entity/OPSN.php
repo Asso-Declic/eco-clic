@@ -23,7 +23,6 @@ class OPSN
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $email = null;
 
-    // TODO : Voir s'il faut supprimer cette propriété
     #[ORM\Column(length: 3, options: ['fixed' => true])]
     private ?string $departement = null;
 
