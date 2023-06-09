@@ -117,7 +117,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * On garde cette fonction essentielle dans la gestion des droits avec Symfony
-     * Sans modifier la base de données, on peut vérifier l'état $admin pour ajouter le ROLE_ADMIN
+     * Sans modifier la base de données, on peut vérifier l'état $admin pour ajouter le ROLE_OPSN
      * Ça permet de garder les deux logiques jusqu'à ce qu'une meilleure solution soit développée
      * @see UserInterface
      */
@@ -133,7 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         
         if ($this->opsn != null) {
             if ($this->adminOpsn) {
-                $roles[] = 'ROLE_ADMIN';
+                $roles[] = 'ROLE_OPSN';
             }
             
             if ($this->superAdmin) {
