@@ -55,7 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Groups('user')]
     #[ORM\Column]
-    private bool $admin = false;
+    private bool $adminCollectivite = false;
 
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $token = null;
@@ -75,10 +75,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $userPreferences;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $superAdmin = null;
+    private ?bool $adminOpsn = null;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $superAdmin2 = null;
+    private ?bool $superAdmin = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?OPSN $opsn = null;
@@ -127,16 +127,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
-        if ($this->admin) {
+        if ($this->adminCollectivite) {
             $roles[] = 'ROLE_COLLECTIVITE';
         }
         
         if ($this->opsn != null) {
-            if ($this->superAdmin) {
+            if ($this->adminOpsn) {
                 $roles[] = 'ROLE_ADMIN';
             }
             
-            if ($this->superAdmin2) {
+            if ($this->superAdmin) {
                 $roles[] = 'ROLE_SUPER_ADMIN';
             }
         }
@@ -223,14 +223,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isAdmin(): ?bool
+    public function isAdminCollectivite(): ?bool
     {
-        return $this->admin;
+        return $this->adminCollectivite;
     }
 
-    public function setAdmin(bool $admin): self
+    public function setAdminCollectivite(bool $adminCollectivite): self
     {
-        $this->admin = $admin;
+        $this->adminCollectivite = $adminCollectivite;
 
         return $this;
     }
@@ -313,6 +313,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function isAdminOpsn(): ?bool
+    {
+        return $this->adminOpsn;
+    }
+
+    public function setAdminOpsn(bool $adminOpsn): self
+    {
+        $this->adminOpsn = $adminOpsn;
+
+        return $this;
+    }
+
     public function isSuperAdmin(): ?bool
     {
         return $this->superAdmin;
@@ -321,18 +333,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSuperAdmin(bool $superAdmin): self
     {
         $this->superAdmin = $superAdmin;
-
-        return $this;
-    }
-
-    public function isSuperAdmin2(): ?bool
-    {
-        return $this->superAdmin2;
-    }
-
-    public function setSuperAdmin2(bool $superAdmin2): self
-    {
-        $this->superAdmin2 = $superAdmin2;
 
         return $this;
     }
