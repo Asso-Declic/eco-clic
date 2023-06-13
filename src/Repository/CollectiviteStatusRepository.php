@@ -23,26 +23,34 @@ class CollectiviteStatusRepository extends ServiceEntityRepository
         parent::__construct($registry, CollectiviteStatus::class);
     }
 
-    public function updateCode(Collectivite $collectivite, Recommandation $recommandation, string $code): void
-    {
-        /* Requête d'origine
-        UPDATE utilisateurStatut
-        SET StatutCode = :statutId
-        WHERE RecommandationId = :Id
-        AND UtilisateurId = :CollectiviteId
-        */
-        dd($this->createQueryBuilder('cs')
-            ->update()
-            ->set('cs.code', ':code')
-            ->where('cs.recommandation = :recommandation')
-            ->andWhere('cs.collectivite = :collectivite')
-            ->setParameter('code', $code)
-            ->setParameter('recommandation', $recommandation)
-            ->setParameter('collectivite', $collectivite)
-            ->setMaxResults(1)
-            ->getQuery()
-            ->execute());
-    }
+    /**
+     * TODO : Dead code
+     *
+     * @param Collectivite $collectivite
+     * @param Recommandation $recommandation
+     * @param string $code
+     * @return void
+     */
+    // public function updateCode(Collectivite $collectivite, Recommandation $recommandation, string $code): void
+    // {
+    //     /* Requête d'origine
+    //     UPDATE utilisateurStatut
+    //     SET StatutCode = :statutId
+    //     WHERE RecommandationId = :Id
+    //     AND UtilisateurId = :CollectiviteId
+    //     */
+    //     dd($this->createQueryBuilder('cs')
+    //         ->update()
+    //         ->set('cs.code', ':code')
+    //         ->where('cs.recommandation = :recommandation')
+    //         ->andWhere('cs.collectivite = :collectivite')
+    //         ->setParameter('code', $code)
+    //         ->setParameter('recommandation', $recommandation)
+    //         ->setParameter('collectivite', $collectivite)
+    //         ->setMaxResults(1)
+    //         ->getQuery()
+    //         ->execute());
+    // }
 
     public function save(CollectiviteStatus $entity, bool $flush = false): void
     {
