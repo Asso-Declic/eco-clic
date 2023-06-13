@@ -65,6 +65,10 @@ class Collectivite
     #[ORM\OneToMany(mappedBy: 'collectivite', targetEntity: CollectiviteStatus::class)]
     private Collection $statuses;
 
+    #[Groups(['collectivite'])]
+    #[ORM\Column(length: 5, nullable: true)]
+    private ?string $postalCode = null;
+
     public function __construct()
     {
         $this->collectiviteAnswers = new ArrayCollection();
@@ -306,6 +310,18 @@ class Collectivite
                 $status->setCollectivite(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPostalCode(): ?string
+    {
+        return $this->postalCode;
+    }
+
+    public function setPostalCode(?string $postalCode): self
+    {
+        $this->postalCode = $postalCode;
 
         return $this;
     }

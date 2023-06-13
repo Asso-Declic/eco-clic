@@ -4,6 +4,8 @@ namespace App\Controller\Api;
 
 use App\Repository\CollectiviteRepository;
 use App\Repository\TemporarySiretRepository;
+use App\Service\InseeService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,9 +19,8 @@ class CollectiviteController extends AbstractController
         $collectivites = $collectiviteRepository->findBy(['opsn' => $this->getUser()->getOpsn()]);
         return $this->json($collectivites, 200, [], ['groups' => 'collectivite']);
     }
-    
-    // TODO : ajouter un requirement pour la forme du siret
-    #[Route('/check-siret/{siret}', name: 'check_siret')]
+
+    #[Route('/check-siret/{siret}', name: 'check_siret', requirements: ['siret' => '\d{14}'])]
     public function checkSiret(CollectiviteRepository $collectiviteRepository, string $siret)
     {
         /* Requête d'origine
@@ -34,8 +35,7 @@ class CollectiviteController extends AbstractController
         }
     }
 
-    // TODO : ajouter un requirement pour la forme du siret
-    #[Route('/check-siret-connu/{siret}', name: 'check_siret_connu')]
+    #[Route('/check-siret-connu/{siret}', name: 'check_siret_connu', requirements: ['siret' => '\d{14}'])]
     public function checkSiretConnu(TemporarySiretRepository $temporarySiretRepository, string $siret)
     {
         /* Requête d'origine
@@ -51,10 +51,18 @@ class CollectiviteController extends AbstractController
     }
 
     #[Route('/infos', name: 'infos')]
-    public function infos(CollectiviteRepository $collectiviteRepository): Response
+    public function infos(CollectiviteRepository $collectiviteRepository, EntityManagerInterface $em, InseeService $inseeService): Response
     {
         $collectivite = $this->getUser()->getCollectivite();
-        $data = $collectiviteRepository->findInfos($collectivite);
-        return $this->json($data);
+
+        // Si le code postal est null, on va le chercher grâce à l'API de l'INSEE
+        // On le stocke en BDD pour ne pas avoir à le demander à chaque fois
+        if ($collectivite->getPostalCode() == null) {
+            $data = $inseeService->getInformationFomSiret($collectivite->getSiret());
+            $collectivite->setPostalCode($data['CodePostal']);
+            $em->flush();
+        }
+
+        return $this->json($collectiviteRepository->findInfos($collectivite));
     }
 }

@@ -188,24 +188,10 @@
                 } else {
                     document.getElementById("type").textContent = data[0].type;
                 }
-                
-                $Siret = data[0].c_siret;
-            },
-            error: function (jqXhr, textStatus, errorThrown) {
-                alert('Une erreur est survenue');
-            }
-        });
-
-        $.ajax({
-            url: '/api/insee/siret/' + $Siret,
-            type: 'GET',
-            async: true,
-            dataType: 'json',
-            success: function (data) {
                 document.getElementById("CP").textContent = data.CodePostal;
             },
             error: function (jqXhr, textStatus, errorThrown) {
-                document.getElementById("CP").textContent = "";
+                console.error('Une erreur est survenue');
             }
         });
 
@@ -220,7 +206,7 @@
                 $userProgression = data;
             },
             error: function (jqXhr, textStatus, errorThrown) {
-                alert('Une erreur est survenue');
+                console.error('Une erreur est survenue');
             }
         });
 
@@ -305,7 +291,7 @@
                             $('#last').removeAttr('hidden');
                         },
                         error: function (jqXhr, textStatus, errorThrown) {
-                            alert('Une erreur est survenue');
+                            console.error('Une erreur est survenue');
                         }
                     });
                     
@@ -483,7 +469,7 @@
                 }
             },
             error: function(jqXhr, textStatus, errorThrown) {
-                alert('Une erreur est survenue');
+                console.error('Une erreur est survenue');
             }
         });
     });
