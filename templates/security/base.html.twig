@@ -38,11 +38,11 @@
                     <footer class="text-center footer mt-auto py-3 bg-white" style="position: absolute;bottom: 0;">
                         <div class="container">
                             <span class="row text-muted">
-                                <a href="#" class="px-1">Mentions légales</a>
+                                <a href="#" data-toggle="modal" data-target="#mentionModal" class="px-1">Mentions légales</a>
                                 <div class="traitVertical "></div>
                                 <a href="#" class="px-1">Accessibilité : Partiellement conforme</a>
                                 <div class="traitVertical "></div>
-                                <a href="#" data-toggle="modal" data-target="#exampleModal" class="px-1">Conditions générales d'utilisation</a>
+                                <a href="#" data-toggle="modal" data-target="#cguModal" class="px-1">Conditions générales d'utilisation</a>
                                 <div class="traitVertical "></div>
                                 <a href="#" class="px-1">Aide</a>
                                 <div class="traitVertical "></div>
@@ -51,7 +51,7 @@
                         </div>
                     </footer>
                 </div>
-                {% include 'partials/modals.html.twig' %}
+                {% include 'security/modals.html.twig' %}
             </div>
         </div>
     </div>
