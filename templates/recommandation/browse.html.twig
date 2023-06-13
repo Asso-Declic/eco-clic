@@ -342,7 +342,6 @@
                         }
                     }
                 }
-
                 Hide();
             },
             onContentReady: function(e) {
@@ -378,8 +377,6 @@
                 }
             }
         }
-
-
 
         function dropdown(e) {
             var str = e.attr('id');
@@ -469,7 +466,6 @@
             }
 
             if (typeof $tabNotSelect2 != "undefined") {
-
                 for (let p = 0; p < $tabNotSelect2.length; p++) {
                     // cacher les reco avec les tag dont l'id correspond
                     for (let h = 0; h < document.getElementsByClassName("niveau" + $tabNotSelect2[p]).length; h++) {
@@ -477,9 +473,7 @@
                             document.getElementsByClassName("niveau" + $tabNotSelect2[p])[h].parentElement.parentElement.parentElement.hidden = true;
                         }
                     }
-                    
                 }
-
             }
 
             if (typeof $tabNotSelect3 != "undefined") {
@@ -493,9 +487,7 @@
                 }
 
             }
-
             Hide();
-
         }
 
         function remplirListeStatut() {
@@ -609,8 +601,6 @@
                     })
 
                     div0.setAttribute("id", "parent" + a2[0][0].category_id);
-
-
 
                     for (let w = 0; w < a2.length; w++) {
                         $nb2 = 0;
@@ -739,8 +729,6 @@
                             p7.textContent = "Voir le détail";
                             a3.append(p7);
 
-
-
                             let div4 = document.createElement('div');
                             div4.setAttribute("class", "titreReco2");
                             div3.append(div4);
@@ -762,7 +750,6 @@
                         }
                     }
                 }
-
             },
             error: function(jqXhr, textStatus, errorThrown) {
                 console.error('Une erreur est survenue');
