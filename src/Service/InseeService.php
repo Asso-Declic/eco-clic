@@ -4,6 +4,20 @@ namespace App\Service;
 
 class InseeService
 {
+    public function getPostalCode(string $siret)
+    {
+        $response = $this->getInformationFomSiret($siret);
+
+        $informations = [];
+        if (isset($response->etablissement)) {
+            $informations['CodePostal'] = $response->etablissement->adresseEtablissement->codePostalEtablissement;
+        } else {
+            $informations = $response;
+        }
+
+        return $informations;
+    }
+
     public function getInformationFomSiret(string $siret)
     {
         $token = $this->getToken();
@@ -22,18 +36,11 @@ class InseeService
               'Authorization: Bearer ' . $token,
             ),
           ));
-
         $responseJson = curl_exec($curl);
         $response = json_decode($responseJson);
         curl_close($curl);
-        $informations = [];
-        if (isset($response->etablissement)) {
-            $informations['CodePostal'] = $response->etablissement->adresseEtablissement->codePostalEtablissement;
-        } else {
-            $informations = $response;
-        }
 
-        return $informations;
+        return $response;
     }
 
     public function getToken()

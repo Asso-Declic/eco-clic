@@ -7,7 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-// TODO : Voir pour supprimer cette route ou non
 #[Route('/api/insee', name: 'api_insee_')]
 class InseeController extends AbstractController
 {

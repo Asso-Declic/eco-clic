@@ -122,10 +122,7 @@ $(function() {
                                     url: '/api/collectivite/check-siret-connu/' + params.value,
                                     type: 'GET',
                                     async: false,
-                                    // data: {
-                                    //     siret: params.value
-                                    // },
-                                    dataType: 'HTML',
+                                    dataType: 'json',
                                     success: function(reponse) {
                                         if (reponse !== params.value) {
                                             retour = false
@@ -299,17 +296,12 @@ function sirene(siret) {
     var test = true
     if (siret != "" && siret != null && siret != undefined) {
         $.ajax({
-                url: "https://api.insee.fr/entreprises/sirene/V3/siret/" + siret,
+                url: "/api/insee/siret/" + siret,
                 method: "GET",
                 async: false,
                 timeout: 0,
-                "headers": {
-                    "Authorization": "Bearer 22cedb64-52f0-3a95-8ce1-c4113c158ab3",
-                    // "Cookie": "INSEE=rd4o00000000000000000000ffff0ac34808o80; pdapimgateway=rd4o00000000000000000000ffff0ac348ado8280"
-                },
             })
             .done(function(response) {
-                console.log(response);
                 $("[name=Latitude]").val("")
                 $("[name=Longitude]").val("")
                 var insee = response.etablissement.adresseEtablissement.codeCommuneEtablissement;
@@ -331,7 +323,7 @@ function sirene(siret) {
                 }
                 if (!response.etablissement.uniteLegale.categorieJuridiqueUniteLegale.startsWith('7')) {
                     test = false
-                    alert("erreur 1");
+                    console.error("erreur 1");
                 }
                 if (response.etablissement.adresseEtablissement.codeCommuneEtablissement.substr(0, 2) == 97) {
                     $("[name=Code_postal]").val(response.etablissement.adresseEtablissement.codeCommuneEtablissement.substr(0, 3))
@@ -353,13 +345,13 @@ function sirene(siret) {
                         })
                         .fail(function(jqXHR, textStatus, errorThrown) {
                             test = false
-                            alert("erreur 2");
+                            console.error("erreur 2");
                         });
                 }
             })
             .fail(function(jqXHR, textStatus, errorThrown) {
                 test = false
-                alert("le siret est inconnu");
+                console.error("le siret est inconnu");
             });
     }
     if (test == true) {

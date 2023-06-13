@@ -22,12 +22,21 @@
                     </div>
                 </div>
 
+                {% if app.request.get('_route') != 'security_registration' %}
                 <p class="opa80 text-center mt-10 fs" style="margin-bottom: 65px;">
                     Vous n'êtes pas encore inscrit ?
                     <a href="{{ path('security_registration') }}" class="blueAdico sousligne">
                         Créer un compte
                     </a>
                 </p>
+                {% else %}
+                <p class="opa80 text-center mt-10 fs" style="margin-bottom: 65px;">
+                    Vous êtes inscrit ?
+                    <a href="{{ path('security_login') }}" class="blueAdico sousligne">
+                        Connectez-vous
+                    </a>
+                </p>
+                {% endif %}
 
                 <div id="declic">
                     <p>Fièrement propulsé par Déclic</p>

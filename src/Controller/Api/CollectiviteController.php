@@ -58,7 +58,7 @@ class CollectiviteController extends AbstractController
         // Si le code postal est null, on va le chercher grâce à l'API de l'INSEE
         // On le stocke en BDD pour ne pas avoir à le demander à chaque fois
         if ($collectivite->getPostalCode() == null) {
-            $data = $inseeService->getInformationFomSiret($collectivite->getSiret());
+            $data = $inseeService->getPostalCode($collectivite->getSiret());
             $collectivite->setPostalCode($data['CodePostal']);
             $em->flush();
         }
