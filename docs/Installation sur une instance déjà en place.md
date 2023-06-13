@@ -1,4 +1,5 @@
-Si tout le code est mis à jour sur une installation qui avait l'ancien code, il faut manipuler un peu la base de données avant d'appliquer les migrations.
+# Installation sur une instance déjà en place
+Si tout le code est mis à jour sur une installation qui avait l'ancien code, sans Symfony, il faut manipuler un peu la base de données avant d'appliquer les migrations.
 
 ## Table `doctrine_migration_versions`
 ```sql
@@ -23,4 +24,3 @@ Cinq requêtes sont dans la migration Version20230510152551 et permettent de net
 
 ## Des mots de passe réellement hashés en base de donnée
 Actuellement les mots de passe sont en MD5(MD5()) en base de données. Il serait compliqué pour pas grand chose de modifier Symfony pour interpréter cette forme de hashage. Le parti pris a donc plutôt été de s'assurer que la fonctionnalité de réinitialisation de mot de passe fonctionnait pour encourager tous les utilisateurs à réinitialiser leur mot de passe. La connexion fonctionne très bien désormais !
-

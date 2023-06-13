@@ -1,3 +1,4 @@
+# Structure du code
 ## Les bases de Symfony
 - `/bin`
   Contient des exécutables fournis par Symfony.
@@ -49,3 +50,16 @@
   Ici on retrouve ce qui permet de connecter un utilisateur et de le rediriger vers une page après sa connexion
 - Service
   Les services sont des classes qui font des tâches précises et qui n'auraient pas leur place dans un contrôleur.
+
+## API Interne
+Il existe une API interne utilisée par l'interface en front. Elle est accessible uniquement depuis l'application. Toutes les routes de l'API vérifient la session de l'utilisateur de la même manière qu'une route qui retourne une réponse en JSON.
+
+On peut lister toutes les routes avec la commande :
+```bash
+bin/console debug:router
+```
+
+Les routes API respectent, dans la mesure du possible, les concepts de l'API Rest (https://restfulapi.net). Chaque route pointe vers une «ressource» et les méthodes HTTP précisent l'action qu'on souhaite faire sur cette ressource. Parfois, la route est complétée pour préciser l'action.
+
+Chaque route a été créée pour le fonctionnement de l'application. Ce qui explique qu'il n'y a pas les 
+
