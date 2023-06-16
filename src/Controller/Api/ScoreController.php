@@ -43,6 +43,7 @@ class ScoreController extends AbstractController
         $currentScore = $em->getRepository(CollectiviteAnswer::class)->findCurrentScore($collectivite);
         $score = new Score();
         // TODO : Pourquoi cette vérification ?
+        // On vérifie que la progression est complète avant de créer un nouveau score
         if ($totalQuestions == $currentScore['nb']) {
             $newScore = floor($currentScore['score'] * 100 / $currentScore['nb']);
             
@@ -54,5 +55,14 @@ class ScoreController extends AbstractController
         }
 
         return $this->json(['data' => $score], 201, [], ['groups' => 'score']);
+    }
+
+    // /api/score/by-opsn
+    #[Route('/by-opsn', name: 'browse_by_opsn', methods: ['GET'])]
+    public function browseByOpsn(ScoreRepository $scoreRepository): Response
+    {
+        $scores = $scoreRepository->findBy(['collectivite' => $this->getUser()->getCollectivite()]);
+        $scores = $scoreRepository->findScoreByOpsn($this->getUser()->getCollectivite());
+        return $this->json($scores, 200, [], ['groups' => 'score']);
     }
 }

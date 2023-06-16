@@ -1,6 +1,19 @@
 $(function() {
 
     $.ajax({
+        url: '/api/score/by-opsn',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function(response) {
+            document.getElementById('moyenne').innerHTML = response.moyenne;
+        },
+        error: function(jqXhr, textStatus, errorThrown) {
+            document.getElementById('moyenne').innerHTML = "N/A";
+        }
+    });
+
+    $.ajax({
         url: '/api/collectivite/by-opsn',
         type: 'GET',
         async: false,
@@ -8,14 +21,10 @@ $(function() {
         success: function(data) {
             response = data;
             document.getElementById('nbCol2').innerHTML = response.length;
-            document.getElementById('moyenne').innerHTML = 34445;//response.moyenne;
             document.getElementById('OPSNName').innerHTML = $OPSNName;
         },
         error: function(jqXhr, textStatus, errorThrown) {
-            //alert('Une erreur est survenue');
-
             document.getElementById('nbCol2').innerHTML = 0;
-            document.getElementById('moyenne').innerHTML = "N/A";
             document.getElementById('OPSNName').innerHTML = "";
         }
     });

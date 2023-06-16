@@ -15,7 +15,7 @@ class AnswerType extends AbstractType
             ->add('type')
             ->add('body')
             ->add('ponderation')
-            ->add('question')
+            // ->add('question')
         ;
     }
 

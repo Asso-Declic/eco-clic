@@ -64,7 +64,7 @@ $(function() {
                                     response = data;
                                 },
                                 error: function (jqXhr, textStatus, errorThrown) {
-                                    alert('Une erreur est survenue');
+                                    console.error('Une erreur est survenue');
                                 }
                             });
                             return (response == params.value) ? false : true;
@@ -106,7 +106,7 @@ $(function() {
                                         response = data;
                                     },
                                     error: function(jqXhr, textStatus, errorThrown) {
-                                        alert('Une erreur est survenue');
+                                        console.error('Une erreur est survenue');
                                     }
                                 });
                                 return (response == params.value) ? false : true;

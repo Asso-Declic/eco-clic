@@ -25,30 +25,6 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
         parent::__construct($registry, CollectiviteAnswer::class);
     }
 
-    /**
-     * Retourne le score d'une collectivité
-     *
-     * @param Collectivite $collectivite
-     * @return array
-     */
-    public function findCurrentScore(Collectivite $collectivite)
-    {
-        /* Requête d'origine
-        SELECT SUM(reponse.Ponderation) as score, COUNT(reponse.Ponderation) as nb
-        FROM `reponse`, `utilisateurReponse` 
-        WHERE utilisateurReponse.CollectiviteId = :CollectiviteId
-        AND utilisateurReponse.IdReponse = reponse.Id
-        */
-        $qb = $this->createQueryBuilder('ca');
-        $qb->select('SUM(a.ponderation) as score, COUNT(a.ponderation) as nb')
-        ->innerJoin('ca.answer', 'a')
-        ->where('ca.collectivite = :collectivite')
-        ->setParameter('collectivite', $collectivite)
-        ;
-
-        return $qb->getQuery()->getScalarResult()[0];
-    }
-
     public function deleteWithChildrenAnswers(Collectivite $collectivite, Question $question)
     {
         /* Requête d'origine
@@ -132,7 +108,7 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
     
-    public function findProgression(Collectivite $collectivite)
+    public function findCollectiviteProgression(Collectivite $collectivite)
     {
         /* Requête d'origine
             SELECT
@@ -161,7 +137,7 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
         return $qb->getQuery()->getScalarResult();
     }
 
-    public function findProgressionByCategory(Category $category, Collectivite $collectivite)
+    public function findCollectiviteProgressionByCategory(Category $category, Collectivite $collectivite)
     {
         /* Requête d'origine
             SELECT categorie.Id as CategorieId, utilisateurReponse.CollectiviteId as UtilisateurId, count(DISTINCT(utilisateurReponse.IdQuestion)) as NbRepondu
@@ -187,6 +163,30 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
             ->groupBy('c.id') 
             ;
         return $qb->getQuery()->getScalarResult();
+    }
+
+    /**
+     * Retourne le score d'une collectivité
+     *
+     * @param Collectivite $collectivite
+     * @return array
+     */
+    public function findCurrentScore(Collectivite $collectivite)
+    {
+        /* Requête d'origine
+        SELECT SUM(reponse.Ponderation) as score, COUNT(reponse.Ponderation) as nb
+        FROM `reponse`, `utilisateurReponse` 
+        WHERE utilisateurReponse.CollectiviteId = :CollectiviteId
+        AND utilisateurReponse.IdReponse = reponse.Id
+        */
+        $qb = $this->createQueryBuilder('ca');
+        $qb->select('SUM(a.ponderation) as score, COUNT(a.ponderation) as nb')
+        ->innerJoin('ca.answer', 'a')
+        ->where('ca.collectivite = :collectivite')
+        ->setParameter('collectivite', $collectivite)
+        ;
+
+        return $qb->getQuery()->getScalarResult()[0];
     }
 
     public function findScore(Collectivite $collectivite)
