@@ -49,7 +49,11 @@
 - Security
   Ici on retrouve ce qui permet de connecter un utilisateur et de le rediriger vers une page après sa connexion
 - Service
-  Les services sont des classes qui font des tâches précises et qui n'auraient pas leur place dans un contrôleur.
+  Les services sont des classes qui font des tâches précises et qui n'auraient pas leur place dans un contrôleur. Elles sont aveugles du reste du code. Un manager est un type de service qui permet d'ajouter une couche de complexité dans les manipulations des entités. «Progression» n'est pas une entité mais on calcule la progression à partir de résultats de requêtes.
+
+## Dans un repository
+Dans la mesure du possible, on nomme les méthodes avec «find» quand elles retournent un ou plusieurs objets de l'entité du repository. Si on cherche une donnée différente, on utilise plutôt «get».
+Dans tous les cas, une méthode du repository retourne le résultat d'une requête SQL ou alors un objet de la classe `QueryBuilder` mais elle ne fait aucun calcul supplémentaire. C'est pour ces calculs qu'on a des managers.
 
 ## API Interne
 Il existe une API interne utilisée par l'interface en front. Elle est accessible uniquement depuis l'application. Toutes les routes de l'API vérifient la session de l'utilisateur de la même manière qu'une route qui retourne une réponse en JSON.

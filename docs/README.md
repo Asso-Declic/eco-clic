@@ -3,7 +3,7 @@
 [Installation du projet](Installation%20pour%20les%20devs.md)
 [Installation sur une instance avec l'ancien code](Installation%20sur%20une%20instance%20déjà%20en%20place.md), sans Symfony
 
-[Structure du code](Structure%20du%20code.md)
+[Structure du code](Développer/Structure%20du%20code.md)
 Structure des données : [MCD](MCD.md) 
 [Gestion des droits](Gestion%20des%20droits.md)
 
