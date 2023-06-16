@@ -188,7 +188,7 @@
                 } else {
                     document.getElementById("type").textContent = data[0].type;
                 }
-                document.getElementById("CP").textContent = data.CodePostal;
+                document.getElementById("CP").textContent = data[0].c_postalCode;
             },
             error: function (jqXhr, textStatus, errorThrown) {
                 console.error('Une erreur est survenue');
