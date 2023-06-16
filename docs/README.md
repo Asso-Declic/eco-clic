@@ -17,3 +17,4 @@ Il faudra donc
 - Supprimer le test lancé en JS dans inscription.js
 - Supprimer la route `/check-siret-connu` dans `CollectiviteController`
 - Créer une migration qui supprimer la table `temporary_siret` avec `bin/console make:migration`
+- code «temporaire» (à compléter)
