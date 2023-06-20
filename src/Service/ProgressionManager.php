@@ -16,12 +16,12 @@ class ProgressionManager
 
     public function getCollectiviteProgression(Collectivite $collectivite)
     {
-        return $this->collectiviteAnswerRepository->findCollectiviteProgression($collectivite);
+        return $this->collectiviteAnswerRepository->countAllByCategory($collectivite);
     }
     
     public function getCollectiviteProgressionByCategory(Category $category, Collectivite $collectivite)
     {
-        return $this->collectiviteAnswerRepository->findCollectiviteProgressionByCategory($category, $collectivite);
+        return $this->collectiviteAnswerRepository->countForOneCategory($category, $collectivite);
     }
     
     public function isProgressionComplete(Collectivite $collectivite)

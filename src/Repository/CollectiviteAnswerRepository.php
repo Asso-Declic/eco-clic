@@ -108,7 +108,13 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
     
-    public function findCollectiviteProgression(Collectivite $collectivite)
+    /**
+     * Fournit un total de réponses pour chaque catégorie pour une collectivité
+     *
+     * @param Collectivite $collectivite
+     * @return array
+     */
+    public function countAllByCategory(Collectivite $collectivite)
     {
         /* Requête d'origine
             SELECT
@@ -123,21 +129,18 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
             AND utilisateurReponse.CollectiviteId = :CollectiviteId
             GROUP BY categorie.Id
         */
-        $qb = $this->createQueryBuilder('collectiviteAnswer');
-        $qb->select('c.id category_id')
-        ->addSelect($qb->expr()->countDistinct('ca.id') . ' AS nb_repondu')
-        ->from('App\Entity\Collectivite', 'coll')
-        ->innerJoin('coll.collectiviteAnswers', 'ca')
-        ->innerJoin('ca.answer', 'a')
-        ->innerJoin('a.question', 'q')
-        ->innerJoin('q.category', 'c')
-        ->where('ca.collectivite = :collectivite')
-        ->groupBy('c.id')
-        ->setParameter('collectivite', $collectivite);
+        $qb = $this->createQbCountCollectiviteAnswer($collectivite);
         return $qb->getQuery()->getScalarResult();
     }
 
-    public function findCollectiviteProgressionByCategory(Category $category, Collectivite $collectivite)
+    /**
+     * Fournit un total de réponses pour une seule catégorie pour une collectivité
+     *
+     * @param Category $category
+     * @param Collectivite $collectivite
+     * @return array
+     */
+    public function countForOneCategory(Category $category, Collectivite $collectivite)
     {
         /* Requête d'origine
             SELECT categorie.Id as CategorieId, utilisateurReponse.CollectiviteId as UtilisateurId, count(DISTINCT(utilisateurReponse.IdQuestion)) as NbRepondu
@@ -150,19 +153,32 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
             AND categorie.Id = :CategId
             GROUP BY categorie.Id
         */
-        $qb = $this->createQueryBuilder('ca');
-        $qb->select('c.id category_id')
-            ->addSelect($qb->expr()->countDistinct('ca.id') . ' AS nb_repondu')
-            ->innerJoin('ca.answer', 'a')
-            ->innerJoin('a.question', 'q')
-            ->innerJoin('q.category', 'c')
-            ->where('ca.collectivite = :collectivite')
-            ->andWhere('c = :category')
-            ->setParameter('collectivite', $collectivite)
-            ->setParameter('category', $category)
-            ->groupBy('c.id') 
-            ;
+        $qb = $this->createQbCountCollectiviteAnswer($collectivite);
+        $qb->setParameter('category', $category)
+            ->andWhere('c = :category');
         return $qb->getQuery()->getScalarResult();
+    }
+
+    /**
+     * Retourne le QueryBuilder de base permettant de calculer une progression par catégorie
+     *
+     * @param Collectivite $collectivite
+     * @return QueryBuilder
+     */
+    public function createQbCountCollectiviteAnswer(Collectivite $collectivite)
+    {
+        $qb = $this->createQueryBuilder('ca');
+        
+        $qb->select('c.id category_id')
+        ->addSelect($qb->expr()->countDistinct('ca.id') . ' AS nb_repondu')
+        ->innerJoin('ca.answer', 'a')
+        ->innerJoin('a.question', 'q')
+        ->innerJoin('q.category', 'c')
+        ->where('ca.collectivite = :collectivite')
+        ->groupBy('c.id')
+        ->setParameter('collectivite', $collectivite);
+
+        return $qb;
     }
 
     /**
