@@ -55,6 +55,9 @@
 Dans la mesure du possible, on nomme les méthodes avec «find» quand elles retournent un ou plusieurs objets de l'entité du repository. Si on cherche une donnée différente, on utilise plutôt «get».
 Dans tous les cas, une méthode du repository retourne le résultat d'une requête SQL ou alors un objet de la classe `QueryBuilder` mais elle ne fait aucun calcul supplémentaire. C'est pour ces calculs qu'on a des managers.
 
+## Dans un manager
+Le manager est là pour manipuler des données de manière plus complexe, là où un repository ne fait qu'exécuter des requêtes dans la table de son entité. Il n'y a pas d'entité Progression, le ProgressionManager sert à demander à d'autres repository de récupérer des données pour déterminer la progression. Il y a bien une entité Score et un ScoreRepository associé mais le score se calcule de manière plus complexe. Le ScoreManager est donc appelé à la place du ScoreRepository dans les contrôleurs. Cette manœuvre permet plus de clarté dans le code et dans le nommage des méthodes.
+
 ## API Interne
 Il existe une API interne utilisée par l'interface en front. Elle est accessible uniquement depuis l'application. Toutes les routes de l'API vérifient la session de l'utilisateur de la même manière qu'une route qui retourne une réponse en JSON.
 

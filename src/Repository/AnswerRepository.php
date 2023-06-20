@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Answer;
+use App\Entity\Category;
+use App\Entity\Collectivite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +21,39 @@ class AnswerRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Answer::class);
+    }
+
+    /**
+     * Retourne le score d'une collectivité pour une catégorie
+     * TODO : Cette requête est ici car elle est `FROM Answer` mais le calcul se fait en fonction des CollectiviteAnswer. Il faudra la déplacer un jour
+     *
+     * @param Category $category
+     * @param Collectivite $collectivite
+     * @return array
+     */
+    public function countScoreForCategory(Category $category, Collectivite $collectivite)
+    {
+        /* Requête d'origine
+        SELECT SUM(reponse.Ponderation) as score, COUNT(reponse.Ponderation) as nb
+        FROM reponse
+        JOIN question ON question.Id = reponse.IdQuestion
+        JOIN categorie ON categorie.Id = question.IdCategorie
+        JOIN utilisateurReponse ON utilisateurReponse.IdReponse = reponse.Id
+        WHERE utilisateurReponse.CollectiviteId = :CollectiviteId
+        AND utilisateurReponse.IdReponse = reponse.Id
+        AND categorie.Id = :CategorieId
+        */
+        $qb = $this->createQueryBuilder('a')
+            ->select('SUM(a.ponderation) as score, COUNT(a.ponderation) as nb')
+            ->innerJoin('a.question', 'q')
+            ->innerJoin('q.category', 'c')
+            ->leftJoin('a.collectiviteAnswers', 'ca')
+            ->where('ca.collectivite = :collectivite')
+            ->andWhere('c = :category')
+            ->setParameter('collectivite', $collectivite)
+            ->setParameter('category', $category)
+            ;
+        return $qb->getQuery()->getScalarResult()[0];
     }
 
     public function findPonderationMax()

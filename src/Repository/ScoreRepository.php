@@ -2,9 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Answer;
-use App\Entity\Category;
-use App\Entity\Collectivite;
+use App\Entity\OPSN;
 use App\Entity\Score;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -24,38 +22,18 @@ class ScoreRepository extends ServiceEntityRepository
         parent::__construct($registry, Score::class);
     }
 
-    /**
-     * Retourne le score d'une collectivité pour une catégorie
-     *
-     * @param Category $category
-     * @param Collectivite $collectivite
-     * @return array
-     */
-    public function findScoreForCategory(Category $category, Collectivite $collectivite)
+    public function findByCollectiviteForOpsn(OPSN $opsn)
     {
-        /* Requête d'origine
-        SELECT SUM(reponse.Ponderation) as score, COUNT(reponse.Ponderation) as nb
-        FROM reponse
-        JOIN question ON question.Id = reponse.IdQuestion
-        JOIN categorie ON categorie.Id = question.IdCategorie
-        JOIN utilisateurReponse ON utilisateurReponse.IdReponse = reponse.Id
-        WHERE utilisateurReponse.CollectiviteId = :CollectiviteId
-        AND utilisateurReponse.IdReponse = reponse.Id
-        AND categorie.Id = :CategorieId
-        */
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('SUM(a.ponderation) as score, COUNT(a.ponderation) as nb')
-        ->from(Answer::class, 'a')
-        ->innerJoin('a.question', 'q')
-        ->innerJoin('q.category', 'c')
-        ->leftJoin('a.collectiviteAnswers', 'ca')
-        ->where('ca.collectivite = :collectivite')
-        // ->andWhere('ca.answer = a')
-        ->andWhere('c = :category')
-        ->setParameter('collectivite', $collectivite)
-        ->setParameter('category', $category)
-        ;
-        return $qb->getQuery()->getScalarResult()[0];
+        $qb = $this->createQueryBuilder('s')
+            ->innerJoin('s.collectivite', 'c')
+            ->where('c.opsn = :opsn')
+            ->orderBy('c.name', 'ASC')
+            ->addOrderBy('s.scoredAt', 'DESC')
+            ->groupBy('s.collectivite')
+            ->setParameter('opsn', $opsn)
+            ;
+        
+        return $qb->getQuery()->getResult();
     }
 
     public function save(Score $entity, bool $flush = false): void

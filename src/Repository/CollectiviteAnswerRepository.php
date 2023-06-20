@@ -187,25 +187,7 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
      * @param Collectivite $collectivite
      * @return array
      */
-    public function findCurrentScore(Collectivite $collectivite)
-    {
-        /* Requête d'origine
-        SELECT SUM(reponse.Ponderation) as score, COUNT(reponse.Ponderation) as nb
-        FROM `reponse`, `utilisateurReponse` 
-        WHERE utilisateurReponse.CollectiviteId = :CollectiviteId
-        AND utilisateurReponse.IdReponse = reponse.Id
-        */
-        $qb = $this->createQueryBuilder('ca');
-        $qb->select('SUM(a.ponderation) as score, COUNT(a.ponderation) as nb')
-        ->innerJoin('ca.answer', 'a')
-        ->where('ca.collectivite = :collectivite')
-        ->setParameter('collectivite', $collectivite)
-        ;
-
-        return $qb->getQuery()->getScalarResult()[0];
-    }
-
-    public function findScore(Collectivite $collectivite)
+    public function countScore(Collectivite $collectivite)
     {
         /* Requête d'origine
             SELECT SUM(reponse.Ponderation) as score, COUNT(reponse.Ponderation) as nb
