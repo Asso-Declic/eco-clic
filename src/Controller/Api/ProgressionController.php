@@ -12,17 +12,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProgressionController extends AbstractController
 {
     #[Route('', name: 'global')]
-    public function global(ProgressionManager $ProgressionManager): Response
+    public function global(ProgressionManager $progressionManager): Response
     {
         $collectivite = $this->getUser()->getCollectivite();
-        return $this->json($ProgressionManager->getCollectiviteProgression($collectivite));
+        return $this->json($progressionManager->getCollectiviteProgression($collectivite));
     }
 
     #[Route('/by-category/{id}', name: 'by_category', requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
-    public function byCategory(Category $category, ProgressionManager $ProgressionManager): Response
+    public function byCategory(Category $category, ProgressionManager $progressionManager): Response
     {
         $collectivite = $this->getUser()->getCollectivite();
-        $data = $ProgressionManager->getCollectiviteProgressionByCategory($category, $collectivite);
+        $data = $progressionManager->getCollectiviteProgressionByCategory($category, $collectivite);
         return $this->json(["data" => $data]);
     }
 }
