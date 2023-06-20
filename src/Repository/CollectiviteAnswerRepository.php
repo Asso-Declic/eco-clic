@@ -51,13 +51,13 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
         WHERE (answer.question_id = :question_id 
         OR answer.question_id IN (
             SELECT id FROM question where parent_id = :question_id
-            OR parent_id = (SELECT id FROM question where parent_id = :question_id) 
-            OR parent_id = (SELECT id FROM question where parent_id = (SELECT id FROM question where parent_id = :question_id)) 
-            OR parent_id = (SELECT id FROM question 
-            where parent_id = (SELECT id FROM question where parent_id = (SELECT id FROM question where parent_id = :question_id))) 
-            OR parent_id = (SELECT id FROM question where parent_id = (SELECT id FROM question where parent_id = :question_id)) 
-            OR parent_id = (SELECT id FROM question where parent_id = (SELECT id FROM question 
-            where parent_id = (SELECT id FROM question where parent_id = (SELECT id FROM question where parent_id = :question_id))))
+            OR parent_id IN (SELECT id FROM question where parent_id = :question_id) 
+            OR parent_id IN (SELECT id FROM question where parent_id IN (SELECT id FROM question where parent_id = :question_id)) 
+            OR parent_id IN (SELECT id FROM question 
+            where parent_id IN (SELECT id FROM question where parent_id IN (SELECT id FROM question where parent_id = :question_id))) 
+            OR parent_id IN (SELECT id FROM question where parent_id IN (SELECT id FROM question where parent_id = :question_id)) 
+            OR parent_id IN (SELECT id FROM question where parent_id IN (SELECT id FROM question 
+            where parent_id IN (SELECT id FROM question where parent_id IN (SELECT id FROM question where parent_id = :question_id))))
         ))
         AND collectivite_id = :collectivite_id", $rsm)
         ->setParameter('question_id', $question->getId())
