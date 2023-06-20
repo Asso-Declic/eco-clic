@@ -113,7 +113,7 @@ class QuestionRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('q')
             // ->addSelect('IF(q.parentAnswer = a.id, \'Oui\', \'Non\') as Visible')
             // ->innerJoin('q.answers', 'a')
-            ->Where('q.parentAnswer = :answer')
+            ->where('q.parentAnswer = :answer')
             ->setParameter('answer', $answer)
             ;
         

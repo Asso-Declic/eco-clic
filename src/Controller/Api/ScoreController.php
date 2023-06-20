@@ -8,6 +8,7 @@ use App\Entity\Question;
 use App\Entity\Score;
 use App\Repository\CollectiviteAnswerRepository;
 use App\Repository\ScoreRepository;
+use App\Service\ProgressionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,15 +37,13 @@ class ScoreController extends AbstractController
     }
 
     #[Route('', name: 'add', methods: ['POST'])]
-    public function add(EntityManagerInterface $em): Response
+    public function add(EntityManagerInterface $em, ProgressionManager $progressionManager): Response
     {
         $collectivite = $this->getUser()->getCollectivite();
-        $totalQuestions = $em->getRepository(Question::class)->countAllQuestions();
         $currentScore = $em->getRepository(CollectiviteAnswer::class)->findCurrentScore($collectivite);
         $score = new Score();
-        // TODO : Pourquoi cette vérification ?
         // On vérifie que la progression est complète avant de créer un nouveau score
-        if ($totalQuestions == $currentScore['nb']) {
+        if ($progressionManager->isProgressionComplete($collectivite)) {
             $newScore = floor($currentScore['score'] * 100 / $currentScore['nb']);
             
             $score->setCollectivite($collectivite);
