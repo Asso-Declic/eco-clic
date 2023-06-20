@@ -16,11 +16,26 @@ class ProgressionManager
         private ScoreRepository $scoreRepository
     ) {}
 
+    /**
+     * Fournit le nombre de réponses par catégorie pour une collectivité.
+     * Ne fournit pas le total de questions
+     *
+     * @param Collectivite $collectivite
+     * @return array
+     */
     public function getCollectiviteProgression(Collectivite $collectivite)
     {
         return $this->collectiviteAnswerRepository->countAllByCategory($collectivite);
     }
     
+    /**
+     * Fournit le nombre de réponses d'une catégorie pour une collectivité.
+     * Ne fournit pas le total de questions
+     *
+     * @param Category $category
+     * @param Collectivite $collectivite
+     * @return array
+     */
     public function getCollectiviteProgressionByCategory(Category $category, Collectivite $collectivite)
     {
         return $this->collectiviteAnswerRepository->countForOneCategory($category, $collectivite);
