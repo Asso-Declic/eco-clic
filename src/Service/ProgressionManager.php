@@ -28,6 +28,12 @@ class ProgressionManager
     
     /**
      * Retourne true si toutes les questions ont été répondues par une collectivité
+     * L'objectif de cette fonction est d'être le seul endroit du projet qui calcule
+     * si une progression est complète ou non.
+     * ⚠ Le calcul compare le nombre total de questions avec le nombre de réponses d'une collectivité
+     * Cependant, si un cas survenait où une question n'est pas posée à une collectivité, le calcul
+     * ne serait pas correct. Il faudra alors modifier la requête du nombre total de questions, pour
+     * ne prendre en compte que les questions concernant cette collectivité.
      * 
      * @param Collectivite $collectivite
      * @return bool
