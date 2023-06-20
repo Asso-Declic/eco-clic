@@ -17,15 +17,21 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api/score', name: 'api_score_')]
 class ScoreController extends AbstractController
 {
-    #[Route('', name: 'browse', methods: ['GET'])]
-    public function browse(CollectiviteAnswerRepository $collectiviteAnswerRepository): Response
+    /**
+     * Fournir 
+     *
+     * @param CollectiviteAnswerRepository $collectiviteAnswerRepository
+     * @return Response
+     */
+    #[Route('', name: 'read', methods: ['GET'])]
+    public function read(CollectiviteAnswerRepository $collectiviteAnswerRepository): Response
     {
         $collectivite = $this->getUser()->getCollectivite();
         return $this->json($collectiviteAnswerRepository->findScore($collectivite));
     }
 
-    #[Route('/{id}', name: 'browse_for_category', methods: ['GET'], requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
-    public function browseForCategory(Category $category, ScoreRepository $scoreRepository): Response
+    #[Route('/{id}', name: 'read_for_category', methods: ['GET'], requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
+    public function readForCategory(Category $category, ScoreRepository $scoreRepository): Response
     {
         $score = $scoreRepository->findScoreForCategory($category, $this->getUser()->getCollectivite());
         // MySQL, avec PHP, retourne un string pour une fonction SUM()
@@ -56,7 +62,6 @@ class ScoreController extends AbstractController
         return $this->json(['data' => $score], 201, [], ['groups' => 'score']);
     }
 
-    // /api/score/by-opsn
     #[Route('/by-opsn', name: 'browse_by_opsn', methods: ['GET'])]
     public function browseByOpsn(ScoreRepository $scoreRepository): Response
     {
