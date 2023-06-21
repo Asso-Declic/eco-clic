@@ -17,7 +17,6 @@ class ScoreController extends AbstractController
      * Si la progression est incomplète, renvoie null
      *
      * @param ScoreManager $scoreManager
-     * @return Response
      */
     #[Route('', name: 'read', methods: ['GET'])]
     public function read(ScoreManager $scoreManager): Response
@@ -42,7 +41,6 @@ class ScoreController extends AbstractController
      * Retoune l'objet Score ou null si la progression n'est pas complète
      *
      * @param ScoreManager $scoreManager
-     * @return Response
      */
     #[Route('', name: 'add', methods: ['POST'])]
     public function add(ScoreManager $scoreManager): Response
@@ -56,11 +54,16 @@ class ScoreController extends AbstractController
         return $this->json(['data' => $score], 201, [], ['groups' => 'score']);
     }
 
+    /**
+     * Retourne le score moyen de toutes les collectivités de l'OPSN
+     *
+     * @param ScoreManager $scoreManager
+     */
     #[Route('/by-opsn', name: 'browse_by_opsn', methods: ['GET'])]
     public function browseByOpsn(ScoreManager $scoreManager): Response
     {
         $opsn = $this->getUser()->getOpsn();
-        $scores = $scoreManager->getForOpsn($opsn);
-        return $this->json($scores, 200, [], ['groups' => 'score']);
+        $score = $scoreManager->getOpsnAverage($opsn);
+        return $this->json($score);
     }
 }

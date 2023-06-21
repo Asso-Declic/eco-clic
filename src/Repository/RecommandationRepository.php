@@ -95,8 +95,6 @@ class RecommandationRepository extends ServiceEntityRepository
         ;
         
         return $qb->getQuery()->getResult();
-
-            
     }
 
     public function findTotalsPerCategories(Collectivite $collectivite)

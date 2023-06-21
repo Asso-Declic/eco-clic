@@ -27,6 +27,29 @@ class ProgressionManager
     {
         return $this->collectiviteAnswerRepository->countAllByCategory($collectivite);
     }
+
+    public function getGlobal(Collectivite $collectivite)
+    {
+        $answersByCategory = $this->collectiviteAnswerRepository->countAllByCategory($collectivite);
+        $totalQuestions = $this->questionRepository->countAllQuestions();
+
+        $totalAnswers = 0;
+        foreach ($answersByCategory as $answer) {
+            $totalAnswers += $answer['nb_repondu'];
+        }
+
+        return [
+            'totalAnswers' => $totalAnswers,
+            'totalQuestions' => $totalQuestions,
+        ];
+    }
+
+    public function getGlobalPercentage(Collectivite $collectivite)
+    {
+        $progression = $this->getGlobal($collectivite);
+
+        return floor($progression['totalAnswers'] * 100 / $progression['totalQuestions']);
+    }
     
     /**
      * Fournit le nombre de réponses d'une catégorie pour une collectivité.
@@ -55,14 +78,8 @@ class ProgressionManager
      */
     public function isProgressionComplete(Collectivite $collectivite): bool
     {
-        $answersByCategory = $this->collectiviteAnswerRepository->countAllByCategory($collectivite);
-        $questions = $this->questionRepository->countAllQuestions();
+        $progression = $this->getGlobal($collectivite);
 
-        $totalAnswers = 0;
-        foreach ($answersByCategory as $answer) {
-            $totalAnswers += $answer['nb_repondu'];
-        }
-
-        return $totalAnswers === $questions;
+        return $progression['totalAnswers'] === $progression['totalQuestions'];
     }
 }

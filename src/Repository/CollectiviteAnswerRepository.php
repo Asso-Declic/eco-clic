@@ -169,7 +169,7 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('ca');
         
-        $qb->select('c.id category_id')
+        $qb->select('c.id category_id, c.name as category_name, c.image as category_image')
         ->addSelect($qb->expr()->countDistinct('ca.id') . ' AS nb_repondu')
         ->innerJoin('ca.answer', 'a')
         ->innerJoin('a.question', 'q')

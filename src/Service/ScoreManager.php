@@ -61,23 +61,57 @@ class ScoreManager
     
     /**
      * Récupère le score actuel d'une collectivité,
-     * ou le calcule s'il n'existe pas encore
+     * ou le calcule s'il n'existe pas encore (par défaut)
      *
      * @param Collectivite $collectivite
-     * @return void
+     * @param boolean $force pour forcer le calcul du score quand il est null, par défaut true
+     * @return Score
      */
-    public function getCurrent(Collectivite $collectivite)
+    public function getCurrent(Collectivite $collectivite, bool $force = true): Score
     {
-        $score = $this->scoreRepository->findOneBy(['collectivite' => $collectivite]);
-        if (!$score) {
+        $score = $this->scoreRepository->findOneBy(['collectivite' => $collectivite], ['scoredAt' => 'DESC']);
+        if (!$score && $force) {
             $score = $this->count($collectivite);
         }
 
         return $score;
     }
 
-    public function getForOpsn(OPSN $opsn)
+    /**
+     * Calcul de la lettre correspondant au score actuel d'une collectivité
+     * La logique est ici côté back mais aussi ailleurs en front. Il faudrait centraliser.
+     *
+     * @param Collectivite $collectivite
+     * @return string
+     */
+    public function getCurrentLetter(Collectivite $collectivite): string
     {
-        return $this->scoreRepository->findByCollectiviteForOpsn($opsn);
+        $score = $this->getCurrent($collectivite)->getScore();
+        if (!$score) {
+            return 'N/A';
+        }
+
+        if ($score >= 99) {
+            return 'A';
+        } else if ($score < 99 && $score >= 80) {
+            return 'B';
+        } else if ($score < 80 && $score >= 60) {
+            return 'C';
+        } else if ($score < 60 && $score >= 40) {
+            return 'D';
+        } else { // < 40
+            return 'E';
+        }
+    }
+
+    /**
+     * Récupère le score moyen d'une OPSN basé sur le dernier score de toutes les collectivités
+     * 
+     * @param OPSN $opsn
+     * @return string
+     */
+    public function getOpsnAverage(OPSN $opsn): string
+    {
+        return $this->scoreRepository->findOpsnAverage($opsn);
     }
 }

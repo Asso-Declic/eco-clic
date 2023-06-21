@@ -5,6 +5,8 @@ namespace App\Controller\Api;
 use App\Repository\CollectiviteRepository;
 use App\Repository\TemporarySiretRepository;
 use App\Service\InseeService;
+use App\Service\ProgressionManager;
+use App\Service\ScoreManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,11 +15,32 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api/collectivite', name: 'api_collectivite_')]
 class CollectiviteController extends AbstractController
 {
+    /**
+     * Rrtourne les collectivités de l'OPSN avec leur progression et leur score
+     * 
+     * @param CollectiviteRepository $collectiviteRepository
+     */
     #[Route('/by-opsn', name: 'by_opsn')]
-    public function byOpsn(CollectiviteRepository $collectiviteRepository)
+    public function byOpsn(CollectiviteRepository $collectiviteRepository, ProgressionManager $progressionManager, ScoreManager $scoreManager)
     {
-        $collectivites = $collectiviteRepository->findBy(['opsn' => $this->getUser()->getOpsn()]);
-        return $this->json($collectivites, 200, [], ['groups' => 'collectivite']);
+        $opsn = $this->getUser()->getOpsn();
+        $collectivites = $collectiviteRepository->findBy(['opsn' => $opsn]);
+        
+        $tableRows = [];
+        foreach ($collectivites as $collectivite) {
+            $progression = $progressionManager->getGlobalPercentage($collectivite);
+            $score = $scoreManager->getCurrentLetter($collectivite, false);
+            $progressionDetails = $progressionManager->get($collectivite);
+
+            $tableRows[] = [
+                'collectivite' => $collectivite,
+                'progression' => $progression . ' %',
+                'progressionDetails' => $progressionDetails,
+                'score' => $progression == 100 ? $score : 'N/A',
+            ];
+        }
+
+        return $this->json($tableRows, 200, [], ['groups' => 'collectivite']);
     }
 
     #[Route('/check-siret/{siret}', name: 'check_siret', requirements: ['siret' => '\d{14}'])]

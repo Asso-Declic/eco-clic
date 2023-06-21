@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\OPSN;
 use App\Entity\Score;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -22,18 +23,34 @@ class ScoreRepository extends ServiceEntityRepository
         parent::__construct($registry, Score::class);
     }
 
-    public function findByCollectiviteForOpsn(OPSN $opsn)
+    /**
+     * Le calcul de la moyenne doit se faire sur les derniers scores enregistrés pour chaque collectivité.
+     * Doctrine ne permet pas de faire une requête imbriquée en DQL, il faut donc passer par une requête native.
+     * Attention, la moyenne ne prend pas en compte les collectivités qui n'ont pas encore de score.
+     *
+     * @param OPSN $opsn
+     * @return string
+     */
+    public function findOpsnAverage(OPSN $opsn): string
     {
-        $qb = $this->createQueryBuilder('s')
-            ->innerJoin('s.collectivite', 'c')
-            ->where('c.opsn = :opsn')
-            ->orderBy('c.name', 'ASC')
-            ->addOrderBy('s.scoredAt', 'DESC')
-            ->groupBy('s.collectivite')
-            ->setParameter('opsn', $opsn)
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('moyenne', 'moyenne');
+
+        $q = $this->getEntityManager()->createNativeQuery('
+            SELECT avg(s1.score) as moyenne
+            FROM score s1
+            INNER JOIN (
+                SELECT collectivite_id, MAX(scored_at) AS max_scored_at
+                FROM score
+                GROUP BY collectivite_id
+            ) s2 ON s1.collectivite_id = s2.collectivite_id AND s1.scored_at = s2.max_scored_at
+            INNER JOIN collectivite c ON c.id = s1.collectivite_id
+            WHERE c.opsn_id = :opsn
+            ', $rsm)
+            ->setParameter('opsn', $opsn->getId())
             ;
         
-        return $qb->getQuery()->getResult();
+        return $q->getSingleScalarResult();
     }
 
     public function save(Score $entity, bool $flush = false): void

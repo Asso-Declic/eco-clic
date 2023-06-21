@@ -13,7 +13,7 @@
 - `/src`
   Tous les fichiers PHP du projet sont ici. C'est surtout ici qu'on code. 
 - `/templates`
-  Tous les fichiers de templates qui génèrent du HTML sont ici. On ne génère du code HTML qu'avec ces fichiesr
+  Tous les fichiers de templates qui génèrent du HTML sont ici. On ne génère du code HTML qu'avec ces fichiers
 - `/tests`
   Il n'y pas de tests unitaires ni de tests fonctionnels dans le projet mais ils se trouveraient ici.
 - `/translations`

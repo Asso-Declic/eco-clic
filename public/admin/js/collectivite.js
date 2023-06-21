@@ -6,7 +6,7 @@ $(function() {
         async: false,
         dataType: 'json',
         success: function(response) {
-            document.getElementById('moyenne').innerHTML = response.moyenne;
+            document.getElementById('moyenne').innerHTML = Math.round((parseFloat(response) * 100))/100;
         },
         error: function(jqXhr, textStatus, errorThrown) {
             document.getElementById('moyenne').innerHTML = "N/A";
@@ -49,41 +49,41 @@ $(function() {
         },
         columns: [{
                 caption: "Collectivité",
-                dataField: "name",
+                dataField: "collectivite.name",
             }, {
                 caption: "Type",
-                dataField: "type.label",
+                dataField: "collectivite.type.label",
                 width: 100
             }, {
                 caption: "Département",
-                dataField: "departement.code",
+                dataField: "collectivite.departement.code",
                 width: 150
             },{
                 caption: "Avancée",
-                dataField: "Avancee",
+                dataField: "progression",
                 width: 100
             }, {
                 caption: "Score",
-                dataField: "Score",
+                dataField: "score",
                 width: 100
             },
         ],
         masterDetail: {
             enabled: true,
             template(container, options) {
-                $avance = options.data.detailAvance;
-                container.append($(`<div id="${options.data.Id}" class="masterDetail-container"></div>`));
+                $avance = options.data.progressionDetails;
+                container.append($(`<div id="${options.data.collectivite.id}" class="masterDetail-container"></div>`));
 
                 //On récupère le nombre de recommandation disponibles que le user a au total que l'on vas afficher séparément sur chaque catégories 
                 let nbRecommandationUser = [];
                 $.ajax({
-                    url: '../AjaxLoader/GetNbRecoCollectivite.php?CollectiviteId='+options.data.Id,
-                    type: 'get',
+                    url: '/api/recommandation/by-collectivite/' + options.data.collectivite.id,
+                    type: 'GET',
                     async: false,
                     dataType: 'json',
                     success: function(data) {
-                        for (let i = 0; i < data['data'].length; i++) {
-                            nbRecommandationUser[i] = data['data'][i].nbRecommandation;
+                        for (let i = 0; i < data.length; i++) {
+                            nbRecommandationUser[i] = data[i].nb_recommandation;
                         }
                     }
                 });
@@ -92,16 +92,16 @@ $(function() {
 
                     let div1 = document.createElement('div');
                     div1.setAttribute("class", "masterDetail-div");
-                    document.getElementById(options.data.Id).append(div1);
+                    document.getElementById(options.data.collectivite.id).append(div1);
 
                     let img = document.createElement('img');
                     img.setAttribute("class", "masterDetail-img");
-                    img.setAttribute("src", "../img/"+$avance[i].Img);
+                    img.setAttribute("src", "../img/"+$avance[i].category_image);
                     div1.append(img);
 
                     let p1 = document.createElement('p');
                     p1.setAttribute("class", "masterDetail-nom");
-                    p1.textContent = $avance[i].Categorie;
+                    p1.textContent = $avance[i].category_name;
                     div1.append(p1);
 
                     let p2 = document.createElement('p');
