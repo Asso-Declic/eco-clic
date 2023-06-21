@@ -23,7 +23,7 @@ class ProgressionManager
      * @param Collectivite $collectivite
      * @return array
      */
-    public function getCollectiviteProgression(Collectivite $collectivite)
+    public function get(Collectivite $collectivite)
     {
         return $this->collectiviteAnswerRepository->countAllByCategory($collectivite);
     }
@@ -36,7 +36,7 @@ class ProgressionManager
      * @param Collectivite $collectivite
      * @return array
      */
-    public function getCollectiviteProgressionByCategory(Category $category, Collectivite $collectivite)
+    public function getByCategory(Category $category, Collectivite $collectivite)
     {
         return $this->collectiviteAnswerRepository->countForOneCategory($category, $collectivite);
     }

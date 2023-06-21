@@ -15,14 +15,14 @@ class ProgressionController extends AbstractController
     public function global(ProgressionManager $progressionManager): Response
     {
         $collectivite = $this->getUser()->getCollectivite();
-        return $this->json($progressionManager->getCollectiviteProgression($collectivite));
+        return $this->json($progressionManager->get($collectivite));
     }
 
     #[Route('/by-category/{id}', name: 'by_category', requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
     public function byCategory(Category $category, ProgressionManager $progressionManager): Response
     {
         $collectivite = $this->getUser()->getCollectivite();
-        $data = $progressionManager->getCollectiviteProgressionByCategory($category, $collectivite);
+        $data = $progressionManager->getByCategory($category, $collectivite);
         return $this->json(["data" => $data]);
     }
 }
