@@ -22,7 +22,7 @@ class ScoreController extends AbstractController
     public function read(ScoreManager $scoreManager): Response
     {
         $collectivite = $this->getUser()->getCollectivite();
-        return $this->json($scoreManager->getCurrent($collectivite));
+        return $this->json($scoreManager->getCurrent($collectivite), 200, [], ['groups' => 'score']);
     }
 
     #[Route('/{id}', name: 'read_for_category', methods: ['GET'], requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]

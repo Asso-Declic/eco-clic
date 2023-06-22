@@ -21,7 +21,7 @@ class Departement
 
     #[ORM\ManyToOne(targetEntity: Region::class, inversedBy: 'departements')]
     #[ORM\JoinColumn(name: 'region_code', referencedColumnName: 'code')]
-    private ?int $region = null;
+    private ?Region $region = null;
 
     #[ORM\ManyToMany(targetEntity: OPSN::class, mappedBy: 'departements')]
     private Collection $OPSNs;

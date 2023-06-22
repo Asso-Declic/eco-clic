@@ -1,5 +1,4 @@
 $(function() {
-
     $.ajax({
         url: '/api/score/by-opsn',
         type: 'GET',
@@ -82,11 +81,10 @@ $(function() {
                     async: false,
                     dataType: 'json',
                     success: function(data) {
-                        for (let i = 0; i < data.length; i++) {
-                            nbRecommandationUser[i] = data[i].nb_recommandation;
-                        }
+                        nbRecommandationUser = data.map(elm => elm.nb_recommandation);
                     }
                 });
+                console.log(nbRecommandationUser, options.data)
 
                 for (let i = 0; i < $avance.length; i++) {
 
