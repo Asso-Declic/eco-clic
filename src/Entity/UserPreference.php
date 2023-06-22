@@ -15,12 +15,12 @@ class UserPreference
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
     
-    #[Groups('userPreference')]
+    #[Groups(['userPreference'])]
     #[ORM\Id]
     #[ORM\Column(name: 'Code', length: 20)]
     private ?string $code = null;
 
-    #[Groups('userPreference')]
+    #[Groups(['userPreference'])]
     #[ORM\Column(name: 'Json', length: 2000, nullable: true)]
     private ?string $json = null;
 
@@ -60,7 +60,7 @@ class UserPreference
         return $this;
     }
 
-    #[Groups('userPreference')]
+    #[Groups(['userPreference'])]
     public function getUserId()
     {
         return $this->getUser()->getId();

@@ -10,26 +10,29 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/utilisateur/preference', name: 'api_user_preference_')]
+#[Route('/api/user/preference', name: 'api_user_preference_')]
 class UserPreferenceController extends AbstractController
 {
-    #[Route('/menu-categories', name: 'menu_categories')]
-    public function menuCategories(UserPreferenceRepository $userPreferenceRepository): JsonResponse
+    #[Route('', name: 'read', methods: ['GET'])]
+    public function read(Request $request, UserPreferenceRepository $userPreferenceRepository): JsonResponse
     {
+        $code = $request->query->get('code');
         $userPreference = $userPreferenceRepository->findOneBy([
             'user' => $this->getUser(),
-            'code' => 'MENU_VISIBILITY',
+            'code' => $code,
         ]);
+
         return $this->json($userPreference, 200, [], ['groups' => 'userPreference']);
     }
 
-    #[Route('', name: 'update', methods: ['PATCH'])]
+    #[Route('', name: 'update', methods: ['PATCH', 'POST'])]
     public function update(EntityManagerInterface $em, Request $request, UserPreferenceRepository $userPreferenceRepository)
     {
-        // Warning : L'algo devrait être fait pour stocker n'importe quel type de préférence mais ça ne garde apparemment que l'état du menu pour le moment, d'où le fait que ça stocke directement MENU_VISIBILITY
-        $code = 'MENU_VISIBILITY';
+        $code = $request->request->get('code');
         $json = $request->request->get('display');
-        // Warning : Précédemment l'algorithme supprimait la préférence pour la recréer. Ici on la met à jour ou on la crée si elle n'existe pas. En principe c'est le même résultat
+
+        // ! Attention, on peut ajouter le nom de clé qu'on veut ici. Il serait intéressant, pour des raisons de sécurité, de vérifier que le code est bien dans une liste de codes autorisés.
+
         $userPreference = $userPreferenceRepository->findOneBy(['user' => $this->getUser(), 'code' => $code]);
         if ($userPreference === null) {
             $userPreference = new UserPreference();

@@ -206,15 +206,15 @@
     });
 
     function updatePreferences() {
-        // TODO: Le mieux serait de stocker cette préférence en localStorage, ça éviterait des appels API
         $.ajax({
-            url: '/api/utilisateur/preference',
+            url: '/api/user/preference',
             type: 'PATCH',
             async: true,
             data: {
+                code: 'MENU_VISIBILITY',
                 display: $('#sousMenu').css("display")
             },
-            dataType: 'JSON',
+            dataType: 'json',
             success: function(reponse) {
                 
             },
@@ -226,7 +226,7 @@
 
     function getPreferences() {
         $.ajax({
-            url: '/api/utilisateur/preference/menu-categories',
+            url: '/api/user/preference?code=MENU_VISIBILITY',
             type: 'GET',
             async: false,
             dataType: 'json',
