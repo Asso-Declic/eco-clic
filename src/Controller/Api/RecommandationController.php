@@ -34,20 +34,21 @@ class RecommandationController extends AbstractController
 
     /**
      * Fournit les recommandations par catégorie pour une collectivité
+     * Doit fournir la liste des catégories à chaque fois
      *
      * @return JsonResponse
      */
-    #[Route('/by-collectivite/{id}', name: 'by_collectivite', requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
+    #[Route('/by-collectivite/{id}', name: 'by_collectivite', requirements: ['id' => '^([0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}|404)$'])]
     public function byCollectivite(RecommandationRepository $recommandationRepository): JsonResponse
     {
-        $recommandations = $recommandationRepository->findTotalsPerCategories($this->getUser()->getCollectivite());
+        $recommandations = $recommandationRepository->countTotalsPerCategories($this->getUser()->getCollectivite());
         return $this->json($recommandations);
     }
 
     #[Route('/totals-per-categories', name: 'totals_per_categories')]
     public function totalsPerCategories(RecommandationRepository $recommandationRepository): JsonResponse
     {
-        $totals = $recommandationRepository->findTotalsPerCategories($this->getUser()->getCollectivite());
+        $totals = $recommandationRepository->countTotalsPerCategories($this->getUser()->getCollectivite());
         return $this->json(['data' => $totals]);
     }
     
