@@ -1,4 +1,5 @@
 {% extends 'security/base.html.twig' %}
+{% form_theme requestForm with ['form_div_layout.html.twig'] only %}
 
 {% block title %}Réinitialiser votre mot de passe{% endblock %}
 
@@ -10,7 +11,9 @@
         <p class="text-center fs mt-4">Demander la réinitialisation de votre mot de passe</p>
         <fieldset class="formRow mb-3">
             <div class="formRow--item col-12">
-            {{ form_widget(requestForm.username, { 'attr': {'class': 'formRow--input js-input form-input', 'placeholder': 'Identifiant'}}) }}
+                <label for="username_input_login" class="formRow--input-wrapper js-inputWrapper">
+                    {{ form_widget(requestForm.username, { 'attr': {'class': 'formRow--input js-input form-input', 'placeholder': 'Identifiant'}, 'label_attr': {'class': 'formRow--input-wrapper js-inputWrapper'}}) }}
+                </label>
             </div>
         </fieldset>
 
