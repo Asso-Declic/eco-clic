@@ -6,8 +6,6 @@
 {% if error %}
     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
-    <div class="alert alert-warning">Dûe à une amélioration drastique de la sécurité, il est fort possible que votre mot de passe ne fonctionne plus.
-    Il vous faudra utiliser la <a href="{{ path('security_reset_password_request') }}">fonctionnalité de mot de passe oublié</a> pour le réinitialiser.</div>
 
 {% if app.user %}
     <div class="mb-3">
