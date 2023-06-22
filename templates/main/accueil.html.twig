@@ -61,7 +61,7 @@
                     </div>
 
                     
-                    <a id="commencer" hidden class="btn btn-blueAdico fs mt-5 p-4 rounded-pill" 
+                    <a id="commencer" class="btn btn-blueAdico fs mt-5 p-4 rounded-pill" 
                     style="background-color: #00857A; color: white; height: 80px; width: 50%; cursor: pointer; height: auto !important;">Commencer</a>
                 </div>
 
@@ -69,11 +69,11 @@
                     <div id="Statistiques">
                         <div class="divAcceuil">
                             <div class="divRond" style="margin-right: 0px;">
-                                <img src="/img/statistiques.svg" style="filter: brightness(0) invert(1); padding: 5px; width: 23px; height: 23px;">
+                                <img src="{{ asset('img/statistiques.svg') }}" style="filter: brightness(0) invert(1); padding: 5px; width: 23px; height: 23px;">
                             </div>
                             <p style="color: #08453F; font-size: 20px; min-inline-size: max-content; margin: 10px;">Statistiques</p>
                             <div id="trait2"></div>
-                            <img id="imgdivStatistiquesContent" src="img/Flechetype2.svg" style="cursor: pointer; margin: auto 10px; filter: brightness(0) saturate(100%) invert(20%) sepia(88%) saturate(387%) hue-rotate(125deg) brightness(92%) contrast(99%);" onclick="reduire('divStatistiquesContent')">
+                            <img id="imgdivStatistiquesContent" src="{{ asset('img/Flechetype2.svg') }}" style="cursor: pointer; margin: auto 10px; filter: brightness(0) saturate(100%) invert(20%) sepia(88%) saturate(387%) hue-rotate(125deg) brightness(92%) contrast(99%);" onclick="reduire('divStatistiquesContent')">
                         </div>
                         <div id="divStatistiquesContent" style="background-color: #FFFFFF; border-radius: 6px;">
                             <div class="demo-container">

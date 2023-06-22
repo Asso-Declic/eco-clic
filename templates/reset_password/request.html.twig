@@ -7,26 +7,28 @@
     {% for flash_error in app.flashes('reset_password_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
+        <div>
+            <p class="text-center fs mt-5 col-9">
+                Modifier votre mot de passe
+            </p>
+            <p class="text-center fs mb-5 col-9">
+                Veuillez renseigner votre adresse email ci-dessous
+            </p>
+        </div>
     {{ form_start(requestForm) }}
-        <p class="text-center fs mt-4">Demander la réinitialisation de votre mot de passe</p>
         <fieldset class="formRow mb-3">
             <div class="formRow--item col-12">
+                <p>Adresse Email* :</p>
                 <label for="username_input_login" class="formRow--input-wrapper js-inputWrapper">
                     {{ form_widget(requestForm.username, { 'attr': {'class': 'formRow--input js-input form-input', 'placeholder': 'Identifiant'}, 'label_attr': {'class': 'formRow--input-wrapper js-inputWrapper'}}) }}
                 </label>
+                <p class="text-right">*Champs obligatoires</p>
             </div>
         </fieldset>
 
-        <div>
-            <p class="text-center fs mt-4 col-9">
-            <small>
-                Entrez votre nom d'utilisateur et nous vous enverrons un courriel pour procéder à la réinitialisation de votre mot de passe.
-            </small>
-            </p>
-        </div>
 
         <div class="col-7">
-            <button type="submit" class="d-block btn btn-blueAdico rounded-pill white mt-10 col-12 col-lg-12 fs">Envoyer le courriel</button>
+            <button type="submit" class="d-block btn btn-blueAdico rounded-pill white mt-10 col-12 col-lg-12 fs">Valider</button>
         </div>
     {{ form_end(requestForm) }}
 {% endblock %}
