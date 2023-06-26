@@ -12,6 +12,37 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20230510152551 extends AbstractMigration
 {
+    /**
+     * Documentation de la transition de l'ancien code vers Symfony
+     * 
+     * ## MCD d'origine
+     * Avant le passage à Symfony, la base de données n'avait pas de MCD.
+     * Dans un premier temps, il a fallu créer toutes les entités et les associations selon les tables actuelles.
+     * Ça donne un MCD sans relation puisque aucune clé étrangère n'existait. Une seule relation ManyToMany a
+     * été mise en place à cette étape, entre `OPSN` et `Departement`.
+     * 
+     * ## Vers un MCD idéal
+     * On doit supprimer la relation «classer» entre Recommandation et Category.
+     * On peut retrouver la catégorie en joignant la table à Question puis à Category.
+     * Pour des raisons des redondance, on supprime la catégorie dans Recommandation.
+     * 
+     * Malgré le semblant de redondance, on doit conserver la relation «classer» entre Question et Category.
+     * On aurait pu se dire que tous les thèmes ont une catégorie et toutes les questions ont un thème
+     * mais c'est plus compliqué que ça. Les questions sont forcément liées à une catégorie et sont parfois
+     * liées à un thème. Les thèmes sont des sortes de sous-catégories. On aurait aussi pu imaginer que les
+     * catégories puissent être organisées en arborescence.
+     * 
+     * On doit supprimer la relation «associer» entre CollectiviteAnswer et Question.
+     * On peut retrouver la question en joignant la table à Answer puis à Question.
+     * Pour des raisons des redondance, on supprime la question dans CollectiviteAnswer.
+     * 
+     * On doit ajouter un id à Score, c'est Doctrine qui l'impose. On a désormais un BIGINT sur le champs id.
+     * 
+     * On supprime `forgotPasswordId` et `forgotPasswordAt` dans User et Admin car on a mis en place une solution proposée par Symfony.
+     * 
+     * On supprime `TemporarySiret` qui disparaîtra lorsque l'Éco-clic sera ouverte à toutes les collectivités.
+     */
+
     public function getDescription(): string
     {
         return 'Normalisation des tables après la création des entités';
