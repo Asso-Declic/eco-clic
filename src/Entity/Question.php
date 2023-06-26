@@ -24,7 +24,6 @@ class Question
     private ?string $question = null;
 
     #[ORM\ManyToOne(targetEntity: Theme::class, inversedBy: 'questions')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Theme $theme = null;
     
     #[Groups(['question'])]
