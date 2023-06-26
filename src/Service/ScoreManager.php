@@ -104,6 +104,12 @@ class ScoreManager
         }
     }
 
+    public function getList(Collectivite $collectivite)
+    {
+        $scores = $this->scoreRepository->findBy(['collectivite' => $collectivite], ['scoredAt' => 'ASC']);
+        return $scores;
+    }
+
     /**
      * Récupère le score moyen d'une OPSN basé sur le dernier score de toutes les collectivités
      * 

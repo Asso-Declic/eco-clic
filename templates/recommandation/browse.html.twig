@@ -108,7 +108,6 @@
                 $("#statut").empty();
             })
 
-            console.log($("#treeviewCateg").dxTreeView);
             ///////////////////////////////////// Devextreme treeview /////////////////////////////////////
             // TODO : Revoir le fonctionnements des trois menus, pour le moment ils ne s'affichent pas
             var treeViewCategCount = 0;
@@ -396,12 +395,10 @@
                 // document.querySelector('#score').textContent = Math.floor(globalScore.score * 100 / globalScore.nb)+"/100";
                 // $('#indice').removeAttr('hidden');
 
-                $Nbrep = globalScore.nb;
-
                 $('#progress')[0].style.backgroundColor = "#fff";
                 document.getElementById("progress").classList.add("scoreRectangle");
 
-                $score = Math.floor(globalScore.score * 100 / globalScore.nb);
+                $score = globalScore.score;
 
                 if ($score >= 99) {
                     document.getElementById("A").classList.add("scoreZoom");
@@ -421,23 +418,16 @@
                 console.error('Une erreur est survenue');
             }
         });
-
+        
         $.ajax({
-            url: '/api/category/infos',
+            url: '/api/progression?unified=true',
             type: 'GET',
             async: false,
             dataType: 'json',
-            success: function(categoryList) {
-                $Nbquestion = 0;
-                for (let a = 0; a < categoryList.length; a++) {
-                    $Nbquestion += categoryList[a].nb_question;
-                }
-
-                if ($Nbrep > $Nbquestion) {
-                    $Nbrep = $Nbquestion;
-                }
-
-                if ($Nbquestion != $Nbrep) {
+            success: function(progression) {
+                $Nbrep = progression.totalAnswers;
+                $Nbquestion = progression.totalQuestions;
+                if ($Nbquestion > $Nbrep) {
                     document.getElementById('progress').hidden = true;
                     document.getElementById('recommandations').hidden = true;
                     document.getElementById('dropdownMenuButton1').hidden = true;
@@ -557,9 +547,7 @@
                     $temp = [];
                     for (let i = 0; i < recommandations.length; i++) {
                         if (recommandations[i].category_id == $categorie[a]) {
-
                             $temp.push([recommandations[i]]);
-
                         }
                     }
 
@@ -590,7 +578,6 @@
                 })
 
                 for (let h = 0; h < a1.length; h++) {
-
                     $nb = 0;
                     let div0 = document.createElement('div');
 
@@ -605,9 +592,7 @@
                     for (let w = 0; w < a2.length; w++) {
                         $nb2 = 0;
                         for (let n = 0; n < a2[w].length; n++) {
-
                             if ($nb == 0) {
-
                                 let div6 = document.createElement('div');
                                 div6.setAttribute("class", "divIconCateg");
                                 div0.append(div6);
@@ -644,7 +629,6 @@
                             }
 
                             if ($nb2 == 0) {
-
                                 let p2 = document.createElement('p');
                                 p2.setAttribute("class", "theme " + a2[w][n].category_id + " " + a2[w][n].theme_id);
                                 p2.textContent = a2[w][n].theme_label;

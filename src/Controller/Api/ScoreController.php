@@ -66,4 +66,12 @@ class ScoreController extends AbstractController
         $score = $scoreManager->getOpsnAverage($opsn);
         return $this->json($score);
     }
+
+    #[Route("/list", name: "list", methods: ['GET'])]
+    public function list(ScoreManager $scoreManager)
+    {
+        $collectivite = $this->getUser()->getCollectivite();
+        $scores = $scoreManager->getList($collectivite);
+        return $this->json($scores, 200, [], ['groups' => 'score']);
+    }
 }
