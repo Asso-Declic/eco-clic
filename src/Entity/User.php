@@ -26,8 +26,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $username = null;
 
     //#[ORM\Column]
-    // La BDD d'origine n'a pas de rôle alors on commente l'attribut qui en créerait une
-    // Il faut impérativement laisser cette propriété pour respecter le `UserInterface`
+    // La BDD d'origine n'a pas de rôle alors on commente l'attribut qui créerait un champs dans la table
+    // Il faut impérativement laisser cette propriété pour respecter le UserInterface
     private array $roles = [];
 
     /**
