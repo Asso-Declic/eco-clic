@@ -10,7 +10,7 @@ $(function() {
             (response == 1) ? modifiable = true: modifiable = false;
         },
         error: function(jqXhr, textStatus, errorThrown) {
-            alert('Une erreur est survenue');
+            console.log('Une erreur est survenue');
         }
     })
 
@@ -319,7 +319,7 @@ function formulaire(themeId) {
             theme = data;
         },
         error: function(jqXhr, textStatus, errorThrown) {
-            alert('Une erreur est survenue');
+            console.log('Une erreur est survenue');
         }
     });
     return theme;
@@ -373,7 +373,7 @@ function modaleDelete(data) {
                             $("#gridContainer").dxTreeList('refresh')
                         },
                         error: function(jqXhr, textStatus, errorThrown) {
-                            alert('Une erreur est survenue');
+                            console.log('Une erreur est survenue');
                         }
                     })
                     popup.hide();

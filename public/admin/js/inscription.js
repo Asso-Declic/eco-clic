@@ -53,7 +53,7 @@ $(function() {
                                 response = data;
                             },
                             error: function(jqXhr, textStatus, errorThrown) {
-                                alert('Une erreur est survenue');
+                                console.log('Une erreur est survenue');
                             }
                         });
                         test = (response == params.value) ? false : true

@@ -84,7 +84,6 @@ $(function() {
                         nbRecommandationUser = data.map(elm => elm.nb_recommandation);
                     }
                 });
-                console.log(nbRecommandationUser, options.data)
 
                 for (let i = 0; i < $avance.length; i++) {
 

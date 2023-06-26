@@ -20,7 +20,7 @@ $(function() {
             });
         },
         error: function(jqXhr, textStatus, errorThrown) {
-            alert('Une erreur est survenue');
+            console.log('Une erreur est survenue');
         }
     });
 
@@ -348,7 +348,7 @@ function GetMasterDetails(id) {
             MasterData = reponse
         },
         error: function(jqXhr, textStatus, errorThrown) {
-            alert('Une erreur est survenue');
+            console.log('Une erreur est survenue');
         }
     });
     return MasterData;

@@ -72,7 +72,7 @@ $(function() {
             }).dxForm("instance");
         },
         error: function(jqXhr, textStatus, errorThrown) {
-            alert('Une erreur est survenue');
+            console.log('Une erreur est survenue');
         }
     });
 

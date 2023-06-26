@@ -176,7 +176,7 @@ function formulaire(themeId) {
             theme = data;
         },
         error: function(jqXhr, textStatus, errorThrown) {
-            alert('Une erreur est survenue');
+            console.log('Une erreur est survenue');
         }
     });
     return theme;

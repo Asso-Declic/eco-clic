@@ -335,7 +335,7 @@ function GetMasterDetails(id) {
             MasterData = reponse
         },
         error: function(jqXhr, textStatus, errorThrown) {
-            alert('Une erreur est survenue');
+            console.log('Une erreur est survenue');
         }
     });
     return MasterData;
@@ -354,7 +354,7 @@ function updateActif(id) {
 
         },
         error: function(jqXhr, textStatus, errorThrown) {
-            alert('Une erreur est survenue');
+            console.log('Une erreur est survenue');
         }
     });
 }
@@ -378,7 +378,7 @@ var sendRequest = function(value) {
             }
         },
         error: function(jqXhr, textStatus, errorThrown) {
-            alert('Une erreur est survenue');
+            console.log('Une erreur est survenue');
         }
     });
     if (valid == -1) {
