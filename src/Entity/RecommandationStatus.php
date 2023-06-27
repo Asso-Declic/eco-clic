@@ -21,14 +21,6 @@ class RecommandationStatus
     #[ORM\Column(length: 50)]
     private ?string $label = null;
 
-    #[ORM\OneToMany(mappedBy: 'status', targetEntity: Recommandation::class)]
-    private Collection $recommandations;
-
-    public function __construct()
-    {
-        $this->recommandations = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -42,36 +34,6 @@ class RecommandationStatus
     public function setLabel(string $label): self
     {
         $this->label = $label;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Recommandation>
-     */
-    public function getRecommandations(): Collection
-    {
-        return $this->recommandations;
-    }
-
-    public function addRecommandation(Recommandation $recommandation): self
-    {
-        if (!$this->recommandations->contains($recommandation)) {
-            $this->recommandations->add($recommandation);
-            $recommandation->setStatus($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRecommandation(Recommandation $recommandation): self
-    {
-        if ($this->recommandations->removeElement($recommandation)) {
-            // set the owning side to null (unless already changed)
-            if ($recommandation->getStatus() === $this) {
-                $recommandation->setStatus(null);
-            }
-        }
 
         return $this;
     }

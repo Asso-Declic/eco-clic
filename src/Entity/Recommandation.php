@@ -32,7 +32,7 @@ class Recommandation
     #[ORM\JoinColumn(nullable: false)]
     private ?RecommandationLevel $level = null;
 
-    #[ORM\ManyToOne(inversedBy: 'recommandations')]
+    #[ORM\ManyToOne(targetEntity: RecommandationStatus::class)]
     #[ORM\JoinColumn(nullable: false, options: ['default' => 4])]
     private ?RecommandationStatus $status = null;
 
