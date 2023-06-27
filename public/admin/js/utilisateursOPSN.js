@@ -228,7 +228,7 @@ var sendRequest = function(value) {
             }
         },
         error: function(jqXhr, textStatus, errorThrown) {
-            console.log('Une erreur est survenue');
+            console.error('Une erreur est survenue');
         }
     });
     if (valid == -1) {
@@ -345,7 +345,7 @@ function renvoiMail(Id, Nom, Prenom, Identifiant, Mail) {
             DevExpress.ui.notify("Le mail d'inscription a été renvoyé");
         },
         error: function(jqXhr, textStatus, errorThrown) {
-            console.log('Une erreur est survenue');
+            console.error('Une erreur est survenue');
         }
     });
 }
@@ -363,7 +363,7 @@ function updateActif(utilisateurId) {
             $("#gridContainer").dxDataGrid("instance").refresh()
         },
         error: function(jqXhr, textStatus, errorThrown) {
-            console.log('Une erreur est survenue');
+            console.error('Une erreur est survenue');
         }
     });
 }

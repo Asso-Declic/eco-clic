@@ -93,8 +93,8 @@ class QuestionRepository extends ServiceEntityRepository
         //     ->addSelect('IF(q.parentAnswer = a.id, \'Oui\', \'Non\') as Visible')
         //     ->innerJoin('q.answers', 'a')
         //     // ->where('q.category = :category')
-        //     // ->setParameter('category', $answer->getQuestion()->getCategory()) // TODO : Vérifier que c'est nécessaire
-        //     // ->andWhere('q.parent = :question') // TODO : Vérifier que c'est nécessaire
+        //     // ->setParameter('category', $answer->getQuestion()->getCategory())
+        //     // ->andWhere('q.parent = :question')
         //     // ->setParameter('question', $answer->getQuestion())
         //     ->andWhere('q.parentAnswer = :answer')
         //     ->setParameter('answer', $answer)

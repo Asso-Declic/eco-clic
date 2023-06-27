@@ -10,7 +10,7 @@
 //             (response == 1) ? modifiable = true: modifiable = false;
 //         },
 //         error: function(jqXhr, textStatus, errorThrown) {
-//             console.log('Une erreur est survenue');
+//             console.error('Une erreur est survenue');
 //         }
 //     })
 
@@ -269,7 +269,7 @@
 //             theme = data;
 //         },
 //         error: function(jqXhr, textStatus, errorThrown) {
-//             console.log('Une erreur est survenue');
+//             console.error('Une erreur est survenue');
 //         }
 //     });
 //     return theme;
@@ -323,7 +323,7 @@
 //                             $("#gridContainer").dxDataGrid('refresh')
 //                         },
 //                         error: function(jqXhr, textStatus, errorThrown) {
-//                             console.log('Une erreur est survenue');
+//                             console.error('Une erreur est survenue');
 //                         }
 //                     })
 //                     popup.hide();

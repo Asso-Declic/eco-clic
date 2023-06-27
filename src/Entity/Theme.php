@@ -40,7 +40,6 @@ class Theme
 
     public function __toString()
     {
-        // TODO : Vérifier si le Theme avec l'id 0 ne devrait pas être supprimé
         return $this->label ?? '';
     }
 

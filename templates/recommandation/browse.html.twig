@@ -159,7 +159,6 @@
                     }
 
                     if (typeof $tabNotSelect2 != "undefined") {
-
                         for (let p = 0; p < $tabNotSelect2.length; p++) {
                             // cacher les reco avec les tag dont l'id correspond
                             for (let h = 0; h < document.getElementsByClassName("niveau" + $tabNotSelect2[p]).length; h++) {
@@ -171,7 +170,6 @@
                     }
 
                     if (typeof $tabNotSelect3 != "undefined") {
-
                         for (let p = 0; p < $tabNotSelect3.length; p++) {
                             for (let g = 0; g < document.getElementsByClassName(" statut" + $tabNotSelect3[p]).length; g++) {
                                 if (document.getElementsByClassName(" statut" + $tabNotSelect3[p])[g] != null) {
@@ -482,7 +480,6 @@
 
         function remplirListeStatut() {
             $.ajax({
-                // TODO : À tester
                 url: '/api/recommandation-status',
                 type: 'GET',
                 async: false,

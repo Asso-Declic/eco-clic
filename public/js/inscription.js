@@ -99,9 +99,6 @@ $(function() {
                                     type: 'GET',
                                     async: false,
                                     dataType: 'json',
-                                    // data: {
-                                    //     'Siret': params.value,
-                                    // },
                                     success: function(data) {
                                         response = data;
                                     },
@@ -109,7 +106,7 @@ $(function() {
                                         console.error('Une erreur est survenue');
                                     }
                                 });
-                                return (response == params.value) ? false : true;
+                                return (response == '"' + params.value + '"') ? false : true;
                             }
                         },
                         ////////////////temporaire////////////////
