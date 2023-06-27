@@ -48,7 +48,6 @@ $(function() {
         }, {
             caption: "isVerifié",
             dataField: "verified",
-            // TODO : Vérifier si ça reste utile d'avoir cette fonctionnalité
             cellTemplate: function(container, options) {
                 $("#dx-col-5>.dx-datagrid-text-content.dx-text-content-alignment-right").html('<i class="fas fa-envelope"></i>')
                 if (options.value === true) {
