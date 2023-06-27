@@ -31,7 +31,7 @@ hyérarchiser, 11 Question, 1N Question
 associer, 1N Answer, 11 CollectiviteAnswer
 Answer: id, type, body, question, ponderation, collectiviteAnswers, dependentQuestions
 
-RecommandationStatus: id, label, recommandations
+RecommandationStatus: id, label
 définir2, 11 CollectiviteStatus, 1N Recommandation
 :
 Population: id, collectiviteType, min, max
@@ -89,7 +89,6 @@ La progression constitue les informations permettant d'évaluer la complétion d
 
 Le score est une note de A à E qui situe une collectivité par rapport à l'application du référentiel. Le score est calculé quand la progression est complète. La note est attribuée après un calcul du score sur 100.
 
-| E           | D          | C          | B          | A         |
-| ----------- | ---------- | ---------- | ---------- | --------- |
-| moins de 40 | de 40 à 59 | de 60 à 79 | de 80 à 98 | 99 ou 100 | 
-
+| A         | B          | C          | D          | E           |
+|-----------|------------|------------|------------|-------------|
+| 99 ou 100 | de 80 à 98 | de 60 à 79 | de 40 à 59 | moins de 40 |
