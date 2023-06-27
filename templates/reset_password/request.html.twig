@@ -25,10 +25,9 @@
                 <p class="text-right">*Champs obligatoires</p>
             </div>
         </fieldset>
-
-
-        <div class="col-7">
-            <button type="submit" class="d-block btn btn-blueAdico rounded-pill white mt-10 col-12 col-lg-12 fs">Valider</button>
+        <div class="col-12 row align-items-baseline" style="margin-bottom: 65px;">
+            <button type="button" id="annuler" class="d-block btn btn-blueAdico rounded-pill white col-12 col-lg-5 fs" style=" background-color: #F0F0F0;color: #08453F" onclick="javascript:window.history.back()"> Annuler </button>
+            <button type="submit" class="d-block btn btn-blueAdico rounded-pill white col-12 col-lg-5 fs" style="margin-top: 10%;"> Valider </button>
         </div>
     {{ form_end(requestForm) }}
 {% endblock %}

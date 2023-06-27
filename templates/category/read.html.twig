@@ -927,9 +927,8 @@
             type: 'POST',
             async: true,
             dataType: 'json',
-            success: function(data) {
-
-            },
+            // success: function(data) {
+            // },
             error: function(jqXhr, textStatus, errorThrown) {
                 console.error('Une erreur est survenue');
             }
@@ -970,7 +969,6 @@
         for (let u = 0; u < document.getElementsByClassName("feature").length; u++) {
             document.getElementsByClassName("feature")[u].setAttribute("style", "margin: unset;");
         }
-
         $("#boutonValider").addClass('d-none');
         document.getElementById('divSave').hidden = true;
         document.getElementById("modif").hidden = false;
