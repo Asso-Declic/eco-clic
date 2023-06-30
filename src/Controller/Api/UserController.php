@@ -2,7 +2,7 @@
 
 namespace App\Controller\Api;
 
-use App\Form\UserProfilType;
+use App\Form\UserProfileType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -66,7 +66,7 @@ class UserController extends AbstractController
     public function update(EntityManagerInterface $em, Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = $this->getUser();
-        $form = $this->createForm(UserProfilType::class, $user, [
+        $form = $this->createForm(UserProfileType::class, $user, [
             'csrf_protection' => false,
         ]);
         $data = json_decode($request->getContent(), true);

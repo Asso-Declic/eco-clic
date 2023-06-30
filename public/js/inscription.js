@@ -9,19 +9,21 @@ $(function() {
 
     $("input").val("")
     $("#CG_input").attr("checked", false)
-    var denomination = null;
-    var population = null;
+    // var denomination = null;
+    // var population = null;
 
-
-    var form = $("#form").dxForm({
+    // var form =
+    $("#form").dxForm({
         readOnly: false,
         showColonAfterLabel: true,
+        
         labelMode: "floating",
         items: [{
                 colCount: 2,
                 itemType: "group",
                 items: [{
-                    dataField: "Prénom",
+                    dataField: "registration[user_profile][firstName]",
+                    label: {text: "Prénom"},
                     editorType: "dxTextBox",
                     editorOptions: {
                         valueChangeEvent: "keyup",
@@ -31,7 +33,8 @@ $(function() {
                         message: "Ce champ est obligatoire."
                     }]
                 }, {
-                    dataField: "Nom",
+                    dataField: "registration[user_profile][lastName]",
+                    label: {text: "Nom"},
                     editorType: "dxTextBox",
                     editorOptions: {
                         valueChangeEvent: "keyup",
@@ -41,7 +44,8 @@ $(function() {
                         message: "Ce champ est obligatoire."
                     }]
                 }, {
-                    dataField: "Identifiant",
+                    dataField: "registration[user_profile][username]",
+                    label: {text: "Identifiant"},
                     editorType: "dxTextBox",
                     validationRules: [{
                         type: "required",
@@ -71,7 +75,8 @@ $(function() {
                         }
                     }]
                 }, {
-                    dataField: "E-mail",
+                    dataField: "registration[user_profile][email]",
+                    label: {text: "E-mail"},
                     validationRules: [{
                         type: "email",
                         message: "E-mail invalide."
@@ -80,7 +85,8 @@ $(function() {
                         message: "Ce champ est obligatoire."
                     }]
                 }, {
-                    dataField: "Siret",
+                    dataField: "registration[collectivite][siret]",
+                    label: {text: "Siret"},
                     editorType: "dxTextBox",
                     editorOptions: {
                         value: "",
@@ -143,20 +149,24 @@ $(function() {
                         }
                     ]
                 }, {
-                    dataField: "Dénomination",
+                    dataField: "registration[collectivite][name]",
+                    label: {text: "Dénomination"},
                     disabled: true,
                 }, {
-                    dataField: "Population",
+                    dataField: "registration[collectivite][population]",
+                    label: {text: "Population"},
                     disabled: true,
                 }, {
-                    dataField: "Type_de_collectivité",
+                    dataField: "registration[collectivite][type]",
+                    label: {text: "Type de collectivité"},
                     disabled: true,
                 }],
             }, {
                 colCount: 2,
                 itemType: "group",
                 items: [{
-                    dataField: "Mot_de_passe",
+                    dataField: "registration[user_profile][newPassword][first]",
+                    label: {text: "Mot de passe"},
                     editorType: "dxTextBox",
                     editorOptions: {
                         mode: "password",
@@ -167,7 +177,7 @@ $(function() {
                                 icon: "./img/Oeil.svg",
                                 type: "default",
                                 onClick: function(e) {
-                                    $("[name=Mot_de_passe]").attr("type", $("[name=Mot_de_passe]").attr("type") === "text" ? "password" : "text")
+                                    $("[name=registration\\[user_profile\\]\\[newPassword\\]\\[first\\]]").attr("type", $("[name=registration\\[user_profile\\]\\[newPassword\\]\\[first\\]]").attr("type") === "text" ? "password" : "text")
                                 }
                             }
                         }]
@@ -181,7 +191,8 @@ $(function() {
                         message: "Merci de respecter le format requis"
                     }]
                 }, {
-                    dataField: "Confirmer_mot_de_passe",
+                    dataField: "registration[user_profile][newPassword][second]",
+                    label: {text: "Confirmer mot de passe"},
                     editorType: "dxTextBox",
                     editorOptions: {
                         mode: "password",
@@ -192,7 +203,7 @@ $(function() {
                                 icon: "./img/Oeil.svg",
                                 type: "default",
                                 onClick: function(e) {
-                                    $("[name=Confirmer_mot_de_passe]").attr("type", $("[name=Confirmer_mot_de_passe]").attr("type") === "text" ? "password" : "text")
+                                    $("[name=registration\\[user_profile\\]\\[newPassword\\]\\[second\\]]").attr("type", $("[name=registration\\[user_profile\\]\\[newPassword\\]\\[second\\]]").attr("type") === "text" ? "password" : "text")
                                 }
                             }
                         }]
@@ -200,7 +211,7 @@ $(function() {
                     validationRules: [{
                         type: "compare",
                         comparisonTarget: function(e) {
-                            var password = $("[name=Mot_de_passe]").val();
+                            var password = $("[name=registration\\[user_profile\\]\\[newPassword\\]\\[first\\]]").val();
                             if (password) {
                                 return password;
                             }
@@ -226,10 +237,11 @@ $(function() {
                 `).appendTo($itemElement);
                 }
             }, {
-                dataField: "",
+                dataField: "registration[cgu]",
+                label: {visible: false},
                 editorType: "dxCheckBox",
                 editorOptions: {
-                    name: "conditionsGenerales",
+                    name: "registration[cgu]",
                     text: " "
                 },
                 validationRules: [{
@@ -237,15 +249,18 @@ $(function() {
                     message: "Ce champ est obligatoire."
                 }]
             }, {
-                dataField: "Code_postal",
+                dataField: "registration[collectivite][postalCode]",
+                label: {text: "Code postal"},
                 cssClass: "d-none",
                 disabled: true,
             }, {
-                dataField: "Latitude",
+                dataField: "registration[collectivite][latitude]",
+                label: {text: "Latitude"},
                 cssClass: "d-none",
             },
             {
-                dataField: "Longitude",
+                dataField: "registration[collectivite][longitude]",
+                label: {text: "Longitude"},
                 cssClass: "d-none",
             }, {
                 colCount: 2,
@@ -288,7 +303,6 @@ $(function() {
 
 })
 
-
 function sirene(siret) {
     var test = true
     if (siret != "" && siret != null && siret != undefined) {
@@ -299,8 +313,8 @@ function sirene(siret) {
                 timeout: 0,
             })
             .done(function(response) {
-                $("[name=Latitude]").val("")
-                $("[name=Longitude]").val("")
+                $("[name=registration\\[collectivite\\]\\[latitude\\]]").val("")
+                $("[name=registration\\[collectivite\\]\\[longitude\\]]").val("")
                 var insee = response.etablissement.adresseEtablissement.codeCommuneEtablissement;
                 denomination = response.etablissement.uniteLegale.denominationUniteLegale;
                 var typeCol = null;
@@ -312,7 +326,7 @@ function sirene(siret) {
                         typeCol = "COMMUNAUTE DE COMMUNES";
                         break;
                     case "7348":
-                        typeCol = "COMMUNAUTE D'AGLOMERATION";
+                        typeCol = "COMMUNAUTE D'AGGLOMERATION";
                         break;
                     default:
                         typeCol = "AUTRE";
@@ -323,12 +337,12 @@ function sirene(siret) {
                     console.error("erreur 1");
                 }
                 if (response.etablissement.adresseEtablissement.codeCommuneEtablissement.substr(0, 2) == 97) {
-                    $("[name=Code_postal]").val(response.etablissement.adresseEtablissement.codeCommuneEtablissement.substr(0, 3))
+                    $("[name=registration\\[collectivite\\]\\[postalCode\\]]").val(response.etablissement.adresseEtablissement.codeCommuneEtablissement.substr(0, 3))
                 } else {
-                    $("[name=Code_postal]").val(response.etablissement.adresseEtablissement.codeCommuneEtablissement.substr(0, 2))
+                    $("[name=registration\\[collectivite\\]\\[postalCode\\]]").val(response.etablissement.adresseEtablissement.codeCommuneEtablissement.substr(0, 2))
                 }
                 if (test == true) {
-                    $("[name=Type_de_collectivité]").val(typeCol);
+                    $("[name=registration\\[collectivite\\]\\[type\\]]").val(typeCol);
                     $.ajax({
                             url: "https://geo.api.gouv.fr/communes/" + insee,
                             method: "GET",
@@ -337,8 +351,8 @@ function sirene(siret) {
                         })
                         .done(function(response) {
                             population = response.population;
-                            $("[name=Population]").val(population);
-                            $("[name=Dénomination]").val(denomination);
+                            $("[name=registration\\[collectivite\\]\\[population\\]]").val(population);
+                            $("[name=registration\\[collectivite\\]\\[name\\]]").val(denomination);
                         })
                         .fail(function(jqXHR, textStatus, errorThrown) {
                             test = false
@@ -352,9 +366,9 @@ function sirene(siret) {
             });
     }
     if (test == true) {
-        $("#form").dxForm('instance').itemOption("Population", "editorOptions", { placeholder: "Population" });
-        $("#form").dxForm('instance').itemOption("Type_de_collectivité", "editorOptions", { placeholder: "Type de collectivité" });
-        $("#form").dxForm('instance').itemOption("Dénomination", "editorOptions", { placeholder: "Dénomination" });
+        $("#form").dxForm('instance').itemOption("registration[collectivite][population]", "editorOptions", { placeholder: "Population" });
+        $("#form").dxForm('instance').itemOption("registration[collectivite][type]", "editorOptions", { placeholder: "Type de collectivité" });
+        $("#form").dxForm('instance').itemOption("registration[collectivite][name]", "editorOptions", { placeholder: "Dénomination" });
     }
     return test;
 }

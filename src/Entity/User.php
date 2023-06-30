@@ -61,24 +61,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $token = null;
 
     #[Groups('user')]
-    #[ORM\Column]
-    private ?bool $active = null;
+    #[ORM\Column(options: ['default'=>false])]
+    private bool $active = false;
 
     #[ORM\Column(options: ['default'=>false])]
     private bool $cguChecked = false;
 
     #[Groups('user')]
-    #[ORM\Column( options: ['default'=>false])]
+    #[ORM\Column(options: ['default'=>false])]
     private bool $verified = false;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserPreference::class, orphanRemoval: true)]
     private Collection $userPreferences;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $adminOpsn = null;
+    private ?bool $adminOpsn = false;
 
     #[ORM\Column(options: ['default' => false])]
-    private ?bool $superAdmin = null;
+    private ?bool $superAdmin = false;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?OPSN $opsn = null;
