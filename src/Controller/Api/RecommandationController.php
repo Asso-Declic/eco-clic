@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\Category;
 use App\Entity\Collectivite;
+use App\Entity\Question;
 use App\Repository\CategoryRepository;
 use App\Repository\RecommandationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -65,13 +66,20 @@ class RecommandationController extends AbstractController
         return $this->json($recommandations);
     }
 
-    #[Route('/custom-inputs/by-category/{id}', name: 'custom_inputs', requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
-    public function customInputsByCategory(Category $category, RecommandationRepository $recommandationRepository): JsonResponse
+    #[Route('/perso/by-category/{id}', name: 'custom_inputs', requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
+    public function persoByCategory(Category $category, RecommandationRepository $recommandationRepository): JsonResponse
     {
-        $customInputs = $recommandationRepository->findCustomInputsByCategory($category, $this->getUser()->getCollectivite());
-        return $this->json(count($customInputs));
+        $questions = $recommandationRepository->findRecommandationsPersoByCategory($category);
+        return $this->json($questions, 200, [], ['groups' => ['question', 'recommandation_perso']]);
     }
     
+    #[Route('/answers/{question}/{collectivite}', name: 'answers_by_question', requirements: ['question' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
+    public function answersByQuestion(Collectivite $collectivite, Question $question, RecommandationRepository $recommandationRepository): JsonResponse
+    {
+        $questions = $recommandationRepository->findAnswersByQuestion($question, $collectivite);
+        return $this->json($questions, 200, [], ['groups' => ['question', 'recommandation_perso']]);
+    }
+
     #[Route('/filters', name: 'filters')]
     public function filters(RecommandationRepository $recommandationRepository): JsonResponse
     {

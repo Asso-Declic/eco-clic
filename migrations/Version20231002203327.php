@@ -10,20 +10,20 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20231001205241 extends AbstractMigration
+final class Version20231002203327 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Renommage de la table pivot';
     }
 
     public function up(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE opsn CHANGE phone_number phone_number CHAR(10) DEFAULT NULL');
+        $this->addSql('RENAME TABLE ref_ReponseReco TO recommandation_answer');
     }
 
     public function down(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE opsn CHANGE phone_number phone_number VARCHAR(255) DEFAULT NULL');
+        $this->addSql('RENAME TABLE recommandation_answer TO ref_ReponseReco');
     }
 }

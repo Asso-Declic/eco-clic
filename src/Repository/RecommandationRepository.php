@@ -6,8 +6,10 @@ use App\Entity\Answer;
 use App\Entity\Category;
 use App\Entity\Collectivite;
 use App\Entity\CollectiviteStatus;
+use App\Entity\Question;
 use App\Entity\Recommandation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -127,6 +129,41 @@ class RecommandationRepository extends ServiceEntityRepository
         return $qb;
     }
 
+    public function findAnswersByQuestion(Question $question, Collectivite $collectivite)
+    {
+        // Create native query
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('id', 'id');
+        $rsm->addScalarResult('body', 'body');
+        $rsm->addScalarResult('r', 'r');
+        $rsm->addScalarResult('type', 'type');
+
+        $q = $this->getEntityManager()->createNativeQuery("
+            SELECT answer.id, answer.body, collectivite_answer.body as r, 'reponse' as type
+                FROM `collectivite_answer`
+                INNER JOIN answer ON answer.id = collectivite_answer.answer_id
+                WHERE answer.question_id = :IdQuestion
+                AND collectivite_answer.collectivite_id = :CollectiviteId
+            UNION
+            SELECT recommandation.id, body, ' ' as r, 'reco' as type
+    		    FROM recommandation
+    		    WHERE question_id = :IdQuestion2
+            UNION
+            SELECT recommandation_custom.recommandation_id, recommandation.body, ' ' as r, 'selectedReco' as type
+    		    FROM recommandation_custom
+                INNER JOIN recommandation ON recommandation.id = recommandation_custom.recommandation_id
+    		    WHERE recommandation_custom.question_id = :IdQuestion3
+                AND recommandation_custom.collectivite_id = :CollectiviteId2", $rsm);
+
+        $q->setParameter('IdQuestion', $question->getId());
+        $q->setParameter('IdQuestion2', $question->getId());
+        $q->setParameter('IdQuestion3', $question->getId());
+        $q->setParameter('CollectiviteId', $collectivite->getId());
+        $q->setParameter('CollectiviteId2', $collectivite->getId());
+
+        return dump($q->getScalarResult());
+    }
+
     public function findAllForCollectivite(Collectivite $collectivite)
     {
         return $this->createQbForCollectivite($collectivite)->getQuery()->getResult();
@@ -155,22 +192,19 @@ class RecommandationRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findCustomInputsByCategory(Category $category, Collectivite $collectivite)
+    public function findRecommandationsPersoByCategory(Category $category)
     {
         $qb = $this->createQueryBuilder('r')
+            ->select('q, r, c, a')
             ->innerJoin('r.question', 'q')
+            ->innerJoin('q.category', 'c')
             ->innerJoin('q.answers', 'a')
             ->where('a.type = :type')
             ->andWhere('q.category = :category')
             ->setParameter('type', Answer::TYPE_INPUT)
             ->setParameter('category', $category);
-        
-        if ($collectivite->isLevelTwo() == false) {
-            $qb->andWhere('q.levelTwo = false');
-        }
 
         return $qb->getQuery()->getResult();
-
     }
 
     public function findFiltersPrio(Collectivite $collectivite)

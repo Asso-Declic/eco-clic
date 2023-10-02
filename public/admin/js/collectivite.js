@@ -99,7 +99,7 @@ $(function () {
             cellTemplate: function (container, options) {
 
                 $("<div>").append($(`<div>
-                    <a class="dropdown-item param-util text-center"  onclick='supOPSN("${options.data.Id}")'>
+                    <a class="dropdown-item param-util text-center" onclick='supOPSN("${options.data.collectivite.id}")'>
                         <i class="fa-solid fa-trash"></i>
                     </a>
                 </div>`))
@@ -167,7 +167,7 @@ $(function () {
                             $nbQuestionActive = questionActive.data;
                         },
                         error: function (jqXhr, textStatus, errorThrown) {
-                            console.log('Une erreur est survenue');
+                            console.error('Une erreur est survenue');
                         }
                     })
 
@@ -204,22 +204,20 @@ $(function () {
 
 function recoPerso(CategId, collectiviteId, Categorie) {
 
-    // Récupère les questions de la catégorie
     $.ajax({
-        url: '/api/recommendations/custom-inputs/by-category/' + CategId,
+        url: '/api/recommendations/perso/by-category/' + CategId,
         type: 'get',
         async: false,
         dataType: 'json',
-        success: function (customInputs) {
-            // TODO : Vérifier qu'on reçoit les bonnes informations
-            $customInputs = customInputs;
+        success: function (recoPersos) {
+            $recoPersos = recoPersos;
         },
         error: function (jqXhr, textStatus, errorThrown) {
             console.error('Une erreur est survenue');
         }
     })
 
-    if ($customInputs > 0) {
+    if ($recoPersos.length > 0) {
         $.ajax({
             url: '/api/recommendation-customs/by-category/' + CategId + '/' + collectiviteId,
             type: 'get',
@@ -232,7 +230,6 @@ function recoPerso(CategId, collectiviteId, Categorie) {
                 console.error('Une erreur est survenue');
             }
         })
-
         $('#ModaleRecoPerso').modal('show');
         $('#ModaleRecoPersoLabel')[0].innerHTML = "RECOMMANDATIONS - " + Categorie;
     }
@@ -251,8 +248,8 @@ function recoPerso(CategId, collectiviteId, Categorie) {
         noDataText: "Pas de recommandation",
         selectAllText: "Selectionner tout",
         placeholder: "Selectionner une/des recommandation(s)",
-        valueExpr: "Id",
-        displayExpr: "Text",
+        valueExpr: "id",
+        displayExpr: "body",
         onValueChanged(recoId) {
             $recoId = recoId.value;
         },
@@ -268,11 +265,11 @@ function recoPerso(CategId, collectiviteId, Categorie) {
     $(() => {
 
         $selectQuestion = $('#select-question').dxSelectBox({
-            valueExpr: "IdQuestion",
-            displayExpr: "Titre",
+            valueExpr: "question.id",
+            displayExpr: "question.question",
             noDataText: "Pas de question",
             placeholder: "Selectionner une question",
-            items: $categorie,
+            items: $recoPersos,
             inputAttr: { 'aria-label': 'Question' },
             labelMode: 'floating',
             wrapItemText: true,
@@ -289,9 +286,9 @@ function recoPerso(CategId, collectiviteId, Categorie) {
                 }
 
                 if ($actif == 1) {
-                    return `<div class='custom-item recoActive'><div class='product-name'>${data.Titre}</div><img src="../img/correction.png"/></div>`;
+                    return `<div class='custom-item recoActive'><div class='product-name'>${data.title}</div><img src="../img/correction.png"/></div>`;
                 } else {
-                    return `<div class='custom-item recoNonActive'><div class='product-name'>${data.Titre}</div><img src="../img/erreur.png"/></div>`;
+                    return `<div class='custom-item recoNonActive'><div class='product-name'>${data.title}</div><img src="../img/erreur.png"/></div>`;
                 }
             },
             onValueChanged(IdQuestion) {
@@ -300,7 +297,7 @@ function recoPerso(CategId, collectiviteId, Categorie) {
                 $('.divRepInput').remove();
 
                 $.ajax({
-                    url: '../AjaxLoader/GetReponseRecoUser.php?IdQuestion=' + IdQuestion.value + '&CollectiviteId=' + collectiviteId,
+                    url: '/api/recommendations/answers/' + IdQuestion.value + '/' + collectiviteId,
                     type: 'get',
                     async: false,
                     dataType: 'json',
@@ -319,7 +316,7 @@ function recoPerso(CategId, collectiviteId, Categorie) {
 
                                     let p6 = document.createElement('p');
                                     p6.setAttribute("class", "RepInput");
-                                    p6.textContent = reponse[i].Text;
+                                    p6.textContent = reponse[i].body;
                                     div3.append(p6);
 
                                     let p7 = document.createElement('p');
@@ -327,20 +324,19 @@ function recoPerso(CategId, collectiviteId, Categorie) {
                                     div3.append(p7);
 
                                 } else {
-                                    $reponseBtn.push(reponse[i].Text);
+                                    $reponseBtn.push(reponse[i].body);
                                 }
 
                             } else if (reponse[i].type == "reco") {
-                                $reco.push({ "Id": reponse[i].Id, "Text": reponse[i].Text });
+                                $reco.push({ "id": reponse[i].id, "body": reponse[i].body });
                             } else if (reponse[i].type == "selectedReco") {
-                                $selectedReco.push({ "Id": reponse[i].Id, "Text": reponse[i].Text });
+                                $selectedReco.push({ "id": reponse[i].id, "body": reponse[i].body });
                             }
                         }
 
                         selectReponse.option('value', $reponseBtn);
                         selectReponse.option('visible', true);
                         $('#select-reponse-text')[0].hidden = false;
-
 
                         selectReco.option('visible', true);
                         selectReco.option('items', $reco);
@@ -349,7 +345,7 @@ function recoPerso(CategId, collectiviteId, Categorie) {
 
                         if ($selectedReco != "") {
                             for (let i = 0; i < $selectedReco.length; i++) {
-                                $selectedRecoId.push($selectedReco[i].Id);
+                                $selectedRecoId.push($selectedReco[i].id);
                             }
                             selectReco.option('value', $selectedRecoId);
                         } else {
@@ -371,23 +367,19 @@ function recoPerso(CategId, collectiviteId, Categorie) {
 }
 // ERREUR FIREFOX PROVIENS DE CETTE FUNCTION
 function updateRecoPerso() {
-
-    $recoId = JSON.stringify($recoId);
-    $collectiviteId = JSON.stringify($collectiviteId);
-    $questionId = JSON.stringify($questionId);
-
     $.ajax({
-        url: '../AjaxLoader/updateRecoPerso.php',
+        url: '/api/recommendation-customs',
         type: 'post',
         async: true,
         dataType: 'html',
         data: {
-            'recoId': $recoId,
-            'collectiviteId': $collectiviteId,
-            'questionId': $questionId
+            'recommandations': $recoId,
+            'collectivite': $collectiviteId,
+            'question': $questionId
         },
         success: function (data) {
-
+            $('#ModaleRecoPerso').modal('hide');
+            window.location.reload();
         },
         error: function (jqXhr, textStatus, errorThrown) {
             // console.log('une erreur est survenue');
@@ -411,24 +403,6 @@ function updateActive(collectiviteId) {
         },
         error: function (jqXhr, textStatus, errorThrown) {
             console.error('Une erreur est survenue');
-        }
-    });
-}
-
-function supOPSN($collectiviteId) {
-    $.ajax({
-        url: '../AjaxLoader/UpdateOPSNIdnull.php',
-        type: 'post',
-        async: true,
-        dataType: 'html',
-        data: {
-            'Id': $collectiviteId,
-        },
-        success: function (data) {
-            $("#gridContainer").dxDataGrid("instance").refresh();
-        },
-        error: function (jqXhr, textStatus, errorThrown) {
-            alert('Une erreur est survenue');
         }
     });
 }
@@ -464,15 +438,13 @@ function supOPSN($collectiviteId) {
                 type: "default",
                 onClick: function(e) {
                     $.ajax({
-                        url: '../AjaxLoader/UpdateOPSNIdnull.php',
-                        type: 'post',
+                        url: '/api/collectivites/detach/' + $collectiviteId,
+                        type: 'delete',
                         async: true,
-                        dataType: 'html',
-                        data: {
-                            'Id': $collectiviteId,
-                        },
+                        dataType: 'json',
                         success: function(response) {
-                            $("#gridContainer").dxDataGrid("instance").refresh();
+                            // $("#gridContainer").dxDataGrid("instance").refresh();
+                            window.location.reload();
                         },
                         error: function(jqXhr, textStatus, errorThrown) {
                             alert('Une erreur est survenue');

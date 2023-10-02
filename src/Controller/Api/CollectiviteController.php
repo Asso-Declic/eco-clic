@@ -116,4 +116,15 @@ class CollectiviteController extends AbstractController
         $opsn = $this->getUser()->getOpsn();
         return $this->json($opsn->getLinkDemands(), 200, [], ['groups' => 'collectivite']);
     }
+
+    #[Route('/detach/{id}', name: 'detach', methods: ['DELETE'])]
+    public function detach(Collectivite $collectivite, EntityManagerInterface $em): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER_OPSN');
+        
+        $collectivite->setOpsn(null);
+        $em->flush();
+
+        return $this->json($collectivite, 200, [], ['groups' => 'collectivite']);
+    }
 }

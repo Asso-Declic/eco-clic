@@ -212,6 +212,48 @@ final class Version20230510152551 extends AbstractMigration
                 WHERE recommandation.Id IS NULL
             ) AS liste_a_supprimer
         );');
+        $this->addSql('DELETE FROM ref_RecoActivable where IdRecommandation IN (
+            SELECT * FROM (
+                select ref_RecoActivable.IdRecommandation FROM ref_RecoActivable
+                LEFT JOIN recommandation ON ref_RecoActivable.IdRecommandation = recommandation.Id
+                WHERE recommandation.id IS NULL
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM ref_RecoActivable where CollectiviteId IN (
+            SELECT * FROM (
+                select ref_RecoActivable.CollectiviteId FROM ref_RecoActivable
+                LEFT JOIN collectivite ON ref_RecoActivable.CollectiviteId = collectivite.Id
+                WHERE collectivite.id IS NULL
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM ref_RecoActivable where IdRecommandation IN (
+            SELECT * FROM (
+                select ref_RecoActivable.IdRecommandation FROM ref_RecoActivable
+                LEFT JOIN recommandation ON ref_RecoActivable.IdRecommandation = recommandation.Id
+                WHERE recommandation.id IS NULL
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM ref_RecoActivable where IdQuestion IN (
+            SELECT * FROM (
+                select ref_RecoActivable.IdQuestion FROM ref_RecoActivable
+                LEFT JOIN question ON ref_RecoActivable.IdQuestion = question.Id
+                WHERE question.id IS NULL
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM ref_ReponseReco where RecommandationId IN (
+            SELECT * FROM (
+                SELECT ref_ReponseReco.RecommandationId FROM ref_ReponseReco
+                LEFT JOIN recommandation ON ref_ReponseReco.RecommandationId = recommandation.Id
+                WHERE recommandation.Id IS NULL
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM ref_ReponseReco where ReponseId IN (
+            SELECT * FROM (
+                SELECT ref_ReponseReco.ReponseId FROM ref_ReponseReco
+                LEFT JOIN reponse ON ref_ReponseReco.ReponseId = reponse.Id
+                WHERE reponse.Id IS NULL
+            ) AS liste_a_supprimer
+        );');
 
         // Le tableau initialement appelée `historiqueScore` devient `score`. 
         // Doctrine impose d'utiliser un identifiant avec toutes les entités sans exception.

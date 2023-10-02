@@ -9,7 +9,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: RecommandationCustomRepository::class)]
 class RecommandationCustom
 {
-    #[Groups(['recommandation_custom'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

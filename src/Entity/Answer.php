@@ -45,9 +45,13 @@ class Answer
     #[ORM\OneToMany(mappedBy: 'parentAnswer', targetEntity: Question::class)]
     private Collection $dependentQuestions;
 
+    #[ORM\ManyToMany(targetEntity: Recommandation::class, mappedBy: 'answers')]
+    private Collection $recommandations;
+
     public function __construct()
     {
         $this->dependentQuestions = new ArrayCollection();
+        $this->recommandations = new ArrayCollection();
     }
 
     public function __toString()
@@ -163,6 +167,33 @@ class Answer
             if ($collectiviteAnswer->getAnswer() === $this) {
                 $collectiviteAnswer->setAnswer(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Recommandation>
+     */
+    public function getRecommandations(): Collection
+    {
+        return $this->recommandations;
+    }
+
+    public function addRecommandation(Recommandation $recommandation): static
+    {
+        if (!$this->recommandations->contains($recommandation)) {
+            $this->recommandations->add($recommandation);
+            $recommandation->addAnswer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecommandation(Recommandation $recommandation): static
+    {
+        if ($this->recommandations->removeElement($recommandation)) {
+            $recommandation->removeAnswer($this);
         }
 
         return $this;

@@ -26,16 +26,14 @@ class RecommandationCustomRepository extends ServiceEntityRepository
     public function findByCategoryWithQuestions(Category $category, Collectivite $collectivite)
     {
         $qb = $this->createQueryBuilder('rc')
-            ->select('rc, q')
-            ->leftJoin('rc.questions', 'q')
-            ->leftJoin('q.answers', 'a')
-            ->leftJoin('a.collectiviteAnswers', 'ca')
-            
-            ->where('rc.category = :category')
-            ->andWhere('c = :collectivite')
+            ->select('rc, q, r')
+            ->leftJoin('rc.question', 'q')
+            ->leftJoin('rc.recommandation', 'r')
+            ->where('q.category = :category')
+            ->andWhere('rc.collectivite = :collectivite')
             ->setParameter('category', $category)
-            ->setParameter('ca.collectivite', $collectivite)
-            ->orderBy('rc.id', 'ASC')
+            ->setParameter('collectivite', $collectivite)
+            ->orderBy('q.sortOrder', 'ASC')
         ;
 
         return $qb->getQuery()->getResult();
