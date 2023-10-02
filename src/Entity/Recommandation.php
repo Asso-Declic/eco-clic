@@ -45,6 +45,12 @@ class Recommandation
     #[ORM\OneToMany(mappedBy: 'recommandation', targetEntity: RecommandationSuccessIndicator::class)]
     private Collection $indicators;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $shortTitle = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $details = null;
+
     public function __construct()
     {
         $this->resources = new ArrayCollection();
@@ -177,6 +183,30 @@ class Recommandation
                 $indicator->setRecommandation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getShortTitle(): ?string
+    {
+        return $this->shortTitle;
+    }
+
+    public function setShortTitle(?string $shortTitle): static
+    {
+        $this->shortTitle = $shortTitle;
+
+        return $this;
+    }
+
+    public function getDetails(): ?string
+    {
+        return $this->details;
+    }
+
+    public function setDetails(?string $details): static
+    {
+        $this->details = $details;
 
         return $this;
     }

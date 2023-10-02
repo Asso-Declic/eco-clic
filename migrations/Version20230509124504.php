@@ -232,11 +232,11 @@ final class Version20230509124504 extends AbstractMigration
         $this->addSql('ALTER TABLE `ref_StatutReco`
             MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;');
         $this->addSql("INSERT INTO `ref_TypeCollectivite` (`Id`, `Nom`) VALUES
-        ('073ed9fb-8c32-11ed-b0c6-0cc47a39c2c0', 'EPCI'),
-        ('3e85465a-ffff-11eb-acf0-0cc47a0ad120', 'CA'),
-        ('57482110-fe97-11eb-acf0-0cc47a0ad120', 'Mairie'),
-        ('5748268d-fe97-11eb-acf0-0cc47a0ad120', 'COMCOM'),
-        ('8f9d4a91-fff3-11eb-acf0-0cc47a0ad120', 'Autre');");
+        ('3e85465a-ffff-11eb-acf0-0cc47a0ad120',	'CA'),
+        ('57482110-fe97-11eb-acf0-0cc47a0ad120',	'Mairie'),
+        ('5748268d-fe97-11eb-acf0-0cc47a0ad120',	'COMCOM'),
+        ('73097104-8c33-11ed-97b8-0242ac110004',	'Autre'),
+        ('7ab89f99-8c33-11ed-97b8-0242ac110004',	'EPCI');");
         $this->addSql("INSERT INTO `Region` (`Code`, `Nom`) VALUES
         ('1', 'Guadeloupe'),
         ('11', 'Île-de-France'),

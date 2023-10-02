@@ -100,6 +100,103 @@ final class Version20230510152551 extends AbstractMigration
         ) AS calcul
         WHERE total > 1
         ) AND IsVerifie = 0;');
+        $this->addSql('DELETE FROM reponse where Id IN (
+            SELECT * FROM (
+                select reponse.Id
+                from reponse
+                left join question on question.Id = reponse.IdQuestion
+                WHERe question.Id IS null
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM collectivite where Id IN (
+            SELECT * FROM (
+                SELECT collectivite.Id
+                FROM collectivite
+                LEFT JOIN OPSN ON collectivite.OPSNId = OPSN.Id
+                WHERE OPSN.Id IS NULL
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM utilisateurReponse where Id IN (
+            SELECT * FROM (
+                SELECT utilisateurReponse.Id
+                FROM utilisateurReponse
+                LEFT JOIN reponse ON utilisateurReponse.IdReponse = reponse.Id
+                WHERE reponse.Id IS NULL
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM utilisateurReponse where Id IN (
+            SELECT * FROM (
+                SELECT utilisateurReponse.Id
+                FROM utilisateurReponse
+                LEFT JOIN collectivite ON utilisateurReponse.CollectiviteId = collectivite.Id
+                WHERE collectivite.Id IS NULL
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM utilisateurReponse where Id IN (
+            SELECT * FROM (
+                SELECT utilisateurReponse.Id
+                FROM utilisateurReponse
+                LEFT JOIN question ON utilisateurReponse.IdQuestion = question.Id
+                WHERE question.Id IS NULL
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM recommandation where Id IN (
+            SELECT * FROM (
+                SELECT recommandation.Id
+                FROM recommandation
+                LEFT JOIN question ON recommandation.IdQuestion = question.Id
+                WHERE question.Id IS NULL
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM question where Id IN (
+            SELECT * FROM (
+                SELECT question.Id
+                FROM question
+                LEFT JOIN question q2 ON question.IdParent = q2.Id
+                WHERE question.IdParent is not null and q2.Id IS NULL 
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM reponse where Id IN (
+            SELECT * FROM (
+                select reponse.Id
+                from reponse
+                left join question on question.Id = reponse.IdQuestion
+                WHERe question.Id IS null
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM recommandation where Id IN (
+            SELECT * FROM (
+                SELECT recommandation.Id
+                FROM recommandation
+                LEFT JOIN question ON recommandation.IdQuestion = question.Id
+                WHERE question.Id IS NULL
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM recommandation where Id IN (
+            SELECT * FROM (
+                SELECT recommandation.Id
+                FROM recommandation
+                LEFT JOIN question ON recommandation.IdQuestion = question.Id
+                WHERE question.Id IS NULL
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM ref_Population where Id IN (
+            SELECT * FROM (
+                SELECT ref_Population.Id
+                FROM ref_Population
+                LEFT JOIN ref_TypeCollectivite ON ref_Population.TypeCollectivite = ref_TypeCollectivite.Id
+                WHERE ref_TypeCollectivite.Id IS NULL
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM utilisateurStatut where Id IN (
+            SELECT * FROM (
+                SELECT utilisateurStatut.Id
+                FROM utilisateurStatut
+                LEFT JOIN recommandation ON utilisateurStatut.RecommandationId = recommandation.Id
+                WHERE recommandation.Id IS NULL
+            ) AS liste_a_supprimer
+        );');
+
         // Le tableau initialement appelée `historiqueScore` devient `score`. 
         // Doctrine impose d'utiliser un identifiant avec toutes les entités sans exception.
         // C'est une contrainte discutable mais on va s'y plier par simplicité.
