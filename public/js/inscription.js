@@ -1,16 +1,16 @@
-$(function() {
-    var newHeight = $(window).height() - $('#userSpace').position().top - 30;
-    $('#userSpace').height(newHeight);
-    $(window).on('resize', function() {
-        var newHeight = $(window).height() - $('#userSpace').position().top - 30;
-        $('#userSpace').height(newHeight);
+$(function () {
+    var newHeight = $(window).height() - $("#userSpace").position().top - 30;
+    $("#userSpace").height(newHeight);
+    $(window).on("resize", function () {
+      var newHeight = $(window).height() - $("#userSpace").position().top - 30;
+      $("#userSpace").height(newHeight);
     });
-    $("#userSpace").css("overflow", "auto")
+    $("#userSpace").css("overflow", "auto");  
 
-    $("input").val("")
-    $("#CG_input").attr("checked", false)
+    $("input").val("");
+    $("#CG_input").attr("checked", false);
     // var denomination = null;
-    // var population = null;
+    // var population = null;  
 
     // var form =
     $("#form").dxForm({
@@ -53,17 +53,14 @@ $(function() {
                     }, {
                         type: "custom",
                         message: "L'identifiant est déjà utilisé",
-                        validationCallback: function(params) {
+                        validationCallback: function (params) {
                             var test;
                             var response = null;
                             $.ajax({
-                                url: '/api/user/check-username/' + params.value,
-                                type: 'GET',
+                                url: '/api/users/check-username/' + params.value,
+                                type: 'get',
                                 async: false,
                                 dataType: 'json',
-                                // data: {
-                                //     'identifiant': params.value,
-                                // },
                                 success: function (data) {
                                     response = data;
                                 },
@@ -98,52 +95,52 @@ $(function() {
                         }, {
                             type: "custom",
                             message: "Le siret est déjà enregistré.",
-                            validationCallback: function(params) {
+                            validationCallback: function (params) {
                                 var response = null;
                                 $.ajax({	
-                                    url: '/api/collectivite/check-siret/' + params.value,
+                                    url: '/api/collectivites/check-siret/' + params.value,
                                     type: 'GET',
-                                    async: false,
+                                    async: true,
                                     dataType: 'json',
-                                    success: function(data) {
+                                    success: function (data) {
                                         response = data;
                                     },
-                                    error: function(jqXhr, textStatus, errorThrown) {
+                                    error: function (jqXhr, textStatus, errorThrown) {
                                         console.error('Une erreur est survenue');
                                     }
                                 });
                                 return (response == '"' + params.value + '"') ? false : true;
                             }
                         },
-                        ////////////////temporaire////////////////
-                        {
-                            type: "custom",
-                            message: "Vous ne faites pas partie de la liste des testeurs de l'Ecoclic",
-                            validationCallback: function(params) {
-                                var retour = true
-                                $.ajax({
-                                    url: '/api/collectivite/check-siret-connu/' + params.value,
-                                    type: 'GET',
-                                    async: false,
-                                    dataType: 'json',
-                                    success: function(reponse) {
-                                        if (reponse !== params.value) {
-                                            retour = false
-                                        }
-                                    },
-                                    error: function(resultat, statut, erreur) {
-                                        console.error(resultat);
-                                        console.error(erreur);
-                                    }
-                                });
-                                return retour;
-                            }
-                        },
-                        //////////////////////////////////////////
+                        // ////////////////temporaire////////////////
+                        // {
+                        //     type: "custom",
+                        //     message: "Vous ne faites pas partie de la liste des testeurs de l'Ecoclic",
+                        //     validationCallback: function (params) {
+                        //         var retour = true
+                        //         $.ajax({
+                        //             url: '/api/collectivites/check-siret-connu/' + params.value,
+                        //             type: 'GET',
+                        //             async: false,
+                        //             dataType: 'json',
+                        //             success: function (reponse) {
+                        //                 if (reponse !== params.value) {
+                        //                     retour = false
+                        //                 }
+                        //             },
+                        //             error: function (resultat, statut, erreur) {
+                        //                 console.error(resultat);
+                        //                 console.error(erreur);
+                        //             }
+                        //         });
+                        //         return retour;
+                        //     }
+                        // },
+                        // //////////////////////////////////////////
                         {
                             type: "custom",
                             message: "Le siret est déjà enregistré.",
-                            validationCallback: function(params) {
+                            validationCallback: function (params) {
                                 return sirene(params.value);
                             }
                         }
@@ -176,7 +173,7 @@ $(function() {
                             options: {
                                 icon: "./img/Oeil.svg",
                                 type: "default",
-                                onClick: function(e) {
+                                onClick: function (e) {
                                     $("[name=registration\\[user_profile\\]\\[newPassword\\]\\[first\\]]").attr("type", $("[name=registration\\[user_profile\\]\\[newPassword\\]\\[first\\]]").attr("type") === "text" ? "password" : "text")
                                 }
                             }
@@ -187,7 +184,7 @@ $(function() {
                         message: "Ce champ est obligatoire."
                     }, {
                         type: "pattern",
-                        pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[+\-_!@#\$%\^&\*])(?=.{12,})/,
+                        pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[+\-_!@#\$%\^&\*])(?=.{8,})/,
                         message: "Merci de respecter le format requis"
                     }]
                 }, {
@@ -202,7 +199,7 @@ $(function() {
                             options: {
                                 icon: "./img/Oeil.svg",
                                 type: "default",
-                                onClick: function(e) {
+                                onClick: function (e) {
                                     $("[name=registration\\[user_profile\\]\\[newPassword\\]\\[second\\]]").attr("type", $("[name=registration\\[user_profile\\]\\[newPassword\\]\\[second\\]]").attr("type") === "text" ? "password" : "text")
                                 }
                             }
@@ -210,7 +207,7 @@ $(function() {
                     },
                     validationRules: [{
                         type: "compare",
-                        comparisonTarget: function(e) {
+                        comparisonTarget: function (e) {
                             var password = $("[name=registration\\[user_profile\\]\\[newPassword\\]\\[first\\]]").val();
                             if (password) {
                                 return password;
@@ -222,21 +219,21 @@ $(function() {
                         message: "Ce champ est obligatoire."
                     }]
                 }]
-            }, {
-                template: function(data, $itemElement) {
+            },
+            {
+                template: function (data, $itemElement) {
                     $(` 
                 <span id="r195624624">
                     <img id="iconAlert" src="./img/Icone_alerte.svg" alt="alert">
                     <span class="">
-                        Votre mot de passe doit comporter au minimum 12 caractères dont : 
-                    </span>
-                    <span class="">
-                        une minuscule, une majuscule, un chiffre et un caractère spécial.
-                    </span>    
+                    <span class="" style="margin-left: 20px;">
+                    Votre mot de passe doit comporter au minimum 12 caractères dont : une minuscule, une majuscule, un chiffre et un caractère spécial.
+                    </span> 
                 </span>
                 `).appendTo($itemElement);
                 }
-            }, {
+            },
+            {
                 dataField: "registration[cgu]",
                 label: {visible: false},
                 editorType: "dxCheckBox",
@@ -248,12 +245,14 @@ $(function() {
                     type: "required",
                     message: "Ce champ est obligatoire."
                 }]
-            }, {
+            },
+            {
                 dataField: "registration[collectivite][postalCode]",
                 label: {text: "Code postal"},
                 cssClass: "d-none",
                 disabled: true,
-            }, {
+            },
+            {
                 dataField: "registration[collectivite][latitude]",
                 label: {text: "Latitude"},
                 cssClass: "d-none",
@@ -262,7 +261,8 @@ $(function() {
                 dataField: "registration[collectivite][longitude]",
                 label: {text: "Longitude"},
                 cssClass: "d-none",
-            }, {
+            },
+            {
                 colCount: 2,
                 itemType: "group",
                 items: [{
@@ -273,7 +273,8 @@ $(function() {
                         accessKey: "return",
                         text: "Retour",
                     }
-                }, {
+                },
+                {
                     itemType: "button",
                     cssClass: "mt-4",
                     horizontalAlignment: "left",
@@ -289,14 +290,14 @@ $(function() {
         minColWidth: 300,
     }).dxForm("instance");
 
-    $(".dx-checkbox-text").html('J\'accepte les <a href="#" class="sousligne" data-toggle="modal" data-target="#exampleModal">conditions générales</a>')
-    $("[accesskey=return]").on("click", function() {
+    $(".dx-checkbox-text").html('J\'accepte les <a href="#" class="sousligne" data-toggle="modal" data-target="#cguModal">conditions générales</a>')
+    $("[accesskey=return]").on("click", function () {
         window.location.href = "/"
     })
     $("[accesskey=return]").css('background-color', '#F0F0F0')
     $("[accesskey=return]").css("color", "#08453F")
     setInterval(() => {
-        $(".dx-checkbox-text").html('J\'accepte les <a href="#" class="sousligne" data-toggle="modal" data-target="#exampleModal">conditions générales</a>')
+        $(".dx-checkbox-text").html('J\'accepte les <a href="#" class="sousligne" data-toggle="modal" data-target="#cguModal">conditions générales</a>')
     }, 1000);
     $("[aria-label=Oeil]").removeClass("dx-button-mode-contained", "oeil")
     $("[aria-label=Oeil]").addClass("oeil")
@@ -309,16 +310,16 @@ function sirene(siret) {
         $.ajax({
                 url: "/api/insee/siret/" + siret,
                 method: "GET",
-                async: false,
+                async: true,
                 timeout: 0,
             })
-            .done(function(response) {
+            .done(function (response) {
                 $("[name=registration\\[collectivite\\]\\[latitude\\]]").val("")
                 $("[name=registration\\[collectivite\\]\\[longitude\\]]").val("")
-                var insee = response.etablissement.adresseEtablissement.codeCommuneEtablissement;
-                denomination = response.etablissement.uniteLegale.denominationUniteLegale;
+                var insee = response.adresseEtablissement.codeCommuneEtablissement;
+                denomination = response.uniteLegale.denominationUniteLegale;
                 var typeCol = null;
-                switch (response.etablissement.uniteLegale.categorieJuridiqueUniteLegale) {
+                switch (response.uniteLegale.categorieJuridiqueUniteLegale) {
                     case "7210":
                         typeCol = "MAIRIE";
                         break;
@@ -332,14 +333,14 @@ function sirene(siret) {
                         typeCol = "AUTRE";
                         break;
                 }
-                if (!response.etablissement.uniteLegale.categorieJuridiqueUniteLegale.startsWith('7')) {
+                if (!response.uniteLegale.categorieJuridiqueUniteLegale.startsWith('7')) {
                     test = false
                     console.error("erreur 1");
                 }
-                if (response.etablissement.adresseEtablissement.codeCommuneEtablissement.substr(0, 2) == 97) {
-                    $("[name=registration\\[collectivite\\]\\[postalCode\\]]").val(response.etablissement.adresseEtablissement.codeCommuneEtablissement.substr(0, 3))
+                if (response.adresseEtablissement.codeCommuneEtablissement.substr(0, 2) == 97) {
+                    $("[name=registration\\[collectivite\\]\\[postalCode\\]]").val(response.adresseEtablissement.codeCommuneEtablissement.substr(0, 3))
                 } else {
-                    $("[name=registration\\[collectivite\\]\\[postalCode\\]]").val(response.etablissement.adresseEtablissement.codeCommuneEtablissement.substr(0, 2))
+                    $("[name=registration\\[collectivite\\]\\[postalCode\\]]").val(response.adresseEtablissement.codeCommuneEtablissement.substr(0, 2))
                 }
                 if (test == true) {
                     $("[name=registration\\[collectivite\\]\\[type\\]]").val(typeCol);
@@ -349,18 +350,18 @@ function sirene(siret) {
                             async: false,
                             timeout: 0,
                         })
-                        .done(function(response) {
+                        .done(function (response) {
                             population = response.population;
                             $("[name=registration\\[collectivite\\]\\[population\\]]").val(population);
                             $("[name=registration\\[collectivite\\]\\[name\\]]").val(denomination);
                         })
-                        .fail(function(jqXHR, textStatus, errorThrown) {
+                        .fail(function (jqXHR, textStatus, errorThrown) {
                             test = false
                             console.error("erreur 2");
                         });
                 }
             })
-            .fail(function(jqXHR, textStatus, errorThrown) {
+            .fail(function (jqXHR, textStatus, errorThrown) {
                 test = false
                 console.error("le siret est inconnu");
             });

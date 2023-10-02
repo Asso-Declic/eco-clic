@@ -11,14 +11,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: DepartementRepository::class)]
 class Departement
 {
-    #[Groups(['collectivite'])]
+    #[Groups(['collectivite', 'department_browse', 'filters', 'opsn_browse'])]
     #[ORM\Id]
     #[ORM\Column(length: 3, options: ['fixed' => true])]
     private ?string $code = null;
 
+    #[Groups(['department_browse', 'filters', 'opsn_browse'])]
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
+    #[Groups(['opsn_browse'])]
     #[ORM\ManyToOne(targetEntity: Region::class, inversedBy: 'departements')]
     #[ORM\JoinColumn(name: 'region_code', referencedColumnName: 'code')]
     private ?Region $region = null;

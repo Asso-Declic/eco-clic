@@ -12,7 +12,7 @@
  * CLDR JavaScript Library v0.5.1 2019-01-21T13:43Z MIT license © Rafael Xavier
  * http://git.io/h4lmVg
  */
-(function( factory ) {
+(function ( factory ) {
 
 	if ( typeof define === "function" && define.amd ) {
 		// AMD.
@@ -25,19 +25,19 @@
 		factory( Cldr );
 	}
 
-}(function( Cldr ) {
+}(function ( Cldr ) {
 
 	// Build optimization hack to avoid duplicating functions across modules.
 	var alwaysArray = Cldr._alwaysArray;
 
 
 
-	var supplementalMain = function( cldr ) {
+	var supplementalMain = function ( cldr ) {
 
 		var prepend, supplemental;
 		
-		prepend = function( prepend ) {
-			return function( path ) {
+		prepend = function ( prepend ) {
+			return function ( path ) {
 				path = alwaysArray( path );
 				return cldr.get( [ prepend ].concat( path ) );
 			};
@@ -49,12 +49,12 @@
 		// http://www.unicode.org/reports/tr35/tr35-dates.html#Week_Data
 		supplemental.weekData = prepend( "supplemental/weekData" );
 
-		supplemental.weekData.firstDay = function() {
+		supplemental.weekData.firstDay = function () {
 			return cldr.get( "supplemental/weekData/firstDay/{territory}" ) ||
 				cldr.get( "supplemental/weekData/firstDay/001" );
 		};
 
-		supplemental.weekData.minDays = function() {
+		supplemental.weekData.minDays = function () {
 			var minDays = cldr.get( "supplemental/weekData/minDays/{territory}" ) ||
 				cldr.get( "supplemental/weekData/minDays/001" );
 			return parseInt( minDays, 10 );
@@ -64,12 +64,12 @@
 		// http://www.unicode.org/reports/tr35/tr35-dates.html#Time_Data
 		supplemental.timeData = prepend( "supplemental/timeData" );
 
-		supplemental.timeData.allowed = function() {
+		supplemental.timeData.allowed = function () {
 			return cldr.get( "supplemental/timeData/{territory}/_allowed" ) ||
 				cldr.get( "supplemental/timeData/001/_allowed" );
 		};
 
-		supplemental.timeData.preferred = function() {
+		supplemental.timeData.preferred = function () {
 			return cldr.get( "supplemental/timeData/{territory}/_preferred" ) ||
 				cldr.get( "supplemental/timeData/001/_preferred" );
 		};
@@ -88,7 +88,7 @@
 	 *
 	 * Overload .init().
 	 */
-	Cldr.prototype.init = function() {
+	Cldr.prototype.init = function () {
 		initSuper.apply( this, arguments );
 		this.supplemental = supplementalMain( this );
 	};

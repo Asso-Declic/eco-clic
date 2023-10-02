@@ -15,8 +15,8 @@
 		exports["diagram"] = factory();
 	else
 		root["DevExpress"] = root["DevExpress"] || {}, root["DevExpress"]["diagram"] = factory();
-})(window, function() {
-return /******/ (function(modules) { // webpackBootstrap
+})(window, function () {
+return /******/ (function (modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -52,14 +52,14 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 	__webpack_require__.d = function (exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
 /******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
+/******/ 	__webpack_require__.r = function (exports) {
 /******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 		}
@@ -71,19 +71,19 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// mode & 2: merge all properties of value into the ns
 /******/ 	// mode & 4: return value when already ns object
 /******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 	__webpack_require__.t = function (value, mode) {
 /******/ 		if(mode & 1) value = __webpack_require__(value);
 /******/ 		if(mode & 8) return value;
 /******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
 /******/ 		var ns = Object.create(null);
 /******/ 		__webpack_require__.r(ns);
 /******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function (key) { return value[key]; }.bind(null, key));
 /******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
+/******/ 	__webpack_require__.n = function (module) {
 /******/ 		var getter = module && module.__esModule ?
 /******/ 			function getDefault() { return module['default']; } :
 /******/ 			function getModuleExports() { return module; };
@@ -92,7 +92,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	};
 /******/
 /******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/ 	__webpack_require__.o = function (object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
@@ -104,7 +104,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -812,7 +812,7 @@ exports.GeometryUtils = GeometryUtils;
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -932,7 +932,7 @@ var ShapeType;
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1081,7 +1081,7 @@ exports.PathPrimitiveClosePathCommand = PathPrimitiveClosePathCommand;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1149,7 +1149,7 @@ exports.CompositionHistoryItem = CompositionHistoryItem;
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1280,7 +1280,7 @@ exports.DiagramItem = DiagramItem;
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1536,7 +1536,7 @@ exports.Connector = Connector;
 
 /***/ }),
 /* 6 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -1605,7 +1605,7 @@ exports.SimpleCommandBase = SimpleCommandBase;
 
 /***/ }),
 /* 7 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -2280,7 +2280,7 @@ exports.ModelUtils = ModelUtils;
 
 /***/ }),
 /* 8 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -2441,7 +2441,7 @@ exports.ShapeDescription = ShapeDescription;
 
 /***/ }),
 /* 9 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -2646,7 +2646,7 @@ exports.Shape = Shape;
 
 /***/ }),
 /* 10 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -2684,7 +2684,7 @@ exports.ColorHelper = Color_1.ColorHelper;
 
 /***/ }),
 /* 11 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -3022,7 +3022,7 @@ function isLeftButtonPressed(evt) {
 
 /***/ }),
 /* 12 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -3161,7 +3161,7 @@ exports.DiagramClipboardEvent = DiagramClipboardEvent;
 
 /***/ }),
 /* 13 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -3347,7 +3347,7 @@ exports.UIUnitConverterInch = UIUnitConverterInch;
 
 /***/ }),
 /* 14 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -3395,7 +3395,7 @@ exports.RectangleShapeDescription = RectangleShapeDescription;
 
 /***/ }),
 /* 15 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -3498,7 +3498,7 @@ exports.raiseEvent = raiseEvent;
 
 /***/ }),
 /* 16 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -3626,7 +3626,7 @@ exports.getKeyModifiers = getKeyModifiers;
 
 /***/ }),
 /* 17 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -3693,7 +3693,7 @@ exports.SvgPrimitive = SvgPrimitive;
 
 /***/ }),
 /* 18 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -3740,7 +3740,7 @@ exports.RectanglePrimitive = RectanglePrimitive;
 
 /***/ }),
 /* 19 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -4085,7 +4085,7 @@ function pxToNumber(px, parseFunction) {
         try {
             var indexOfPx = px.indexOf("px");
             if (indexOfPx > -1)
-                result = parseFunction(px.substr(0, indexOfPx));
+                result = parsefunction (px.substr(0, indexOfPx));
         }
         catch (e) { }
     }
@@ -4660,7 +4660,7 @@ exports.GetShortcutCodeByEvent = GetShortcutCodeByEvent;
 
 /***/ }),
 /* 20 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -4677,7 +4677,7 @@ exports.ShapeParameterPoint = ShapeParameterPoint;
 
 /***/ }),
 /* 21 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -4737,7 +4737,7 @@ var Alignment;
 
 /***/ }),
 /* 22 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -4780,7 +4780,7 @@ exports.GroupPrimitive = GroupPrimitive;
 
 /***/ }),
 /* 23 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -5031,7 +5031,7 @@ exports.DiagramModel = DiagramModel;
 
 /***/ }),
 /* 24 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -5248,7 +5248,7 @@ exports.Browser = Browser;
 
 /***/ }),
 /* 25 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -5317,7 +5317,7 @@ exports.ConnectorProperties = ConnectorProperties;
 
 /***/ }),
 /* 26 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -5452,7 +5452,7 @@ ShapeDescriptionManager.register(new HorizontalContainerDescription_1.Horizontal
 
 /***/ }),
 /* 27 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -5533,7 +5533,7 @@ exports.MouseHandlerDraggingState = MouseHandlerDraggingState;
 
 /***/ }),
 /* 28 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -5595,7 +5595,7 @@ exports.ShapeParameters = ShapeParameters;
 
 /***/ }),
 /* 29 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -5642,7 +5642,7 @@ exports.EllipsePrimitive = EllipsePrimitive;
 
 /***/ }),
 /* 30 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -5689,7 +5689,7 @@ exports.ConnectorRenderPoint = ConnectorRenderPoint;
 
 /***/ }),
 /* 31 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -5729,7 +5729,7 @@ var ConnectionMode;
 
 /***/ }),
 /* 32 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -5785,7 +5785,7 @@ exports.MouseHandlerCancellableState = MouseHandlerCancellableState;
 
 /***/ }),
 /* 33 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -5843,7 +5843,7 @@ exports.CanvasManagerBase = CanvasManagerBase;
 
 /***/ }),
 /* 34 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -5890,7 +5890,7 @@ exports.ConnectionPoint = ConnectionPoint;
 
 /***/ }),
 /* 35 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -5930,7 +5930,7 @@ exports.ChangeStyleTextHistoryItem = ChangeStyleTextHistoryItem;
 
 /***/ }),
 /* 36 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -5997,7 +5997,7 @@ exports.SetConnectionPointIndexHistoryItem = SetConnectionPointIndexHistoryItem;
 
 /***/ }),
 /* 37 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -6122,7 +6122,7 @@ exports.StyleText = StyleText;
 
 /***/ }),
 /* 38 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -6332,7 +6332,7 @@ exports.ColorHelper = ColorHelper;
 
 /***/ }),
 /* 39 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -6660,7 +6660,7 @@ exports.CanvasItemsManager = CanvasItemsManager;
 
 /***/ }),
 /* 40 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -6723,7 +6723,7 @@ exports.ImageInfo = ImageInfo;
 
 /***/ }),
 /* 41 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -6902,7 +6902,7 @@ var AutoZoomMode;
 
 /***/ }),
 /* 42 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -6945,7 +6945,7 @@ exports.ClipPathPrimitive = ClipPathPrimitive;
 
 /***/ }),
 /* 43 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -7050,7 +7050,7 @@ exports.ConnectorPointsOrthogonalSideCalculatorBase = ConnectorPointsOrthogonalS
 
 /***/ }),
 /* 44 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -7091,7 +7091,7 @@ exports.SetSelectionHistoryItem = SetSelectionHistoryItem;
 
 /***/ }),
 /* 45 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -7240,7 +7240,7 @@ exports.ShapeWithImageDescription = ShapeWithImageDescription;
 
 /***/ }),
 /* 46 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -7280,7 +7280,7 @@ exports.ChangeStyleHistoryItem = ChangeStyleHistoryItem;
 
 /***/ }),
 /* 47 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -7314,7 +7314,7 @@ exports.ExportImportCommandBase = ExportImportCommandBase;
 
 /***/ }),
 /* 48 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -7419,7 +7419,7 @@ exports.Evt = Evt;
 
 /***/ }),
 /* 49 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -7553,7 +7553,7 @@ exports.ImageCache = ImageCache;
 
 /***/ }),
 /* 50 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -7597,7 +7597,7 @@ exports.MoveConnectorPointHistoryItem = MoveConnectorPointHistoryItem;
 
 /***/ }),
 /* 51 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -7647,7 +7647,7 @@ exports.AddShapeHistoryItem = AddShapeHistoryItem;
 
 /***/ }),
 /* 52 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -7693,7 +7693,7 @@ exports.AddConnectorHistoryItem = AddConnectorHistoryItem;
 
 /***/ }),
 /* 53 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -7930,7 +7930,7 @@ exports.GraphIterator = GraphIterator;
 
 /***/ }),
 /* 54 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -7974,7 +7974,7 @@ exports.ChangeConnectorTextHistoryItem = ChangeConnectorTextHistoryItem;
 
 /***/ }),
 /* 55 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -8018,7 +8018,7 @@ exports.ChangeConnectorPropertyHistoryItem = ChangeConnectorPropertyHistoryItem;
 
 /***/ }),
 /* 56 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -8084,7 +8084,7 @@ exports.Margin = Margin;
 
 /***/ }),
 /* 57 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -8211,7 +8211,7 @@ exports.Exporter = Exporter;
 
 /***/ }),
 /* 58 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -8264,7 +8264,7 @@ exports.ToggleStyleTextPropertyCommand = ToggleStyleTextPropertyCommand;
 
 /***/ }),
 /* 59 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -8313,7 +8313,7 @@ exports.AutoLayoutCommandBase = AutoLayoutCommandBase;
 
 /***/ }),
 /* 60 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -8357,7 +8357,7 @@ exports.ChangePagePropertyCommand = ChangePagePropertyCommand;
 
 /***/ }),
 /* 61 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -9003,7 +9003,7 @@ function trunc(val) {
 
 /***/ }),
 /* 62 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -9286,7 +9286,7 @@ exports.CommandManager = CommandManager;
 
 /***/ }),
 /* 63 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -9392,7 +9392,7 @@ exports.TextPrimitive = TextPrimitive;
 
 /***/ }),
 /* 64 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -9446,7 +9446,7 @@ exports.ArrowVerticalShapeDescription = ArrowVerticalShapeDescription;
 
 /***/ }),
 /* 65 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -9500,7 +9500,7 @@ exports.ArrowHorizontalShapeDescription = ArrowHorizontalShapeDescription;
 
 /***/ }),
 /* 66 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -9549,7 +9549,7 @@ exports.EllipseShapeDescription = EllipseShapeDescription;
 
 /***/ }),
 /* 67 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -9589,7 +9589,7 @@ exports.PolygonShapeDescription = PolygonShapeDescription;
 
 /***/ }),
 /* 68 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -9704,7 +9704,7 @@ exports.CardBaseDescription = CardBaseDescription;
 
 /***/ }),
 /* 69 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -9769,7 +9769,7 @@ exports.HashSet = HashSet;
 
 /***/ }),
 /* 70 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -9798,7 +9798,7 @@ exports.ImportUtils = ImportUtils;
 
 /***/ }),
 /* 71 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -9842,7 +9842,7 @@ exports.ChangeStyleTextPropertyCommand = ChangeStyleTextPropertyCommand;
 
 /***/ }),
 /* 72 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -9971,7 +9971,7 @@ exports.TreeLayoutBuilder = TreeLayoutBuilder;
 
 /***/ }),
 /* 73 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -10042,7 +10042,7 @@ exports.ExportImageCommand = ExportImageCommand;
 
 /***/ }),
 /* 74 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -10085,7 +10085,7 @@ exports.ClipboardCommand = ClipboardCommand;
 
 /***/ }),
 /* 75 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -10128,7 +10128,7 @@ exports.ChangeZindexHistoryItem = ChangeZindexHistoryItem;
 
 /***/ }),
 /* 76 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -10180,7 +10180,7 @@ exports.EditShapeImageCommandBase = EditShapeImageCommandBase;
 
 /***/ }),
 /* 77 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -10226,7 +10226,7 @@ exports.MouseHandlerMoveClonedShapeState = MouseHandlerMoveClonedShapeState;
 
 /***/ }),
 /* 78 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -10278,7 +10278,7 @@ exports.ConnectionPointsVisualizerBase = ConnectionPointsVisualizerBase;
 
 /***/ }),
 /* 79 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -10292,7 +10292,7 @@ exports.isColorProperty = isColorProperty;
 
 /***/ }),
 /* 80 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -10339,7 +10339,7 @@ exports.LinePrimitive = LinePrimitive;
 
 /***/ }),
 /* 81 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -10441,7 +10441,7 @@ exports.TouchUIHelper = TouchUIHelper;
 //    }
 //    ensureOrientationChanged(onOrientationChangedFunction) {
 //        if (ASPxClientUtils.iOSPlatform || this.ensureDocumentSizesCorrect())
-//            onOrientationChangedFunction();
+//            onOrientationChangedfunction ();
 //        else {
 //            window.setTimeout(function () {
 //                this.ensureOrientationChanged(onOrientationChangedFunction);
@@ -10524,7 +10524,7 @@ exports.TouchUIHelper = TouchUIHelper;
 
 /***/ }),
 /* 82 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -10766,7 +10766,7 @@ exports.Data = Data;
 
 /***/ }),
 /* 83 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -10795,7 +10795,7 @@ exports.ItemChange = ItemChange;
 
 /***/ }),
 /* 84 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -10881,7 +10881,7 @@ exports.TextFloodFilterPrimitive = TextFloodFilterPrimitive;
 
 /***/ }),
 /* 85 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -10931,7 +10931,7 @@ exports.FilterPrimitive = FilterPrimitive;
 
 /***/ }),
 /* 86 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -10960,7 +10960,7 @@ exports.Base64Utils = Base64Utils;
 
 /***/ }),
 /* 87 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -11047,7 +11047,7 @@ exports.ExtensionLinesVisualizer = ExtensionLinesVisualizer;
 
 /***/ }),
 /* 88 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -11063,7 +11063,7 @@ exports.ConnectorPointsCalculatorBase = ConnectorPointsCalculatorBase;
 
 /***/ }),
 /* 89 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -11109,7 +11109,7 @@ exports.DeleteConnectionHistoryItem = DeleteConnectionHistoryItem;
 
 /***/ }),
 /* 90 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -11150,7 +11150,7 @@ exports.DeleteShapeHistoryItem = DeleteShapeHistoryItem;
 
 /***/ }),
 /* 91 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -11205,7 +11205,7 @@ exports.DiamondShapeDescription = DiamondShapeDescription;
 
 /***/ }),
 /* 92 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -11246,7 +11246,7 @@ exports.TextShapeDescription = TextShapeDescription;
 
 /***/ }),
 /* 93 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -11338,7 +11338,7 @@ exports.PentagonShapeDescription = PentagonShapeDescription;
 
 /***/ }),
 /* 94 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -11408,7 +11408,7 @@ exports.HexagonShapeDescription = HexagonShapeDescription;
 
 /***/ }),
 /* 95 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -11475,7 +11475,7 @@ exports.TriangleShapeDescription = TriangleShapeDescription;
 
 /***/ }),
 /* 96 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -11544,7 +11544,7 @@ exports.DocumentShapeDescription = DocumentShapeDescription;
 
 /***/ }),
 /* 97 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -11596,7 +11596,7 @@ exports.ImagePrimitive = ImagePrimitive;
 
 /***/ }),
 /* 98 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -11667,7 +11667,7 @@ exports.ImageLoader = ImageLoader;
 
 /***/ }),
 /* 99 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -11765,7 +11765,7 @@ exports.ContainerDescription = ContainerDescription;
 
 /***/ }),
 /* 100 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -11808,7 +11808,7 @@ exports.ChangeShapeParametersHistoryItem = ChangeShapeParametersHistoryItem;
 
 /***/ }),
 /* 101 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -11852,7 +11852,7 @@ exports.ChangeStyleHistoryItemBase = ChangeStyleHistoryItemBase;
 
 /***/ }),
 /* 102 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -11895,7 +11895,7 @@ exports.ChangeLockedHistoryItem = ChangeLockedHistoryItem;
 
 /***/ }),
 /* 103 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -12049,7 +12049,7 @@ exports.Importer = Importer;
 
 /***/ }),
 /* 104 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -12242,7 +12242,7 @@ exports.ImporterBase = ImporterBase;
 
 /***/ }),
 /* 105 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -12273,7 +12273,7 @@ exports.StylePropertyCommandBase = StylePropertyCommandBase;
 
 /***/ }),
 /* 106 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -12320,7 +12320,7 @@ exports.ChangeStylePropertyCommandBase = ChangeStylePropertyCommandBase;
 
 /***/ }),
 /* 107 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -12364,7 +12364,7 @@ exports.ChangeStylePropertyCommand = ChangeStylePropertyCommand;
 
 /***/ }),
 /* 108 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -12411,7 +12411,7 @@ exports.ChangeConnectorPropertyCommand = ChangeConnectorPropertyCommand;
 
 /***/ }),
 /* 109 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -12474,7 +12474,7 @@ exports.GraphLayout = GraphLayout;
 
 /***/ }),
 /* 110 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -12518,7 +12518,7 @@ exports.LayoutBuilder = LayoutBuilder;
 
 /***/ }),
 /* 111 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -12600,7 +12600,7 @@ exports.PasteSelectionCommandBase = PasteSelectionCommandBase;
 
 /***/ }),
 /* 112 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -12632,7 +12632,7 @@ exports.DataLayoutParameters = DataLayoutParameters;
 
 /***/ }),
 /* 113 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -12676,7 +12676,7 @@ exports.ChangeLockedCommand = ChangeLockedCommand;
 
 /***/ }),
 /* 114 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -12720,7 +12720,7 @@ exports.ChangeShapeImageHistoryItem = ChangeShapeImageHistoryItem;
 
 /***/ }),
 /* 115 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -12817,7 +12817,7 @@ exports.MouseHandlerMoveConnectorPointStateBase = MouseHandlerMoveConnectorPoint
 
 /***/ }),
 /* 116 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -12860,7 +12860,7 @@ exports.AddConnectorPointHistoryItem = AddConnectorPointHistoryItem;
 
 /***/ }),
 /* 117 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -12962,7 +12962,7 @@ exports.MouseHandlerMoveShapeStateBase = MouseHandlerMoveShapeStateBase;
 
 /***/ }),
 /* 118 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -13059,7 +13059,7 @@ exports.MouseHandlerDefaultStateBase = MouseHandlerDefaultStateBase;
 
 /***/ }),
 /* 119 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -13092,7 +13092,7 @@ exports.TargetVisualizerBase = TargetVisualizerBase;
 
 /***/ }),
 /* 120 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -13230,7 +13230,7 @@ exports.DiagramDraggingEvent = DiagramDraggingEvent;
 
 /***/ }),
 /* 121 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -13269,7 +13269,7 @@ exports.DeleteCommand = DeleteCommand;
 
 /***/ }),
 /* 122 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -13312,7 +13312,7 @@ exports.MoveShapeHistoryItem = MoveShapeHistoryItem;
 
 /***/ }),
 /* 123 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -13420,7 +13420,7 @@ exports.StringUtils = StringUtils;
 
 /***/ }),
 /* 124 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -13502,7 +13502,7 @@ exports.Str = Str;
 
 /***/ }),
 /* 125 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -13588,7 +13588,7 @@ exports.Attr = Attr;
 
 /***/ }),
 /* 126 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -13634,7 +13634,7 @@ exports.NativeScrollView = NativeScrollView;
 
 /***/ }),
 /* 127 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -13824,7 +13824,7 @@ exports.InputManager = InputManager;
 
 /***/ }),
 /* 128 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -14014,7 +14014,7 @@ exports.CanvasPageManager = CanvasPageManager;
 
 /***/ }),
 /* 129 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -14066,7 +14066,7 @@ exports.PatternPrimitive = PatternPrimitive;
 
 /***/ }),
 /* 130 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -14477,7 +14477,7 @@ exports.CanvasViewManager = CanvasViewManager;
 
 /***/ }),
 /* 131 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -14526,7 +14526,7 @@ exports.ShadowFilterPrimitive = ShadowFilterPrimitive;
 
 /***/ }),
 /* 132 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -15398,7 +15398,7 @@ var ConnectorSelectionElement = /** @class */ (function (_super) {
 
 /***/ }),
 /* 133 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -15449,7 +15449,7 @@ exports.MaskPrimitive = MaskPrimitive;
 
 /***/ }),
 /* 134 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -15484,7 +15484,7 @@ exports.ConnectorPointsCalculator = ConnectorPointsCalculator;
 
 /***/ }),
 /* 135 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -15685,7 +15685,7 @@ exports.ConnectorPointsOrthogonalCalculator = ConnectorPointsOrthogonalCalculato
 
 /***/ }),
 /* 136 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -15773,7 +15773,7 @@ exports.ConnectorPointsOrthogonalUndefinedSideCalculator = ConnectorPointsOrthog
 
 /***/ }),
 /* 137 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -15969,7 +15969,7 @@ exports.ConnectorPointsOrthogonalSouthSideCalculator = ConnectorPointsOrthogonal
 
 /***/ }),
 /* 138 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -16165,7 +16165,7 @@ exports.ConnectorPointsOrthogonalNorthSideCalculator = ConnectorPointsOrthogonal
 
 /***/ }),
 /* 139 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -16361,7 +16361,7 @@ exports.ConnectorPointsOrthogonalEastSideCalculator = ConnectorPointsOrthogonalE
 
 /***/ }),
 /* 140 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -16557,7 +16557,7 @@ exports.ConnectorPointsOrthogonalWestSideCalculator = ConnectorPointsOrthogonalW
 
 /***/ }),
 /* 141 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -16624,7 +16624,7 @@ exports.ConnectorTexts = ConnectorTexts;
 
 /***/ }),
 /* 142 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -16668,7 +16668,7 @@ exports.ModelResizeHistoryItem = ModelResizeHistoryItem;
 
 /***/ }),
 /* 143 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -16722,7 +16722,7 @@ exports.UpdatePositionsOnPageResizeHistoryItem = UpdatePositionsOnPageResizeHist
 
 /***/ }),
 /* 144 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -16765,7 +16765,7 @@ exports.DeleteConnectorPointHistoryItem = DeleteConnectorPointHistoryItem;
 
 /***/ }),
 /* 145 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -16810,7 +16810,7 @@ exports.ResizeShapeHistoryItem = ResizeShapeHistoryItem;
 
 /***/ }),
 /* 146 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -16851,7 +16851,7 @@ exports.DeleteConnectorHistoryItem = DeleteConnectorHistoryItem;
 
 /***/ }),
 /* 147 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -16888,7 +16888,7 @@ exports.ProcessShapeDescription = ProcessShapeDescription;
 
 /***/ }),
 /* 148 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -16927,7 +16927,7 @@ exports.DecisionShapeDescription = DecisionShapeDescription;
 
 /***/ }),
 /* 149 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -16985,7 +16985,7 @@ exports.ManualInputShapeDescription = ManualInputShapeDescription;
 
 /***/ }),
 /* 150 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -17048,7 +17048,7 @@ exports.DataShapeDescription = DataShapeDescription;
 
 /***/ }),
 /* 151 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -17109,7 +17109,7 @@ exports.TerminatorShapeDescription = TerminatorShapeDescription;
 
 /***/ }),
 /* 152 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -17182,7 +17182,7 @@ exports.PredefinedProcessShapeDescription = PredefinedProcessShapeDescription;
 
 /***/ }),
 /* 153 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -17263,7 +17263,7 @@ exports.ArrowNorthSouthShapeDescription = ArrowNorthSouthShapeDescription;
 
 /***/ }),
 /* 154 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -17350,7 +17350,7 @@ exports.ArrowRightShapeDescription = ArrowRightShapeDescription;
 
 /***/ }),
 /* 155 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -17437,7 +17437,7 @@ exports.ArrowTopShapeDescription = ArrowTopShapeDescription;
 
 /***/ }),
 /* 156 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -17527,7 +17527,7 @@ exports.CrossShapeDescription = CrossShapeDescription;
 
 /***/ }),
 /* 157 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -17593,7 +17593,7 @@ exports.HeartShapeDescription = HeartShapeDescription;
 
 /***/ }),
 /* 158 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -17663,7 +17663,7 @@ exports.OctagonShapeDescription = OctagonShapeDescription;
 
 /***/ }),
 /* 159 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -17818,7 +17818,7 @@ exports.StarShapeDescription = StarShapeDescription;
 
 /***/ }),
 /* 160 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -17905,7 +17905,7 @@ exports.ArrowBottomShapeDescription = ArrowBottomShapeDescription;
 
 /***/ }),
 /* 161 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -17986,7 +17986,7 @@ exports.ArrowEastWestShapeDescription = ArrowEastWestShapeDescription;
 
 /***/ }),
 /* 162 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -18073,7 +18073,7 @@ exports.ArrowLeftShapeDescription = ArrowLeftShapeDescription;
 
 /***/ }),
 /* 163 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -18169,7 +18169,7 @@ exports.MultipleDocumentsShapeDescription = MultipleDocumentsShapeDescription;
 
 /***/ }),
 /* 164 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -18210,7 +18210,7 @@ exports.PreparationShapeDescription = PreparationShapeDescription;
 
 /***/ }),
 /* 165 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -18269,7 +18269,7 @@ exports.HardDiskShapeDescription = HardDiskShapeDescription;
 
 /***/ }),
 /* 166 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -18330,7 +18330,7 @@ exports.DatabaseShapeDescription = DatabaseShapeDescription;
 
 /***/ }),
 /* 167 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -18409,7 +18409,7 @@ exports.InternalStorageShapeDescription = InternalStorageShapeDescription;
 
 /***/ }),
 /* 168 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -18481,7 +18481,7 @@ exports.PaperTapeShapeDescription = PaperTapeShapeDescription;
 
 /***/ }),
 /* 169 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -18546,7 +18546,7 @@ exports.ManualOperationShapeDescription = ManualOperationShapeDescription;
 
 /***/ }),
 /* 170 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -18601,7 +18601,7 @@ exports.DelayShapeDescription = DelayShapeDescription;
 
 /***/ }),
 /* 171 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -18660,7 +18660,7 @@ exports.StoredDataShapeDescription = StoredDataShapeDescription;
 
 /***/ }),
 /* 172 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -18716,7 +18716,7 @@ exports.MergeShapeDescription = MergeShapeDescription;
 
 /***/ }),
 /* 173 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -18771,7 +18771,7 @@ exports.DisplayShapeDescription = DisplayShapeDescription;
 
 /***/ }),
 /* 174 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -18834,7 +18834,7 @@ exports.OrShapeDescription = OrShapeDescription;
 
 /***/ }),
 /* 175 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -18902,7 +18902,7 @@ exports.SummingJunctionShapeDescription = SummingJunctionShapeDescription;
 
 /***/ }),
 /* 176 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19006,7 +19006,7 @@ exports.CustomShapeDescription = CustomShapeDescription;
 
 /***/ }),
 /* 177 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19096,7 +19096,7 @@ exports.LoadingIndicatorPrimitive = LoadingIndicatorPrimitive;
 
 /***/ }),
 /* 178 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19161,7 +19161,7 @@ exports.UserPrimitive = UserPrimitive;
 
 /***/ }),
 /* 179 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19215,7 +19215,7 @@ exports.WarningPrimitive = WarningPrimitive;
 
 /***/ }),
 /* 180 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19291,7 +19291,7 @@ exports.VerticalContainerDescription = VerticalContainerDescription;
 
 /***/ }),
 /* 181 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19373,7 +19373,7 @@ exports.HorizontalContainerDescription = HorizontalContainerDescription;
 
 /***/ }),
 /* 182 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19426,7 +19426,7 @@ exports.CardWithImageOnLeftDescription = CardWithImageOnLeftDescription;
 
 /***/ }),
 /* 183 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19475,7 +19475,7 @@ exports.RoundedRectanglePrimitive = RoundedRectanglePrimitive;
 
 /***/ }),
 /* 184 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19528,7 +19528,7 @@ exports.CardWithImageOnRightDescription = CardWithImageOnRightDescription;
 
 /***/ }),
 /* 185 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19578,7 +19578,7 @@ exports.CardWithImageOnTopDescription = CardWithImageOnTopDescription;
 
 /***/ }),
 /* 186 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19621,7 +19621,7 @@ exports.InsertToContainerHistoryItem = InsertToContainerHistoryItem;
 
 /***/ }),
 /* 187 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19664,7 +19664,7 @@ exports.RemoveFromContainerHistoryItem = RemoveFromContainerHistoryItem;
 
 /***/ }),
 /* 188 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19707,7 +19707,7 @@ exports.ChangeContainerLockedHistoryItem = ChangeContainerLockedHistoryItem;
 
 /***/ }),
 /* 189 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19728,7 +19728,7 @@ exports.GraphInfo = GraphInfo;
 
 /***/ }),
 /* 190 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19759,7 +19759,7 @@ exports.LayoutUtils = LayoutUtils;
 
 /***/ }),
 /* 191 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19792,7 +19792,7 @@ exports.CommandBase = CommandBase;
 
 /***/ }),
 /* 192 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19813,7 +19813,7 @@ exports.SimpleCommandState = SimpleCommandState;
 
 /***/ }),
 /* 193 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19853,7 +19853,7 @@ exports.UndoCommand = UndoCommand;
 
 /***/ }),
 /* 194 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19893,7 +19893,7 @@ exports.RedoCommand = RedoCommand;
 
 /***/ }),
 /* 195 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19938,7 +19938,7 @@ exports.ImportCommand = ImportCommand;
 
 /***/ }),
 /* 196 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -19976,7 +19976,7 @@ exports.ExportCommand = ExportCommand;
 
 /***/ }),
 /* 197 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20013,7 +20013,7 @@ exports.ToggleFontBoldCommand = ToggleFontBoldCommand;
 
 /***/ }),
 /* 198 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20050,7 +20050,7 @@ exports.ToggleFontItalicCommand = ToggleFontItalicCommand;
 
 /***/ }),
 /* 199 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20087,7 +20087,7 @@ exports.ToggleFontUnderlineCommand = ToggleFontUnderlineCommand;
 
 /***/ }),
 /* 200 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20121,7 +20121,7 @@ exports.ChangeFontNameCommand = ChangeFontNameCommand;
 
 /***/ }),
 /* 201 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20155,7 +20155,7 @@ exports.ChangeFontSizeCommand = ChangeFontSizeCommand;
 
 /***/ }),
 /* 202 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20193,7 +20193,7 @@ exports.ChangeFontColorCommand = ChangeFontColorCommand;
 
 /***/ }),
 /* 203 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20231,7 +20231,7 @@ exports.ChangeFillColorCommand = ChangeFillColorCommand;
 
 /***/ }),
 /* 204 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20269,7 +20269,7 @@ exports.ChangeStrokeColorCommand = ChangeStrokeColorCommand;
 
 /***/ }),
 /* 205 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20336,7 +20336,7 @@ exports.TextRightAlignCommand = TextRightAlignCommand;
 
 /***/ }),
 /* 206 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20388,7 +20388,7 @@ exports.ChangeConnectorEndLineEndingCommand = ChangeConnectorEndLineEndingComman
 
 /***/ }),
 /* 207 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20426,7 +20426,7 @@ exports.ChangeConnectorLineOptionCommand = ChangeConnectorLineOptionCommand;
 
 /***/ }),
 /* 208 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20466,7 +20466,7 @@ exports.SelectAllCommand = SelectAllCommand;
 
 /***/ }),
 /* 209 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20508,7 +20508,7 @@ exports.AutoLayoutTreeVerticalCommand = AutoLayoutTreeVerticalCommand;
 
 /***/ }),
 /* 210 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20529,7 +20529,7 @@ exports.Forest = Forest;
 
 /***/ }),
 /* 211 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20594,7 +20594,7 @@ exports.Tree = Tree;
 
 /***/ }),
 /* 212 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20636,7 +20636,7 @@ exports.ChangeSnapToGridCommand = ChangeSnapToGridCommand;
 
 /***/ }),
 /* 213 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20703,7 +20703,7 @@ exports.ChangeGridSizeItemsCommand = ChangeGridSizeItemsCommand;
 
 /***/ }),
 /* 214 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20741,7 +20741,7 @@ exports.ChangePageLandscapeCommand = ChangePageLandscapeCommand;
 
 /***/ }),
 /* 215 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20781,7 +20781,7 @@ exports.ChangePageLandscapeHistoryItem = ChangePageLandscapeHistoryItem;
 
 /***/ }),
 /* 216 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20863,7 +20863,7 @@ exports.ChangePageSizeItemsCommand = ChangePageSizeItemsCommand;
 
 /***/ }),
 /* 217 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20903,7 +20903,7 @@ exports.ChangePageSizeHistoryItem = ChangePageSizeHistoryItem;
 
 /***/ }),
 /* 218 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -20938,7 +20938,7 @@ exports.ExportPngCommand = ExportPngCommand;
 
 /***/ }),
 /* 219 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -21115,7 +21115,7 @@ exports.CanvasExportManager = CanvasExportManager;
 
 /***/ }),
 /* 220 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -21150,7 +21150,7 @@ exports.ExportSvgCommand = ExportSvgCommand;
 
 /***/ }),
 /* 221 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -21185,7 +21185,7 @@ exports.ExportJpgCommand = ExportJpgCommand;
 
 /***/ }),
 /* 222 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -21229,7 +21229,7 @@ exports.CopySelectionCommand = CopySelectionCommand;
 
 /***/ }),
 /* 223 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -21272,7 +21272,7 @@ exports.CutSelectionCommand = CutSelectionCommand;
 
 /***/ }),
 /* 224 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -21318,7 +21318,7 @@ exports.PasteSelectionCommand = PasteSelectionCommand;
 
 /***/ }),
 /* 225 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -21358,7 +21358,7 @@ exports.ImportShapeHistoryItem = ImportShapeHistoryItem;
 
 /***/ }),
 /* 226 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -21399,7 +21399,7 @@ exports.ImportConnectorHistoryItem = ImportConnectorHistoryItem;
 
 /***/ }),
 /* 227 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -21478,7 +21478,7 @@ exports.ImportBPMNCommand = ImportBPMNCommand;
 
 /***/ }),
 /* 228 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -21637,7 +21637,7 @@ var BPMNEdge = /** @class */ (function (_super) {
 
 /***/ }),
 /* 229 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -21802,7 +21802,7 @@ exports.CycleRemover = CycleRemover;
 
 /***/ }),
 /* 230 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -21875,7 +21875,7 @@ exports.SendToBackCommand = SendToBackCommand;
 
 /***/ }),
 /* 231 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -21948,7 +21948,7 @@ exports.BringToFrontCommand = BringToFrontCommand;
 
 /***/ }),
 /* 232 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -21989,7 +21989,7 @@ exports.AutoLayoutLayeredHorizontalCommand = AutoLayoutLayeredHorizontalCommand;
 
 /***/ }),
 /* 233 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -22151,7 +22151,7 @@ exports.MoveStepDownCommand = MoveStepDownCommand;
 
 /***/ }),
 /* 234 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -22314,7 +22314,7 @@ exports.ToggleAutoZoomCommand = ToggleAutoZoomCommand;
 
 /***/ }),
 /* 235 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -22359,7 +22359,7 @@ exports.BindDocumentCommand = BindDocumentCommand;
 
 /***/ }),
 /* 236 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -22400,7 +22400,7 @@ exports.ImportDataCommandBase = ImportDataCommandBase;
 
 /***/ }),
 /* 237 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -22441,7 +22441,7 @@ exports.UnbindDocumentCommand = UnbindDocumentCommand;
 
 /***/ }),
 /* 238 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -22483,7 +22483,7 @@ exports.AutoLayoutTreeHorizontalCommand = AutoLayoutTreeHorizontalCommand;
 
 /***/ }),
 /* 239 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -22524,7 +22524,7 @@ exports.AutoLayoutLayeredVerticalCommand = AutoLayoutLayeredVerticalCommand;
 
 /***/ }),
 /* 240 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -22558,7 +22558,7 @@ exports.LockCommand = LockCommand;
 
 /***/ }),
 /* 241 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -22592,7 +22592,7 @@ exports.UnLockCommand = UnLockCommand;
 
 /***/ }),
 /* 242 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -22689,7 +22689,7 @@ exports.CloneDownCommand = CloneDownCommand;
 
 /***/ }),
 /* 243 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -22761,7 +22761,7 @@ exports.ChangeViewUnitsCommand = ChangeViewUnitsCommand;
 
 /***/ }),
 /* 244 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -22813,7 +22813,7 @@ exports.ChangeUnitsHistoryItem = ChangeUnitsHistoryItem;
 
 /***/ }),
 /* 245 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -22852,7 +22852,7 @@ exports.ChangePageColorCommand = ChangePageColorCommand;
 
 /***/ }),
 /* 246 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -22892,7 +22892,7 @@ exports.ChangePageColorHistoryItem = ChangePageColorHistoryItem;
 
 /***/ }),
 /* 247 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -22937,7 +22937,7 @@ exports.ChangeShowGridCommand = ChangeShowGridCommand;
 
 /***/ }),
 /* 248 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -22983,7 +22983,7 @@ exports.ToggleFullscreenCommand = ToggleFullscreenCommand;
 
 /***/ }),
 /* 249 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -23028,7 +23028,7 @@ exports.ToggleSimpleViewCommand = ToggleSimpleViewCommand;
 
 /***/ }),
 /* 250 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -23072,7 +23072,7 @@ exports.ToggleReadOnlyCommand = ToggleReadOnlyCommand;
 
 /***/ }),
 /* 251 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -23107,7 +23107,7 @@ exports.EditShapeImageCommand = EditShapeImageCommand;
 
 /***/ }),
 /* 252 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -23164,7 +23164,7 @@ exports.PasteSelectionInPositionCommand = PasteSelectionInPositionCommand;
 
 /***/ }),
 /* 253 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -23202,7 +23202,7 @@ exports.ImportXMLCommand = ImportXMLCommand;
 
 /***/ }),
 /* 254 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -23449,7 +23449,7 @@ exports.XmlImporter = XmlImporter;
 
 /***/ }),
 /* 255 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -23484,7 +23484,7 @@ exports.InsertShapeImageCommand = InsertShapeImageCommand;
 
 /***/ }),
 /* 256 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -23522,7 +23522,7 @@ exports.DeleteShapeImageCommand = DeleteShapeImageCommand;
 
 /***/ }),
 /* 257 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -23740,7 +23740,7 @@ exports.DiagramControl = DiagramControl;
 
 /***/ }),
 /* 258 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -24073,7 +24073,7 @@ exports.ModelManipulator = ModelManipulator;
 
 /***/ }),
 /* 259 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -24207,7 +24207,7 @@ exports.EventManager = EventManager;
 
 /***/ }),
 /* 260 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -24544,7 +24544,7 @@ exports.MouseHandler = MouseHandler;
 
 /***/ }),
 /* 261 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -24656,7 +24656,7 @@ exports.MouseHandlerDefaultState = MouseHandlerDefaultState;
 
 /***/ }),
 /* 262 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -24722,7 +24722,7 @@ exports.MouseHandlerMoveConnectorPointState = MouseHandlerMoveConnectorPointStat
 
 /***/ }),
 /* 263 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -24913,7 +24913,7 @@ exports.MouseHandlerResizeShapeState = MouseHandlerResizeShapeState;
 
 /***/ }),
 /* 264 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -24948,7 +24948,7 @@ exports.ResizeInfoVisualizer = ResizeInfoVisualizer;
 
 /***/ }),
 /* 265 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -25007,7 +25007,7 @@ exports.MouseHandlerMoveConnectorSideState = MouseHandlerMoveConnectorSideState;
 
 /***/ }),
 /* 266 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -25060,7 +25060,7 @@ exports.MouseHandlerDragParameterPointState = MouseHandlerDragParameterPointStat
 
 /***/ }),
 /* 267 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -25134,7 +25134,7 @@ exports.MouseHandlerCreateConnectorState = MouseHandlerCreateConnectorState;
 
 /***/ }),
 /* 268 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -25290,7 +25290,7 @@ exports.MouseHandlerMoveConnectorOrthogonalSideState = MouseHandlerMoveConnector
 
 /***/ }),
 /* 269 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -25477,7 +25477,7 @@ exports.MouseHandlerToolboxDraggingState = MouseHandlerToolboxDraggingState;
 
 /***/ }),
 /* 270 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -25538,7 +25538,7 @@ exports.MouseHandlerMoveConnectorTextState = MouseHandlerMoveConnectorTextState;
 
 /***/ }),
 /* 271 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -25581,7 +25581,7 @@ exports.ChangeConnectorTextPositionHistoryItem = ChangeConnectorTextPositionHist
 
 /***/ }),
 /* 272 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -25633,7 +25633,7 @@ exports.MouseHandlerToggleShapeExpandedState = MouseHandlerToggleShapeExpandedSt
 
 /***/ }),
 /* 273 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -25675,7 +25675,7 @@ exports.ToggleShapeExpandedHistoryItem = ToggleShapeExpandedHistoryItem;
 
 /***/ }),
 /* 274 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -25739,7 +25739,7 @@ exports.MouseHandlerSelectionState = MouseHandlerSelectionState;
 
 /***/ }),
 /* 275 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -25773,7 +25773,7 @@ exports.SelectionRectVisualizer = SelectionRectVisualizer;
 
 /***/ }),
 /* 276 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -25847,7 +25847,7 @@ exports.MouseHandlerZoomOnWheelState = MouseHandlerZoomOnWheelState;
 
 /***/ }),
 /* 277 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -25917,7 +25917,7 @@ exports.MouseHandlerScrollingState = MouseHandlerScrollingState;
 
 /***/ }),
 /* 278 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -25960,7 +25960,7 @@ exports.MouseHandlerMoveShapeState = MouseHandlerMoveShapeState;
 
 /***/ }),
 /* 279 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -26014,7 +26014,7 @@ exports.MouseHandlerMoveShapeOrthogonallyState = MouseHandlerMoveShapeOrthogonal
 
 /***/ }),
 /* 280 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -26052,7 +26052,7 @@ exports.ConnectionPointsVisualizer = ConnectionPointsVisualizer;
 
 /***/ }),
 /* 281 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -26090,7 +26090,7 @@ exports.ConnectionMarksVisualizer = ConnectionMarksVisualizer;
 
 /***/ }),
 /* 282 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -26128,7 +26128,7 @@ exports.ConnectionTargetVisualizer = ConnectionTargetVisualizer;
 
 /***/ }),
 /* 283 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -26166,7 +26166,7 @@ exports.ContainerTargetVisualizer = ContainerTargetVisualizer;
 
 /***/ }),
 /* 284 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -26215,7 +26215,7 @@ exports.MouseHandlerReadOnlyDefaultState = MouseHandlerReadOnlyDefaultState;
 
 /***/ }),
 /* 285 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -26308,7 +26308,7 @@ exports.TextInputHandler = TextInputHandler;
 
 /***/ }),
 /* 286 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -26351,7 +26351,7 @@ exports.ChangeShapeTextHistoryItem = ChangeShapeTextHistoryItem;
 
 /***/ }),
 /* 287 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -26474,7 +26474,7 @@ exports.Selection = Selection;
 
 /***/ }),
 /* 288 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -26592,7 +26592,7 @@ exports.InputPosition = InputPosition;
 
 /***/ }),
 /* 289 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -26739,7 +26739,7 @@ exports.History = History;
 
 /***/ }),
 /* 290 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -26841,7 +26841,7 @@ exports.BarManager = BarManager;
 
 /***/ }),
 /* 291 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -26899,7 +26899,7 @@ exports.BatchUpdatableObject = BatchUpdatableObject;
 
 /***/ }),
 /* 292 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -27418,7 +27418,7 @@ exports.DocumentDataSource = DocumentDataSource;
 
 /***/ }),
 /* 293 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -27872,7 +27872,7 @@ exports.DataSource = DataSource;
 
 /***/ }),
 /* 294 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -27968,7 +27968,7 @@ exports.DataSourceEdgeDataImporter = DataSourceEdgeDataImporter;
 
 /***/ }),
 /* 295 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -28025,7 +28025,7 @@ exports.DataSourceEdgeItem = DataSourceEdgeItem;
 
 /***/ }),
 /* 296 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -28077,7 +28077,7 @@ function getStepByZoom(zoom) {
 
 /***/ }),
 /* 297 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -28129,7 +28129,7 @@ exports.ToolboxManager = ToolboxManager;
 
 /***/ }),
 /* 298 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -28179,7 +28179,7 @@ exports.TextToolbox = TextToolbox;
 
 /***/ }),
 /* 299 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -28310,7 +28310,7 @@ exports.IconToolbox = IconToolbox;
 
 /***/ }),
 /* 300 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function (module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
 

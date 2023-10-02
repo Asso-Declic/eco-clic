@@ -2,8 +2,9 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Collectivite;
 use App\Repository\CollectiviteRepository;
-use App\Repository\TemporarySiretRepository;
+// use App\Repository\TemporarySiretRepository;
 use App\Service\InseeService;
 use App\Service\ProgressionManager;
 use App\Service\ScoreManager;
@@ -11,8 +12,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-#[Route('/api/collectivite', name: 'api_collectivite_')]
+#[Route('/api/collectivites', name: 'api_collectivite_')]
 class CollectiviteController extends AbstractController
 {
     /**
@@ -31,7 +34,6 @@ class CollectiviteController extends AbstractController
             $progression = $progressionManager->getGlobalPercentage($collectivite);
             $score = $scoreManager->getCurrentLetter($collectivite, false);
             $progressionDetails = $progressionManager->get($collectivite);
-
             $tableRows[] = [
                 'collectivite' => $collectivite,
                 'progression' => $progression . ' %',
@@ -58,20 +60,20 @@ class CollectiviteController extends AbstractController
         }
     }
 
-    #[Route('/check-siret-connu/{siret}', name: 'check_siret_connu', requirements: ['siret' => '\d{14}'])]
-    public function checkSiretConnu(TemporarySiretRepository $temporarySiretRepository, string $siret)
-    {
-        /* Requête d'origine
-        SELECT Siret FROM `Siret_Temporaire` 
-        WHERE Siret = :Sire
-        */
-        $temporarySiret = $temporarySiretRepository->findOneBy(['siret' => $siret]);
-        if ($temporarySiret == null) {
-            return $this->json('');
-        } else {
-            return $this->json($temporarySiret->getSiret());
-        }
-    }
+    // #[Route('/check-siret-connu/{siret}', name: 'check_siret_connu', requirements: ['siret' => '\d{14}'])]
+    // public function checkSiretConnu(TemporarySiretRepository $temporarySiretRepository, string $siret)
+    // {
+    //     /* Requête d'origine
+    //     SELECT Siret FROM `Siret_Temporaire` 
+    //     WHERE Siret = :Sire
+    //     */
+    //     $temporarySiret = $temporarySiretRepository->findOneBy(['siret' => $siret]);
+    //     if ($temporarySiret == null) {
+    //         return $this->json('');
+    //     } else {
+    //         return $this->json($temporarySiret->getSiret());
+    //     }
+    // }
 
     #[Route('/infos', name: 'infos')]
     public function infos(CollectiviteRepository $collectiviteRepository, EntityManagerInterface $em, InseeService $inseeService): Response
@@ -87,5 +89,31 @@ class CollectiviteController extends AbstractController
         }
 
         return $this->json($collectiviteRepository->findInfos($collectivite));
+    }
+
+    #[Route('/update-level/{id}', name: 'update_level', methods: ['PATCH'])]
+    public function updateLevel(EntityManagerInterface $em, Collectivite $collectivite, TokenStorageInterface $token): Response
+    {
+        // Vérifier que l'utilisateur connecté a le droit de modifier l'utilisateur ciblé
+        $this->denyAccessUnlessGranted('COLLECTIVITE_UPDATE_LEVEL_TWO', $collectivite);
+
+        $collectivite->setLevelTwo(!$collectivite->isLevelTwo());
+        $em->flush();
+
+        // Patch pour éviter d'être déconnecté après avoir modifié l'utilisateur
+        $token->setToken(
+            new UsernamePasswordToken($this->getUser(), 'main', $this->getUser()->getRoles())
+        );
+            
+        return $this->json($collectivite, 200, [], ['groups' => 'collectivite']);
+    }
+
+    #[Route('/demanding', name: 'get_demanding', methods: ['GET'])]
+    public function getDemanding(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER_OPSN');
+        
+        $opsn = $this->getUser()->getOpsn();
+        return $this->json($opsn->getLinkDemands(), 200, [], ['groups' => 'collectivite']);
     }
 }

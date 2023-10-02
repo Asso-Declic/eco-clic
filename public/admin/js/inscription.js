@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
     $("input").val("")
 
     var form = $("#form").dxForm({
@@ -38,7 +38,7 @@ $(function() {
                 }, {
                     type: "custom",
                     message: "L'identifiant est déjà utilisé",
-                    validationCallback: function(params) {
+                    validationCallback: function (params) {
                         var test;
                         var response = null;
                         $.ajax({
@@ -49,10 +49,10 @@ $(function() {
                             data: {
                                 'Identifiant': params.value,
                             },
-                            success: function(data) {
+                            success: function (data) {
                                 response = data;
                             },
-                            error: function(jqXhr, textStatus, errorThrown) {
+                            error: function (jqXhr, textStatus, errorThrown) {
                                 console.error('Une erreur est survenue');
                             }
                         });
@@ -72,7 +72,7 @@ $(function() {
             }],
 
         }, {
-            template: function(data, $itemElement) {
+            template: function (data, $itemElement) {
                 $(` 
                 <img id="iconAlert" src="../img/icons/alert.svg" alt="alert">
                 <span>
@@ -94,7 +94,7 @@ $(function() {
                         options: {
                             icon: "../img/icons/iconesBlanc/Oeil.svg",
                             type: "default",
-                            onClick: function(e) {
+                            onClick: function (e) {
                                 $("[name=Mot_de_passe]").attr("type", $("[name=Mot_de_passe]").attr("type") === "text" ? "password" : "text")
                                 $("[name=Confirmer_mot_de_passe]").attr("type", $("[name=Confirmer_mot_de_passe]").attr("type") === "text" ? "password" : "text")
                             }
@@ -106,7 +106,7 @@ $(function() {
                     message: "Ce champ est obligatoire."
                 }, {
                     type: "pattern",
-                    pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[+\-_!@#\$%\^&\*])(?=.{8,})/,
+                    pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[+\-_!@#\$%\^&\*])(?=.{12,})/,
                     message: "Merci de respecter le format requis"
                 }]
             }, {
@@ -117,7 +117,7 @@ $(function() {
                 },
                 validationRules: [{
                     type: "compare",
-                    comparisonTarget: function(e) {
+                    comparisonTarget: function (e) {
                         var password = $("[name=Mot_de_passe]").val();
                         if (password) {
                             return password;

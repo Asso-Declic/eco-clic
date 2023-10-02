@@ -12,14 +12,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 class Question
 {
-    #[Groups(['answer', 'category', 'question'])]
+    #[Groups(['answer', 'category', 'recommandation_custom', 'question'])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator("doctrine.uuid_generator")]
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
-    #[Groups(['category', 'question'])]
+    #[Groups(['category', 'recommandation_custom', 'question'])]
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $question = null;
 
@@ -66,6 +66,10 @@ class Question
     #[Groups(['question'])]
     #[ORM\ManyToOne(inversedBy: 'dependentQuestions')]
     private ?Answer $parentAnswer = null;
+
+    #[Groups(['question'])]
+    #[ORM\Column]
+    private ?bool $levelTwo = null;
 
     public function __construct()
     {
@@ -290,6 +294,18 @@ class Question
     public function setParentAnswer(?Answer $parentAnswer): self
     {
         $this->parentAnswer = $parentAnswer;
+
+        return $this;
+    }
+
+    public function isLevelTwo(): ?bool
+    {
+        return $this->levelTwo;
+    }
+
+    public function setLevelTwo(bool $levelTwo): static
+    {
+        $this->levelTwo = $levelTwo;
 
         return $this;
     }

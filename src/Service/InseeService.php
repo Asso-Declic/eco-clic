@@ -2,15 +2,22 @@
 
 namespace App\Service;
 
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+
 class InseeService
 {
+    public function __construct(
+        private HttpClientInterface $httpClient,
+    )
+    {}
+
     public function getPostalCode(string $siret)
     {
         $response = $this->getInformationFomSiret($siret);
 
         $informations = [];
-        if (isset($response->etablissement)) {
-            $informations['CodePostal'] = $response->etablissement->adresseEtablissement->codePostalEtablissement;
+        if (isset($response->adresseEtablissement)) {
+            $informations['CodePostal'] = $response->adresseEtablissement->codePostalEtablissement;
         } else {
             $informations = $response;
         }
@@ -21,49 +28,41 @@ class InseeService
     public function getInformationFomSiret(string $siret)
     {
         $token = $this->getToken();
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.insee.fr/entreprises/sirene/V3/siret/' . $siret,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPHEADER => array(
-              'Accept: application/json',
-              'Authorization: Bearer ' . $token,
-            ),
-          ));
-        $responseJson = curl_exec($curl);
+        $responseJson = $this->httpClient->request(
+            'GET',
+            'https://api.insee.fr/entreprises/sirene/V3/siret/' . $siret,
+            [
+                'headers' => [
+                    'Accept: application/json',
+                    'Authorization: Bearer ' . $token,
+                ],
+                'body' => ['grant_type' => 'client_credentials'],
+            ]
+        )->getContent();
         $response = json_decode($responseJson);
-        curl_close($curl);
 
-        return $response;
+        if ($response->header->statut >= 400) {
+            throw new \Exception('Erreur ' . $response->header->statut . ': ' . $response->header->message);
+        }
+
+        return $response->etablissement;
     }
 
     public function getToken()
     {
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://api.insee.fr/token',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS => 'grant_type=client_credentials',
-        CURLOPT_HTTPHEADER => array(
-            'Authorization: Basic ' . $_ENV['INSEE_API_AUTH'],
-            'Content-Type: application/x-www-form-urlencoded'
-        ),
-        ));
+        $responseJson = $this->httpClient->request(
+            'POST',
+            'https://api.insee.fr/token',
+            [
+                'headers' => [
+                    'Authorization: Basic ' . $_ENV['INSEE_API_AUTH'],
+                    'Content-Type: application/x-www-form-urlencoded'
+                ],
+                'body' => ['grant_type' => 'client_credentials'],
+            ]
+        )->getContent();
 
-        $response = json_decode(curl_exec($curl));
-        curl_close($curl);
+        $response = json_decode($responseJson);
         return $response->access_token;
     }
 }

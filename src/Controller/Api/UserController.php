@@ -2,8 +2,10 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\User;
 use App\Form\UserProfileType;
 use App\Repository\UserRepository;
+use App\Service\MailingService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,9 +14,21 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
-#[Route('/api/user', name: 'api_user_')]
+#[Route('/api/users', name: 'api_user_')]
 class UserController extends AbstractController
 {
+    #[Route('', name: 'browse', methods: ['GET'])]
+    public function browse(UserRepository $userRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_OPSN');
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            $users = $userRepository->findAll();
+        } else {
+            $users = $userRepository->findBy(['opsn' => $this->getUser()->getOpsn()]);
+        }
+        return $this->json($users, 200, [], ['groups' => 'user']);
+    }
+
     #[Route('/by-collectivite', name: 'by_collectivite')]
     public function byCollectivite(UserRepository $userRepository): Response
     {
@@ -52,6 +66,18 @@ class UserController extends AbstractController
         }
     }
 
+    #[Route('/delete/{id}', name: 'delete', methods: ['DELETE'])]
+    public function delete(EntityManagerInterface $em, User $user): Response
+    {
+        // Vérifier que l'utilisateur connecté a le droit de supprimer l'utilisateur ciblé
+        $this->denyAccessUnlessGranted('USER_DELETE', $user);
+
+        $em->remove($user);
+        $em->flush();
+            
+        return $this->json('', 201);
+    }
+
     #[Route('/current', name: 'get_current')]
     public function getCurrent()
     {
@@ -60,6 +86,13 @@ class UserController extends AbstractController
         // Mais le JS ne semble utiliser que : Id, Nom, Prenom, Identifiant, Mail
         // donc le group "user" a été conçu en ce sens
         return $this->json($this->getUser(), 200, [], ['groups' => 'user']);
+    }
+
+    #[Route('/resend-email/{id}', name: 'resend_verification_email', methods: ['POST'])]
+    public function resendVerificationEmail(MailingService $mailingService, User $user): Response
+    {
+        $mailingService->InscriptionUtilisateur($user->getEmail(), $user);
+        return $this->json('ok');
     }
 
     #[Route('', name: 'update', methods: ['PUT'])]
@@ -86,5 +119,17 @@ class UserController extends AbstractController
             return $this->json($user, 200, [], ['groups' => 'user']);
         }
         return $this->json((string) $form->getErrors());
+    }
+
+    #[Route('/update-active/{id}', name: 'update_active', methods: ['PATCH'])]
+    public function updateActive(EntityManagerInterface $em, User $user): Response
+    {
+        // Vérifier que l'utilisateur connecté a le droit de modifier l'utilisateur ciblé
+        $this->denyAccessUnlessGranted('USER_DEACTIVATE', $user);
+
+        $user->setActive(!$user->isActive());
+        $em->flush();
+            
+        return $this->json($user, 200, [], ['groups' => 'user']);
     }
 }

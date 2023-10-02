@@ -12,7 +12,7 @@
  * CLDR JavaScript Library v0.5.1 2019-01-21T13:43Z MIT license © Rafael Xavier
  * http://git.io/h4lmVg
  */
-(function( root, factory ) {
+(function ( root, factory ) {
 
 	if ( typeof define === "function" && define.amd ) {
 		// AMD.
@@ -25,17 +25,17 @@
 		root.Cldr = factory();
 	}
 
-}( this, function() {
+}( this, function () {
 
 
-	var arrayIsArray = Array.isArray || function( obj ) {
+	var arrayIsArray = Array.isArray || function ( obj ) {
 		return Object.prototype.toString.call( obj ) === "[object Array]";
 	};
 
 
 
 
-	var pathNormalize = function( path, attributes ) {
+	var pathNormalize = function ( path, attributes ) {
 		if ( arrayIsArray( path ) ) {
 			path = path.join( "/" );
 		}
@@ -49,7 +49,7 @@
 			.replace( /^cldr\// , "" ); /* 2 */
 
 		// Replace {attribute}'s
-		path = path.replace( /{[a-zA-Z]+}/g, function( name ) {
+		path = path.replace( /{[a-zA-Z]+}/g, function ( name ) {
 			name = name.replace( /^{([^}]*)}$/, "$1" );
 			return attributes[ name ];
 		});
@@ -60,7 +60,7 @@
 
 
 
-	var arraySome = function( array, callback ) {
+	var arraySome = function ( array, callback ) {
 		var i, length;
 		if ( array.some ) {
 			return array.some( callback );
@@ -118,7 +118,7 @@
 	 *
 	 * @subtags [Array] normalized language id subtags tuple (see init.js).
 	 */
-	var coreLikelySubtags = function( Cldr, cldr, subtags, options ) {
+	var coreLikelySubtags = function ( Cldr, cldr, subtags, options ) {
 		var match, matchFound,
 			language = subtags[ 0 ],
 			script = subtags[ 1 ],
@@ -144,7 +144,7 @@
 			[ language, script ],
 			[ language ],
 			[ "und", script ]
-		], function( test ) {
+		], function ( test ) {
 			return match = !(/\b(Zzzz|ZZ)\b/).test( test.join( sep ) ) /* [1.4] */ && cldr.get( [ "supplemental/likelySubtags", test.join( sep ) ] );
 		});
 
@@ -180,7 +180,7 @@
 	 * 
 	 * @maxLanguageId [Array] maxLanguageId tuple (see init.js).
 	 */
-	var coreRemoveLikelySubtags = function( Cldr, cldr, maxLanguageId ) {
+	var coreRemoveLikelySubtags = function ( Cldr, cldr, maxLanguageId ) {
 		var match, matchFound,
 			language = maxLanguageId[ 0 ],
 			script = maxLanguageId[ 1 ],
@@ -192,7 +192,7 @@
 			[ [ language, "Zzzz", "ZZ" ], [ language ] ],
 			[ [ language, "Zzzz", territory ], [ language, territory ] ],
 			[ [ language, script, "ZZ" ], [ language, script ] ]
-		], function( test ) {
+		], function ( test ) {
 			var result = coreLikelySubtags( Cldr, cldr, test[ 0 ] );
 			match = test[ 1 ];
 			return result && result[ 0 ] === maxLanguageId[ 0 ] &&
@@ -219,7 +219,7 @@
 	 *
 	 * @locale [String]
 	 */
-	var coreSubtags = function( locale ) {
+	var coreSubtags = function ( locale ) {
 		var aux, unicodeLanguageId,
 			subtags = [];
 
@@ -266,7 +266,7 @@
 
 
 
-	var arrayForEach = function( array, callback ) {
+	var arrayForEach = function ( array, callback ) {
 		var i, length;
 		if ( array.forEach ) {
 			return array.forEach( callback );
@@ -288,12 +288,12 @@
 	 *
 	 * @minLanguageId [String] requested languageId after applied remove likely subtags.
 	 */
-	var bundleLookup = function( Cldr, cldr, minLanguageId ) {
+	var bundleLookup = function ( Cldr, cldr, minLanguageId ) {
 		var availableBundleMap = Cldr._availableBundleMap,
 			availableBundleMapQueue = Cldr._availableBundleMapQueue;
 
 		if ( availableBundleMapQueue.length ) {
-			arrayForEach( availableBundleMapQueue, function( bundle ) {
+			arrayForEach( availableBundleMapQueue, function ( bundle ) {
 				var existing, maxBundle, minBundle, subtags;
 				subtags = coreSubtags( bundle );
 				maxBundle = coreLikelySubtags( Cldr, cldr, subtags );
@@ -314,7 +314,7 @@
 
 
 
-	var objectKeys = function( object ) {
+	var objectKeys = function ( object ) {
 		var i,
 			result = [];
 
@@ -332,7 +332,7 @@
 
 
 
-	var createError = function( code, attributes ) {
+	var createError = function ( code, attributes ) {
 		var error, message;
 
 		message = code + ( attributes && JSON ? ": " + JSON.stringify( attributes ) : "" );
@@ -340,7 +340,7 @@
 		error.code = code;
 
 		// extend( error, attributes );
-		arrayForEach( objectKeys( attributes ), function( attribute ) {
+		arrayForEach( objectKeys( attributes ), function ( attribute ) {
 			error[ attribute ] = attributes[ attribute ];
 		});
 
@@ -350,7 +350,7 @@
 
 
 
-	var validate = function( code, check, attributes ) {
+	var validate = function ( code, check, attributes ) {
 		if ( !check ) {
 			throw createError( code, attributes );
 		}
@@ -359,7 +359,7 @@
 
 
 
-	var validatePresence = function( value, name ) {
+	var validatePresence = function ( value, name ) {
 		validate( "E_MISSING_PARAMETER", typeof value !== "undefined", {
 			name: name
 		});
@@ -368,7 +368,7 @@
 
 
 
-	var validateType = function( value, name, check, expected ) {
+	var validateType = function ( value, name, check, expected ) {
 		validate( "E_INVALID_PAR_TYPE", check, {
 			expected: expected,
 			name: name,
@@ -379,7 +379,7 @@
 
 
 
-	var validateTypePath = function( value, name ) {
+	var validateTypePath = function ( value, name ) {
 		validateType( value, name, typeof value === "string" || arrayIsArray( value ), "String or Array" );
 	};
 
@@ -389,21 +389,21 @@
 	/**
 	 * Function inspired by jQuery Core, but reduced to our use case.
 	 */
-	var isPlainObject = function( obj ) {
+	var isPlainObject = function ( obj ) {
 		return obj !== null && "" + obj === "[object Object]";
 	};
 
 
 
 
-	var validateTypePlainObject = function( value, name ) {
+	var validateTypePlainObject = function ( value, name ) {
 		validateType( value, name, typeof value === "undefined" || isPlainObject( value ), "Plain Object" );
 	};
 
 
 
 
-	var validateTypeString = function( value, name ) {
+	var validateTypeString = function ( value, name ) {
 		validateType( value, name, typeof value === "string", "a string" );
 	};
 
@@ -411,7 +411,7 @@
 
 
 	// @path: normalized path
-	var resourceGet = function( data, path ) {
+	var resourceGet = function ( data, path ) {
 		var i,
 			node = data,
 			length = path.length;
@@ -437,7 +437,7 @@
 	 *
 	 * Set available bundles queue based on passed json CLDR data. Considers a bundle as any String at /main/{bundle}.
 	 */
-	var coreSetAvailableBundles = function( Cldr, json ) {
+	var coreSetAvailableBundles = function ( Cldr, json ) {
 		var bundle,
 			availableBundleMapQueue = Cldr._availableBundleMapQueue,
 			main = resourceGet( json, [ "main" ] );
@@ -454,12 +454,12 @@
 
 
 
-	var alwaysArray = function( somethingOrArray ) {
+	var alwaysArray = function ( somethingOrArray ) {
 		return arrayIsArray( somethingOrArray ) ?  somethingOrArray : [ somethingOrArray ];
 	};
 
 
-	var jsonMerge = (function() {
+	var jsonMerge = (function () {
 
 	// Returns new deeply merged JSON.
 	//
@@ -469,10 +469,10 @@
 	//
 	// @arguments JSON's
 	// 
-	var merge = function() {
+	var merge = function () {
 		var destination = {},
 			sources = [].slice.call( arguments, 0 );
-		arrayForEach( sources, function( source ) {
+		arrayForEach( sources, function ( source ) {
 			var prop;
 			for ( prop in source ) {
 				if ( prop in destination && typeof destination[ prop ] === "object" && !arrayIsArray( destination[ prop ] ) ) {
@@ -505,7 +505,7 @@
 	 *
 	 * @jsons [arguments]
 	 */
-	var coreLoad = function( Cldr, source, jsons ) {
+	var coreLoad = function ( Cldr, source, jsons ) {
 		var i, j, json;
 
 		validatePresence( jsons[ 0 ], "json" );
@@ -528,7 +528,7 @@
 
 
 
-	var itemGetResolved = function( Cldr, path, attributes ) {
+	var itemGetResolved = function ( Cldr, path, attributes ) {
 		// Resolve path
 		var normalizedPath = pathNormalize( path, attributes );
 
@@ -541,7 +541,7 @@
 	/**
 	 * new Cldr()
 	 */
-	var Cldr = function( locale ) {
+	var Cldr = function ( locale ) {
 		this.init( locale );
 	};
 
@@ -572,14 +572,14 @@
 	 *
 	 * Load resolved cldr data.
 	 */
-	Cldr.load = function() {
+	Cldr.load = function () {
 		Cldr._resolved = coreLoad( Cldr, Cldr._resolved, arguments );
 	};
 
 	/**
 	 * .init() automatically run on instantiation/construction.
 	 */
-	Cldr.prototype.init = function( locale ) {
+	Cldr.prototype.init = function ( locale ) {
 		var attributes, language, maxLanguageId, minLanguageId, script, subtags, territory, unicodeLocaleExtensions, variant,
 			sep = Cldr.localeSep,
 			unicodeLocaleExtensionsRaw = "";
@@ -632,7 +632,7 @@
 		};
 
 		// Unicode locale extensions.
-		unicodeLocaleExtensions && ( "-" + unicodeLocaleExtensions ).replace( /-[a-z]{3,8}|(-[a-z]{2})-([a-z]{3,8})/g, function( attribute, key, type ) {
+		unicodeLocaleExtensions && ( "-" + unicodeLocaleExtensions ).replace( /-[a-z]{3,8}|(-[a-z]{2})-([a-z]{3,8})/g, function ( attribute, key, type ) {
 
 			if ( key ) {
 
@@ -651,7 +651,7 @@
 	/**
 	 * .get()
 	 */
-	Cldr.prototype.get = function( path ) {
+	Cldr.prototype.get = function ( path ) {
 
 		validatePresence( path, "path" );
 		validateTypePath( path, "path" );
@@ -662,7 +662,7 @@
 	/**
 	 * .main()
 	 */
-	Cldr.prototype.main = function( path ) {
+	Cldr.prototype.main = function ( path ) {
 		validatePresence( path, "path" );
 		validateTypePath( path, "path" );
 

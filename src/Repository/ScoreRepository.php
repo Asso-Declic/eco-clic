@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
+use App\Entity\Collectivite;
 use App\Entity\OPSN;
 use App\Entity\Score;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -23,15 +25,53 @@ class ScoreRepository extends ServiceEntityRepository
         parent::__construct($registry, Score::class);
     }
 
+    public function findGroupAverage(array $collectiviteIds, $fieldName = 'moyenne')
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('moyenne', $fieldName);
+        $rsm->addScalarResult('scored_at', 'scoredAt');
+
+        $q = $this->getEntityManager()->createNativeQuery('
+            SELECT CAST(AVG(score) as UNSIGNED) as moyenne, DATE(scored_at) as scored_at
+            FROM score
+            WHERE collectivite_id IN (:collectiviteIds)
+            AND category_id IS NULL
+            GROUP BY scored_at
+            ', $rsm)
+            ->setParameter('collectiviteIds', $collectiviteIds)
+            ;
+        
+        return $q->getScalarResult();
+    }
+
+    public function findHistory(Collectivite $collectivite, ?Category $category = null)
+    {
+        $qb = $this->createQueryBuilder('s')
+        ->select('s.score as score', 'DATE(s.scoredAt) as scoredAt',)
+        ->where('s.collectivite = :collectivite')
+        ->setParameter('collectivite', $collectivite)
+        ->orderBy('s.scoredAt', 'ASC')
+        ;
+
+        if ($category != null) {
+            $qb->andWhere('s.category = :category')
+            ->setParameter('category', $category);
+        } else {
+            $qb->andWhere('s.category IS NULL');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
     /**
      * Le calcul de la moyenne doit se faire sur les derniers scores enregistrés pour chaque collectivité.
      * Doctrine ne permet pas de faire une requête imbriquée en DQL, il faut donc passer par une requête native.
      * Attention, la moyenne ne prend pas en compte les collectivités qui n'ont pas encore de score.
      *
      * @param OPSN $opsn
-     * @return string
+     * @return string|null
      */
-    public function findOpsnAverage(OPSN $opsn): string
+    public function findOpsnAverage(OPSN $opsn): ?string
     {
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('moyenne', 'moyenne');
@@ -50,7 +90,7 @@ class ScoreRepository extends ServiceEntityRepository
             ->setParameter('opsn', $opsn->getId())
             ;
         
-        return $q->getSingleScalarResult();
+        return $q->getSingleScalarResult() ?? '0';
     }
 
     public function save(Score $entity, bool $flush = false): void

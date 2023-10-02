@@ -21,13 +21,18 @@ class Score
     #[ORM\JoinColumn(nullable: false)]
     private ?Collectivite $collectivite = null;
     
-    #[Groups(['score'])]
+    #[Groups(['score', 'stats'])]
     #[ORM\Column]
     private ?int $score = null;
 
-    #[Groups(['score'])]
+    #[Groups(['score', 'stats'])]
     #[ORM\Column]
     private ?\DateTimeImmutable $scoredAt = null;
+
+    // Si la catégorie est null, le score est le score global de la collectivité
+    #[Groups(['score', 'stats'])]
+    #[ORM\ManyToOne(targetEntity: Category::class)]
+    private ?Category $category = null;
 
     public function getId(): ?int
     {
@@ -66,6 +71,18 @@ class Score
     public function setScoredAt(\DateTimeImmutable $scoredAt): self
     {
         $this->scoredAt = $scoredAt;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

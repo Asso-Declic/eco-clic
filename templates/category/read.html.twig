@@ -80,10 +80,12 @@
         </div>
     </div>
 
-    <div id="definitionModal" class="modal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+    <div id="definitionModal" class="modal" tabindex="-1" role="dialog" data-target="#definitionModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content p-5">
-            <div class="modal-title-def modal-title"></div>
+                <div class="modal-title-def modal-title">
+                    <h2 style="color: #08433D;">Définition : </h2>
+                </div>
                 <div id="modal-bodyDef" class="modal-body p-0 mt-2">
                 </div>
                 <div class="d-flex flex-row-reverse mt-5">
@@ -93,7 +95,7 @@
         </div>
     </div>
 
-    <button id="boutonValider" onclick="questionReco('reco'), affichReco(), ChangeEtatBtnVal()" class="btn btn-blueAdico mr-5 rounded-pill" style="float: right; margin-top: 10px; width: 150px; display: none">Valider</button>
+    <button id="boutonValider" onclick="questionReco('reco'), affichReco(), ChangeEtatBtnVal()" class="btn btn-blueAdico mr-5 rounded-pill" style="float: right; margin-top: 10px; width: 150px; display: none;">Valider</button>
     
     <!-- Modal ouverture -->
     <div class="modal fade" id="modalOuvrir" tabindex="-1" role="dialog" aria-labelledby="modalOuvrirLabel"
@@ -155,8 +157,8 @@
 
     function remplirListeStatut(){
         $.ajax({
-            url: '/api/recommandation-status',
-            type: 'GET',
+            url: '/api/recommendation-statuses',
+            type: 'get',
             async: false,
             dataType: 'json',
             success: function(statuses) {
@@ -185,10 +187,10 @@
 
     function changeStatut(recommandationId) {
         $.ajax({
-            url: '/api/collectivite-status/' + recommandationId + '/' + $("#statut").val(),
+            url: '/api/collectivite-statuses/' + recommandationId + '/' + $("#statut").val(),
             type: 'POST',
             async: true,
-            dataType: "html",
+            dataType: "json",
             success: function(data) {
                 closeModale();
                 location.reload();
@@ -223,12 +225,24 @@
                 $Nbquestion = 0;
                 $Nbrep = 0;
                 for (let a = 0; a < categoryList.length; a++) {
-                    $Nbquestion += categoryList[a].nb_question;
                     if ($userProgression[a] != undefined) {
-                        $Nbrep += $userProgression[a].nb_repondu;
+                        if (categoryList[a].level_two == 0 || $userProgression[a].level_two == 0) {
+                            $Nbquestion += categoryList[a].nb_question;
+                            if ($userProgression[a] != undefined) {
+                                $Nbrep += $userProgression[a].nb_repondu;
+                            }
+                            else {
+                                $Nbrep += 0;
+                            }
+                        }
                     }
                 }
-                if ($Nbrep >= $Nbquestion) {
+
+                if ($Nbrep > $Nbquestion) {
+                    $Nbrep = $Nbquestion;
+                }
+
+                if ($Nbrep == $Nbquestion) {
                     $("#pasComplet").attr("hidden", true);
                     $(".progressContent").attr("hidden", true);
                     $("#complet").removeAttr("hidden");
@@ -244,11 +258,20 @@
                     async: false,
                     dataType: 'json',
                     success: function(scoreObject) {
-                        let scoreUser100 = 0;
-                        if (scoreObject.score != null) {
-                            scoreUser100 = Math.floor(scoreObject.score/scoreObject.nb * 100);
+                        if (scoreObject.score == null) {
+                            $('#complet')[0].hidden = true;
+                            $('#completed2')[0].hidden = false;
+                        } else {
+                            let scoreUser100 = Math.floor(scoreObject.score/scoreObject.nb*100);
+                            if (scoreObject.nb == 0) {
+                                scoreUser100 = 0;
+                            }
+                            // TODO : Il faudrait revoir le calcul du score pour éviter ce genre de pansement
+                            if (scoreUser100 > 100) {
+                                scoreUser100 = 100;
+                            }
+                            $('#Score100').text(scoreUser100);
                         }
-                        $('#Score100').text(scoreUser100);
                     }
                 });
             }
@@ -281,7 +304,7 @@
         $count3 = 1;
 
         $.ajax({
-            url: '/api/question/by-category/{{ category.id }}',
+            url: '/api/questions/by-category/{{ category.id }}',
             type: 'GET',
             async: false,
             dataType: 'json',
@@ -367,6 +390,7 @@
                                 }
                                 let btn = document.createElement('button');
                                 btn.setAttribute("class", "btnInfo");
+                                // btn.setAttribute("data-target", "#definitionModal");
                                 btn.setAttribute("onclick", "openModalDef(" + $def + ")");
                                 // btn.setAttribute("onmouseenter", "viewInfo(infoQuestion" + o + ")");
                                 // btn.setAttribute("onmouseleave", "exitInfo(infoQuestion" + o + ")");
@@ -387,10 +411,32 @@
                                 // p2.textContent = $questionnaire[o].Definition;
                                 // div13.append(p2);
                             }
+                            
+                            if ($questionnaire[o].q_levelTwo == 1) {
+                                let divlvl2 = document.createElement('div');
+                                divlvl2.setAttribute("style", "margin-top: 40px;width: 25px;");
+                                div3.append(divlvl2);
+
+                                let icon = document.createElement('img');
+                                icon.setAttribute("src", "/img/crownVert.png");
+                                icon.setAttribute("style", "margin-right: 10px");
+                                divlvl2.append(icon);
+                            }
 
                             let div4 = document.createElement('div');
-                            div4.setAttribute("class", "contenuReco");
+                            if ($questionnaire[o].q_levelTwo == 1) {
+                                div4.setAttribute("class", "contenuReco niveau2");
+                            } else {
+                                div4.setAttribute("class", "contenuReco");
+                            }
                             div2.append(div4);
+
+                            // if ($questionnaire[o].q_levelTwo == 1) {
+                            //     let icon2 = document.createElement('img');
+                            //     icon2.setAttribute("src", "/img/crownBlanc.png");
+                            //     icon2.setAttribute("style", "position: absolute; bottom: 10;right: 10;width: 115px;");
+                            //     div4.append(icon2);
+                            // }
 
                             let div5 = document.createElement('div');
                             div5.setAttribute("class", "titreReco");
@@ -477,7 +523,7 @@
                 $questions = [];
                 for (let $e = 0; $e < data.data.length; $e++) {
                     $.ajax({
-                        url: '/api/collectivite-answer/by-question/' + data.data[$e].q_id,
+                        url: '/api/collectivite-answers/by-question/' + data.data[$e].q_id,
                         type: 'GET',
                         async: false,
                         dataType: 'json',
@@ -496,7 +542,7 @@
                                         }
 
                                         $.ajax({
-                                            url: '/api/question/by-parent-answer/' + $userRep[$u].answer.id,
+                                            url: '/api/questions/by-parent-answer/' + $userRep[$u].answer.id,
                                             type: 'get',
                                             async: false,
                                             dataType: 'json',
@@ -522,6 +568,37 @@
                                                     } else {
                                                         document.getElementById('nbQuestions').innerHTML = $count4 + " questions";
                                                     }
+
+                                                    // TODO : code de la dernière version dont le fonctionnement semble différent que ce qui est attendu Il faudra choisir
+                                                    /* for (let r = 0; r < data.data.length; r++) {
+                                                        if (data.data[r].Visible == "Oui" && document.getElementById(data.data[r].id) != null) {
+                                                            document.getElementById(data.data[r].id).hidden = false;
+                                                        } else if (document.getElementById(data.data[r].id) != null) {
+                                                            document.getElementById(data.data[r].id).hidden = true;
+                                                        }
+                                                    }
+
+                                                    $count4 = 0;
+                                                    for (let j = 0; j < document.getElementsByClassName("cadreQuestion").length; j++) {
+                                                        if (document.getElementsByClassName("cadreQuestion")[j].hidden == false && document.getElementsByClassName("cadreQuestion")[j].children[1].classList.value == "contenuReco") {
+                                                            $count4 += 1;
+                                                        }
+
+                                                    }
+
+                                                    $count5 = 0;
+                                                    for (let v = 0; v < document.getElementsByClassName("cadreQuestion").length; v++) {
+                                                        if (document.getElementsByClassName("cadreQuestion")[v].hidden == false) {
+                                                            $count5 += 1;
+                                                        }
+
+                                                    }
+
+                                                    if ($count5 == 1) {
+                                                        document.getElementById('nbQuestions').innerHTML = $count5 + " question";
+                                                    } else {
+                                                        document.getElementById('nbQuestions').innerHTML = $count5 + " questions";
+                                                    } */
                                                 }
                                             },
                                             error: function(jqXhr, textStatus, errorThrown) {
@@ -529,6 +606,19 @@
                                             }
                                         });
                                     }
+                                }
+
+                                for (let $y = 0; $y < $questions.length; $y++) {
+                                    if ($userRep[$u].answer.id == $questions[$y].id) {
+
+                                        if ($questions[$y].className == 'inputRep2') {
+                                            $questions[$y].checked = true;
+                                        } else if ($questions[$y].className == 'inputRep') {
+                                            $questions[$y].value = $userRep[$u].answer.body;
+                                        }
+
+                                    }
+
                                 }
                             }
                         },
@@ -538,8 +628,8 @@
                     });
                 }
 
-                if (typeof $count4 !== "undefined") {
-                    $temp3 = $count4;
+                if (typeof $count5 !== "undefined") {
+                    $temp3 = $count5;
                 } else {
                     $temp3 = $questionnaire.length;
                 }
@@ -595,20 +685,28 @@
             $temp = $userProgression[0].nb_repondu;
         }
 
-        if (typeof $count4 !== "undefined") {
-            $temp2 = $count4;
+        $count7 = 0;
+        for (let v = 0; v < document.getElementsByClassName("cadreQuestion").length; v++) {
+            if (document.getElementsByClassName("cadreQuestion")[v].hidden == false) {
+                $count7 += 1;
+            }
+            
+        }
+
+        if (typeof $count7 !== "undefined") {
+            $temp2 = $count7;
         } else {
             $temp2 = $nbQuestion;
         }
 
-        if ($temp != $temp2) {
+        if ($temp < $temp2) {
             document.getElementById('msgReco2').hidden = false;
             document.getElementById('msgReco1').hidden = true;
         } else {
             document.getElementById('msgReco2').hidden = true;
             $.ajax({
-                url: '/api/recommandation/by-category/{{ category.id }}',
-                type: 'GET',
+                url: '/api/recommendations/by-category/{{ category.id }}',
+                type: 'get',
                 async: true,
                 dataType: 'json',
                 success: function(data) {
@@ -632,12 +730,19 @@
                             div2.append(h3);
 
                             let div3 = document.createElement('div');
-                            div3.setAttribute("class", "contenuReco cadreText");
-                            div3.setAttribute("style", "margin-right: 10px;");
-                            div1.append(div3);
+                                div3.setAttribute("class", "contenuReco cadreText");
+                                if ($recommandation[i].level_two == 1) {
+                                    div3.setAttribute("style", "margin-right: 10px; background-color: #E9FBF9 !important;");
+                                } else {
+                                    div3.setAttribute("style", "margin-right: 10px;");
+                                }
+                                div1.append(div3);
 
                             let div9 = document.createElement('div');
                             div9.setAttribute("class", "contenuReco");
+                            if ($recommandation[i].level_two == 1) {
+                                div9.setAttribute("style", "background-color: #E9FBF9 !important;");
+                            }
                             div1.append(div9);
 
                             // for (let t = 0; t < 2; t++) {
@@ -675,6 +780,7 @@
                             img1.setAttribute("style", "display: inline-block; width: 15px; height: 15px; vertical-align: inherit; outline: none");
                             button1.append(img1);
 
+                            {% if is_granted('ROLE_LEVEL_TWO') %}
                             let div16 = document.createElement('div');
                             div16.setAttribute("style", "text-align: center;")
                             div9.append(div16);
@@ -693,10 +799,21 @@
                             p7.setAttribute("style", "font-size: 11px; margin: 0px !important; color: #00857A");
                             p7.textContent = "Voir le détail";
                             a3.append(p7);
+                            {% endif %}
 
                             let div4 = document.createElement('div');
                             div4.setAttribute("class", "titreReco2");
+                            if ($recommandation[i].Niveau2 == 1) {
+                                div4.setAttribute("style", "display: inline-flex; align-items: baseline");
+                            }
                             div3.append(div4);
+
+                            if ($recommandation[i].Niveau2 == 1) {
+                                let icon3 = document.createElement('img');
+                                icon3.setAttribute("src", "./img/crownVert.png");
+                                icon3.setAttribute("style", "margin-right: 10px");
+                                div4.append(icon3);
+                            }
 
                             let h3bis = document.createElement('p');
                             h3bis.setAttribute("style", "margin-bottom: 0rem;");
@@ -759,7 +876,7 @@
 
         $jsonQuestionId2 = $elements[0].name;
         $.ajax({
-            url: '/api/collectivite-answer/by-question/' + $jsonQuestionId2,
+            url: '/api/collectivite-answers/by-question/' + $jsonQuestionId2,
             type: 'DELETE',
             async: false,
             dataType: 'json',
@@ -775,7 +892,7 @@
                     $jsonReponseId = $elements[i].id;
                     $jsonInputText = "";
                     $.ajax({
-                        url: '/api/collectivite-answer',
+                        url: '/api/collectivite-answers',
                         type: 'POST',
                         async: true,
                         dataType: 'json',
@@ -803,7 +920,7 @@
                     });
 
                     $.ajax({
-                        url: '/api/question/by-parent-answer/' + $elements[i].id,
+                        url: '/api/questions/by-parent-answer/' + $elements[i].id,
                         type: 'GET',
                         async: false,
                         dataType: 'json',
@@ -820,18 +937,37 @@
                                     // }
                                 }
 
+                                // TODO : nouveau code de la dernière version dont le fonctionnement semble différent que ce qui est attendu Il faudra choisir
+                                /* for (let r = 0; r < data.data.length; r++) {
+                                    if (data.data[r].Visible == "Oui" && document.getElementById(data.data[r].Id) != null) {
+                                        document.getElementById(data.data[r].Id).hidden = false;
+                                        for (let g = 0; g < document.getElementsByName(data.data[r].Id).length; g++) {
+                                            document.getElementsByName(data.data[r].Id)[g].checked = false;
+                                        }
+
+                                    } else if (document.getElementById(data.data[r].Id) != null) {
+                                        document.getElementById(data.data[r].Id).hidden = true;
+                                    }
+                                } */
+
                                 $count4 = 0;
                                 for (let j = 0; j < document.getElementsByClassName("cadreQuestion").length; j++) {
-                                    if (document.getElementsByClassName("cadreQuestion")[j].hidden == false) {
+                                    if (document.getElementsByClassName("cadreQuestion")[j].hidden == false && document.getElementsByClassName("cadreQuestion")[j].children[1].classList.value == "contenuReco") {
                                         $count4 += 1;
                                     }
-                                    
+                                }
+
+                                $count5 = 0;
+                                for (let v = 0; v < document.getElementsByClassName("cadreQuestion").length; v++) {
+                                    if (document.getElementsByClassName("cadreQuestion")[v].hidden == false) {
+                                        $count5 += 1;
+                                    }
                                 }
                                 
-                                if ($count4 == 1) {
-                                    document.getElementById('nbQuestions').innerHTML = $count4 + " question";
+                                if ($count5 == 1) {
+                                    document.getElementById('nbQuestions').innerHTML = $count5 + " question";
                                 } else {
-                                    document.getElementById('nbQuestions').innerHTML = $count4 + " questions";
+                                    document.getElementById('nbQuestions').innerHTML = $count5 + " questions";
                                 }
 
                             }
@@ -847,7 +983,7 @@
                     $jsonReponseId = $elements[i].id;
                     $jsonInputText = $elements[i].value;
                     $.ajax({
-                        url: '/api/collectivite-answer',
+                        url: '/api/collectivite-answers',
                         type: 'POST',
                         async: true,
                         dataType: 'json',
@@ -888,8 +1024,8 @@
             dataType: 'json',
             success: function(data) {
                 $userProgression = data.data;
-                if (typeof $count4 !== "undefined") {
-                    $nbQuestion = $count4;
+                if (typeof $count5 !== "undefined") {
+                    $nbQuestion = $count5;
                 } else {
                     $nbQuestion = document.getElementsByClassName("num2").length;
                 }
@@ -900,13 +1036,18 @@
                 } else {
                     var percent = ($userProgression[0].nb_repondu / $nbQuestion) * 100;
                 }
+                // TODO : Il faudrait revoir le calcul du score pour éviter ce genre de pansement
+                if (percent >= 100) {
+                    percent = 100;
+                }
                 document.querySelector('#pourcentage').textContent = Math.round(percent) + "%";
 
-                // if ($("#pourcentage").text() == "100%") {
-                //     $("#boutonValider").removeClass('d-none');
-                // } else {
-                //     $("#boutonValider").addClass('d-none');
-                // }
+                if ($("#pourcentage").text() == "100%") {
+                    $("#boutonValider").removeClass('d-none');
+                } else {
+                    $("#boutonValider").addClass('d-none');
+                }
+
                 BtnValider();
                 const offset = circumference - percent / 100 * circumference;
                 document.querySelector('#cercle0').style.strokeDashoffset = offset;
@@ -951,11 +1092,21 @@
         modal.toggle();
     }
 
+    $modal = 0;
     function openModalDef($definition) {
         
         $("#modal-bodyDef").html($definition);
         $("#definitionModal").toggle();
+        $modal = 0;
     }
+
+    $(window).click(function(e) {
+        if ($modal == 1 && $("#definitionModal")[0].attributes[5].nodeValue == 'display: block;') {
+            $("#definitionModal").toggle();
+            $modal = 0;
+        }
+        $modal = 1;
+    });
 
     function BtnValider() {
         if (document.getElementById('modif').hidden == false) {

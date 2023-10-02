@@ -8,7 +8,7 @@ $(function() {
             loadMode: "raw",
             key: "id",
             load: function() {
-                return $.getJSON(`/api/user/by-collectivite`);
+                return $.getJSON(`/api/users/by-collectivite`);
             }
         });
     }
@@ -36,7 +36,8 @@ $(function() {
         }, {
             caption: "Nom",
             dataField: "lastName",
-            width: 150
+            width: 150,
+            cssClass: "maj"
         }, {
             caption: "Identifiant",
             dataField: "username",
@@ -111,13 +112,10 @@ $(function() {
         showColonAfterLabel: true,
         labelLocation: "top",
         items: [{
-            dataField: "id",
-            cssClass: "d-none"
-        }, {
             colCount: 2,
             itemType: "group",
             items: [{
-                dataField: "lastName",
+                dataField: "user[lastName]",
                 label: {
                     text: "Nom "
                 },
@@ -126,7 +124,7 @@ $(function() {
                     message: "Nom ne peut pas être vide."
                 }]
             }, {
-                dataField: "firstName",
+                dataField: "user[firstName]",
                 label: {
                     text: "Prénom "
                 },
@@ -135,7 +133,7 @@ $(function() {
                     message: "Prénom ne peut pas être vide."
                 }]
             }, {
-                dataField: "username",
+                dataField: "user[username]",
                 label: {
                     text: "Identifiant "
                 },
@@ -146,15 +144,17 @@ $(function() {
                 validationRules: [{
                     type: "required",
                     message: "Identifiant ne peut pas être vide."
-                }, {
+                },
+                {
                     type: "custom",
                     message: "L'identifiant est déjà utilisé",
                     validationCallback: function(params) {
+                        console.log(params.value);
                         return sendRequest(params.value);
                     }
                 }]
             }, {
-                dataField: "email",
+                dataField: "user[email]",
                 label: {
                     text: "Mail "
                 },
@@ -188,18 +188,18 @@ $(function() {
                     },
                     template: function(data, $itemElement) {
                         $(`<div class="custom-control custom-switch" style="padding: 0 !important;">
-                                <input type="checkbox" checked name="Administrateur" id="customSwitchAdmin">
+                                <input type="checkbox" checked name="admin" id="customSwitchAdmin">
                             </div>`).appendTo($itemElement);
                     }
                 },
                 {
-                    dataField: "active",
+                    dataField: "user[active]",
                     label: {
                         text: "Actif "
                     },
                     template: function(data, $itemElement) {
                         $(`<div class="custom-control custom-switch">
-                                <input type="checkbox" checked name="Actif" class="custom-control-input" id="customSwitchActif">
+                                <input type="checkbox" checked name="user[active]" class="custom-control-input" id="customSwitchActif">
                                 <label class="custom-control-label" for="customSwitchActif"></label>
                             </div>`).appendTo($itemElement);
                     }
@@ -264,8 +264,8 @@ function openModal(data) {
             break;
     }
 
-    switch (data.admin) {
-        case 1:
+    switch (data.adminCollectivite) {
+        case true:
             var check2 = "checked";
             break;
         case "self":
@@ -277,7 +277,7 @@ function openModal(data) {
     }
 
     var formModaleModifUser = $("#form-modaleModifUser").dxForm({
-        formData: { id: data.id, lastName: data.lastName, firstName: data.firstName, username: data.username, email: data.email, admin: data.admin, active: data.active},
+        formData: { id: data.id, lastName: data.lastName, firstName: data.firstName, username: data.username, email: data.email, adminCollectivite: data.adminCollectivite, active: data.active},
         readOnly: false,
         showColonAfterLabel: true,
         labelLocation: "top",
@@ -285,7 +285,8 @@ function openModal(data) {
         items: [{
             dataField: "id",
             cssClass: "d-none"
-        }, {
+            },
+            {
             colCount: 2,
             itemType: "group",
             items: [{
@@ -328,19 +329,18 @@ function openModal(data) {
                     message: "Mail ne peut pas être vide."
                 }]
             }, {
-                dataField: "admin",
-                
+                dataField: "adminCollectivite",
                 label: {
                     text: 'Droit d\'ajout des utilisateurs',
                 },
                 template: function(data, $itemElement) {
                     if (check2 != "self") {
                         $(`<div class="custom-control custom-switch" style="padding: 0 !important;">
-                        <input type="checkbox" ${check2} name="Admin" id="customSwitchAdmin2">
+                        <input type="checkbox" ${check2} name="adminCollectivite" id="customSwitchAdmin2">
                         </div>`).appendTo($itemElement);
                     } else {
                         $(`<div class="custom-control custom-switch" style="padding: 0 !important;">
-                        <input type="checkbox" checked name="Admin" disabled id="customSwitchAdmin2">
+                        <input type="checkbox" checked name="adminCollectivite" disabled id="customSwitchAdmin2">
                         </div>`).appendTo($itemElement);
                     }
                 }
@@ -416,14 +416,10 @@ function openModal(data) {
 function renvoiMail(data) {
     data = JSON.parse(data.replaceAll('@|%', "'"));
     $.ajax({
-        url: './AjaxLoader/ResendMailInscriptionUtilisateur.php',
+        url: '/api/users/resend-mail/' + data.id,
         type: 'post',
         async: true,
-        dataType: 'html',
-        data: {
-            'Id': data.id,
-            'Mail': data.email
-        },
+        dataType: 'json',
         success: function(data) {
             $("#gridContainer").dxDataGrid("instance").refresh();
             DevExpress.ui.notify("Le mail d'inscription a été renvoyé");
@@ -435,17 +431,14 @@ function renvoiMail(data) {
 }
 
 
-function updateActif(utilisateurId) {
+function updateActive(utilisateurId) {
     $.ajax({
-        url: './AjaxLoader/UpdateActif.php',
-        type: 'post',
+        url: '/api/users/update-active/' + utilisateurId,
+        type: 'patch',
         async: true,
-        dataType: 'html',
-        data: {
-            'utilisateurId': utilisateurId,
-        },
+        dataType: 'json',
         success: function(data) {
-            $("#gridContainer").dxDataGrid("instance").refresh()
+            $("#gridContainer").dxDataGrid("instance").refresh();
         },
         error: function(jqXhr, textStatus, errorThrown) {
             console.error('Une erreur est survenue');
@@ -457,29 +450,24 @@ var sendRequest = function(value) {
     var valid;
     $identifiant = value.replaceAll('ç', 'c');
     $.ajax({
-        url: './AjaxLoader/checkIdentifiant.php',
+        url: '/api/users/check-username/' + value,
         type: 'get',
         async: false,
-        dataType: 'html',
-        data: {
-            'Identifiant': value,
-        },
+        dataType: 'json',
         success: function(data) {
-            valid = 1;
-            if (value == data) {
-                valid = -1;
-            }
+            valid = value == data ? false : true;
         },
         error: function(jqXhr, textStatus, errorThrown) {
             console.error('Une erreur est survenue');
         }
     });
-    if (valid == -1) {
+    console.log(valid);
+    if (valid) {
+        $("[accesskey=SubmitNewUser]").removeClass("dx-state-disabled")
+    } else {
         $("[accesskey=SubmitNewUser]").addClass("dx-state-disabled");
-        return false
     }
-    $("[accesskey=SubmitNewUser]").removeClass("dx-state-disabled")
-    return true;
+    return valid;
 }
 
 function deleteUser(data) {
@@ -514,16 +502,13 @@ function deleteUser(data) {
                 type: "default",
                 onClick: function(e) {
                     $.ajax({
-                        url: './AjaxLoader/deleteUser.php',
-                        type: 'post',
+                        url: '/api/users/delete/' + data.id,
+                        type: 'delete',
                         async: true,
-                        dataType: 'html',
-                        data: {
-                            userId: data.Id
-                        },
-                        success: function(response) {
-                            if (response == 1) {
-                                DevExpress.ui.notify(`${data.Prenom} ${data.Nom} à été supprimé`, "success", 2000);
+                        dataType: 'json',
+                        success: function(response, status, xhr) {
+                            if (xhr.status == 201) {
+                                DevExpress.ui.notify(`${data.firstName} ${data.lastName} à été supprimé`, "success", 2000);
                             } else {
                                 DevExpress.ui.notify(`Une erreur est survenue`, "error", 2000);
                             }

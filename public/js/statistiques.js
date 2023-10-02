@@ -1,10 +1,8 @@
 $(function() {
-    
-
     var dxChartData;
     $.ajax({
-        url: "",
-        method: "get",
+        url: "/api/score/list",
+        method: "GET",
         async: false,
         dataType: "json",
     })

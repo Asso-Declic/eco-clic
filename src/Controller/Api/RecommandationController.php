@@ -3,12 +3,14 @@
 namespace App\Controller\Api;
 
 use App\Entity\Category;
+use App\Entity\Collectivite;
+use App\Repository\CategoryRepository;
 use App\Repository\RecommandationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/recommandation', name: 'api_recommandation_')]
+#[Route('/api/recommendations', name: 'api_recommandation_')]
 class RecommandationController extends AbstractController
 {
     #[Route('', name: 'browse', methods: ['GET'])]
@@ -39,17 +41,35 @@ class RecommandationController extends AbstractController
      * @return JsonResponse
      */
     #[Route('/by-collectivite/{id}', name: 'by_collectivite', requirements: ['id' => '^([0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}|404)$'])]
-    public function byCollectivite(RecommandationRepository $recommandationRepository): JsonResponse
+    public function byCollectivite(CategoryRepository $categoryRepository, Collectivite $collectivite, RecommandationRepository $recommandationRepository): JsonResponse
     {
-        $recommandations = $recommandationRepository->countTotalsPerCategories($this->getUser()->getCollectivite());
+        $recommandations = $recommandationRepository->countTotalsPerCategories($collectivite);
+        $categories = $categoryRepository->findBy([], ['sortOrder' => 'ASC']);
+
+        foreach ($categories as $category) {
+            $found = false;
+            foreach ($recommandations as $recommandation) {
+                if ($recommandation['id'] === $category->getId()) {
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) {
+                $recommandations[] = [
+                    'id' => $category->getId(),
+                    'nb_recommandation' => 0,
+                ];
+            }
+        }
+
         return $this->json($recommandations);
     }
 
-    #[Route('/totals-per-categories', name: 'totals_per_categories')]
-    public function totalsPerCategories(RecommandationRepository $recommandationRepository): JsonResponse
+    #[Route('/custom-inputs/by-category/{id}', name: 'custom_inputs', requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$'])]
+    public function customInputsByCategory(Category $category, RecommandationRepository $recommandationRepository): JsonResponse
     {
-        $totals = $recommandationRepository->countTotalsPerCategories($this->getUser()->getCollectivite());
-        return $this->json(['data' => $totals]);
+        $customInputs = $recommandationRepository->findCustomInputsByCategory($category, $this->getUser()->getCollectivite());
+        return $this->json(count($customInputs));
     }
     
     #[Route('/filters', name: 'filters')]
@@ -58,6 +78,20 @@ class RecommandationController extends AbstractController
         $filters = $recommandationRepository->findFilters($this->getUser()->getCollectivite());
         // return $this->json(['data' => $filters]);
         return $this->json(['data' => $filters]);
+    }
+
+    #[Route('/non-active', name: 'non_active', methods: ['GET'])]
+    public function nonActive(RecommandationRepository $recommandationRepository): JsonResponse
+    {
+        $recommandations = $recommandationRepository->findNonActive($this->getUser()->getCollectivite());
+        return $this->json($recommandations);
+    }
+
+    #[Route('/totals-per-categories', name: 'totals_per_categories')]
+    public function totalsPerCategories(RecommandationRepository $recommandationRepository): JsonResponse
+    {
+        $totals = $recommandationRepository->countTotalsPerCategories($this->getUser()->getCollectivite());
+        return $this->json(['data' => $totals]);
     }
 }
 

@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/collectivite-status', name: 'api_collectivite_status_')]
+#[Route('/api/collectivite-statuses', name: 'api_collectivite_status_')]
 class CollectiviteStatusController extends AbstractController
 {
     #[Route(

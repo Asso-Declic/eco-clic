@@ -1,0 +1,17 @@
+{% extends "admin/base.html.twig" %}
+
+{% block content %}
+<div class="mt-5 px-3">
+    <h3 class="vertEcoclic">Modification OPSN</h3>
+    <form class='modal-body' action="{{ path('admin_opsn_edit', {id: opsn.id}) }}" method="post">
+        <div id="form-modif"></div>
+        <div id="filoe_uploader"></div>
+    </form>
+</div>
+
+<script>
+var OPSN = {{ opsn|json_encode|raw }};
+OPSN.departements = OPSN.departements.map(d => d.code);
+</script>
+<script src="{{ asset('admin/js/modifOPSN.js') }}"></script>
+{% endblock %}

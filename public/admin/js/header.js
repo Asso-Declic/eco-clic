@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
 
     /**
      * jQuery.browser.mobile (http://detectmobilebrowser.com/)
@@ -6,7 +6,7 @@ $(function() {
      * jQuery.browser.mobile will be true if the browser is a mobile device
      *
      **/
-    (function(a) {
+    (function (a) {
         (jQuery.browser = jQuery.browser || {}).mobile =
             /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i
             .test(a) ||
@@ -22,12 +22,12 @@ $(function() {
         showColonAfterLabel: true,
         labelLocation: "top",
         items: [{
-            template: function(data, $itemElement) {
+            template: function (data, $itemElement) {
                 $(` 
                 <div class="d-flex"> 
                 <img id="iconAlert" src="../img/alert.svg" alt="alert" class="pr-3">
                 <span>
-                    Votre mot de passe doit comporter au minimum 8 caractères dont: une minuscule, une majuscule, un chiffre et un caractère spécial
+                    Votre mot de passe doit comporter au minimum 12 caractères dont: une minuscule, une majuscule, un chiffre et un caractère spécial
                 </span>
                 </div>
                 `).appendTo($itemElement);
@@ -47,7 +47,7 @@ $(function() {
                 }, {
                     type: "custom",
                     message: "Le mot de passe est incorrect",
-                    validationCallback: function(params) {
+                    validationCallback: function (params) {
                         return checkPassActuel(params.value, "admin");
                     }
                 }]
@@ -65,7 +65,7 @@ $(function() {
                             options: {
                                 icon: "../img/OeilBlanc.svg",
                                 type: "default",
-                                onClick: function(e) {
+                                onClick: function (e) {
                                     $("[name=Nouveau_mot_de_passe]").attr("type", $("[name=Nouveau_mot_de_passe]").attr("type") === "text" ? "password" : "text")
                                     $("[name=Confirmer_mot_de_passe]").attr("type", $("[name=Confirmer_mot_de_passe]").attr("type") === "text" ? "password" : "text")
                                     $("[name=Mot_de_passe_actuel]").attr("type", $("[name=Mot_de_passe_actuel]").attr("type") === "text" ? "password" : "text")
@@ -78,7 +78,7 @@ $(function() {
                         message: "Ce champ est obligatoire."
                     }, {
                         type: "pattern",
-                        pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[+\-_!@#\$%\^&\*])(?=.{8,})/,
+                        pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[+\-_!@#\$%\^&\*])(?=.{12,})/,
                         message: "Merci de respecter le format requis"
                     }]
                 }, {
@@ -89,7 +89,7 @@ $(function() {
                     },
                     validationRules: [{
                         type: "compare",
-                        comparisonTarget: function(e) {
+                        comparisonTarget: function (e) {
                             var password = $("[name=Nouveau_mot_de_passe]").val();
                             if (password) {
                                 return password;
@@ -129,11 +129,11 @@ $(function() {
         minColWidth: 300,
     }).dxForm("instance");
 
-    $("#modifMDP").on("click", function() {
+    $("#modifMDP").on("click", function () {
         $('#modal_mdp').modal('show')
     })
 
-    $("[accesskey=Retour]").on("click", function() {
+    $("[accesskey=Retour]").on("click", function () {
         $('#modal_mdp').modal('hide')
     })
 });
@@ -172,7 +172,7 @@ function fn1sec() {
 //         type: 'GET',
 //         // data : 'collectiviteId=' + '<?php // echo $idcol ?>',
 //         dataType: 'html',
-//         success: function(reponse) {
+//         success: function (reponse) {
 //             if (reponse == "") {
 //                 $("#liste_notification").html(
 //                     "<span class='col-12 detailsNotif  text-center'>Aucune notification</span>");
@@ -186,7 +186,7 @@ function fn1sec() {
 //                 $(".badge2").show();
 //             }
 //         },
-//         error: function(resultat, statut, erreur) {
+//         error: function (resultat, statut, erreur) {
 //             console.log(resultat + " --- " + statut + " --- " + erreur);
 //         }
 //     });
@@ -199,7 +199,7 @@ function fn1sec() {
 //             url: 'AjaxLoader/MarquerCommeLu.php',
 //             dataType: "html", // le fichier php fait un echo de code HTML
 //         })
-//         .done(function(response, textStatus, jqXHR) {
+//         .done(function (response, textStatus, jqXHR) {
 //             notifications();
 //         })
 // }
@@ -211,7 +211,7 @@ function fn1sec() {
 //             url: 'AjaxLoader/MarquerCommeVu.php',
 //             dataType: "html", // le fichier php fait un echo de code HTML
 //         })
-//         .done(function(response, textStatus, jqXHR) {
+//         .done(function (response, textStatus, jqXHR) {
 //             notifications();
 //         })
 // }
@@ -240,7 +240,7 @@ function GetAjaxCache(cacheDuration, url, params, dataType, async, success, erro
     var cacheKey = url;
 
     if (params != null) {
-        Object.keys(params).forEach(function(objKey) {
+        Object.keys(params).forEach(function (objKey) {
 
             cacheKey = cacheKey + objKey + params[objKey];
         });
@@ -257,11 +257,11 @@ function GetAjaxCache(cacheDuration, url, params, dataType, async, success, erro
             data: params,
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             cacheKey: cacheKey,
-            success: function(response) {
+            success: function (response) {
 
                 var cacheKey = this.cacheKey;
                 SetToSessionCache(cacheKey, response);
-                this.successFunction(response);
+                this.successfunction (response);
             },
             successFunction: success,
             error: error
@@ -274,14 +274,14 @@ function GetAjaxCache(cacheDuration, url, params, dataType, async, success, erro
 }
 
 function GetPreference(code, success) {
-    return GetAjaxCache(240, 'AjaxLoader/GetPreference.php', { 'PreferenceCode': code }, 'json', false, success, null);
+    return GetAjaxCache(240, '/api/users/preferences', { 'code': code }, 'json', false, success, null);
 }
 
 function SetPreference(code, json) {
-    var cacheKey = 'AjaxLoader/GetPreference.php';
-    var params = { 'PreferenceCode': code };
+    var cacheKey = '/api/users/preferences';
+    var params = { 'code': code };
     if (params != null) {
-        Object.keys(params).forEach(function(objKey) {
+        Object.keys(params).forEach(function (objKey) {
 
             cacheKey = cacheKey + objKey + params[objKey];
         });
@@ -289,10 +289,10 @@ function SetPreference(code, json) {
 
 
     $.ajax({
-        "url": "AjaxLoader/SavePreference.php",
+        "url": "/api/users/preferences",
         "data": {
             'Json': JSON.stringify(json),
-            'PreferenceCode': code
+            'code': code
         },
         "dataType": "json",
         "type": "POST"
@@ -312,10 +312,10 @@ function checkPassActuel(params, type) {
             Type: type
         },
         dataType: 'html',
-        success: function(reponse) {
+        success: function (reponse) {
             (reponse == 1) ? retour = true: retour = false
         },
-        error: function(resultat, statut, erreur) {
+        error: function (resultat, statut, erreur) {
             console.log(resultat + ' --- ' + statut + ' --- ' + erreur);
         }
     });

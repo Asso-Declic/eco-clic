@@ -12,14 +12,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: CollectiviteRepository::class)]
 class Collectivite
 {
-    #[Groups(['collectivite', 'collectivite_status', 'score'])]
+    #[Groups(['collectivite', 'collectivite_status', 'link_demand', 'score'])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator("doctrine.uuid_generator")]
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
-    #[Groups(['collectivite'])]
+    #[Groups(['collectivite', 'filters', 'link_demand'])]
     #[ORM\Column(length: 500)]
     private ?string $name = null;
 
@@ -68,6 +68,20 @@ class Collectivite
     #[Groups(['collectivite'])]
     #[ORM\Column(length: 5, nullable: true)]
     private ?string $postalCode = null;
+
+    // Si le niveau 2 est activé, les utilisateurs de la collectivité pourront répondre à un questionnaire de niveau 2.
+    #[Groups(['collectivite'])]
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $levelTwo = false;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $firstAnsweredAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $lastAnsweredAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'linkDemands')]
+    private ?OPSN $linkDemand = null;
 
     public function __construct()
     {
@@ -123,7 +137,7 @@ class Collectivite
         return $this->siret;
     }
 
-    public function setSiret(string $siret): self
+    public function setSiret(?string $siret): self
     {
         $this->siret = $siret;
 
@@ -135,7 +149,7 @@ class Collectivite
         return $this->latitude;
     }
 
-    public function setLatitude(string $latitude): self
+    public function setLatitude(?string $latitude): self
     {
         $this->latitude = $latitude;
 
@@ -147,7 +161,7 @@ class Collectivite
         return $this->longitude;
     }
 
-    public function setLongitude(string $longitude): self
+    public function setLongitude(?string $longitude): self
     {
         $this->longitude = $longitude;
 
@@ -322,6 +336,54 @@ class Collectivite
     public function setPostalCode(?string $postalCode): self
     {
         $this->postalCode = $postalCode;
+
+        return $this;
+    }
+
+    public function isLevelTwo(): ?bool
+    {
+        return $this->levelTwo ?? false;
+    }
+
+    public function setLevelTwo(bool $levelTwo): self
+    {
+        $this->levelTwo = $levelTwo;
+
+        return $this;
+    }
+
+    public function getFirstAnsweredAt(): ?\DateTimeImmutable
+    {
+        return $this->firstAnsweredAt;
+    }
+
+    public function setFirstAnsweredAt(?\DateTimeImmutable $firstAnsweredAt): static
+    {
+        $this->firstAnsweredAt = $firstAnsweredAt;
+
+        return $this;
+    }
+
+    public function getLastAnsweredAt(): ?\DateTimeImmutable
+    {
+        return $this->lastAnsweredAt;
+    }
+
+    public function setLastAnsweredAt(?\DateTimeImmutable $lastAnsweredAt): static
+    {
+        $this->lastAnsweredAt = $lastAnsweredAt;
+
+        return $this;
+    }
+
+    public function getLinkDemand(): ?OPSN
+    {
+        return $this->linkDemand;
+    }
+
+    public function setLinkDemand(?OPSN $linkDemand): static
+    {
+        $this->linkDemand = $linkDemand;
 
         return $this;
     }

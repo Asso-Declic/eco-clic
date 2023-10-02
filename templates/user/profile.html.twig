@@ -1,5 +1,7 @@
 {% extends "base.html.twig" %}
 
+{# TODO : Supprimer la barre de recherche ici ? #}
+
 {% block title %}Profil{% endblock %}
 
 {% block content %}
@@ -18,7 +20,7 @@
         <div class="traitHorizontal"></div>
     </div>
 
-    <div class="profil-body" style="overflow: auto;">
+    <div class="profil-body" style="overflow: auto;margin-top: -15px;">
         <div class="titreBloc">
             <div class="cercle"><i class="fas fa-user-edit"></i></div>
             <span class="titre">Mon profil</span>
@@ -123,7 +125,10 @@
             margin-inline: 24px;
             margin-top: 24px;
             padding-inline: 24px;
+            padding-bottom: 15px;
+            padding-top: 5px;
         }
+
     </style>
     <script src="{{ asset('js/profil.js') }}"></script>
 {% endblock %}

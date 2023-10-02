@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/user/preference', name: 'api_user_preference_')]
+#[Route('/api/users/preference', name: 'api_user_preference_')]
 class UserPreferenceController extends AbstractController
 {
     #[Route('', name: 'read', methods: ['GET'])]

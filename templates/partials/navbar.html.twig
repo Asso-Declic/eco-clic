@@ -38,11 +38,11 @@
                 
                 {% if 'admin' in app.request.get('_route') %}
                 <a class="dropdown-item text-center" href="{{ path('main_accueil') }}">
-                    <span style="cursor:pointer;">Questionnaire</span>
+                    <span style="cursor:pointer;">Mon questionnaire</span>
                 </a>
                 {% elseif is_granted('ROLE_OPSN') %}
                 <a class="dropdown-item text-center" href="{{ path('admin_main_accueil') }}">
-                    <span style="cursor:pointer;">Administration</span>
+                    <span style="cursor:pointer;">Administrateur</span>
                 </a>        
                 {% endif %}
                 
@@ -112,7 +112,7 @@
                         </div>
                         <div class="col-12 col-lg-5">
                             <span>
-                                Le mot de passe doit comporter 8 caractères dont une minuscule,
+                                Le mot de passe doit comporter 12 caractères dont une minuscule,
                                 une majuscule, un chiffre et un caractère spécial
                             </span>
                         </div>

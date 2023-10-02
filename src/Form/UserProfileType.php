@@ -32,6 +32,8 @@ class UserProfileType extends AbstractType
                     ),
                 ]
             ])
+            ->add('opsn')
+            ->add('active')
         ;
     }
 

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Category;
+use App\Entity\Collectivite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
@@ -49,7 +50,7 @@ class CategoryRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findInfos()
+    public function findInfos(Collectivite $collectivite)
     {
         /* Requête d'origine
         SELECT categorie.Id, categorie.Nom, categorie.Img, COUNT(question.IdCategorie) as nbQuestion, 
@@ -70,6 +71,7 @@ class CategoryRepository extends ServiceEntityRepository
         ->addSelect('c.image as image')
         ->addSelect('c.description as description')
         ->addSelect('c.sortOrder as sort_order')
+        ->addSelect('c.levelTwo as level_two')
         ->addSelect('(
             SELECT COUNT(recommandation.id)
             FROM App\Entity\Recommandation recommandation
@@ -82,9 +84,18 @@ class CategoryRepository extends ServiceEntityRepository
         ->orderBy('c.sortOrder')
         ;
 
+        if ($collectivite->isLevelTwo() == false) {
+            $qb->andWhere('q.levelTwo = 0');
+        }
+
         return $qb->getQuery()->getScalarResult();
     }
 
+    /**
+     * Il s'agit d'une optimisation qui permet de récupérer les questions en même temps que les catégories
+     *
+     * @return Category[]
+     */
     public function findWithQuestions()
     {
         $qb = $this->createQueryBuilder('c');

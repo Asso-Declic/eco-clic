@@ -167,16 +167,22 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
      */
     public function createQbCountCollectiviteAnswer(Collectivite $collectivite)
     {
-        $qb = $this->createQueryBuilder('ca');
+        $qb = $this->getEntityManager()->createQueryBuilder();
         
-        $qb->select('c.id category_id, c.name as category_name, c.image as category_image')
-        ->addSelect($qb->expr()->countDistinct('ca.id') . ' AS nb_repondu')
-        ->innerJoin('ca.answer', 'a')
-        ->innerJoin('a.question', 'q')
-        ->innerJoin('q.category', 'c')
+        $qb->select('c.id category_id, c.name as category_name, c.image as category_image, c.levelTwo as category_level_two')
+        ->addSelect($qb->expr()->count('ca.id') . ' AS nb_repondu')
+        ->from(Category::class, 'c')
+        ->leftJoin('c.questions', 'q')
+        ->innerJoin('q.answers', 'a')
+        ->innerJoin('a.collectiviteAnswers', 'ca')
         ->where('ca.collectivite = :collectivite')
+        ->orderBy('c.sortOrder')
         ->groupBy('c.id')
         ->setParameter('collectivite', $collectivite);
+
+        if ($collectivite->isLevelTwo() == false) {
+            $qb->andWhere('q.levelTwo = 0');
+        }
 
         return $qb;
     }
@@ -201,6 +207,12 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
         ->innerJoin('ca.answer', 'a')
         ->where('ca.collectivite = :collectivite')
         ->setParameter('collectivite', $collectivite);
+
+        // if ($collectivite->isLevelTwo() == false) {
+        //     $qb->innerJoin('a.question', 'q')
+        //     ->andWhere('q.levelTwo = 0');
+        // }
+
         return $qb->getQuery()->getSingleResult();
     }
 

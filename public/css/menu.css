@@ -107,24 +107,28 @@ a:focus {
     height: 21px;
 }
 
-@media (max-width: 970px) {
+@media (max-width: 1280px) {
     #fermer-telephone {
         display: inline-block;
         position: absolute;
         margin-top: 5px;
     }
+
     #sidebar {
         margin-left: -250px;
         z-index: 10;
     }
+
     .components {
         height: 100%;
     }
+
     #content {
         position: absolute;
         padding-left: 0px;
         padding-right: 0px;
     }
+
     #sidebar.active {
         position: relative;
         width: 100%;
@@ -134,20 +138,25 @@ a:focus {
         height: 100vh;
         background: #FFFFFF;
     }
+
     #sidebar.active .sidebar-header {
         display: block;
         margin-top: 5px;
     }
+
     #sidebar.active #retrecir {
         display: none;
     }
+
     #sidebar.active span {
         display: inline-block;
     }
+
     .container-fluid {
         padding-right: 15px;
         padding-left: 15px;
     }
+
     .menuPhone p {
         margin: 0px !important;
     }

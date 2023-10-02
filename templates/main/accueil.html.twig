@@ -18,7 +18,17 @@
                     <div>
                         <h2 id="col"></h2>
                         <h3><span id="type"></span><span> - </span><span id="CP"></span></h3>
+                        <h6><span></span><span id="lastModif">
+                        {% if collectivite.lastAnsweredAt is not null %}
+                        Dernière modification : {{ collectivite.lastAnsweredAt|date('d/m/Y') }}
+                        {% else %}
                         <a id="commencer" hidden style="text-decoration: underline; cursor: pointer;">Démarrer le questionnaire</a>
+                        {% endif %}
+                        </span></h6>
+                        {% if app.user.opsn is not null %}
+                        <h6>Connecté en tant qu'OPSN</h6>
+                        {% endif %}
+                        
                     </div>
                     <div id="progress" class="">
                         <svg class="progress-ring" width="105" height="105">
@@ -59,7 +69,7 @@
                     </div>
 
                     
-                    <a id="commencer" class="btn btn-blueAdico fs mt-5 p-4 rounded-pill" 
+                    <a id="commencer-btn" class="btn btn-blueAdico fs mt-5 p-4 rounded-pill" 
                     style="background-color: #00857A; color: white; height: 80px; width: 50%; cursor: pointer; height: auto !important;">Commencer</a>
                 </div>
 
@@ -112,17 +122,34 @@
             </div>
 
             <div id="recommandations" class="col-xl-6 col-md-12 row">
-
-                <a id="last" class="tous div1 col-xl-5 col-md-12 p-0" style="color: #fff;" href="{{ path('recommandation_browse') }}">
-                    
-                    <div class="pTous">
-                        <div style="font-size:large">Accéder au plan </div>
-                        <div style="font-size:large">d'action</div>
+                <div id="last" class="reco div1 col-xl-5 col-md-12" style="border: none;" hidden>
+                    <div class="recoTitre row">
+                        <svg class="progress-ring" width="90" height="120">
+                            <circle id="cercle4" class="progress-ring__circle" stroke-width="3" fill="#fff" r="32" cx="60" cy="60" style="stroke-dasharray: 201.06192982974676, 201.06192982974676; stroke-dashoffset: 0;" stroke="#12857A"></circle>
+                        </svg>
+                        <img class="progressContent progressReco black pictoGreen" src="{{ asset('/img/plusLoin.svg') }}" alt="Pour aller plus loin">
+                        <p class="pReco">Pour aller plus loin</p>
                     </div>
-
-                    <div class="fleche flecheTous">
-                        <i class="fa-solid fa-arrow-right fa-xl"></i>
+                    <div class="recoQuestion row">
+                        <p class="recoText">Pour bénéficier des questions approfondies,</p>
                     </div>
+                    <div class="recoDispo row">
+                        <p class="recoText">merci de vous rapprocher de votre OPSN</p>
+                    </div>
+                    <div class="fleche">
+                        <i class="fa-solid fa-lock fa-xl"></i>
+                    </div>
+                </div>
+
+                <a class="tous div1 col-xl-5 col-md-12 p-0" style="color: #fff;" href="{{ path('recommandation_browse') }}">                    
+                <div class="pTous">
+                    <div style="font-size:large">Accéder au plan </div>
+                    <div style="font-size:large">d'action</div>
+                </div>
+
+                <div class="fleche flecheTous">
+                    <i class="fa-solid fa-arrow-right fa-xl"></i>
+                </div>
                     
                 </a>
                     
@@ -175,7 +202,7 @@
 
         $Siret = "";
         $.ajax({
-            url: '/api/collectivite/infos',
+            url: '/api/collectivites/infos',
             type: 'GET',
             async: false,
             dataType: 'json',
@@ -241,13 +268,26 @@
                     document.getElementById("complet").hidden = true;
                 }
 
+                if ($("#pourcentage").text() == "100%") {
+                    $("#boutonValider").css('display', 'block');
+                } else {
+                    $("#boutonValider").css('display', 'none');
+                }
+
+
                 var circumference = 52 * 2 * Math.PI;
                 var percent = ($Nbrep / $nb_question) * 100;
                 const offset = circumference - percent / 100 * circumference;
                 if (offset != 0) {
-                    document.querySelector('#cercle0').style.strokeDashoffset = offset;
-                    document.querySelector('#pourcentage').textContent = Math.round(percent) + "%";
-                    $('#completion').removeAttr('hidden');
+                    if ($Nbrep == 0) {
+                        document.querySelector('#pourcentage').textContent = "0%";
+                        document.querySelector('#cercle0').style.strokeDashoffset = offset;
+                        $('#completion').removeAttr('hidden');
+                    } else {
+                        document.querySelector('#cercle0').style.strokeDashoffset = offset;
+                        document.querySelector('#pourcentage').textContent = Math.round(percent) + "%";
+                        $('#completion').removeAttr('hidden');
+                    }
                 } else {
                     // appel ajax qui recup ponderation des questions
                     $.ajax({
@@ -297,7 +337,7 @@
                 // On récupère le nombre de recommandation disponibles que le user a au total que l'on va afficher séparément sur chaque catégories
                 let nbRecommandationUser = [];
                 $.ajax({
-                    url: '/api/recommandation/totals-per-categories',
+                    url: '/api/recommendations/totals-per-categories',
                     type: 'get',
                     async: false,
                     dataType: 'json',
@@ -309,7 +349,6 @@
                 });
 
                 for (let i = 0; i < data.length; i++) {
-
                     for (let y = 0; y < $userProgression.length; y++) {
                         if ($userProgression[y].category_id == data[i].id) {
                             $userProgression2 = $userProgression[y];
@@ -317,7 +356,6 @@
                         } else {
                             $userProgression2 = undefined;
                         }
-
                     }
 
                     var circumference2 = 32 * 2 * Math.PI;
@@ -362,13 +400,13 @@
                     img.setAttribute("class", "progressContent progressReco");
                     if (data[i].image != null && data[i].image != "") {
                         img.setAttribute("src", "/img/" + data[i].image);
-                        img.setAttribute("alt", data[i].c_name);
+                        img.setAttribute("alt", data[i].name);
                     }
                     div2.append(img);
 
                     let p1 = document.createElement('p');
                     p1.setAttribute("class", "pReco");
-                    p1.textContent = data[i].c_name;
+                    p1.textContent = data[i].name;
                     div2.append(p1);
 
                     let div3 = document.createElement('div');
@@ -392,14 +430,21 @@
                         $count = 0;
 
                         if ($userProgression2.nb_repondu > 0) {
-                            document.getElementById("commencer").innerHTML = "Reprendre";
+                            // document.getElementById("commencer").innerHTML = "Reprendre";
+                            document.getElementById("commencer-btn").innerHTML = "Reprendre";
                         } else {
-                            document.getElementById("commencer").innerHTML = "Commencer";
+                            // document.getElementById("commencer").innerHTML = "Commencer";
+                            document.getElementById("commencer-btn").innerHTML = "Commencer";
                         }
 
-                        if (document.getElementById("commencer").hidden == true && $userProgression2.nb_repondu != data[i].nb_question) {
-                            document.getElementById("commencer").hidden = false;
-                            document.getElementById("commencer").href = "/categories/" + data[i].id;
+                        // TODO : Quelquque part ici il y a un bug qui remet la catégorie dans le href du bouton #commencer-btn
+
+                        if ($userProgression2.nb_repondu != data[i].nb_question) {
+                            // document.getElementById("commencer").hidden = false;
+                            // document.getElementById("commencer").href = "/categories/" + data[i].id;
+                            document.getElementById("commencer-btn").hidden = false;
+                            document.getElementById("commencer-btn").href = "/categories/" + data[i].id;
+
                         }
                     } else {
                         p2.textContent = 0 + "/" + data[i].nb_question;
@@ -407,7 +452,10 @@
 
                         if (document.getElementById("commencer").hidden == true) {
                             document.getElementById("commencer").hidden = false;
+
                             document.getElementById("commencer").href = "/categories/" + data[i].id;
+                            document.getElementById("commencer-btn").hidden = false;
+                            document.getElementById("commencer-btn").href = "/categories/" + data[i].id;
                         }
                     }
                     div3.append(p2);
@@ -469,6 +517,63 @@
                 console.error('Une erreur est survenue');
             }
         });
+
+        // À la fin, on affiche les stats si on est complet
+        if (document.getElementById('complet').hidden === false) {
+            $.ajax({
+                url: '/api/stats',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (stats) {
+                    statsList = stats;
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    console.error('Une erreur est survenue');
+                }
+            });
+
+            $('#divStatistiquesContent').dxChart({
+                palette: 'Ocean',
+                dataSource: statsList,
+                commonSeriesSettings: {
+                    argumentField: 'scoredAt',
+                    type: 'line',
+                },
+                margin: {
+                    top: 5,
+                    right: 15,
+                    bottom: 5,
+                    left: 15
+                },
+                argumentAxis: {
+                    valueMarginsEnabled: false,
+                    discreteAxisDivisionMode: 'crossLabels',
+                    argumentType: 'datetime',  
+                    grid: {
+                        visible: true,
+                    },
+                    type: 'continuous',
+                },
+                series: [
+                    { valueField: 'score', name: 'Score global de la collectivité' },
+                ],
+                legend: {
+                    verticalAlignment: 'bottom',
+                    horizontalAlignment: 'center',
+                    itemTextPosition: 'bottom',
+                },
+                title: {
+                    text: 'Historique du score global',
+                },
+                export: {
+                    enabled: true,
+                },
+                tooltip: {
+                    enabled: true,
+                },
+            }).dxChart('instance');
+        }
     });
 </script>
  {% endblock %}

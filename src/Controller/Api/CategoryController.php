@@ -14,7 +14,8 @@ class CategoryController extends AbstractController
     #[Route('/infos', name: 'infos')]
     public function infos(CategoryRepository $categoryRepository): Response
     {
-        return $this->json($categoryRepository->findInfos());
+        $collectivite = $this->getUser()->getCollectivite();
+        return $this->json($categoryRepository->findInfos($collectivite));
     }
 
     #[Route('/all', name: 'all')]

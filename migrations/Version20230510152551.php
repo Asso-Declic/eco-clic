@@ -70,6 +70,16 @@ final class Version20230510152551 extends AbstractMigration
                 GROUP BY CollectiviteId
             ) AS liste_a_supprimer
         );');
+        // On supprime les réponses de collectivités dont l'id de la réponse n'existe pas dans la table Reponse
+        $this->addSql('DELETE FROM utilisateurReponse where IdReponse IN (
+            SELECT * FROM (
+                SELECT ca.IdReponse as IdReponse
+                FROM utilisateurReponse AS ca
+                LEFT JOIN reponse AS a ON ca.IdReponse = a.id
+                WHERE a.id IS NULL
+                GROUP BY ca.id
+            ) AS liste_a_supprimer
+        );');
         // Pareil pour historiqueScore
         $this->addSql('DELETE FROM historiqueScore where CollectiviteId IN (
             SELECT * FROM (

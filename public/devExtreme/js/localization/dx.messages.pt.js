@@ -8,9 +8,9 @@
 */
 "use strict";
 
-! function(root, factory) {
+! function (root, factory) {
     if ("function" === typeof define && define.amd) {
-        define(function(require) {
+        define(function (require) {
             factory(require("devextreme/localization"))
         })
     } else {
@@ -20,7 +20,7 @@
             factory(DevExpress.localization)
         }
     }
-}(this, function(localization) {
+}(this, function (localization) {
     localization.loadMessages({
         pt: {
             Yes: "Sim",

@@ -12,7 +12,7 @@
  * CLDR JavaScript Library v0.5.1 2019-01-21T13:43Z MIT license © Rafael Xavier
  * http://git.io/h4lmVg
  */
-(function( factory ) {
+(function ( factory ) {
 
 	if ( typeof define === "function" && define.amd ) {
 		// AMD.
@@ -25,7 +25,7 @@
 		factory( Cldr );
 	}
 
-}(function( Cldr ) {
+}(function ( Cldr ) {
 
 	// Build optimization hack to avoid duplicating functions across modules.
 	var coreLoad = Cldr._coreLoad;
@@ -37,7 +37,7 @@
 
 
 
-	var bundleParentLookup = function( Cldr, locale ) {
+	var bundleParentLookup = function ( Cldr, locale ) {
 		var normalizedPath, parent;
 
 		if ( locale === "root" ) {
@@ -64,7 +64,7 @@
 
 
 	// @path: normalized path
-	var resourceSet = function( data, path, value ) {
+	var resourceSet = function ( data, path, value ) {
 		var i,
 			node = data,
 			length = path.length;
@@ -79,11 +79,11 @@
 	};
 
 
-	var itemLookup = (function() {
+	var itemLookup = (function () {
 
 	var lookup;
 
-	lookup = function( Cldr, locale, path, attributes, childLocale ) {
+	lookup = function ( Cldr, locale, path, attributes, childLocale ) {
 		var normalizedPath, parent, value;
 
 		// 1: Finish recursion
@@ -135,14 +135,14 @@
 	 * Load resolved or unresolved cldr data.
 	 * Overwrite Cldr.load().
 	 */
-	Cldr.load = function() {
+	Cldr.load = function () {
 		Cldr._raw = coreLoad( Cldr, Cldr._raw, arguments );
 	};
 
 	/**
 	 * Overwrite Cldr.prototype.get().
 	 */
-	Cldr.prototype.get = function( path ) {
+	Cldr.prototype.get = function ( path ) {
 		validatePresence( path, "path" );
 		validateTypePath( path, "path" );
 

@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Answer;
 use App\Entity\Category;
 use App\Entity\Collectivite;
+use App\Entity\CollectiviteStatus;
 use App\Entity\Recommandation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -89,18 +91,40 @@ class RecommandationRepository extends ServiceEntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->from(Category::class, 'c')
         ->select('count(distinct(r.id)) as nb_recommandation, c.id as id')
-        ->leftJoin('c.questions', 'q')
-        ->leftJoin('q.recommandations', 'r')
-        ->leftJoin('q.answers', 'a')
-        ->leftJoin('a.collectiviteAnswers', 'ca')
+        ->innerJoin('c.questions', 'q')
+        ->innerJoin('q.recommandations', 'r')
+        ->innerJoin('q.answers', 'a')
+        ->innerJoin('a.collectiviteAnswers', 'ca')
         ->where('ca.collectivite = :collectivite')
-        ->orWhere('ca.collectivite is null')
         ->setParameter('collectivite', $collectivite)
         ->groupBy('c.id')
         ->orderBy('c.sortOrder')
         ;
 
         return $qb->getQuery()->getScalarResult();
+    }
+
+    public function createQbForCollectivite(Collectivite $collectivite)
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->select('r.id, r.title, r.body, c.name as category_name, c.id as category_id, c.image as category_image, l.id as level_id, l.label as level_label, l.color as level_color, s.id as status_id, s.label as status_label, t.id as theme_id, t.label as theme_label, q.question as question, q.levelTwo as level_two')
+            ->leftJoin('r.level', 'l')
+            ->leftJoin(CollectiviteStatus::class, 'cs', 'WITH', 'cs.recommandation = r')
+            ->leftJoin('cs.status', 's')
+            ->leftJoin('r.question', 'q')
+            ->leftJoin('q.category', 'c')
+            ->leftJoin('q.theme', 't')
+            ->leftJoin('q.answers', 'a')
+            ->leftJoin('a.collectiviteAnswers', 'ca')
+            ->where('ca.collectivite = :collectivite')
+            ->setParameter('collectivite', $collectivite)
+            ->orderBy('r.title', 'ASC');
+
+        if ($collectivite->isLevelTwo() == false) {
+            $qb->andWhere('q.levelTwo = false');
+        }
+
+        return $qb;
     }
 
     public function findAllForCollectivite(Collectivite $collectivite)
@@ -129,6 +153,24 @@ class RecommandationRepository extends ServiceEntityRepository
             ->setParameter('category', $category);
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function findCustomInputsByCategory(Category $category, Collectivite $collectivite)
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->innerJoin('r.question', 'q')
+            ->innerJoin('q.answers', 'a')
+            ->where('a.type = :type')
+            ->andWhere('q.category = :category')
+            ->setParameter('type', Answer::TYPE_INPUT)
+            ->setParameter('category', $category);
+        
+        if ($collectivite->isLevelTwo() == false) {
+            $qb->andWhere('q.levelTwo = false');
+        }
+
+        return $qb->getQuery()->getResult();
+
     }
 
     public function findFiltersPrio(Collectivite $collectivite)
@@ -175,24 +217,6 @@ class RecommandationRepository extends ServiceEntityRepository
         ;
         
         return $qb->getQuery()->getResult();
-    }
-
-    public function createQbForCollectivite(Collectivite $collectivite)
-    {
-        $qb = $this->createQueryBuilder('r');
-        $qb->select('r.id, r.title, r.body, c.name as category_name, c.id as category_id, c.image as category_image, l.id as level_id, l.label as level_label, l.color as level_color, s.id as status_id, s.label as status_label, t.id as theme_id, t.label as theme_label, q.question as question')
-            ->innerJoin('r.level', 'l')
-            ->innerJoin('r.status', 's')
-            ->innerJoin('r.question', 'q')
-            ->innerJoin('q.category', 'c')
-            ->innerJoin('q.theme', 't')
-            ->innerJoin('q.answers', 'a')
-            ->innerJoin('a.collectiviteAnswers', 'ca')
-            ->where('ca.collectivite = :collectivite')
-            ->setParameter('collectivite', $collectivite)
-            ->orderBy('r.title', 'ASC');
-
-        return $qb;
     }
 
     public function save(Recommandation $entity, bool $flush = false): void

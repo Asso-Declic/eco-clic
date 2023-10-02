@@ -12,14 +12,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
 {
-    #[Groups('category')]
+    #[Groups('category', 'score', 'stats')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator("doctrine.uuid_generator")]
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
-    #[Groups('category')]
+    #[Groups('category', 'score', 'stats')]
     #[ORM\Column(length: 200, nullable: true)]
     private ?string $name = null;
 
@@ -42,6 +42,10 @@ class Category
     #[Groups('category')]
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Question::class)]
     private Collection $questions;
+
+    #[Groups('category')]
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $levelTwo = false;
 
     public function __construct()
     {
@@ -163,6 +167,18 @@ class Category
                 $question->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isLevelTwo(): bool
+    {
+        return $this->levelTwo ?? false;
+    }
+
+    public function setLevelTwo(bool $levelTwo): self
+    {
+        $this->levelTwo = $levelTwo;
 
         return $this;
     }

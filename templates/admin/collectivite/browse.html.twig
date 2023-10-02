@@ -2,11 +2,6 @@
 
 {% block title %}Admin - Collectivités{% endblock %}
 
-{% block metas %}
-<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" href="{{ asset('css/common-ecoclicAdmin.css') }}" />
-{% endblock %}
-
 {% block content %}
 <div class="col-md-12">
     <div class="info" style="height: 130px; margin-top: 30px;">
@@ -34,6 +29,40 @@
     <div id="gridContainer"></div>
 </div>
 
+<!-- Modal des reco perso -->
+<div class="modal fade" id="ModaleRecoPerso" tabindex="-1" aria-labelledby="ModaleRecoPersoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModaleRecoPersoLabel">Recommandations</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div id="select-question-text">Selectionner une question :</div>
+                    <div id="select-question"></div>
+
+                    <div id="select-reponse-text" hidden>Réponse(s) :</div>
+                    <div id="select-reponse"></div>
+
+                    <div id="select-reco-text" hidden>Recommandations :</div>
+                    <div id="select-reco"></div>
+
+                    <div class="btn-center">
+                        <button class="btn dx-button-mode-contained dx-button-default" onclick="updateRecoPerso()" type="submit">Valider</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="confirm"></div>
+
 <style>
     .dx-texteditor.dx-editor-outlined{
         margin: 0;
@@ -46,6 +75,10 @@
     .dx-datagrid-header-panel {
         border-bottom: 1px solid #08433D !important;
         margin-bottom: 6px;
+    }
+    
+    .dx-tag-remove-button {
+        display: none;
     }
 </style>
 <script src="{{ asset('/admin/js/collectivite.js') }}"></script>

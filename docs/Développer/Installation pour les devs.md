@@ -27,7 +27,7 @@ MAILER_DSN=""
 Les informations sur la valeur à mettre se trouve sur [la documentation de Symfony](https://symfony.com/doc/current/mailer.html). Pour le cas où vous ne souhaitez pas envoyer d'email dans le cadre du développement, la valeur à entrer est `"null://null"`.
 
 ### Base de données
-Installons la base de données. Le code utilise MySQL. Grâce à Symfony. Il y a peu de choses à faire. Il faut d'abord configurer l'accès à la base de données. Copiez la variable `DATABASE_URL`  dans votre fichier `.env.local` et adaptez-la à votre serveur MySQL.
+Installons la base de données. Le code utilise MySQL. Configurez l'accès à la base de données. Copiez la variable `DATABASE_URL`  dans votre fichier `.env.local` et adaptez-la à votre serveur MySQL.
 ```dotenv
 DATABASE_URL="mysql://bduser:bdpass@bdserver:3306/bdname?serverVersion=5.7&charset=utf8mb4"
 ```

@@ -16,6 +16,10 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            remember_me:
+                secret: '%kernel.secret%' # required
+                lifetime: 604800 # 1 week in seconds
+                always_remember_me: true
             custom_authenticator:
                 - App\Security\UserAuthenticator
             logout:
@@ -34,18 +38,25 @@ security:
     access_control:
         - { path: ^/(connexion|inscription|reset-password), roles: PUBLIC_ACCESS }
         # Routes nécessires pour le formulaire de connexion
-        - { path: ^/api/collectivite/check-siret, roles: PUBLIC_ACCESS }
+        - { path: ^/api/users/(check-username|resend-email), roles: PUBLIC_ACCESS }
+        - { path: ^/api/collectivites/check-siret, roles: PUBLIC_ACCESS }
         - { path: ^/api/insee/siret, roles: PUBLIC_ACCESS }
-        - { path: ^/api/user/check-username, roles: PUBLIC_ACCESS }
+        - { path: ^/api/opsns, roles: PUBLIC_ACCESS, methods: GET }
+        - { path: ^/api/opsns, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/api/users, roles: ROLE_OPSN }
+        - { path: ^/api/collectivites, roles: ROLE_COLLECTIVITE }
+        - { path: ^/api, roles: PUBLIC_ACCESS }
 
         - { path: ^/admin/utilisateurs, roles: ROLE_COLLECTIVITE }
-        - { path: ^/admin/(opsn|collectivites), roles: ROLE_OPSN }
+        - { path: ^/admin/collectivites, roles: ROLE_OPSN }
+        - { path: ^/admin/opsn, roles: ROLE_SUPER_ADMIN }
         - { path: ^/admin, roles: ROLE_OPSN }
         - { path: ^/, roles: ROLE_USER }
 
     role_hierarchy:
         ROLE_COLLECTIVITE: ROLE_USER
-        ROLE_OPSN : ROLE_COLLECTIVITE
+        ROLE_USER_OPSN: ROLE_COLLECTIVITE
+        ROLE_OPSN : ROLE_USER_OPSN
         ROLE_SUPER_ADMIN: ROLE_OPSN
 
 when@test:

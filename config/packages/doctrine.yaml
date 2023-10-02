@@ -20,6 +20,7 @@ doctrine:
         dql:
             string_functions:
                 IF: DoctrineExtensions\Query\Mysql\IfElse
+                DATE: DoctrineExtensions\Query\Mysql\Date
 
 when@test:
     doctrine:

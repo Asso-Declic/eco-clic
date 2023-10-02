@@ -1,25 +1,25 @@
-$(function() {
-    var makeAsyncDataSource = function() {
+$(function () {
+    var makeAsyncDataSource = function () {
         return new DevExpress.data.CustomStore({
             loadMode: "raw",
-            key: "Id",
-            load: function() {
-                return $.getJSON(`../AjaxLoader/GetOPSNS.php`);
+            key: "id",
+            load: function () {
+                return $.getJSON(`/api/opsns`);
             }
         });
     }
 
-    var makeAsyncDataSourceDPTM = function() {
+    var makeAsyncDataSourceDPTM = function () {
         return new DevExpress.data.CustomStore({
             loadMode: "raw",
-            key: "Code",
-            load: function() {
-                return $.getJSON(`../AjaxLoader/GetDepartements.php`);
+            key: "code",
+            load: function () {
+                return $.getJSON(`/api/departments`);
             }
         });
     }
 
-    $(function() {
+    $(function () {
         $("#gridContainer").dxDataGrid({
             dataSource: makeAsyncDataSource(),
             columnHidingEnabled: true,
@@ -30,30 +30,30 @@ $(function() {
             },
             columns: [{
                 caption: "Nom",
-                dataField: "Nom",
+                dataField: "name",
             }, {
                 caption: "Département",
-                dataField: "DepartementCode",
+                dataField: "departement",
                 width: 150
             }, {
                 caption: "Actif",
-                dataField: "Actif",
-                cellTemplate: function(container, options) {
+                dataField: "active",
+                cellTemplate: function (container, options) {
                     $("<div>")
                         .append($(`<div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="customSwitch_${options.data.Id}" onchange='updateActif("${options.data.Id}")'>
-                        <label class="custom-control-label" for="customSwitch_${options.data.Id}" style='cursor:pointer;'></label>
+                        <input type="checkbox" class="custom-control-input" id="customSwitch_${options.data.id}" onchange='updateActif("${options.data.id}")'>
+                        <label class="custom-control-label" for="customSwitch_${options.data.id}" style='cursor:pointer;'></label>
                         </div>`))
                         .appendTo(container);
-                    $(`#customSwitch_${options.data.Id}`).attr("checked", (options.data.Actif == 1) ? true : false);
+                    $(`#customSwitch_${options.data.id}`).attr("checked", options.data.active);
                 },
                 width: 80
             }, {
                 caption: "Modifier",
                 dataField: "Modifier",
-                cellTemplate: function(container, options) {
+                cellTemplate: function (container, options) {
                     $("<div>")
-                        .append($(`<a href='./modifOPSN.php?Id=${options.data.Id}' class='fas fa-pen vertEcoclic'></a>`))
+                        .append($(`<a href='/admin/opsn/edit/${options.data.id}' class='fas fa-pen vertEcoclic'></a>`))
                         .appendTo(container);
                 },
                 width: 150,
@@ -62,7 +62,7 @@ $(function() {
                 caption: "Utilisateur",
                 dataField: "Utilisateur",
                 width: 150,
-                cellTemplate: function(container, options) {
+                cellTemplate: function (container, options) {
                     $("<div>")
                         .append($(`<a style="cursor: pointer;" onclick='insertUser("${options.key}")'><i class="fas fa-plus-circle vertEcoclic"></i></a>`))
                         .appendTo(container);
@@ -71,11 +71,11 @@ $(function() {
             }],
             masterDetail: {
                 enabled: true,
-                template: function(container, options) {
+                template: function (container, options) {
                     var currentOPSN = options.data;
                     $("<div>")
                         .addClass("d-flex master-detail-caption py-3")
-                        .html("<span>Départements de travail de <b>" + currentOPSN.Nom + "</b> :</span>")
+                        .html("<span>Départements de travail de <b>" + currentOPSN.name + "</b> :</span>")
                         .appendTo(container);
 
                     $("<div>")
@@ -83,19 +83,14 @@ $(function() {
                             columnAutoWidth: true,
                             showBorders: true,
                             columns: [{
-                                dataField: "Nom",
+                                dataField: "name",
+                                caption: "Nom",
                             }, {
-                                dataField: "DepartementCode",
+                                dataField: "code",
                                 caption: "Numéro département",
                                 width: 200
                             }],
-                            dataSource: new DevExpress.data.DataSource({
-                                store: new DevExpress.data.ArrayStore({
-                                    key: "DepartementCode",
-                                    data: GetMasterDetails(currentOPSN.Id)
-                                }),
-                                filter: ["OPSNId", "=", options.key]
-                            })
+                            dataSource: currentOPSN.departements,
                         }).appendTo(container);
                 }
             }
@@ -110,7 +105,7 @@ $(function() {
                 colCount: 2,
                 itemType: "group",
                 items: [{
-                    dataField: "Nom",
+                    dataField: "opsn[name]",
                     label: {
                         text: "Nom "
                     },
@@ -119,17 +114,17 @@ $(function() {
                         message: "Nom ne peut pas être vide."
                     }]
                 }, {
-                    dataField: "Departement",
+                    dataField: "opsn[departement]",
                     label: {
-                        text: "Departement "
+                        text: "Departement"
                     },
                     editorType: "dxSelectBox",
                     editorOptions: {
                         dataSource: makeAsyncDataSourceDPTM(),
-                        displayExpr: "Nom",
-                        valueExpr: "Code",
-                        itemTemplate: function(data) {
-                            return "<div>" + data.Code + " - " + data.Nom + "</div>";
+                        displayExpr: "name",
+                        valueExpr: "code",
+                        itemTemplate: function (data) {
+                            return "<div>" + data.code + " - " + data.name + "</div>";
                         }
                     },
                     validationRules: [{
@@ -138,7 +133,7 @@ $(function() {
                     }]
                 }]
             }, {
-                dataField: "Mail",
+                dataField: "opsn[email]",
                 label: {
                     text: "Mail "
                 },
@@ -150,22 +145,25 @@ $(function() {
                     message: "Mail invalide."
                 }]
             }, {
-                dataField: "Departement_de_travail",
+                dataField: "opsn[departements]",
                 label: {
                     text: "Departement de travail "
                 },
                 editorType: "dxDropDownBox",
                 editorOptions: {
-                    valueExpr: "Code",
+                    valueExpr: "code",
                     placeholder: "Département(s)...",
                     displayExpr: "Code",
                     showClearButton: true,
                     dataSource: makeAsyncDataSourceDPTM(),
-                    contentTemplate: function(e) {
+                    contentTemplate: function (e) {
                         var value = e.component.option("value"),
                             $dataGrid = $("<div>").dxDataGrid({
                                 dataSource: e.component.getDataSource(),
-                                columns: ["Nom", "Code"],
+                                columns: [
+                                    { dataField: "name", caption: "Nom"},
+                                    { dataField: "code", caption: "Code"},
+                                ],
                                 hoverStateEnabled: true,
                                 paging: { enabled: true, pageSize: 10 },
                                 filterRow: { visible: true },
@@ -173,7 +171,7 @@ $(function() {
                                 height: 345,
                                 selection: { showCheckBoxesMode: "always", mode: "multiple" },
                                 selectedRowKeys: value,
-                                onSelectionChanged: function(selectedItems) {
+                                onSelectionChanged: function (selectedItems) {
                                     var keys = selectedItems.selectedRowKeys;
                                     e.component.option("value", keys);
                                 }
@@ -181,7 +179,7 @@ $(function() {
 
                         dataGrid = $dataGrid.dxDataGrid("instance");
 
-                        e.component.on("valueChanged", function(args) {
+                        e.component.on("valueChanged", function (args) {
                             var value = args.value;
                             dataGrid.selectRows(value, false);
                         });
@@ -213,28 +211,27 @@ function insertUser(OPSNId) {
     var part2 = "";
     var identifiant;
     var formModale = $("#form-modale-ajout").dxForm({
-        formData: { Id: "", Nom: "", Prenom: "", Identifiant: "", Mail: "", Actif: "1", OPSNId: OPSNId },
         readOnly: false,
         showColonAfterLabel: true,
         labelLocation: "top",
         items: [{
-            dataField: "Id",
-            cssClass: "d-none"
-        },{
-            dataField: "OPSNId",
-            cssClass: "d-none"
+            dataField: 'user_profile[opsn]',
+            cssClass: "d-none",
+            editorOptions: {
+                value: OPSNId,
+            }
         }, {
             colCount: 2,
             itemType: "group",
             items: [{
-                dataField: "Nom",
+                dataField: "user_profile[lastName]",
                 label: {
                     text: "Nom "
                 },
                 editorType: "dxTextBox",
                 editorOptions: {
                     valueChangeEvent: "keyup",
-                    // onValueChanged: function(data) {
+                    // onValueChanged: function (data) {
                     //     part1 = data.value;
                     //     identifiant = `${part2}.${part1}`;
                     //     $("[name=Identifiant]").val(identifiant.replace(/\s/g, "").toLowerCase())
@@ -245,14 +242,14 @@ function insertUser(OPSNId) {
                     message: "Nom est requis"
                 }]
             }, {
-                dataField: "Prenom",
+                dataField: "user_profile[firstName]",
                 label: {
                     text: "Prénom "
                 },
                 editorType: "dxTextBox",
                 editorOptions: {
                     valueChangeEvent: "keyup",
-                    // onValueChanged: function(data) {
+                    // onValueChanged: function (data) {
                     //     part2 = data.value;
                     //     identifiant = `${part2}.${part1}`
                     //     $("[name=Identifiant]").val(identifiant.replace(/\s/g, "").toLowerCase())
@@ -263,7 +260,7 @@ function insertUser(OPSNId) {
                     message: "Prénom est requis"
                 }]
             }, {
-                dataField: "Identifiant",
+                dataField: "user_profile[username]",
                 label: {
                     text: "Identifiant "
                 },
@@ -277,12 +274,12 @@ function insertUser(OPSNId) {
                 }, {
                     type: "custom",
                     message: "L'identifiant est déjà utilisé",
-                    validationCallback: function(params) {
+                    validationCallback: function (params) {
                         return sendRequest(params.value);
                     }
                 }]
             }, {
-                dataField: "Mail",
+                dataField: "user_profile[email]",
                 label: {
                     text: "Mail "
                 },
@@ -294,13 +291,13 @@ function insertUser(OPSNId) {
                     message: "Email est requis"
                 }]
             }, {
-                dataField: "Actif",
+                dataField: "user_profile[active]",
                 label: {
                     text: "Actif "
                 },
-                template: function(data, $itemElement) {
+                template: function (data, $itemElement) {
                     $(`<div class="custom-control custom-switch">
-                    <input type="checkbox" checked name="Actif" class="custom-control-input" id="customSwitch_modal">
+                    <input type="checkbox" checked name="user_profile[active]" class="custom-control-input" id="customSwitch_modal">
                     <label class="custom-control-label" for="customSwitch_modal"></label>
                     </div>`).appendTo($itemElement);
                 }
@@ -321,70 +318,63 @@ function insertUser(OPSNId) {
     }).dxForm("instance");
 }
 
-function GetMasterDetails(id) {
-    MasterData = [];
-    $.ajax({
-        url: '../AjaxLoader/GetMasterDetails.php',
-        type: 'GET',
-        async: false,
-        data: {
-            Id: id
-        },
-        dataType: 'JSON',
-        success: function(reponse) {
-            MasterData = reponse
-        },
-        error: function(jqXhr, textStatus, errorThrown) {
-            console.error('Une erreur est survenue');
-        }
-    });
-    return MasterData;
-}
+// function GetMasterDetails(id) {
+//     MasterData = [];
+//     $.ajax({
+//         url: '../AjaxLoader/GetMasterDetails.php',
+//         type: 'GET',
+//         async: false,
+//         data: {
+//             Id: id
+//         },
+//         dataType: 'JSON',
+//         success: function (reponse) {
+//             MasterData = reponse
+//         },
+//         error: function (jqXhr, textStatus, errorThrown) {
+//             console.error('Une erreur est survenue');
+//         }
+//     });
+//     return MasterData;
+// }
 
 function updateActif(id) {
     $.ajax({
-        url: '../AjaxLoader/UpdateActifOPSN.php',
-        type: 'GET',
+        url: '/api/opsns/update-active/' + id,
+        type: 'PATCH',
         async: true,
-        data: {
-            Id: id
-        },
         dataType: 'JSON',
-        success: function(reponse) {
-
+        success: function (reponse) {
         },
-        error: function(jqXhr, textStatus, errorThrown) {
+        error: function (jqXhr, textStatus, errorThrown) {
             console.error('Une erreur est survenue');
         }
     });
 }
 
-var sendRequest = function(value) {
+var sendRequest = function (value) {
     $identifiant = value.replaceAll('ç', 'c');
     var valid;
     $.ajax({
-        url: '../AjaxLoader/checkIdentifiant.php',
+        url: '/api/users/check-username/' + $identifiant,
         type: 'get',
         async: false,
-        dataType: 'html',
-        data: {
-            'Identifiant': $identifiant,
-        },
-        success: function(data) {
+        dataType: 'json',
+        success: function (data) {
             if (data != "") {
-                valid = -1;
+                valid = false;
             } else {
-                valid = "";
+                valid = true;
             }
         },
-        error: function(jqXhr, textStatus, errorThrown) {
+        error: function (jqXhr, textStatus, errorThrown) {
             console.error('Une erreur est survenue');
         }
     });
-    if (valid == -1) {
+    if (valid === false) {
         $("[accesskey=SubmitNewUser]").addClass("dx-state-disabled");
-        return false
+    } else {
+        $("[accesskey=SubmitNewUser]").removeClass("dx-state-disabled")
     }
-    $("[accesskey=SubmitNewUser]").removeClass("dx-state-disabled")
-    return true;
+    return valid;
 }

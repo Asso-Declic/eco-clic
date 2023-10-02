@@ -7,51 +7,64 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: OPSNRepository::class)]
 class OPSN
 {
+    #[Groups(['link_demand', 'opsn_browse'])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator("doctrine.uuid_generator")]
     #[ORM\Column(type: Types::GUID)]
     private ?string $id = null;
 
+    #[Groups(['link_demand', 'opsn_browse'])]
     #[ORM\Column(length: 500)]
     private ?string $name = null;
 
+    #[Groups(['opsn_browse'])]
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $email = null;
 
+    #[Groups(['opsn_browse'])]
     #[ORM\Column(length: 3, options: ['fixed' => true])]
     private ?string $departement = null;
 
+    #[Groups(['opsn_browse'])]
     #[ORM\Column]
-    private ?bool $active = null;
+    private ?bool $active = false;
 
+    #[Groups(['opsn_browse'])]
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $logo = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $phoneNumber = null;
+    #[Groups(['opsn_browse'])]
+    #[ORM\Column(nullable: true, length: 10, options: ['fixed' => true])]
+    private ?string $phoneNumber = null;
 
+    #[Groups(['opsn_browse'])]
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $postalAddress = null;
 
+    #[Groups(['opsn_browse'])]
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $website = null;
 
+    #[Groups(['opsn_browse'])]
     #[ORM\Column(length: 14, nullable: true, options: ['fixed' => true])]
     private ?string $siret = null;
 
+    #[Groups(['opsn_browse'])]
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $latitude = null;
 
+    #[Groups(['opsn_browse'])]
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $longitude = null;
 
+    #[Groups(['opsn_browse'])]
     #[ORM\ManyToMany(targetEntity: Departement::class, inversedBy: 'OPSNs')]
-    // #[ORM\JoinColumn(name: 'OPSNId', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(referencedColumnName: 'code')]
     private Collection $departements;
 
@@ -61,11 +74,15 @@ class OPSN
     #[ORM\OneToMany(mappedBy: 'opsn', targetEntity: User::class)]
     private Collection $users;
 
+    #[ORM\OneToMany(mappedBy: 'linkDemand', targetEntity: Collectivite::class)]
+    private Collection $linkDemands;
+
     public function __construct()
     {
         $this->departements = new ArrayCollection();
         $this->collectivites = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->linkDemands = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -133,12 +150,12 @@ class OPSN
         return $this;
     }
 
-    public function getPhoneNumber(): ?int
+    public function getPhoneNumber(): ?string
     {
         return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(?int $phoneNumber): self
+    public function setPhoneNumber(?string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
 
@@ -283,6 +300,36 @@ class OPSN
             // set the owning side to null (unless already changed)
             if ($user->getOpsn() === $this) {
                 $user->setOpsn(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Collectivite>
+     */
+    public function getLinkDemands(): Collection
+    {
+        return $this->linkDemands;
+    }
+
+    public function addLinkDemand(Collectivite $linkDemand): static
+    {
+        if (!$this->linkDemands->contains($linkDemand)) {
+            $this->linkDemands->add($linkDemand);
+            $linkDemand->setLinkDemand($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLinkDemand(Collectivite $linkDemand): static
+    {
+        if ($this->linkDemands->removeElement($linkDemand)) {
+            // set the owning side to null (unless already changed)
+            if ($linkDemand->getLinkDemand() === $this) {
+                $linkDemand->setLinkDemand(null);
             }
         }
 

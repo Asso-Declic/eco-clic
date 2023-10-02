@@ -36,24 +36,24 @@ final class Version20230509120223 extends AbstractMigration
         //     `SuperAdmin` tinyint(1) NOT NULL DEFAULT \'0\',
         //     `OPSNId` char(36) DEFAULT NULL
         //   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
-        $this->addSql('CREATE TABLE `categorie` (
+        $this->addSql("CREATE TABLE `categorie` (
             `Id` char(36) NOT NULL,
             `Nom` varchar(200) DEFAULT NULL,
             `Img` varchar(500) DEFAULT NULL,
-            `Description` longtext DEFAULT NULL,
-            `Ordre` int(11) DEFAULT NULL
-          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;');
-        $this->addSql('CREATE TABLE `collectivite` (
-            `Id` char(36) NOT NULL,
-            `Nom` varchar(500) NOT NULL,
-            `Population` int(11) NOT NULL,
-            `DepartementCode` char(3) NOT NULL,
-            `Siret` char(14) DEFAULT NULL,
-            `Latitude` varchar(500) DEFAULT NULL,
-            `Longitude` varchar(500) DEFAULT NULL,
-            `TypeId` char(36) NOT NULL,
-            `OPSNId` char(36) DEFAULT NULL
-          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;');
+            `Description` longtext,
+            `Ordre` int DEFAULT NULL,
+            `Niveau2` tinyint(1) NOT NULL DEFAULT '0') ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;");
+        $this->addSql("CREATE TABLE `collectivite` (
+          `Id` char(36) NOT NULL,
+          `Nom` varchar(500) NOT NULL,
+          `Population` int NOT NULL,
+          `DepartementCode` char(3) NOT NULL,
+          `Siret` char(14) DEFAULT NULL,
+          `Latitude` varchar(500) DEFAULT NULL,
+          `Longitude` varchar(500) DEFAULT NULL,
+          `TypeId` char(36) NOT NULL,
+          `OPSNId` char(36) DEFAULT NULL,
+          `Niveau2` tinyint(1) NOT NULL DEFAULT '0') ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;");
         $this->addSql('CREATE TABLE `Departement` (
             `Code` char(3) NOT NULL,
             `Nom` varchar(100) NOT NULL,
@@ -87,23 +87,25 @@ final class Version20230509120223 extends AbstractMigration
             `Code` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
             `Json` varchar(2000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL
           ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;');
-        $this->addSql('CREATE TABLE `question` (
+        $this->addSql("CREATE TABLE `question` (
             `Id` char(36) NOT NULL,
             `Question` varchar(500) DEFAULT NULL,
             `IdTheme` char(36) NOT NULL,
             `IdCategorie` char(36) NOT NULL,
-            `Multiple` tinyint(1) NOT NULL DEFAULT 0,
-            `Definition` longtext DEFAULT NULL,
-            `InfoComplementaire` longtext DEFAULT NULL,
-            `Titre_definition` longtext DEFAULT NULL,
-            `Ordre` int(11) NOT NULL,
+            `Multiple` tinyint(1) NOT NULL DEFAULT '0',
+            `Definition` longtext,
+            `InfoComplementaire` longtext,
+            `Titre_definition` longtext,
+            `Ordre` int NOT NULL,
             `IdParent` char(36) DEFAULT NULL,
-            `IdRepParent` char(36) DEFAULT NULL
-          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;');
+            `IdRepParent` char(36) DEFAULT NULL,
+            `Niveau2` tinyint(1) NOT NULL DEFAULT '0') ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;");
         $this->addSql('CREATE TABLE `recommandation` (
             `Id` char(36) NOT NULL,
             `Titre` varchar(5000) DEFAULT NULL,
+            `TitreReco` varchar(500) NOT NULL,
             `Text` longtext DEFAULT NULL,
+            `Detail` longtext DEFAULT NULL,
             `IdQuestion` char(36) NOT NULL,
             `IdCategorie` char(36) NOT NULL,
             `NiveauReco` int(11) NOT NULL DEFAULT 1,

@@ -1,12 +1,13 @@
 <nav id="sidebar">
-    <div id="fermer-telephone" class="bouton">
-        <p>x</p>
-        <div>Fermer</div>
+    <div id="fermer-telephone" class="bouton" style="font-size: 20px;">
+        <!-- <p>x</p>
+        <div>Fermer</div> -->
+        <i class="fa-regular fa-rectangle-xmark"></i>
     </div>
 
     <div class="sidebar-header">
         <a href="{{ path('main_accueil') }}">
-            <img id="logoEcoclic" src="{{ asset('img/logoEcoclic.png') }}" style="width: -webkit-fill-available;">
+            <img id="logoEcoclic" src="{{ asset('img/logoEcoclic.png') }}" style="width: 100%; padding: 10px;">
             <img id="faviconEcoclic" src="{{ asset('img/favicon.png') }}" style="display:none; width: 50px; margin: 0 auto;">
         </a>
     </div>
@@ -16,34 +17,41 @@
             <div id="scrollNav" style="overflow-x: hidden; overflow-y: auto;">
                 <a id="accueil" href="{{ path('main_accueil') }}" tabindex="2">
                     <img class="iconMenu" src="{{ asset('img/Icongraphcool.svg') }}">
-                    <span>Tableau de bord</span>
+                    <span><b>Tableau de bord</b></span>
                 </a>
 
                 <a href="#" tabindex="1" id="categorie">
                     <img class="iconMenu" src="{{ asset('img/bubble.svg') }}">
                     <span>
-                        Catégories
-                        <img src="{{ asset('img/Flechetype2.svg') }}" alt="Catégories" style="margin-left: 20px">
+                        <b>Catégories</b>
+                        <!-- <img src="img/Flechetype2.svg" alt="Catégories" style="margin-left: 20px"> -->
                     </span>
                 </a>
 
-                <div id="sousMenu" style="display: none;"></div>
+                <div id="sousMenu" style="display: block;"></div>
                 
-                <a hidden id="reco2" href="{{ path('recommandation_browse') }}" tabindex="2">
+                <a id="reco2" href="{{ path('recommandation_browse') }}" tabindex="2">
                     <img class="iconMenu" src="{{ asset('img/survey.png') }}">
-                    <span>Plan d’action</span>
+                    <span><b>Plan d'action</b></span>
                 </a>
 
+                {% if app.user.collectivite.opsn is null and is_granted('ROLE_COLLECTIVITE') %}
+                <a id="rattachementOPSN" href="{{ path('collectivite_link_opsn') }}" tabindex="2">
+                    <img class="iconMenu" src="{{ asset('img/france.png') }}">
+                    <span><b>Rattachement à un OPSN</b></span>
+                </a>
+                {% endif %}
+                
                 <a id="stats" href="{{ path('statistics_main') }}" tabindex="2">
                     <img class="iconMenu" src="{{ asset('img/statistiques.svg') }}">
-                    <span>Statistiques</span>
+                    <span><b>Statistiques</b></span>
                 </a>
 
                 {% if is_granted('ROLE_COLLECTIVITE') %}
-                    <a id="gestUser" href="{{ path('admin_user_browse') }}" tabindex="2" >
-                        <img class="iconMenu" src="{{ asset('img/Icon feather-users.svg') }}">
-                        <span>Gestion des utilisateurs</span>
-                    </a>
+                <a id="gestUser" href="{{ path('user_browse') }}" tabindex="2" >
+                    <img class="iconMenu" src="{{ asset('img/Icon feather-users.svg') }}">
+                    <span><b>Gestion des utilisateurs</b></span>
+                </a>
                 {% endif %}
 
                 {# <a href="historique.php" tabindex="2" style="border-top: #00857A 1px solid;">
@@ -61,13 +69,32 @@
                     <span class="Menufooter">Mentions légales</span>
                 </a> #}
             
-                <a href="#" tabindex="1" id="retrecir" class="bouton" style="padding: 5px;">
+                {# <a href="#" tabindex="1" id="retrecir" class="bouton" style="padding: 5px;">
                     <h3 id="retrecirBoutonG">
                         <img src="{{ asset('img/Icon awesome-chevron-circle-left.svg') }}" alt="Tableau de bord" style="margin-left: 30px;">
                         Réduire le menu
                     </h3>
                     <i style='cursor: pointer; font-size: 19px;' id="retrecirBoutonP" class="fa-solid fa-bars"></i>
-                </a>
+                </a> #}
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" data-target="#exampleModal">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content" style="padding: 10px;">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Questionnaire de niveau 2</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Pour bénéficier des questions approfondies, merci de vous rapprocher de votre OPSN</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
 
@@ -76,7 +103,6 @@
 </nav>
 
 <script>
-
     $(document).ready(function () {
 
         $userProgression = [];
@@ -102,20 +128,24 @@
                 $Nbquestion = 0;
                 $Nbrep = 0;
                 for (let a = 0; a < categoryList.length; a++) {
-                    $Nbquestion += categoryList[a].nb_question;
                     if ($userProgression[a] != undefined) {
-                        $Nbrep += $userProgression[a].nb_repondu;
-                    }
-                    else {
-                        $Nbrep += 0;
+                        if (categoryList[a].level_two == 0 || $userProgression[a].category_level_two == 0) {
+                            $Nbquestion += categoryList[a].nb_question;
+                            if ($userProgression[a] != undefined) {
+                                $Nbrep += $userProgression[a].nb_repondu;
+                            }
+                            else {
+                                $Nbrep += 0;
+                            }
+                        }
                     }
                 }
 
-                if ($Nbrep < $Nbquestion) {
-                    document.getElementById('reco2').hidden = true;
-                } else {
-                    document.getElementById('reco2').hidden = false;
-                }
+                // if ($Nbrep < $Nbquestion) {
+                //     document.getElementById('reco2').hidden = true;
+                // } else {
+                //     document.getElementById('reco2').hidden = false;
+                // }
 
             },
             error: function(jqXhr, textStatus, errorThrown) {
@@ -130,17 +160,46 @@
             dataType: 'json',
             success: function(data) {
                 for (let i = 0; i < data['data'].length; i++) {
+                    if (data['data'][i].levelTwo == true) {
+                        {% if app.user.collectivite.levelTwo != 1 %}
+                        let a = document.createElement('a');
+                        a.setAttribute("tabindex", "2");
+                        a.setAttribute("style", "display: flex; cursor: pointer; opacity: 0.5;");
+                        a.setAttribute("data-target", "#exampleModal");
+                        a.setAttribute("data-toggle", "modal");
+                        document.getElementById('sousMenu').append(a);
 
-                    let a = document.createElement('a');
-                    a.setAttribute("href", "/categories/" + data['data'][i].id);
-                    a.setAttribute("tabindex", "2");
-                    document.getElementById('sousMenu').append(a);
+                        let p = document.createElement('p');
+                        p.setAttribute("class", "space");
+                        p.textContent = data['data'][i].name;
+                        a.append(p);
+                        
+                        let icon = document.createElement('img');
+                        icon.setAttribute("src", "{{ asset('/img/Icon_serrure.png') }}");
+                        icon.setAttribute("style", "color: #08433D; margin-left: 10px; height: 30px;");
+                        a.append(icon);
+                        {% else %}
+                        let a = document.createElement('a');
+                        a.setAttribute("href", "/categories/" + data['data'][i].id);
+                        a.setAttribute("tabindex", "2");
+                        document.getElementById('sousMenu').append(a);
 
-                    let p = document.createElement('p');
-                    p.setAttribute("class", "space");
-                    p.textContent = data['data'][i].name;
-                    a.append(p);
+                        let p = document.createElement('p');
+                        p.setAttribute("class", "space");
+                        p.textContent = data['data'][i].name;
+                        a.append(p);
+                        {% endif %}
+                    } else {
+                        let a = document.createElement('a');
+                        a.setAttribute("href", "/categories/" + data['data'][i].id);
+                        a.setAttribute("tabindex", "2");
+                        document.getElementById('sousMenu').append(a);
 
+                        let p = document.createElement('p');
+                        p.setAttribute("class", "space");
+                        p.textContent = data['data'][i].name;
+                        a.append(p);
+                    }
                 }
             },
             error: function(jqXhr, textStatus, errorThrown) {
@@ -173,75 +232,80 @@
             $('#footer0').toggleClass('hidden');
             $('#footer1').toggleClass('hidden');
             $('#footer2').toggleClass('hidden');
+            if ($("#sousMenu")[0].style.display == "block") {
+                $('#sousMenu').css("display", "none");
+            } else {
+                $('#sousMenu').css("display", "block");
+            }
             $('#sousMenu').toggleClass('hidden');
         });
 
-        $('#categorie').on('click', function () {
+        // $('#categorie').on('click', function () {
 
-            if ($("#sousMenu")[0].style.display == "block") {
-                $('#sousMenu').css("display", "none");
-                updatePreferences();
-            } else {
-                $('#sousMenu').css("display", "block");
-                updatePreferences();
-            }
+        //     if ($("#sousMenu")[0].style.display == "block") {
+        //         $('#sousMenu').css("display", "none");
+        //         updatePreferences();
+        //     } else {
+        //         $('#sousMenu').css("display", "block");
+        //         updatePreferences();
+        //     }
 
-            if (document.getElementById("sidebar").className == 'active' && window.innerWidth > 970) {
-                $('#sidebar').toggleClass('active');
-                $('#sousMenu').toggleClass('hidden');
-                $('#sousMenu').css("display", "block");
-                $i = 1;
-                $('#footer0').toggleClass('hidden');
-                $('#footer1').toggleClass('hidden');
-                $('#footer2').toggleClass('hidden');
-            }
+        //     if (document.getElementById("sidebar").className == 'active' && window.innerWidth > 970) {
+        //         $('#sidebar').toggleClass('active');
+        //         // $('#sousMenu').toggleClass('hidden');
+        //         $('#sousMenu').css("display", "block");
+        //         $i = 1;
+        //         $('#footer0').toggleClass('hidden');
+        //         $('#footer1').toggleClass('hidden');
+        //         $('#footer2').toggleClass('hidden');
+        //     }
 
-            if (window.innerWidth < 970) {
-                $('#sousMenu').toggleClass('hidden');
-            }
-        });
-        
-        getPreferences();
+        //     if (window.innerWidth < 970) {
+        //         $('#sousMenu').toggleClass('hidden');
+        //     }
+        // });
+
+        // getPreferences();
         menuActive();
     });
 
-    function updatePreferences() {
-        $.ajax({
-            url: '/api/user/preference',
-            type: 'PATCH',
-            async: true,
-            data: {
-                code: 'MENU_VISIBILITY',
-                display: $('#sousMenu').css("display")
-            },
-            dataType: 'json',
-            success: function(reponse) {
+    // function updatePreferences() {
+    //     $.ajax({
+    //         url: '/api/users/preference',
+    //         type: 'PATCH',
+    //         async: true,
+    //         data: {
+    //             code: 'MENU_VISIBILITY',
+    //             display: $('#sousMenu').css("display")
+    //         },
+    //         dataType: 'json',
+    //         success: function(reponse) {
                 
-            },
-            error: function(resultat, statut, erreur) {
-                console.error(resultat + ' --- ' + statut + ' --- ' + erreur);
-            }
-        });
-    }
+    //         },
+    //         error: function(resultat, statut, erreur) {
+    //             console.error(resultat + ' --- ' + statut + ' --- ' + erreur);
+    //         }
+    //     });
+    // }
 
-    function getPreferences() {
-        $.ajax({
-            url: '/api/user/preference?code=MENU_VISIBILITY',
-            type: 'GET',
-            async: false,
-            dataType: 'json',
-            success: function(reponse) {
-                if (reponse == null) {
-                    $('#sousMenu').css("display", 'none');
-                } else {
-                    $('#sousMenu').css("display", reponse.json);
-                }
-            },
-            error: function(resultat, statut, erreur) {
-                console.error(resultat + ' --- ' + statut + ' --- ' + erreur);
-            }
-        });
-    }
+    // function getPreferences() {
+    //     $.ajax({
+    //         url: '/api/users/preference?code=MENU_VISIBILITY',
+    //         type: 'GET',
+    //         async: false,
+    //         dataType: 'json',
+    //         success: function(reponse) {
+    //             if (reponse == null) {
+    //                 $('#sousMenu').css("display", 'none');
+    //             } else {
+    //                 $('#sousMenu').css("display", reponse.json);
+    //             }
+    //         },
+    //         error: function(resultat, statut, erreur) {
+    //             console.error(resultat + ' --- ' + statut + ' --- ' + erreur);
+    //         }
+    //     });
+    // }
 
     function menuActive() {
         for (let g = 0; g < $("#scrollNav")[0].children.length; g++) {

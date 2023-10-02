@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use App\Repository\PopulationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PopulationRepository::class)]
 class Population
 {
+    #[Groups(['filters'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -17,9 +19,11 @@ class Population
     #[ORM\JoinColumn(nullable: false)]
     private ?CollectiviteType $collectiviteType = null;
 
+    #[Groups(['filters'])]
     #[ORM\Column]
     private ?int $min = null;
 
+    #[Groups(['filters'])]
     #[ORM\Column(nullable: true)]
     private ?int $max = null;
 

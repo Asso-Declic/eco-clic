@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Answer;
 use App\Entity\Category;
+use App\Entity\Collectivite;
 use App\Entity\Question;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -28,11 +29,21 @@ class QuestionRepository extends ServiceEntityRepository
      *
      * @return int
      */
-    public function countAllQuestions()
+    public function countAllQuestions(Collectivite $collectivite, ?Category $category = null)
     {
         $qb = $this->createQueryBuilder('q')
             ->select('count(q.id)')
             ;
+
+        if ($collectivite->isLevelTwo() == false) {
+            $qb->andWhere('q.levelTwo = 0');
+        }
+
+        if ($category !== null) {
+            $qb->andWhere('q.category = :category')
+                ->setParameter('category', $category)
+                ;
+        }
 
         return $qb->getQuery()->getSingleScalarResult();
     }
@@ -43,7 +54,7 @@ class QuestionRepository extends ServiceEntityRepository
      * @param Category $category
      * @return array
      */
-    public function findByCategory(Category $category): array
+    public function findByCategory(Category $category, bool $levelTwo): array
     {
         /* Requête d'origine
             SELECT question.Id, question.Question, question.Definition, theme.Theme, categorie.Nom as 'Categorie', question.Multiple, question.InfoComplementaire, question.Titre_definition, question.Ordre, question.IdParent, question.IdRepParent
@@ -68,7 +79,34 @@ class QuestionRepository extends ServiceEntityRepository
             ->addOrderBy('q.sortOrder', 'ASC')
             ;
 
+        // Si le niveau 2 n'est pas activé, on ne retourne pas les questions de niveau 2
+        if ($levelTwo == false) {
+            $qb->andWhere('q.levelTwo = 0');
+        }
+
         return $qb->getQuery()->getScalarResult();
+    }
+
+    public function countForOneCategory(Category $category, bool $levelTwo): int
+    {
+        $qb = $this->createQueryBuilder('q')
+            ->select('count(q.id) as nb_questions')
+            ->andWhere('q.category = :category')
+            ->setParameter('category', $category)
+            ->groupBy('q.category')
+            ;
+
+        if ($levelTwo == false) {
+            $qb->andWhere('q.levelTwo = 0');
+        }    
+
+        $result = $qb->getQuery()->getOneOrNullResult();
+
+        if ($result === null) {
+            return 0;
+        } else {
+            return $result['nb_questions'];
+        }
     }
 
     public function findByParentAnswer(Answer $answer): array

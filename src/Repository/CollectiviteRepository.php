@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Collectivite;
+use App\Entity\Population;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -43,6 +44,79 @@ class CollectiviteRepository extends ServiceEntityRepository
         
         return $qb->getQuery()->getScalarResult();
     }
+
+    public function findInDepartementByPopulation(Collectivite $collectivite)
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        $qb->select('c.id as collectiviteId')
+        ->leftJoin('c.type', 'ct')
+        ->leftJoin('ct.populations', 'p')
+        ->where('c.departement = :departmentCode')
+        ->andWhere($qb->expr()->lt('p.min', $collectivite->getPopulation()))
+        ->andWhere($qb->expr()->gt('p.max', $collectivite->getPopulation()))
+        ->setParameter('departmentCode', $collectivite->getDepartement()->getCode())
+        ;
+
+        return $qb->getQuery()->getScalarResult();
+    }
+
+    public function findInDepartementByType(Collectivite $collectivite)
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        $qb->select('c.id as collectiviteId')
+        ->leftJoin('c.type', 'ct')
+        ->where('c.departement = :departmentCode')
+        ->andWhere('ct = :type')
+        ->setParameter('departmentCode', $collectivite->getDepartement()->getCode())
+        ->setParameter('type', $collectivite->getType())
+        ;
+
+        return $qb->getQuery()->getScalarResult();
+    }
+
+    public function findInRegionByPopulation(Collectivite $collectivite)
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        $qb->select('c.id as collectiviteId')
+        ->leftJoin('c.type', 'ct')
+        ->leftJoin('ct.populations', 'p')
+        ->leftJoin('c.departement', 'd')
+        ->where('d.region = :regionCode')
+        ->andWhere($qb->expr()->lt('p.min', $collectivite->getPopulation()))
+        ->andWhere($qb->expr()->gt('p.max', $collectivite->getPopulation()))
+        ->setParameter('regionCode', $collectivite->getDepartement()->getRegion()->getCode())
+        ;
+
+        return $qb->getQuery()->getScalarResult();
+    }
+
+    public function findInRegionByType(Collectivite $collectivite)
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        $qb->select('c.id as collectiviteId')
+        ->leftJoin('c.type', 'ct')
+        ->leftJoin('c.departement', 'd')
+        ->where('d.region = :regionCode')
+        ->andWhere('ct = :type')
+        ->setParameter('regionCode', $collectivite->getDepartement()->getRegion()->getCode())
+        ->setParameter('type', $collectivite->getType())
+        ;
+
+        return $qb->getQuery()->getScalarResult();
+    }
+
+    public function findInNation()
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->select('c.id as collectiviteId')
+        ;
+
+        return $qb->getQuery()->getScalarResult();
+    }   
 
     public function remove(Collectivite $entity, bool $flush = false): void
     {

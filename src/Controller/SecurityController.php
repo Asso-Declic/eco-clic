@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,12 +55,21 @@ class SecurityController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            // Si on veut ajouter l'envoi d'un mail de confirmation ça se passe ici
-
-            $this->addFlash('success', 'Votre compte a bien été créé. Vous pouvez vous connecter.');
             return $this->redirectToRoute('security_login');
         }
 
         return $this->render('security/registration.html.twig');
+    }
+
+    #[Route('/verification-email/{token}', name: 'email_verification')]
+    public function emailVerification(string $token, EntityManagerInterface $em): Response
+    {
+        $user = $em->getRepository(User::class)->findOneBy(['token' => $token]);
+        
+        $user->setVerified(true);
+        $user->setToken(null);
+        $em->flush();
+
+        return $this->redirectToRoute('security_login');
     }
 }

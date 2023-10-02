@@ -41,9 +41,10 @@
     height: 28px;
 }
 
-@media (max-width:970px) {
+@media (max-width: 1280px) {
 
-    .navbar, .navbar-right {
+    .navbar,
+    .navbar-right {
         padding: 0px !important;
     }
 

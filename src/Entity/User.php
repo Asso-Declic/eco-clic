@@ -36,6 +36,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 200, nullable: true)]
     private ?string $password = null;
 
+    // Rien ne vérifie que l'email est unique, on peut donc avoir plusieurs comptes avec la même adresse
     #[Groups('user')]
     #[ORM\Column(length: 200, nullable: true)]
     private ?string $email = null;
@@ -123,6 +124,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
+        if ($this->isActive() == false) {
+            return [];
+        }
+
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
@@ -132,6 +137,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
         
         if ($this->opsn != null) {
+            $roles[] = 'ROLE_USER_OPSN';
             if ($this->adminOpsn) {
                 $roles[] = 'ROLE_OPSN';
             }
@@ -139,6 +145,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($this->superAdmin) {
                 $roles[] = 'ROLE_SUPER_ADMIN';
             }
+        }
+
+        // On ajoute le ROLE_LEVELTWO si $levelTwo est true dans la collectivité
+        // Ça permet d'utiliser les rôles pour bloquer l'accès à certaines pages
+        if ($this->collectivite->isLevelTwo()) {
+            $roles[] = 'ROLE_LEVELTWO';
         }
 
         return array_unique($roles);

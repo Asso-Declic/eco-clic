@@ -1,35 +1,32 @@
-var OPSN;
-$(function() {
+// var OPSN;
+$(function () {
+    // $.ajax({
+    //     url: '/api/opsns/' + opsnId,
+    //     type: 'GET',
+    //     async: false,
+    //     dataType: 'JSON',
+    //     success: function (reponse) {
+    //         console.log(reponse);
+    //         OPSN = reponse;
+    //         OPSN.DepDeTravail = GetMasterDetails(OPSN.Id);
+    //         i = 0;
+    //         OPSN.CodeDepDeTravail = []
+    //         OPSN.DepDeTravail.forEach(e => {
+    //             OPSN.CodeDepDeTravail[i] = e.DepartementCode
+    //             i++
+    //         });
+    //     },
+    //     error: function (jqXhr, textStatus, errorThrown) {
+    //         console.error('Une erreur est survenue');
+    //     }
+    // });
 
-    $.ajax({
-        url: '../AjaxLoader/GetOPSN.php',
-        type: 'GET',
-        async: false,
-        data: {
-            Id: getUrlParam("Id")
-        },
-        dataType: 'JSON',
-        success: function(reponse) {
-            OPSN = reponse;
-            OPSN.DepDeTravail = GetMasterDetails(OPSN.Id);
-            i = 0;
-            OPSN.CodeDepDeTravail = []
-            OPSN.DepDeTravail.forEach(e => {
-                OPSN.CodeDepDeTravail[i] = e.DepartementCode
-                i++
-            });
-        },
-        error: function(jqXhr, textStatus, errorThrown) {
-            console.error('Une erreur est survenue');
-        }
-    });
-
-    var makeAsyncDataSourceDPTM = function() {
+    var makeAsyncDataSourceDPTM = function () {
         return new DevExpress.data.CustomStore({
             loadMode: "raw",
-            key: "Code",
-            load: function() {
-                return $.getJSON(`../AjaxLoader/GetDepartements.php`);
+            key: "code",
+            load: function () {
+                return $.getJSON(`/api/departments`);
             }
         });
     }
@@ -39,12 +36,12 @@ $(function() {
         showColonAfterLabel: true,
         labelLocation: "top",
         items: [{
-                dataField: "Siret",
+                dataField: "opsn[siret]",
                 label: {
                     text: "Siret "
                 },
                 editorOptions: {
-                    value: OPSN.Siret,
+                    value: OPSN.siret,
                     //valueChangeEvent: "keyup",
                     buttons: [{
                         name: 'trash',
@@ -52,34 +49,30 @@ $(function() {
                         options: {
                             stylingMode: 'text',
                             type: "default",
-                            icon: '../img/info.svg',
+                            icon: '/img/info.svg',
                             onClick() {
                                 $.ajax({
-                                    url: "https://api.insee.fr/entreprises/sirene/V3/siret/" + $('[name=Siret]').val().replace(/\s/g, ''),
+                                    url: "/api/insee/siret/" + $('[name=opsn\\[siret\\]]').val().replace(/\s/g, ''),
                                     method: "GET",
                                     async: false,
                                     timeout: 0,
-                                    "headers": {
-                                        "Authorization": "Bearer 22cedb64-52f0-3a95-8ce1-c4113c158ab3",
-                                        // "Cookie": "INSEE=rd4o00000000000000000000ffff0ac34808o80; pdapimgateway=rd4o00000000000000000000ffff0ac348ado8280"
-                                    },
                                 })
-                                .done(function(response) {
-                                    $('[name=Nom]').val(response.etablissement.uniteLegale.denominationUniteLegale);
+                                .done(function (response) {
+                                    $('[name=opsn\\[name\\]]').val(response.uniteLegale.denominationUniteLegale);
 
-                                    $('[name=Adresse]').val(((response.etablissement.adresseEtablissement.numeroVoieEtablissement!=null)?response.etablissement.adresseEtablissement.numeroVoieEtablissement+" ":"")+ ((response.etablissement.adresseEtablissement.typeVoieEtablissement!=null)?response.etablissement.adresseEtablissement.typeVoieEtablissement+" ":"") +((response.etablissement.adresseEtablissement.libelleVoieEtablissement!=null)?response.etablissement.adresseEtablissement.libelleVoieEtablissement:""));
+                                    $('[name=opsn\\[postalAddress\\]]').val(((response.adresseEtablissement.numeroVoieEtablissement!=null)?response.adresseEtablissement.numeroVoieEtablissement+" ":"")+ ((response.adresseEtablissement.typeVoieEtablissement!=null)?response.adresseEtablissement.typeVoieEtablissement+" ":"") +((response.adresseEtablissement.libelleVoieEtablissement!=null)?response.adresseEtablissement.libelleVoieEtablissement:""));
                                     
-                                    $('[name=Latitude]').val("");
-                                    $('[name=Longitude]').val("");
-                                    if (response.etablissement.adresseEtablissement.codeCommuneEtablissement.substr(0, 2) == 97) {
-                                        $("[name=Departement]").val(response.etablissement.adresseEtablissement.codeCommuneEtablissement.substr(0, 3))
+                                    $('[name=opsn\\[latitude\\]]').val("");
+                                    $('[name=opsn\\[longitude\\]]').val("");
+                                    if (response.adresseEtablissement.codeCommuneEtablissement.substr(0, 2) == 97) {
+                                        $("[name=opsn\\[departement\\]]").val(response.adresseEtablissement.codeCommuneEtablissement.substr(0, 3))
                                     } else {
-                                        $("[name=Departement]").val(response.etablissement.adresseEtablissement.codeCommuneEtablissement.substr(0, 2))
+                                        $("[name=opsn\\[departement\\]]").val(response.adresseEtablissement.codeCommuneEtablissement.substr(0, 2))
                                     }
                                 })
-                                .fail(function(jqXHR, textStatus, errorThrown) {
+                                .fail(function (jqXHR, textStatus, errorThrown) {
                                     test = false
-                                    alert("le siret est inconnu");
+                                    console.error("le siret est inconnu");
                                 });
                             },
                             elementAttr: {
@@ -88,15 +81,15 @@ $(function() {
                         },
                     }],
                     onValueChanged(data) {
-                        ($('[name=Siret]').val().replace(/\s/g, '') == '') ? DisableForm(true, data.value): DisableForm(false, data.value)
-                        $('[name=Siret]').val($('[name=Siret]').val().replace(/\s/g, ''))
+                        ($('[name=opsn\\[siret\\]]').val().replace(/\s/g, '') == '') ? DisableForm(true, data.value): DisableForm(false, data.value)
+                        $('[name=opsn\\[siret\\]]').val($('[name=opsn\\[siret\\]]').val().replace(/\s/g, ''))
                     },
                 },
                 validationRules: [{
                     type: "custom",
                     message: "Siret ne peut pas être vide.",
-                    validationCallback: function(e) {
-                        if ($('[name=Siret]').val().replace(/\s/g, '') == '') {
+                    validationCallback: function (e) {
+                        if ($('[name=opsn\\[siret\\]]').val().replace(/\s/g, '') == '') {
                             return false
                         }
                         return true
@@ -107,30 +100,30 @@ $(function() {
                 colCount: 2,
                 itemType: "group",
                 items: [{
-                        dataField: "Nom",
+                        dataField: "opsn[name]",
                         label: {
                             text: "Nom "
                         },
                         editorOptions: {
-                            value: OPSN.Nom,
+                            value: OPSN.name,
                         },
                         validationRules: [{
                             type: "required",
                             message: "Nom ne peut pas être vide."
                         }]
                     }, {
-                        dataField: "Departement",
+                        dataField: "opsn[departement]",
                         label: {
                             text: "Departement "
                         },
                         editorType: "dxSelectBox",
                         editorOptions: {
                             dataSource: makeAsyncDataSourceDPTM(),
-                            displayExpr: "Nom",
-                            valueExpr: "Code",
-                            value: OPSN.DepartementCode,
-                            itemTemplate: function(data) {
-                                return "<div>" + data.Code + " - " + data.Nom + "</div>";
+                            displayExpr: "name",
+                            valueExpr: "code",
+                            value: OPSN.departement,
+                            itemTemplate: function (data) {
+                                return "<div>" + data.code + " - " + data.name + "</div>";
                             }
                         },
                         validationRules: [{
@@ -138,22 +131,21 @@ $(function() {
                             message: "Departement ne peut pas être vide."
                         }]
                     }, {
-                        dataField: "Telephone",
+                        dataField: "opsn[phoneNumber]",
                         label: {
                             text: "Téléphone "
                         },
-                        editorType: "dxNumberBox",
                         editorOptions: {
-                            value: OPSN.Telephone,
+                            value: OPSN.phoneNumber,
                         }
                     },
                     {
-                        dataField: "Mail",
+                        dataField: "opsn[email]",
                         label: {
                             text: "Mail "
                         },
                         editorOptions: {
-                            value: OPSN.Mail,
+                            value: OPSN.email,
                         },
                         validationRules: [{
                             type: "email",
@@ -161,43 +153,46 @@ $(function() {
                         }]
                     },
                     {
-                        dataField: "Adresse",
+                        dataField: "opsn[postalAddress]",
                         label: {
                             text: "Adresse "
                         },
                         editorOptions: {
-                            value: OPSN.Adresse,
+                            value: OPSN.postalAddress,
                         }
                     },
                     {
-                        dataField: "Site_internet",
+                        dataField: "opsn[website]",
                         label: {
                             text: "Site internet "
                         },
                         editorOptions: {
-                            value: OPSN.Site_internet,
+                            value: OPSN.website,
                         }
                     },
                 ]
             },
             {
-                dataField: "Departement_de_travail",
+                dataField: "opsn[departements]",
                 label: {
                     text: "Departement de travail "
                 },
                 editorType: "dxDropDownBox",
                 editorOptions: {
-                    valueExpr: "Code",
+                    valueExpr: "code",
                     placeholder: "Département(s)...",
                     displayExpr: "Nom",
                     showClearButton: true,
-                    value: OPSN.CodeDepDeTravail,
+                    value: OPSN.departements,
                     dataSource: makeAsyncDataSourceDPTM(),
-                    contentTemplate: function(e) {
+                    contentTemplate: function (e) {
                         var value = e.component.option("value"),
                             $dataGrid = $("<div>").dxDataGrid({
                                 dataSource: e.component.getDataSource(),
-                                columns: ["Nom", "Code"],
+                                columns: [
+                                    { dataField: "name", caption: "Nom"},
+                                    { dataField: "code", caption: "Code"},
+                                ],
                                 hoverStateEnabled: true,
                                 paging: { enabled: true, pageSize: 10 },
                                 filterRow: { visible: true },
@@ -205,13 +200,13 @@ $(function() {
                                 height: 345,
                                 selection: { showCheckBoxesMode: "always", mode: "multiple" },
                                 selectedRowKeys: value,
-                                onSelectionChanged: function(selectedItems) {
+                                onSelectionChanged: function (selectedItems) {
                                     var keys = selectedItems.selectedRowKeys;
                                     e.component.option("value", keys);
                                 }
                             });
                         dataGrid = $dataGrid.dxDataGrid("instance");
-                        e.component.on("valueChanged", function(args) {
+                        e.component.on("valueChanged", function (args) {
                             var value = args.value;
                             dataGrid.selectRows(value, false);
                         });
@@ -224,7 +219,7 @@ $(function() {
             //     label: {
             //         text: "Logo "
             //     },
-            //     template: function(data, itemElement) {
+            //     template: function (data, itemElement) {
             //         var name;
             //         var type;
             //         if (OPSN.Logo != null) {
@@ -240,19 +235,19 @@ $(function() {
             //             invalidFileExtensionMessage: "Le type de fichier est invalide",
             //             labelText: "",
             //             selectButtonText: "Sélectionner un fichier",
-            //             onValueChanged: function(e) {
+            //             onValueChanged: function (e) {
             //                 //type = e.value[0].type.replace("image/", "");
             //                 if (e.value != null && e.value != "" && e.value != undefined) {
             //                     var files = e.value;
             //                     if (files.length > 0) {
-            //                         $.each(files, function(i, file) {
+            //                         $.each(files, function (i, file) {
             //                             name = file.name //.replace("." + type, "")
             //                             $("[name=Type]").val(type)
             //                         });
             //                     }
             //                 }
             //             },
-            //             onFilesUploaded: function(e) {
+            //             onFilesUploaded: function (e) {
             //                 if (name != null && name != "") {
             //                     $("#Logo").attr("src", `../temp/output.png`)
             //                 }
@@ -266,7 +261,7 @@ $(function() {
             //     validationRules: [{
             //         type: "custom",
             //         message: "Type de fichier invalide.",
-            //         validationCallback: function(e) {
+            //         validationCallback: function (e) {
             //             if ($("[name=Type]").val() == '' || $("[name=Type]").val() == null || $("[name=Type]").val() == undefined) {
             //                 return true
             //             }
@@ -278,40 +273,30 @@ $(function() {
             //     }]
             // },
             {
-                dataField: "Actif",
+                dataField: "opsn[active]",
                 label: {
                     text: "Actif "
                 },
-                template: function(data, $itemElement) {
+                template: function (data, $itemElement) {
                     $(`<div class="custom-control custom-switch">
-                    <input type="checkbox" name="Actif" class="custom-control-input" id="customSwitch_modif">
+                    <input type="checkbox" name="opsn[active]" class="custom-control-input" id="customSwitch_modif">
                     <label class="custom-control-label" for="customSwitch_modif"></label>
                     </div>`).appendTo($itemElement);
-                    $(`#customSwitch_modif`).attr("checked", (OPSN.Actif == 1) ? true : false);
-                }
-            }, {
-                dataField: "Id",
-                cssClass: "d-none",
-                editorOptions: {
-                    value: OPSN.Id,
-                },
-                validationRules: [{
-                    type: "required",
-                    message: "Nom ne peut pas être vide."
-                }]
-            },
-            {
-                dataField: "Latitude",
-                cssClass: "d-none",
-                editorOptions: {
-                    value: OPSN.Latitude,
+                    $(`#customSwitch_modif`).attr("checked", OPSN.active);
                 }
             },
             {
-                dataField: "Longitude",
+                dataField: "latitude",
                 cssClass: "d-none",
                 editorOptions: {
-                    value: OPSN.Longitude,
+                    value: OPSN.latitude,
+                }
+            },
+            {
+                dataField: "longitude",
+                cssClass: "d-none",
+                editorOptions: {
+                    value: OPSN.longitude,
                 }
             },
             {
@@ -321,7 +306,10 @@ $(function() {
                 buttonOptions: {
                     text: "Valider",
                     type: "default",
-                    useSubmitBehavior: true
+                    useSubmitBehavior: true,
+                    onClick: function (e) {
+                        $('form').submit();
+                    }
                 }
             }
         ],
@@ -329,38 +317,38 @@ $(function() {
 
     }).dxForm("instance");
 
-    if ($('[name=Siret]').val().replace(/\s/g, '') == '') {
+    if ($('[name=opsn\\[siret\\]]').val().replace(/\s/g, '') == '') {
         DisableForm(true)
     }
 })
 
-function GetMasterDetails(id) {
-    MasterData = [];
-    $.ajax({
-        url: '../AjaxLoader/GetMasterDetails.php',
-        type: 'GET',
-        async: false,
-        data: {
-            Id: id
-        },
-        dataType: 'JSON',
-        success: function(reponse) {
-            MasterData = reponse
-        },
-        error: function(jqXhr, textStatus, errorThrown) {
-            console.error('Une erreur est survenue');
-        }
-    });
-    return MasterData;
-}
+// function GetMasterDetails(id) {
+//     MasterData = [];
+//     $.ajax({
+//         url: '../AjaxLoader/GetMasterDetails.php',
+//         type: 'GET',
+//         async: false,
+//         data: {
+//             Id: id
+//         },
+//         dataType: 'JSON',
+//         success: function (reponse) {
+//             MasterData = reponse
+//         },
+//         error: function (jqXhr, textStatus, errorThrown) {
+//             console.error('Une erreur est survenue');
+//         }
+//     });
+//     return MasterData;
+// }
 
 function DisableForm(bool, Siret) {
-    var champs = ["Nom", "Departement", "Telephone", "Mail", "Adresse", "Site_internet", "Departement_de_travail"];
+    var champs = ["name", "departement", "phoneNumber", "email", "postalAddress", "website", "departements"];
     for (let i = 0; i < champs.length; i++) {
         itemOptions = $("#form-modif").dxForm('instance').itemOption(champs[i]);
         itemOptions.editorOptions.disabled = bool;
         $("#form-modif").dxForm('instance').itemOption(champs[i], "editorOptions", itemOptions.editorOptions);
     }
     $("#form-modif").dxForm('instance').itemOption("Logo", "disabled", bool);
-    $('[name=Siret]').val(Siret)
+    $('[name=opsn\\[siret\\]]').val(Siret)
 }

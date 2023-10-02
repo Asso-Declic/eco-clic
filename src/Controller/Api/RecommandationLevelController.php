@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/recommandation-level', name: 'api_recommandation_level_')]
+#[Route('/api/recommendation-levels', name: 'api_recommandation_level_')]
 class RecommandationLevelController extends AbstractController
 {
     #[Route('', name: 'browse', methods: ['GET'])]

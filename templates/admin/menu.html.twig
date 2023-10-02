@@ -24,13 +24,15 @@
                     <span>Collectivités</span>
                 </a>
 
-                <a href="utilisateurs.php"{% if app.request.get('_route') == 'admin_user_browse' %} class="menuActive"{% endif %}>
+                <a href="{{ path('admin_user_browse') }}"{% if app.request.get('_route') == 'admin_user_browse' %} class="menuActive"{% endif %}>
                     <img class="iconMenu" src="{{ asset('img/Icon feather-users.svg') }}" alt="">
                     <span>Gestion des utilisateurs</span>
                 </a>
 
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <a href="{{ path('admin_category_browse') }}"{% if app.request.get('_route') == 'admin_user_browse' %} class="menuActive"{% endif %}>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                {# Ces fonctionnalités n'étaient pas prévues. Toutefois, une base est posée pour les rendre accessible #}
+                {# TODO : Veiller à supprimer le code mort pour les fonctionnalités qui ne seront pas gardées #}
+                {# <a href="{{ path('admin_category_browse') }}"{% if app.request.get('_route') == 'admin_user_browse' %} class="menuActive"{% endif %}>
                     <img class="iconMenu" src="{{ asset('img/bubble.svg') }}" alt="">
                     <span>Catégories</span>
                 </a>
@@ -43,26 +45,31 @@
                 <a href="utilisateurs.php"{% if app.request.get('_route') == 'admin_user_browse' %} class="menuActive"{% endif %}>
                     <img class="iconMenu" src="{{ asset('img/recommandations.svg') }}" alt="">
                     <span>Recommandations</span>
-                </a>
+                </a> #}
 
-                <a href="AdminOPSN.php"{% if app.request.get('_route') == 'admin_OPSN_browse' %} class="menuActive"{% endif %}>
+                <a href="{{ path('admin_opsn_browse') }}"{% if app.request.get('_route') == 'admin_opsn_browse' %} class="menuActive"{% endif %}>
                     <img class="iconMenu" src="{{ asset('img/opsn.svg') }}" alt="">
                     <span>OPSN</span>
                 </a>
-            {% endif %}
+
+                {% endif %}
+                <a href="{{ path('admin_opsn_collectivite_link') }}"{% if app.request.get('_route') == 'admin_opsn_collectivite_link' %} class="menuActive"{% endif %}>
+                    <img class="sidebarIcons" src="{{ asset('img/france.png') }}" alt="">
+                    <span>Rattachement OPSN</span>
+                </a>
 
             {# <a href="OPSN.php?Id=<?php // SessionHelper::GetCurrentUserAdministrateur()->OPSNId ?>" <?php // if ($selectedNav == "OPSN") echo 'id="onglet_actuel"'; ?>>
                 <img class="iconMenu" src="{{ asset('img/opsn.svg') }}" alt="">
                 <span>OPSN</span>
             </a> #}
 
-            <a href="#" tabindex="1" id="retrecir" class="bouton" style="padding: 5px;">
+            {# <a href="#" tabindex="1" id="retrecir" class="bouton" style="padding: 5px;">
                 <h3 id="retrecirBoutonG">
                     <img src="{{ asset('img/Icon awesome-chevron-circle-left.svg') }}" alt="Tableau de bord" style="margin-left: 30px;">
                     Réduire le menu
                 </h3>
                 <i style='cursor: pointer; font-size: 19px;' id="retrecirBoutonP" class="fa-solid fa-bars"></i>
-            </a>
+            </a> #}
 
         </li>
     </ul>

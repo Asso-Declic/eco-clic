@@ -1,20 +1,20 @@
-$(function() {
+$(function () {
 
     if ($('.profil-body').length != 0) {
         var newHeight = $(window).height() - $('.profil-body').position().top - 30;
         $('.profil-body').height(newHeight);
-        $(window).on('resize', function() {
+        $(window).on('resize', function () {
             var newHeight = $(window).height() - $('.profil-body').position().top - 30;
             $('.profil-body').height(newHeight);
         })
     }
 
     $.ajax({
-        url: '/api/user/current',
+        url: '/api/users/current',
         type: 'GET',
         async: true,
         dataType: 'json',
-        success: function(data) {
+        success: function (data) {
             $("#form_profil").dxForm({
                 formData: { Id: data.id, Nom: data.lastName, Prenom: data.firstName, Identifiant: data.username, Mail: data.email },
                 readOnly: false,
@@ -71,7 +71,7 @@ $(function() {
 
             }).dxForm("instance");
         },
-        error: function(jqXhr, textStatus, errorThrown) {
+        error: function (jqXhr, textStatus, errorThrown) {
             console.error('Une erreur est survenue');
         }
     });
@@ -94,7 +94,7 @@ $(function() {
                         options: {
                             icon: "/img/Oeil.svg",
                             type: "default",
-                            onClick: function(e) {
+                            onClick: function (e) {
                                 $("[name=Ancien_mot_de_passe]").attr("type", $("[name=Ancien_mot_de_passe]").attr("type") === "text" ? "password" : "text")
                             }
                         }
@@ -121,7 +121,7 @@ $(function() {
                         options: {
                             icon: "/img/Oeil.svg",
                             type: "default",
-                            onClick: function(e) {
+                            onClick: function (e) {
                                 $("[name=Mot_de_passe]").attr("type", $("[name=Mot_de_passe]").attr("type") === "text" ? "password" : "text")
                             }
                         }
@@ -132,7 +132,7 @@ $(function() {
                     message: "Ce champ est obligatoire."
                 }, {
                     type: "pattern",
-                    pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[+\-_!@#\$%\^&\*])(?=.{12,})/,
+                    pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[+\-_!@#\$%\^&\*])(?=.{8,})/,
                     message: "Merci de respecter le format requis"
                 }]
             }, {
@@ -146,7 +146,7 @@ $(function() {
                         options: {
                             icon: "/img/Oeil.svg",
                             type: "default",
-                            onClick: function(e) {
+                            onClick: function (e) {
                                 $("[name=Confirmer_mot_de_passe]").attr("type", $("[name=Confirmer_mot_de_passe]").attr("type") === "text" ? "password" : "text")
                             }
                         }
@@ -154,7 +154,7 @@ $(function() {
                 },
                 validationRules: [{
                     type: "compare",
-                    comparisonTarget: function(e) {
+                    comparisonTarget: function (e) {
                         var password = $("[name=Mot_de_passe]").val();
                         if (password) {
                             return password;
@@ -167,7 +167,7 @@ $(function() {
                 }]
             }]
         }, {
-            template: function(data, $itemElement) {
+            template: function (data, $itemElement) {
                 $(` 
                 <span id="r195624624">
                     <img id="iconAlert" src="/img/Icone_alerte.svg" alt="alert">
@@ -188,9 +188,9 @@ $(function() {
 
 })
 
-$('#enregistrer').on("click", function() {
+$('#enregistrer').on("click", function () {
     $.ajax({
-        url: '/api/user',
+        url: '/api/users',
         type: 'PUT',
         async: true,
         contentType: 'application/json',
@@ -206,10 +206,10 @@ $('#enregistrer').on("click", function() {
             },
         }),
         dataType: 'json',
-        success: function(reponse) {
+        success: function (reponse) {
             window.location.reload()
         },
-        error: function(resultat, statut, erreur) {
+        error: function (resultat, statut, erreur) {
             console.error(resultat + ' --- ' + statut + ' --- ' + erreur);
         }
     });

@@ -12,7 +12,7 @@
  * CLDR JavaScript Library v0.5.1 2019-01-21T13:43Z MIT license © Rafael Xavier
  * http://git.io/h4lmVg
  */
-(function( factory ) {
+(function ( factory ) {
 
 	if ( typeof define === "function" && define.amd ) {
 		// AMD.
@@ -25,7 +25,7 @@
 		factory( Cldr );
 	}
 
-}(function( Cldr ) {
+}(function ( Cldr ) {
 
 	// Build optimization hack to avoid duplicating functions across modules.
 	var pathNormalize = Cldr._pathNormalize,
@@ -499,7 +499,7 @@ EventEmitter = (function () {
 
 
 
-	var validateTypeFunction = function( value, name ) {
+	var validateTypeFunction = function ( value, name ) {
 		validateType( value, name, typeof value === "undefined" || typeof value === "function", "Function" );
 	};
 
@@ -514,12 +514,12 @@ EventEmitter = (function () {
 	}
 
 	function validateThenCall( method, self ) {
-		return function( event, listener ) {
+		return function ( event, listener ) {
 			validatePresence( event, "event" );
 			validateTypeEvent( event, "event" );
 
 			validatePresence( listener, "listener" );
-			validateTypeFunction( listener, "listener" );
+			validateTypefunction ( listener, "listener" );
 
 			return self[ method ].apply( self, arguments );
 		};
@@ -545,7 +545,7 @@ EventEmitter = (function () {
 	 * Overload Cldr.prototype.init().
 	 */
 	superInit = Cldr.prototype.init;
-	Cldr.prototype.init = function() {
+	Cldr.prototype.init = function () {
 		var ee;
 		this.ee = ee = new EventEmitter();
 		this.off = off( ee );
@@ -565,7 +565,7 @@ EventEmitter = (function () {
 		 * Overload Cldr.prototype.get().
 		 */
 		superGet = Cldr.prototype.get;
-		Cldr.prototype.get = function( path ) {
+		Cldr.prototype.get = function ( path ) {
 			var value = superGet.apply( this, arguments );
 			path = pathNormalize( path, this.attributes ).join( "/" );
 			globalEe.trigger( "get", [ path, value ] );

@@ -23,4 +23,4 @@ Dans le dump de la preprod, on retrouve des incohérences. Il existe des entrée
 Cinq requêtes sont dans la migration Version20230510152551 et permettent de nettoyer la base de données pour que les clés étrangères fonctionnent.
 
 ## Des mots de passe réellement hashés en base de donnée
-Actuellement les mots de passe sont en MD5(MD5()) en base de données. Il serait compliqué pour pas grand chose de modifier Symfony pour interpréter cette forme de hashage. Le parti pris a donc plutôt été de s'assurer que la fonctionnalité de réinitialisation de mot de passe fonctionnait pour encourager tous les utilisateurs à réinitialiser leur mot de passe. La connexion fonctionne très bien désormais !
+Au départ les mots de passe étaient en MD5(MD5()) en base de données. Il serait compliqué pour pas grand chose de modifier Symfony pour interpréter cette forme de hashage. Le parti pris a donc plutôt été de s'assurer que la fonctionnalité de réinitialisation de mot de passe fonctionnait pour encourager tous les utilisateurs à réinitialiser leur mot de passe. La connexion fonctionne très bien désormais !

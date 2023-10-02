@@ -54,7 +54,7 @@ DATABASE_URL="mysql://bduser:bdpass@bdserver:3306/bdname?serverVersion=5.7&chars
 ```
 Il n'est pas nécessaire de créer la base de donnée vous même au préalable. Si vos identifiants le permettent et que vous souhaitez créer la base de donnée pour cette nouvelle instance, exécutez `bin/console doctrine:database:create` et la console de Symfony se chargera de créer la base de données pour vous sans devoir ouvrir PhpMyAdmin, Adminer ou mysql en ligne de commande.
 
-#### Sur instance déjà en cours, sans Symfony
+#### Sur une instance déjà en cours, sans Symfony
 Au début du projet, le code n'utilisait pas le framework Symfony. Le choix de passer à ce framework demande quelques adaptations. Des migrations ont été mises en place et il faudra les initialiser. Plus d'informations sur [Installation sur une instance déjà en place](Installation%20sur%20une%20instance%20déjà%20en%20place.md)
 
 #### Migrations
@@ -100,3 +100,11 @@ La documentation utilisateur se trouve sur Gitbook : https://asso-declic.gitbook
 La documentation pour les développeurs est ici-même dans le dossier `docs`.
 
 ## Licence Open Source
+Ce logiciel est édité par [Déclic](https://www.asso-declic.fr/) qui en détient la paternité. Copyright 2023
+Le code de ce logiciel ainsi que les questions de niveau 1 sont distribués sous la [licence AGPL v3](LICENSE.md).
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>

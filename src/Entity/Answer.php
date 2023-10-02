@@ -12,6 +12,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: AnswerRepository::class)]
 class Answer
 {
+    public const TYPE_BUTTON = 'button';
+    public const TYPE_INPUT = 'input';
+
     #[Groups(['answer', 'collectiviteAnswer', 'question'])]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
@@ -33,7 +36,7 @@ class Answer
     private ?Question $question = null;
 
     #[Groups(['answer', 'question'])]
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $ponderation = null;
 
     #[ORM\OneToMany(mappedBy: 'answer', targetEntity: CollectiviteAnswer::class)]

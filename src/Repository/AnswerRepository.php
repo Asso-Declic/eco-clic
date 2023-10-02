@@ -53,6 +53,11 @@ class AnswerRepository extends ServiceEntityRepository
             ->setParameter('collectivite', $collectivite)
             ->setParameter('category', $category)
             ;
+
+        if ($collectivite->isLevelTwo() == false) {
+            $qb->andWhere('q.levelTwo = 0');
+        }
+
         return $qb->getQuery()->getScalarResult()[0];
     }
 
