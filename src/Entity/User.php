@@ -84,9 +84,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?OPSN $opsn = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: CollectiviteAnswer::class)]
+    private Collection $collectiviteAnswers;
+
     public function __construct()
     {
         $this->userPreferences = new ArrayCollection();
+        $this->collectiviteAnswers = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -357,6 +361,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setOpsn(?OPSN $opsn): self
     {
         $this->opsn = $opsn;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CollectiviteAnswer>
+     */
+    public function getCollectiviteAnswers(): Collection
+    {
+        return $this->collectiviteAnswers;
+    }
+
+    public function addCollectiviteAnswer(CollectiviteAnswer $collectiviteAnswer): static
+    {
+        if (!$this->collectiviteAnswers->contains($collectiviteAnswer)) {
+            $this->collectiviteAnswers->add($collectiviteAnswer);
+            $collectiviteAnswer->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollectiviteAnswer(CollectiviteAnswer $collectiviteAnswer): static
+    {
+        if ($this->collectiviteAnswers->removeElement($collectiviteAnswer)) {
+            // set the owning side to null (unless already changed)
+            if ($collectiviteAnswer->getUser() === $this) {
+                $collectiviteAnswer->setUser(null);
+            }
+        }
 
         return $this;
     }

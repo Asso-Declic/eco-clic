@@ -196,6 +196,22 @@ final class Version20230510152551 extends AbstractMigration
                 WHERE recommandation.Id IS NULL
             ) AS liste_a_supprimer
         );');
+        $this->addSql('DELETE FROM utilisateurReponse where Id IN (
+            SELECT * FROM (
+                SELECT utilisateurReponse.Id
+                FROM utilisateurReponse
+                LEFT JOIN utilisateur ON utilisateurReponse.UtilisateurId = utilisateur.Id
+                WHERE utilisateur.Id IS NULL
+            ) AS liste_a_supprimer
+        );');
+        $this->addSql('DELETE FROM ref_RecoIndicateur where Id IN (
+            SELECT * FROM (
+                SELECT ref_RecoIndicateur.Id
+                FROM ref_RecoIndicateur
+                LEFT JOIN recommandation ON ref_RecoIndicateur.RecommandationId = recommandation.Id
+                WHERE recommandation.Id IS NULL
+            ) AS liste_a_supprimer
+        );');
 
         // Le tableau initialement appelée `historiqueScore` devient `score`. 
         // Doctrine impose d'utiliser un identifiant avec toutes les entités sans exception.

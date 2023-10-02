@@ -37,6 +37,10 @@ final class Version20230510103745 extends AbstractMigration
         $this->addSql('ALTER TABLE theme CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
         $this->addSql('ALTER TABLE utilisateur CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
         $this->addSql('ALTER TABLE utilisateurReponse CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
+        $this->addSql('ALTER TABLE ref_RecoRessource CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
+        $this->addSql('ALTER TABLE ref_RecoIndicateur CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
+        $this->addSql('ALTER TABLE ref_RecoActivable CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
+        $this->addSql('ALTER TABLE ref_ReponseReco CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;');
     }
 
     public function down(Schema $schema): void

@@ -10,8 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
 class RecommandationSuccessIndicator
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator("doctrine.uuid_generator")]
+    #[ORM\Column(type: Types::GUID)]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]

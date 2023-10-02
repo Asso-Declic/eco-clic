@@ -33,6 +33,9 @@ class CollectiviteAnswer
     #[ORM\Column]
     private ?\DateTimeImmutable $answeredAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'collectiviteAnswers')]
+    private ?User $user = null;
+
     public function getId(): ?string
     {
         return $this->id;
@@ -82,6 +85,18 @@ class CollectiviteAnswer
     public function setAnsweredAt(\DateTimeImmutable $answeredAt): self
     {
         $this->answeredAt = $answeredAt;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
