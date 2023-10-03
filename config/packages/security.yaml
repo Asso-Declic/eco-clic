@@ -39,7 +39,7 @@ security:
         - { path: ^/(connexion|inscription|reset-password), roles: PUBLIC_ACCESS }
         # Routes nécessires pour le formulaire de connexion
         - { path: ^/api/users/(check-username|resend-email), roles: PUBLIC_ACCESS }
-        - { path: ^/api/collectivites/check-siret, roles: PUBLIC_ACCESS }
+        - { path: ^/api/collectivites/(check-siret|infos), roles: PUBLIC_ACCESS }
         - { path: ^/api/insee/siret, roles: PUBLIC_ACCESS }
         - { path: ^/api/opsns, roles: PUBLIC_ACCESS, methods: GET }
         - { path: ^/api/opsns, roles: ROLE_SUPER_ADMIN }
@@ -48,9 +48,9 @@ security:
         - { path: ^/api, roles: PUBLIC_ACCESS }
 
         - { path: ^/admin/utilisateurs, roles: ROLE_COLLECTIVITE }
-        - { path: ^/admin/collectivites, roles: ROLE_OPSN }
+        - { path: ^/admin/collectivites, roles: ROLE_USER_OPSN }
         - { path: ^/admin/opsn, roles: ROLE_SUPER_ADMIN }
-        - { path: ^/admin, roles: ROLE_OPSN }
+        - { path: ^/admin, roles: ROLE_USER_OPSN }
         - { path: ^/, roles: ROLE_USER }
 
     role_hierarchy:
