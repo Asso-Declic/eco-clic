@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Answer;
 use App\Entity\Category;
 use App\Entity\Collectivite;
+use App\Entity\CollectiviteAnswer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -65,8 +66,9 @@ class AnswerRepository extends ServiceEntityRepository
         ->select('SUM(a.ponderation) AS score')
         // ->addSelect('SUM(a.ponderation) AS nb')
         ->innerJoin('ca.answer', 'a')
+        ->innerJoin('a.question', 'q')
         ->where('ca.collectivite = :collectivite')
-        ->andWhere('a.category = :category')
+        ->andWhere('q.category = :category')
         ->setParameter('collectivite', $collectivite)
         ->setParameter('category', $category)
         ;

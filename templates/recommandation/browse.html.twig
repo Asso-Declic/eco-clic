@@ -731,6 +731,11 @@
                                     $nb2 = 1;
                                 }
 
+                                if (a2[w][n].status_id === null) {
+                                    a2[w][n].status_id = 4;
+                                    a2[w][n].status_label = "À définir";
+                                }
+
                                 let div1 = document.createElement('div');
                                 div1.setAttribute("class", "cadreReco2 " + a2[w][n].category_id + " " + a2[w][n].theme_id + " statut" + a2[w][n].status_id + " niveau" + a2[w][n].level_id);
                                 div0.append(div1);
@@ -780,11 +785,6 @@
                                 div11.setAttribute('style', "padding: 3px 3px 3px 7px;")
                                 div9.append(div11);
 
-                                if (a2[w][n].status_id === null) {
-                                    a2[w][n].status_id = 4;
-                                    a2[w][n].status_label = "À définir";
-                                }
-
                                 let p6 = document.createElement('p');
                                 p6.setAttribute("style", "display: inline-block; vertical-align: middle; margin-top: 25px");
                                 p6.textContent = a2[w][n].status_label;
@@ -805,7 +805,7 @@
                                 div12.setAttribute("style", "text-align: center;")
                                 div9.append(div12);
                                 
-                                if (a2[w][n].level_two == 1) {
+                                {% if is_granted('ROLE_LEVELTWO') %}
                                     let a3 = document.createElement('a');
                                     a3.setAttribute("class", "buttonDetail");
                                     a3.setAttribute("href", "/recommandation/" + a2[w][n].id)
@@ -820,7 +820,7 @@
                                     p7.setAttribute("style", "font-size: 11px; margin: 0px !important; color: #00857A");
                                     p7.textContent = "Voir le détail";
                                     a3.append(p7);
-                                }
+                                {% endif %}
 
                                 let div4 = document.createElement('div');
                                 div4.setAttribute("class", "titreReco2");
