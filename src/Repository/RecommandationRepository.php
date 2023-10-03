@@ -161,7 +161,7 @@ class RecommandationRepository extends ServiceEntityRepository
         $q->setParameter('CollectiviteId', $collectivite->getId());
         $q->setParameter('CollectiviteId2', $collectivite->getId());
 
-        return dump($q->getScalarResult());
+        return $q->getScalarResult();
     }
 
     public function findAllForCollectivite(Collectivite $collectivite)
