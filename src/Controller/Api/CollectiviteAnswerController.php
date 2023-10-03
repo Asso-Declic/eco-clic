@@ -35,7 +35,8 @@ class CollectiviteAnswerController extends AbstractController
     #[Route('', name: 'add', methods: ['POST'])]
     public function add(EntityManagerInterface $em, Request $request, ScoreManager $scoreManager): Response
     {
-        $collectivite = $this->getUser()->getCollectivite();
+        $user = $this->getUser();
+        $collectivite = $user->getCollectivite();
         $answerId = $request->request->get('answer_id');
         $body = $request->request->get('body');
 
@@ -51,6 +52,7 @@ class CollectiviteAnswerController extends AbstractController
             ->setAnswer($answer)
             ->setBody($body)
             ->setAnsweredAt(new \DateTimeImmutable())
+            ->setUser($user)
             ;
         $em->getRepository(CollectiviteAnswer::class)->save($collectiviteAnswer, true);
 

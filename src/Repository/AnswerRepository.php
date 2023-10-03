@@ -43,22 +43,50 @@ class AnswerRepository extends ServiceEntityRepository
         AND utilisateurReponse.IdReponse = reponse.Id
         AND categorie.Id = :CategorieId
         */
-        $qb = $this->createQueryBuilder('a')
-            ->select('SUM(a.ponderation) as score, COUNT(a.ponderation) as nb')
-            ->innerJoin('a.question', 'q')
-            ->innerJoin('q.category', 'c')
-            ->leftJoin('a.collectiviteAnswers', 'ca')
-            ->where('ca.collectivite = :collectivite')
-            ->andWhere('c = :category')
-            ->setParameter('collectivite', $collectivite)
-            ->setParameter('category', $category)
-            ;
+        // $qb = $this->createQueryBuilder('a')
+        //     ->select('SUM(a.ponderation) as score, COUNT(a.ponderation) as nb')
+        //     ->innerJoin('a.question', 'q')
+        //     ->innerJoin('q.category', 'c')
+        //     ->leftJoin('a.collectiviteAnswers', 'ca')
+        //     ->where('ca.collectivite = :collectivite')
+        //     ->andWhere('c = :category')
+        //     ->setParameter('collectivite', $collectivite)
+        //     ->setParameter('category', $category)
+        //     ;
 
+        // if ($collectivite->isLevelTwo() == false) {
+        //     $qb->andWhere('q.levelTwo = 0');
+        // }
+
+        // return $qb->getQuery()->getScalarResult()[0];
+
+        $qb = $this->getEntityManager()->createQueryBuilder()
+        ->from(CollectiviteAnswer::class, 'ca')
+        ->select('SUM(a.ponderation) AS score')
+        // ->addSelect('SUM(a.ponderation) AS nb')
+        ->innerJoin('ca.answer', 'a')
+        ->where('ca.collectivite = :collectivite')
+        ->andWhere('a.category = :category')
+        ->setParameter('collectivite', $collectivite)
+        ->setParameter('category', $category)
+        ;
+
+        $score= $qb->getQuery()->getSingleResult();
+        
+        $q = $this->createQueryBuilder('a')
+        ->select('SUM(a.ponderation) AS nb')
+        ->innerJoin('a.question', 'q')
+        ->innerJoin('q.category', 'c')
+        ->where('c = :category')
+        ->setParameter('category', $category)
+        ;
+        
         if ($collectivite->isLevelTwo() == false) {
-            $qb->andWhere('q.levelTwo = 0');
+            $q->andWhere('q.levelTwo = 0');
         }
+        $nb = $q->getQuery()->getSingleResult();
 
-        return $qb->getQuery()->getScalarResult()[0];
+        return ['score' => $score['score'], 'nb' => $nb['nb']];
     }
 
     public function findPonderationMax()

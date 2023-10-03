@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/score', name: 'api_score_')]
+#[Route('/api/scores', name: 'api_score_')]
 class ScoreController extends AbstractController
 {
     /**

@@ -1,6 +1,6 @@
 $(function () {
     $.ajax({
-        url: '/api/score/by-opsn',
+        url: '/api/scores/by-opsn',
         type: 'GET',
         async: false,
         dataType: 'json',
@@ -277,7 +277,7 @@ function recoPerso(CategId, collectiviteId, Categorie) {
             itemTemplate(data) {
                 $actif = 0;
                 for (let i = 0; i < $questionActive.length; i++) {
-                    if (data.IdQuestion == $questionActive[i].Id) {
+                    if (data.question.id == $questionActive[i].id) {
                         $actif = 1;
                         break;
                     } else {

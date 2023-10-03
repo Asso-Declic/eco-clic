@@ -253,7 +253,7 @@
                 }
 
                 $.ajax({
-                    url: '/api/score/{{ category.id }}',
+                    url: '/api/scores/{{ category.id }}',
                     type: 'GET',
                     async: false,
                     dataType: 'json',
@@ -764,6 +764,11 @@
                             div14.setAttribute('style', "padding: 3px 3px 3px 7px;")
                             div9.append(div14);
 
+                            if ($recommandation[i].status_id === null) {
+                                $recommandation[i].status_id = 4;
+                                $recommandation[i].status_label = "À définir";
+                            }
+
                             let p6 = document.createElement('p');
                             p6.setAttribute("style", "display: inline-block; vertical-align: middle; margin-top: 25px");
                             p6.textContent = $recommandation[i].status_label;
@@ -1064,7 +1069,7 @@
 
     function userHistorique() {
         $.ajax({
-            url: '/api/score',
+            url: '/api/scores',
             type: 'POST',
             async: true,
             dataType: 'json',

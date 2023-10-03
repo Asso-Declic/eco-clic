@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Answer;
 use App\Entity\Category;
 use App\Entity\Collectivite;
 use App\Entity\CollectiviteAnswer;
@@ -203,17 +204,25 @@ class CollectiviteAnswerRepository extends ServiceEntityRepository
         */
         $qb = $this->createQueryBuilder('ca')
         ->select('SUM(a.ponderation) AS score')
-        ->addSelect('COUNT(a.ponderation) AS nb')
+        // ->addSelect('SUM(a.ponderation) AS nb')
         ->innerJoin('ca.answer', 'a')
         ->where('ca.collectivite = :collectivite')
         ->setParameter('collectivite', $collectivite);
 
-        // if ($collectivite->isLevelTwo() == false) {
-        //     $qb->innerJoin('a.question', 'q')
-        //     ->andWhere('q.levelTwo = 0');
-        // }
+        $score= $qb->getQuery()->getSingleResult();
+        
+        $q = $this->getEntityManager()->createQueryBuilder()
+        ->from(Answer::class, 'a')
+        ->select('SUM(a.ponderation) AS nb')
+        ->innerJoin('a.question', 'q')
+        ;
+        
+        if ($collectivite->isLevelTwo() == false) {
+            $q->andWhere('q.levelTwo = 0');
+        }
+        $nb = $q->getQuery()->getSingleResult();
 
-        return $qb->getQuery()->getSingleResult();
+        return ['score' => $score['score'], 'nb' => $nb['nb']];
     }
 
     public function save(CollectiviteAnswer $entity, bool $flush = false): void

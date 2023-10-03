@@ -111,7 +111,7 @@ class RecommandationRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('r');
         $qb->select('r.id, r.title, r.body, c.name as category_name, c.id as category_id, c.image as category_image, l.id as level_id, l.label as level_label, l.color as level_color, s.id as status_id, s.label as status_label, t.id as theme_id, t.label as theme_label, q.question as question, q.levelTwo as level_two')
             ->leftJoin('r.level', 'l')
-            ->leftJoin(CollectiviteStatus::class, 'cs', 'WITH', 'cs.recommandation = r')
+            ->leftJoin(CollectiviteStatus::class, 'cs', 'WITH', 'cs.recommandation = r and cs.collectivite = :collectivite')
             ->leftJoin('cs.status', 's')
             ->leftJoin('r.question', 'q')
             ->leftJoin('q.category', 'c')

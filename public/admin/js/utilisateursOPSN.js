@@ -359,7 +359,7 @@ function openModal(id, nom, prenom, identifiant, mail, actif) {
 }
 
 function renvoiMail(userId) {
-    data = JSON.parse(data.replaceAll('@|%', "'"));
+    // userId = JSON.parse(userId.replaceAll('@|%', "'"));
     $.ajax({
         url: '/api/users/resend-email/' + userId,
         type: 'post',

@@ -416,7 +416,7 @@ function openModal(data) {
 function renvoiMail(data) {
     data = JSON.parse(data.replaceAll('@|%', "'"));
     $.ajax({
-        url: '/api/users/resend-mail/' + data.id,
+        url: '/api/users/resend-email/' + data.id,
         type: 'post',
         async: true,
         dataType: 'json',

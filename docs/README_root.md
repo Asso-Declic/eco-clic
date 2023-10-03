@@ -94,6 +94,31 @@ bin/console doctrine:migrations:migrate
 ```
 S'il n'y a pas de migrations à appliquer, la commande ne fera aucun changement.
 
+## Changelog
+
+Premier dépôt pour utilisation du GitLab par l'équipe R&D | 30/08/2023
+
+  
+
+Push du code concernant les modifications des fonctionnalités suivantes :
+
+- Modification du TdB et du plan d'action : Ajout des mentions "Première notation et Dernière Modification" | 22/09/2023
+- Le Niveau 2 : Recommandations dynamiques | 22/09/2023
+- Rattachement OPSN | 22/09/2023
+- Rattachement OPSN : affichage des OPSN | 26/09/2023
+- MailHelper : Mailing de rattachement OPSN | 26/09/2023
+- Categorie : Correction de l'affichage d'une question enfant | 26/09/2023
+- Correction de l'affichage du score | 26/09/2023
+- Admin : Affichage des questions de niveau 2 selon le niveau de la col | 26/09/2023
+- Correction du probleme des reco de niveau 2 | 26/09/2023
+- Maj des regex | 26/09/2023
+- Bandeau "connecté en tant qu'OPSN" | 26/09/2023
+- Message quand il n'y a pas de reco | 26/09/2023
+- Design des reco dans le détail | 26/09/2023
+- Cacher le bouton "s'enregistrer" après le clique | 28/09/2023
+- ajout fonctionnalité pour annuler le rattachement OPSN coté admin | 28/09/2023
+- Correction map de rattachement OPSN | 29/09/2023
+- Correction des bug lors de la modif du profil utilisateur/admin | 29/09/2023
 ## Documentations
 La documentation utilisateur se trouve sur Gitbook : https://asso-declic.gitbook.io/guide-utilisateur-leco-clic/presentation-generale/leco-clic
 

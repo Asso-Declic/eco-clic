@@ -1,7 +1,7 @@
 $(function() {
     var dxChartData;
     $.ajax({
-        url: "/api/score/list",
+        url: "/api/scores/list",
         method: "GET",
         async: false,
         dataType: "json",

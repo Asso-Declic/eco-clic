@@ -42,7 +42,7 @@ class CollectiviteRattachementController extends AbstractController
         return $this->json($collectivite->getLinkDemand(), 200, [], ['groups' => 'link_demand']);
     }
 
-    #[Route('/', name: 'cancel_demand', methods: ['DELETE'])]
+    #[Route('', name: 'cancel_demand', methods: ['DELETE'])]
     public function cancelDemand(EntityManagerInterface $em): Response
     {
         $collectivite = $this->getUser()->getCollectivite();

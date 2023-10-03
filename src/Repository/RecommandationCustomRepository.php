@@ -33,6 +33,7 @@ class RecommandationCustomRepository extends ServiceEntityRepository
             ->andWhere('rc.collectivite = :collectivite')
             ->setParameter('category', $category)
             ->setParameter('collectivite', $collectivite)
+            ->groupBy('q.id')
             ->orderBy('q.sortOrder', 'ASC')
         ;
 
