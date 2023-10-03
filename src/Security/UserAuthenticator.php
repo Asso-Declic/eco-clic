@@ -46,7 +46,7 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
     {
         // Si on a affaire à un OPSN, on le redirige vers la page d'administration
         if (in_array('ROLE_USER_OPSN', $token->getUser()->getRoles())) {
-            return new RedirectResponse($this->urlGenerator->generate('admin_main_accueil'));
+            return new RedirectResponse($this->urlGenerator->generate('admin_collectivite_browse'));
         }
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
