@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Departement;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -36,7 +38,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/inscription', name: 'registration')]
-    public function registration(EntityManagerInterface $em, Request $request): Response
+    public function registration(EntityManagerInterface $em, Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $form = $this->createForm(RegistrationType::class, options: ['csrf_protection' => false]);
         $form->handleRequest($request);
@@ -45,12 +47,19 @@ class SecurityController extends AbstractController
             $collectivite = $form->getData()['collectivite'];
             $user = $form->getData()['user_profile'];
 
-            // Initialisation des valeurs initiales pour les deux objets
+            // Initialisation des valeurs pour les deux objets
             // Il semblerait qu'on n'a pas systématiquement le département, la latitude et la longitude.
+            $departement = $em->getRepository(Departement::class)->findOneBy(['code' => substr($collectivite->getPostalCode(),0,2)]);
+            $collectivite->setDepartement($departement);
+
             $user->setCollectivite($collectivite);
             $user->setAdminCollectivite(true);
             $user->setCguChecked(true);
+            $user->setActive(true);
 
+            $passwordForm = $form->get('user_profile')->get('newPassword')->getData();
+            $user->setPassword($userPasswordHasher->hashPassword($user, $passwordForm));
+            
             $em->persist($collectivite);
             $em->persist($user);
             $em->flush();

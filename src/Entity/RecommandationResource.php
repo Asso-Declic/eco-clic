@@ -13,7 +13,7 @@ class RecommandationResource
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator("doctrine.uuid_generator")]
     #[ORM\Column(type: Types::GUID)]
-    private ?int $id = null;
+    private ?string $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -25,7 +25,7 @@ class RecommandationResource
     #[ORM\JoinColumn(nullable: false)]
     private ?Recommandation $recommandation = null;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

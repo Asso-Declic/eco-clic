@@ -296,21 +296,18 @@
                         async: false,
                         dataType: 'json',
                         success: function (data) {
-                            //Recupere Ponderation maximal pour calculer le score sur 100
                             $.ajax({
-                                url: '/api/answer/ponderation-max',
+                                url: '/api/scores',
                                 type: 'GET',
                                 async: false,
                                 dataType: 'json',
                                 success: function (data2) {
-                                    $PonderationMax = data2['data'];
+                                    $score = data2['score'];
                                 }
                             });
 
                             $('#progress')[0].style.backgroundColor = "#fff";
                             document.getElementById("progress").classList.add("scoreRectangle");
-
-                            $score = Math.floor(data.score * 100 / $PonderationMax[0].nb);
 
                             if ($score >= 99) {
                                 document.getElementById("A").classList.add("scoreZoom");
