@@ -41,9 +41,9 @@ security:
         - { path: ^/api/users/(check-username|resend-email), roles: PUBLIC_ACCESS }
         - { path: ^/api/collectivites/(check-siret|infos), roles: PUBLIC_ACCESS }
         - { path: ^/api/insee/siret, roles: PUBLIC_ACCESS }
+        - { path: ^/api/users, roles: ROLE_USER }
         - { path: ^/api/opsns, roles: PUBLIC_ACCESS, methods: GET }
         - { path: ^/api/opsns, roles: ROLE_SUPER_ADMIN }
-        - { path: ^/api/users, roles: ROLE_OPSN }
         - { path: ^/api/collectivites, roles: ROLE_COLLECTIVITE }
         - { path: ^/api, roles: PUBLIC_ACCESS }
 

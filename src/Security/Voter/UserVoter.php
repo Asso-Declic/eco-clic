@@ -103,6 +103,10 @@ class UserVoter extends Voter
 
     private function canUpdate(User $subject, User $user): bool
     {
+        // Si l'utilisateur tente de se modifier on l'autorise
+        if ($user == $subject) {
+            return true;
+        }
         return $this->canModify($subject, $user);
     }
 

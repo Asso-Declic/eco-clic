@@ -22,9 +22,9 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'security_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
-    {
-    }
+    public function __construct(
+        private UrlGeneratorInterface $urlGenerator
+    ) {}
 
     public function authenticate(Request $request): Passport
     {
@@ -44,8 +44,12 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // Si on a affaire à un OPSN, on le redirige vers la page d'administration
-        if (in_array('ROLE_USER_OPSN', $token->getUser()->getRoles())) {
+        // Fournit le chemin que l'utilisateur tentait de joindre avant de se connecter
+        $targetPath = $this->getTargetPath($request->getSession(), $firewallName);
+        $mainPath = $this->urlGenerator->generate('main_accueil', [], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        // Si on a affaire à un OPSN, on le redirige vers la page d'administration s'il n'avait pas de $targetPath spécifique
+        if (in_array('ROLE_USER_OPSN', $token->getUser()->getRoles()) && $targetPath == $mainPath) {
             return new RedirectResponse($this->urlGenerator->generate('admin_collectivite_browse'));
         }
 

@@ -93,7 +93,7 @@ class ScoreManager
      */
     public function getCurrent(Collectivite $collectivite, bool $force = true)
     {
-        $score = $this->scoreRepository->findOneBy(['collectivite' => $collectivite], ['scoredAt' => 'DESC']);
+        $score = $this->scoreRepository->findOneBy(['collectivite' => $collectivite, 'category' => null], ['scoredAt' => 'DESC']);
         if (!$score && $force) {
             $score = $this->count($collectivite);
         }
