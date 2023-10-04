@@ -190,7 +190,7 @@ $(function () {
 
 $('#enregistrer').on("click", function () {
     $.ajax({
-        url: '/api/users',
+        url: '/api/users/current',
         type: 'PUT',
         async: true,
         contentType: 'application/json',

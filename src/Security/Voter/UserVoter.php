@@ -10,14 +10,20 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class UserVoter extends Voter
 {
     public const ADD = 'USER_ADD';
-    public const UPDATE = 'USER_UPDATE';
     public const DEACTIVATE = 'USER_DEACTIVATE';
-    public const UPDATE_LEVEL_TWO = 'USER_UPDATE_LEVEL_TWO';
     public const DELETE = 'USER_DELETE';
+    public const UPDATE = 'USER_UPDATE';
+    public const UPDATE_LEVEL_TWO = 'USER_UPDATE_LEVEL_TWO';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::ADD, self::DEACTIVATE, self::UPDATE, self::UPDATE_LEVEL_TWO, self::DELETE])
+        return in_array($attribute, [
+            self::ADD,
+            self::DEACTIVATE,
+            self::DELETE,
+            self::UPDATE,
+            self::UPDATE_LEVEL_TWO,
+        ])
             && $subject instanceof User;
     }
 

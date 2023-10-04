@@ -87,13 +87,18 @@ class UserController extends AbstractController
         $user->setCollectivite($collectivite);
 
         // On modifie les données reçus pour coller avec le formulaire, ceci est une bidouille à revoir
+        if ($user->getOpsn() == null) {
+            $opsnId = null;
+        } else {
+            $opsnId = $user->getOpsn()->getId();
+        }
         $userData = [
             'username' => $userData['username'],
             'email' => $userData['email'],
             'firstName' => $userData['firstName'],
             'lastName' => $userData['lastName'],
             'active' => $user->isActive(),
-            'opsn' => $user->getOpsn()->getId(),
+            'opsn' => $opsnId,
         ];
         
         $form->submit($userData);
