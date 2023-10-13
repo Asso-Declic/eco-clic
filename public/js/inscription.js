@@ -324,10 +324,10 @@ function sirene(siret) {
                         typeCol = "MAIRIE";
                         break;
                     case "7346":
-                        typeCol = "COMMUNAUTE DE COMMUNES";
+                        typeCol = "COMCOM";
                         break;
                     case "7348":
-                        typeCol = "COMMUNAUTE D'AGGLOMERATION";
+                        typeCol = "CA";
                         break;
                     default:
                         typeCol = "AUTRE";
