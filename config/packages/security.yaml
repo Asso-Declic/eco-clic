@@ -49,6 +49,7 @@ security:
 
         - { path: ^/admin/utilisateurs, roles: ROLE_COLLECTIVITE }
         - { path: ^/admin/collectivites, roles: ROLE_USER_OPSN }
+        - { path: ^/admin/opsn/rattachement, roles: ROLE_USER_OPSN }
         - { path: ^/admin/opsn, roles: ROLE_SUPER_ADMIN }
         - { path: ^/admin, roles: ROLE_USER_OPSN }
         - { path: ^/, roles: ROLE_USER }
