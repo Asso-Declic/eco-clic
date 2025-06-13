@@ -1,0 +1,14 @@
+{% extends 'security/base.html.twig' %}
+{% form_theme resetForm with ['form_div_layout.html.twig'] only %}
+
+{% block title %}Entrez votre mot de passe{% endblock %}
+
+{% block content %}
+    <p class="text-center fs mt-5 col-9">Réinitialiser votre mot de passe</p>
+    {{ form_start(resetForm) }}
+        <fieldset class="formRow mb-5 mt-5 connexion">
+            {{ form_row(resetForm.plainPassword) }}
+        </fieldset>
+        <button class="d-block btn btn-blueAdico rounded-pill white col-12 col-lg-5 fs">Valider</button>
+    {{ form_end(resetForm) }}
+{% endblock %}

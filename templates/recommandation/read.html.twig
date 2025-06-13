@@ -1,0 +1,181 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Détail Recommandation{% endblock %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="info" style="height: 130px; margin-top: 30px;display: flex;align-items: center;">
+            <button style="margin: 20px; border: none; background: none; outline: none;" onclick="history.back();">
+                <img src="/img/Flechetype.svg" style="filter: brightness(0) invert(1);">
+            </button>
+            <div>
+                <h5 id="CategorieReco">Recommandation - {{ recommandation.question.category.name }}</h5>
+                {# TODO : Vérifier comment ça se présente ici aussi #}
+                <h3 id="TitreReco">{{ recommandation.question.theme.label }}</h3>
+            </div> 
+        </div>
+    </div>
+    <div style="margin: 5px 15px 0px 15px; position: absolute; right: 0px;">
+        <button onclick="ValiderModif()" id="buttonValider" class="btn btn-blueAdico rounded-pill ml-2 mr-2" style="display: none;">Valider</button>
+    </div>
+    <div class="page-content" style="margin: 50px 15px 0px 15px;border-top: 1px solid #08433D;">
+        <div class="col-12" style="padding: 0px;">
+            <div class="cadreReco2">
+                <div class="num3" style="background-color: #E9FBF9; padding: 15px;"></div>
+                <div class="contenuReco coutenuLien" style="padding-left: 25px;">
+
+                    <div>
+                        <p id="question">{{ recommandation.question.question }}</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex;">
+            <div class="col-9" style="padding: 0px;">
+               <div class="cadreReco2">
+                    <div class="num3"></div>
+                    <div class="contenuReco" style="min-height: 15vh;display: flex;align-items: center; padding-left: 25px;">
+                        <div class="textReco2">
+                            <p id="textReco" style="margin-bottom: 0rem;">
+                            {% if recommandation.details is null %}
+                                {{ recommandation.body }}</p>
+                            {% elseif recommandation.details == "" %}
+                                {{ recommandation.body }}</p>
+                            {% else %}
+                                {{ recommandation.details }}</p>   
+                            {% endif %}     
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3" style="padding: 0px;margin-left: 10px;">
+                <div class="contenuReco" style="display: flex; height: 15vh; margin-right: 10px;">
+                    <div class="col-7" style="padding: 0px; margin: 0px 15px;">
+                        <div id="NiveauLabel" style="margin-bottom: 10px; background-color: {{ recommandation.level.color }}">
+                            <p id="NiveauReco" style="margin:0px;">{{ recommandation.level.label }}</p>
+                        </div>
+                        <div id="StatutLabel">
+                            <p id="StatutReco" style="margin:0px;">
+                                {% if app.user.collectivite.getStatus(recommandation) is null %}
+                                    {{ recommandation.status.label }}
+                                {% else %}
+                                    {{ app.user.collectivite.getStatus(recommandation).status.label }}
+                                {% endif %}
+                            </p>
+                            <select id="StatutRecoSelect" style="display: none;" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="BoutonModifier">
+                        <button style="border: none; background: none; outline: none;" onclick="Modify()">
+                            <img src="/img/Modifier.svg" style="height: 30px; width: 30px;">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12" style="padding: 0px;">
+            <div class="cadreReco2">
+                <div class="num3"></div>
+                <div class="contenuReco coutenuLien" style="padding-left: 25px;">
+
+                    <div style="display: flex; align-items: baseline;">
+                        <i class="fa-solid fa-link fa-lg" style="margin-right: 15px;"></i>
+                        <h3>Ressources utiles</h3>
+                    </div>
+
+                    <div class="textReco2" id="listeLien">
+                        <ul>
+                        {% for resource in recommandation.resources %}
+                            <li>
+                                <a href="{{ resource.link }}" class="lienRessource" target="_blank">{{ resource.title }}</a>
+                            </li>
+                        {% else %}
+                            <p>Aucune ressource disponible</p>
+                        {% endfor %}
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12" style="padding: 0px;">
+            <div class="cadreReco2">
+                <div class="num3"></div>
+                <div class="contenuReco coutenuLien" style="padding-left: 25px;">
+
+                    <div style="display: flex; align-items: baseline;">
+                        <i class="fa-solid fa-ruler fa-lg" style="margin-right: 15px;"></i>
+                        <h3>Indicateurs</h3>
+                    </div>
+
+                    <div class="textReco2" id="listeIndicateur">
+                        <ul>
+                        {% for indicator in recommandation.indicators %}
+                            <p>{{ indicator.text }}</p>
+                        {% else %}
+                            <p>Aucune ressource disponible</p>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+function remplirListeStatut(){
+    $.ajax({
+        url: '/api/recommendation-statuses',
+        type: 'GET',
+        async: true,
+        dataType: 'json',
+        success: function(data) {
+            let statuts = data;
+            for (let i = 0; i < statuts.length; i++) {
+                $("#StatutRecoSelect").append('<option value="'+ statuts[i].id +'">' + statuts[i].label + '</option>');
+            }
+        }
+    });
+}
+
+function changeStatut(recommandationId) {
+    $.ajax({
+        url: '/api/collectivite-statuses/' + recommandationId + '/' + $("#StatutRecoSelect").val(),
+        type: 'POST',
+        async: true,
+        dataType: "json",
+        success: function() {
+            location.reload();
+        }
+    });
+}
+
+function Modify() {
+    document.getElementById("StatutReco").style.display = "none";
+    document.getElementById("StatutRecoSelect").style.display = "block";
+    document.getElementById("buttonValider").style.display = "block";
+    for (let i = 0; i < document.getElementsByClassName("BoutonModifier").length; i++) {
+        document.getElementsByClassName("BoutonModifier")[i].style.display = "none";
+    }
+
+
+    remplirListeStatut();
+    document.getElementById("StatutRecoSelect").value = {{ recommandation.status.id }}
+}
+
+function ValiderModif(){
+    changeStatut('{{ recommandation.id }}')
+
+    document.getElementById("StatutReco").style.display = "block";
+    document.getElementById("StatutRecoSelect").style.display = "none";
+    document.getElementById("buttonValider").style.display = "none";
+    for (let i = 0; i < document.getElementsByClassName("BoutonModifier").length; i++) {
+        document.getElementsByClassName("BoutonModifier")[i].style.display = "block";
+    }
+}
+</script>
+{% endblock %}

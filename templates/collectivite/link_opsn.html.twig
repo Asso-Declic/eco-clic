@@ -1,0 +1,122 @@
+{% extends "base.html.twig" %}
+
+{% block metas %}
+<link rel="stylesheet" href="{{ asset('css/map.css') }}">
+{% endblock %}
+
+{% block content %}
+        <div class="col-md-12">
+                <div class="info" style="height: 130px; margin-top: 30px;">
+                        <div id="traitVertical" class="col-3">
+                                <h2>Rattachement à un OPSN</h2>
+                        </div>
+                </div>
+        </div>
+
+        <div class="page-content content">
+                <div id="attente" style="text-align: center; margin-top: 50px;" hidden>
+                        <p>Votre demande à bien été prise en compte vous recevrer un mail lors de la validation/refus de l'OPSN (penser à vérifier vos spams).</p>
+                        <button id="annulation" data-toggle="modal" data-target="#modalAnnuler" class="btn btn-blueAdico rounded-pill white" style="width: auto;">Annuler ma demande</button>
+                </div>
+
+                <div class="recherche">
+                        <input onClick="ModalNonRattachement()" type="checkbox" class="OPSN" id="OPSN">
+                        <label for="OPSN">Je ne souhaite pas déclarer d'OPSN de rattachement</label>
+                </div>
+
+                <div class="map" id="map">
+
+                        <div class="map__image">
+                                <!-- <div class="cursor"><i class="fa-solid fa-magnifying-glass-plus" style="color: #A9D3A1;"></i></div> -->
+                                {% include "collectivite/map.html.twig" %}
+                        </div>
+                        <div class="map__logo">
+                                <div class="map__list map__logo__list">
+                                        <main class="map__logo__list" id="main">
+                                                <!-- <div id="list-GES" class="flex"></div>
+                                                <div id="list-NAQ" class="flex"></div>
+                                                <div id="list-ARA" class="flex"></div>
+                                                <div id="list-BFC" class="flex"></div>
+                                                <div id="list-BRE" class="flex"></div>
+                                                <div id="list-CVL" class="flex"></div>
+                                                <div id="list-COR" class="flex"></div>
+                                                <div id="list-IDF" class="flex"></div>
+                                                <div id="list-OCC" class="flex"></div>
+                                                <div id="list-GUA" class="flex"></div>
+                                                <div id="list-MAR" class="flex"></div>
+                                                <div id="list-GUY" class="flex"></div>
+                                                <div id="list-LRE" class="flex"></div>
+                                                <div id="list-MAY" class="flex"></div>
+                                                <div id="list-HDF" class="flex"></div>
+                                                <div id="list-NOR" class="flex"></div>
+                                                <div id="list-PDL" class="flex"></div>
+                                                <div id="list-PAC" class="flex"></div> -->
+                                        </main>
+                                        <div class="pagination">
+                                                <i class="fa-solid fa-chevron-left pagination__chevron pagination__left"></i>
+                                                <div class="pagination__number"></div>
+                                                <i class="fa-solid fa-chevron-right pagination__chevron pagination__right"></i>
+                                        </div>
+
+                                        <div class="pagination2" hidden>
+                                                <i class="fa-solid fa-chevron-left pagination__chevron pagination__left2"></i>
+                                                <div class="pagination__number2"></div>
+                                                <i class="fa-solid fa-chevron-right pagination__chevron pagination__right2"></i>
+                                        </div>
+                                </div>
+
+                        </div>
+                </div>
+        </div>
+
+        <!-- Modal de declaration d'OPSN -->
+        <div class="modal fade" id="modalConfirmtion" tabindex="-1" role="dialog" aria-labelledby="modalConfirmtionLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" style='width:fit-content;' role="document">
+                        <div class="modal-content">
+                                <h5 class="modal-title" style="color: #4D4F5C;" id="modalConfirmtionLabel">Rattachement à l'OPSN - <span class="OPSNName"></span></h5>
+                                <div class="traitHorizontal" style="margin-top: 10px;"></div>
+                                <div class="modal-body text-center">Vous allez envoyer une demande de rattachement à l'OPSN <span class="OPSNName"></span>, veuillez confirmer cette action.</div>
+                                <div class="col-12 d-flex flex-row-reverse pl-0 pr-0">
+                                        <button class="d-block btn btn-blueAdico rounded-pill white ml-2 mr-2" onclick="rattachement()" id="valider">Confirmer</button>
+                                        <button class="d-block btn btn-blueAdico rounded-pill white ml-2 mr-2" onclick="closeModal()" id="annuler">Annuler</button>
+                                </div>
+                        </div>
+                </div>
+        </div>
+
+        <!-- Modal de non rattachement -->
+        <div class="modal fade" id="modalPasRattacher" tabindex="-1" role="dialog" aria-labelledby="modalPasRattacherLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" style='width:fit-content;' role="document">
+                        <div class="modal-content">
+                                <h5 class="modal-title" style="color: #4D4F5C;" id="modalPasRattacherLabel">Ne pas déclarer d'OPSN</h5>
+                                <div class="traitHorizontal" style="margin-top: 10px;"></div>
+                                <div class="modal-body text-center">Veuillez confirmer que vous ne souhaitez pas déclarer d'OPSN de rattachement.</div>
+                                <div class="col-12 d-flex flex-row-reverse pl-0 pr-0">
+                                        <button class="d-block btn btn-blueAdico rounded-pill white ml-2 mr-2 validerOPSN" onclick="ConfirmNonRattachement()" id="valider">Valider</button>
+                                        <button class="d-block btn btn-blueAdico rounded-pill white ml-2 mr-2" onclick="closeModal()" id="annuler">Annuler</button>
+                                </div>
+                        </div>
+                </div>
+        </div>
+
+        <!-- Modal d'annulation de declaration d'OPSN -->
+        <div class="modal fade" id="modalAnnuler" tabindex="-1" role="dialog" aria-labelledby="modalAnnulerLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" style='width:fit-content;' role="document">
+                        <div class="modal-content">
+                                <h5 class="modal-title" style="color: #4D4F5C;" id="modalAnnulerLabel">Annuler ma demande de rattachement</h5>
+                                <div class="traitHorizontal" style="margin-top: 10px;"></div>
+                                <div class="modal-body text-center">Vous allez annuler demande de rattachement, veuillez confirmer cette action.</div>
+                                <div class="col-12 d-flex flex-row-reverse pl-0 pr-0">
+                                        <button class="d-block btn btn-blueAdico rounded-pill white ml-2 mr-2" onclick="annulation();" id="valider">Valider</button>
+                                        <button class="d-block btn btn-blueAdico rounded-pill white ml-2 mr-2" onclick="closeModal()" id="annuler">Annuler</button>
+                                </div>
+                        </div>
+                </div>
+        </div>
+
+</html>
+
+<script src="{{ asset('/js/map.js') }}"></script>
+<script src="{{ asset('/js/polyfill.js') }}"></script>
+
+{% endblock %}

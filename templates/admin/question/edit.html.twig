@@ -1,0 +1,28 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Gestion des questions{% endblock %}
+
+{% block content %}
+<div class="col-md-12">
+    <div class="info" style="height: 130px; margin-top: 30px;">
+        <div class="row">
+            <div id="traitVertical" class="col-3">
+                <h2>{{ question.category.name }}</h2>
+            </div>
+            <div class="col-3">
+                {{ question.question }}
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 p-5">
+        {# Bah ouais c'est moche #}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">Modifier</button>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

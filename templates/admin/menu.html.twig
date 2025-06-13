@@ -1,0 +1,218 @@
+<nav id="sidebar">
+    <div id="fermer-telephone" class="bouton">
+        <p>x</p>
+        <div>Fermer</div>
+    </div>
+
+    <div class="sidebar-header">
+        <a href="{{ path('admin_collectivite_browse') }}">
+            <img id="logoEcoclic" src="{{ asset('img/logoEcoclic.png') }}" style="width: -webkit-fill-available; width: -moz-available;">
+            <img id="faviconEcoclic" src="{{ asset('img/favicon.png') }}" style="display:none; width: 50px; margin: 0 auto;">
+        </a>
+    </div>
+
+    <ul class="list-unstyled components">
+        <li>
+            <div id="scrollNav" style="overflow-x: hidden; overflow-y: auto;">
+                {# <a href="themes.php" <?php // if ($selectedNav == "themes") echo 'id="onglet_actuel"'; ?>>
+                    <img class="iconMenu" src="{{ asset('img/icons/iconesBlanc/themes.svg"') }} alt="">
+                    <span>Thèmes</span>
+                </a> #}
+                
+                <a href="{{ path('admin_collectivite_browse') }}"{% if app.request.get('_route') == 'admin_collectivite_browse' %} class="menuActive"{% endif %} tabindex="2">
+                    <img class="iconMenu" src="{{ asset('img/Icongraphcool.svg') }}" alt="">
+                    <span>Mes collectivités</span>
+                </a>
+
+                <a href="{{ path('admin_user_browse') }}"{% if app.request.get('_route') == 'admin_user_browse' %} class="menuActive"{% endif %}>
+                    <img class="iconMenu" src="{{ asset('img/Icon feather-users.svg') }}" alt="">
+                    <span>Gestion des utilisateurs</span>
+                </a>
+
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                {# Ces fonctionnalités n'étaient pas prévues. Toutefois, une base est posée pour les rendre accessible #}
+                {# TODO : Veiller à supprimer le code mort pour les fonctionnalités qui ne seront pas gardées #}
+                {# <a href="{{ path('admin_category_browse') }}"{% if app.request.get('_route') == 'admin_user_browse' %} class="menuActive"{% endif %}>
+                    <img class="iconMenu" src="{{ asset('img/bubble.svg') }}" alt="">
+                    <span>Catégories</span>
+                </a>
+
+                <a href="{{ path('admin_question_browse') }}"{% if app.request.get('_route') == 'admin_user_browse' %} class="menuActive"{% endif %}>
+                    <img class="iconMenu" src="{{ asset('img/bubble.svg') }}" alt="">
+                    <span>Questions</span>
+                </a>
+
+                <a href="utilisateurs.php"{% if app.request.get('_route') == 'admin_user_browse' %} class="menuActive"{% endif %}>
+                    <img class="iconMenu" src="{{ asset('img/recommandations.svg') }}" alt="">
+                    <span>Recommandations</span>
+                </a> #}
+
+                <a href="{{ path('admin_opsn_browse') }}"{% if app.request.get('_route') == 'admin_opsn_browse' %} class="menuActive"{% endif %}>
+                    <img class="iconMenu" src="{{ asset('img/opsn.svg') }}" alt="">
+                    <span>OPSN</span>
+                </a>
+
+                {% endif %}
+                <a href="{{ path('admin_opsn_collectivite_link') }}"{% if app.request.get('_route') == 'admin_opsn_collectivite_link' %} class="menuActive"{% endif %}>
+                    <img class="sidebarIcons" src="{{ asset('img/france.png') }}" alt="">
+                    <span>Rattachement OPSN</span>
+                </a>
+
+                {% if app.user.opsn.id == "404" or app.user.opsn.id == "403" %}
+                <a href="{{ path('admin_collectivite_all') }}"{% if app.request.get('_route') == 'admin_collectivite_all' %} class="menuActive"{% endif %} tabindex="2">
+                    <img class="iconMenu" src="{{ asset('img/puzzle.png') }}" alt="">
+                    <span>Toutes les collectivités</span>
+                </a>
+                {% endif %}
+
+                {% if app.user.opsn.id == "404" and is_granted('ROLE_SUPER_ADMIN') %}
+                <a href="{{ path('admin_patchNote_browse') }}"{% if app.request.get('_route') == 'admin_patchNote_browse' %} class="menuActive"{% endif %} tabindex="2">
+                    <img class="iconMenu" src="{{ asset('img/parametres.png') }}" alt="">
+                    <span>Patch note</span>
+                </a>
+
+                <a href="{{ path('admin_log_browse') }}"{% if app.request.get('_route') == 'admin_log_browse' %} class="menuActive"{% endif %} tabindex="2">
+                    <img class="iconMenu" src="{{ asset('img/File.png') }}" alt="">
+                    <span>Logs</span>
+                </a>
+                {% endif %}
+
+                {% if app.user.id == "01936263-5c4e-714a-989d-8d77e8afe1d0" or app.user.id == "7f2f4399-098f-11ed-a659-0cc47a0ad120" %}
+                <a onclick='extract();' style="cursor: pointer;" tabindex="2">
+                    <span>CC Thelloise</span>
+                </a>
+                {% endif %}
+
+                {# <a href="OPSN.php?Id=<?php // SessionHelper::GetCurrentUserAdministrateur()->OPSNId ?>" <?php // if ($selectedNav == "OPSN") echo 'id="onglet_actuel"'; ?>>
+                    <img class="iconMenu" src="{{ asset('img/opsn.svg') }}" alt="">
+                    <span>OPSN</span>
+                </a> #}
+
+                {# <a href="#" tabindex="1" id="retrecir" class="bouton" style="padding: 5px;">
+                    <h3 id="retrecirBoutonG">
+                        <img src="{{ asset('img/Icon awesome-chevron-circle-left.svg') }}" alt="Tableau de bord" style="margin-left: 30px;">
+                        Réduire le menu
+                    </h3>
+                    <i style='cursor: pointer; font-size: 19px;' id="retrecirBoutonP" class="fa-solid fa-bars"></i>
+                </a> #}
+
+        </li>
+    </ul>
+</nav>
+
+{# <!-- Page Content -->
+<div id="content" class="container-fluid">
+
+    <nav class="justify-content-between justify-content-lg-end navbar" style="z-index:3; background-color: #fff;">
+
+        <div class="menuPhone ">
+            <i style='cursor: pointer; font-size: 19px;' id="menuBurger" class="fa-solid fa-bars bouton"></i>
+            <p>Menu</p>
+        </div>
+
+        <!-- <div class="navbar-left col">
+            <img src="{{ asset('img/icons/recherche.svg') }}" id="iconRecherche" alt="Recherche">
+            <div class="infoBarre" id="searchBar"></div>
+        </div> -->
+
+
+        <div class="navbar-right">
+
+            {# <div class="dropdown">
+
+                <img src="{{ asset('img/icons/cloche.svg') }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="icon infoBarre badge1" id="notification" onclick="MarquerCommeVu();" alt="Notification">
+                <span class="badge2"></span>
+                <div class="dropdown-menu dropdown-menu-right" id="dropdown-notification">
+                    <div class="row h60px borderNotif" id="titreTabNotification">
+                        <h5 class="mx-auto align-self-center greyArea">Notifications</h5>
+                    </div>
+
+                    <div class="row" id="liste_notification">
+
+                    </div>
+
+                    <div class="row h60px borderNotif">
+                        <a href="#" class="align-self-center d-block mx-auto" onclick="MarquerCommeLu();"><span class="vertEcoclic size15px">Tout voir</span></a>
+                    </div>
+                </div>
+            </div> - #
+
+            <div class="traitVertical infoBarre"></div>
+
+            <div class="dropdown show">
+                <a class="header-menu" href="#" role="button" id="userMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="{{ asset('img/perso.svg') }}" id="iconBonhomme" class="icon infoBarre" aria-label="menu utilisateur">
+                    <?php echo SessionHelper::GetCurrentUser()->Prenom . ' ' . SessionHelper::GetCurrentUser()->Nom ?>
+                </a>
+
+                <div class="header-dropdown-menu dropdown-menu dropdown-menu-right" style="min-width: 270px !important;">
+                    <a class="dropdown-item param-util text-center" href="./profil.php">
+                        <span style="cursor:pointer;">Gestion du profil</span>
+                    </a>
+                    <a class="dropdown-item param-util text-center" href="accueil.php">
+                        <span>Questionnaire</span>
+                    </a>
+                    {# <a class="dropdown-item param-util text-center" href="#">
+                        <span>Accessibilité</span>
+                    </a> #}
+                    {# <a class="dropdown-item param-util text-center" id="modifMDP">
+                        <span style="cursor:pointer;">Modifier mon mot de passe</span>
+                    </a> #
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item param-util text-center" href="deco.php">
+                        <span>Se déconnecter</span>
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    </nav>
+    <div>
+        <!-- Décallage de la scrollbar -->
+        <div class="page-content px-0 mx-1 scroller">
+
+#}
+<script>
+    function Timeout() {
+        setTimeout(sidebarScroll, 300);
+    }
+
+    $(window).on('resize', sidebarScroll);
+    
+    function sidebarScroll() {
+        if (document.getElementById("sidebar").className == 'active' == true) {
+            var newHeight = $(window).height() - 175 + 90;
+            $('#scrollNav').height(newHeight);
+        } else {
+            var newHeight = $(window).height() - 175;
+            $('#scrollNav').height(newHeight);
+        }
+    }
+
+    $("#retrecir").on('click', Timeout);
+    $("#categorie").on('click', Timeout);
+    sidebarScroll();
+
+    $('.bouton').on('click', function () {
+        $('#sidebar').toggleClass('active');
+        $('#footer0').toggleClass('hidden');
+        $('#footer1').toggleClass('hidden');
+        $('#footer2').toggleClass('hidden');
+        $('#sousMenu').toggleClass('hidden');
+    });
+    $OPSNId = "{{ app.user.opsn.id }}";
+    $OPSNName = "{{ app.user.opsn.name }}";
+
+    function extract() {
+        $.ajax({
+            url: '/api/collectivites/downloadCCT/0',
+            type: 'get',
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                window.location = '/api/collectivites/downloadCCT/1';
+            }
+        });
+    }
+</script>

@@ -1,0 +1,1211 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Catégories{% endblock %}
+
+{% block content %}
+    <div id="header">
+        <div class="info line col-xl-12" style="height: 164px;">
+            <div id="titreCat" class="col-3">
+                <h2 id="col44"></h2>
+                <p id="nbQuestions" style="font-size: 13px;"></p>
+            </div>
+            <div class="traitVertical" style="height: auto;"></div>
+            <div class="col-6" style="margin-right: 15px; height: 120px; overflow: hidden;">
+                <p style="height: inherit;" id="description"></p>
+            </div>
+            <div class="traitVertical" style="height: auto;"></div>
+            <div id="progress" style="top: 25px;display: flex;align-items: flex-end;">
+                <div style="display: inline-grid; justify-items: center;">
+                    <button id="modif" onclick="modif();" hidden>
+                        <i class="fa-solid fa-pen" style="color: #FFF;"></i>
+                    </button>
+                    <p id="textModif" hidden>Modifier</p>
+                </div>
+
+                <div hidden id="divSave" style="display: inline-grid; justify-items: center; margin-top: 25px;">
+                    <img src="{{ asset('img/check-circle.svg') }}" alt="save" style="width: 50px;">
+                    <p id="textSave" style="font-size: 12px;">Enregistrement...</p>
+                </div>
+                
+                <svg id="pasComplet" class="progress-ring" width="110" height="110">
+                    <circle id="cercle0" class="progress-ring__circle" stroke="white" stroke-width="4" fill="transparent" r="42" cx="60" cy="55" style="stroke-dasharray: 263.500, 326.726; stroke-dashoffset: 326.726;"></circle>
+                    <text class="progressContent" id="completed2" x="50%" y="43%" text-anchor="middle" fill="#fff">
+                    <tspan>Complété à</tspan>
+                    <tspan x="50%" dy="21" id="pourcentage" style="font-size: 18px;"></tspan>
+                    </text>
+                </svg>
+                {# <p class="progressContent" id="completed2" style="top: 30px; left: 20px;">
+                    Complété à </br><span id="pourcentage" style="font-size: 18px;"></span>
+                </p> #}
+
+                {# <div id="complet" class="ScoreComplet">
+                    <p style="color: #08453F; font-size: 14px; margin: 2px;">Score</p>
+                    <div style="display: flex; align-items: flex-end;">
+                        <p id="Score100" style="color: #000000; font-size: 26px; margin: 2px;"></p>
+                        <p style="color: #000000; font-size: 16px; margin: 2px;">/100</p>
+                    </div>
+                </div> #}
+            </div>
+
+        </div>
+
+        <div id="questionReco">
+            <button id="btnQuestion" onclick="questionReco('questionnaire')" style="border-bottom: 4px solid #016066;outline: none;" class="btnType col-6">Questionnaire</button>
+            <button id="btnReco" onclick="questionReco('reco'), affichReco()" style="outline: none;" class="btnType col-6">Recommandations</button>
+        </div>
+    </div>
+
+    <div class="page-content" id="questionnaire">
+    </div>
+
+    <div class="page-content" id="reco" hidden>
+        <div id="msgReco1" class="msgReco">
+            <p>Nous n'avons pas de recommandation à vous proposer !</p>
+        </div>
+        <div id="msgReco2" class="msgReco">
+            <p>Veuillez terminer et valider le questionnaire pour avoir accès aux recommandations de cette catégorie</p>
+        </div>
+    </div>
+
+    <div id="descriptionModal" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-5">
+                <div class="modal-title"></div>
+                <div id="modal-body" class="modal-body p-0 mt-2">
+                </div>
+                <div class="d-flex flex-row-reverse mt-5">
+                    <button type="button" onclick="$('#descriptionModal').toggle()" class="btn btnModal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="definitionModal" class="modal" tabindex="-1" role="dialog" data-target="#definitionModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content p-5">
+                <div class="modal-title-def modal-title">
+                    <h2 style="color: #08433D;">Définition : </h2>
+                </div>
+                <div id="modal-bodyDef" class="modal-body p-0 mt-2">
+                </div>
+                <div class="d-flex flex-row-reverse mt-5">
+                    <button type="button" onclick="$('#definitionModal').toggle()" class="btn btnModal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rattachementModal" class="modal" tabindex="-1" role="dialog" data-target="#definitionModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content p-5">
+                <div class="modal-title-def modal-title">
+                    <h2 style="color: #08433D;">Rattachement OPSN : </h2>
+                </div>
+                <div id="modal-bodyDef" class="modal-body p-0 mt-2">
+                    Félicitation vous venez de terminer la 1ère catégorie, penser à vous rattacher à un OPSN afin de vous faire accompagner.
+                </div>
+                <div class="d-flex flex-row-reverse mt-5">
+                    <button type="button" onclick="$('#rattachementModal').toggle()" class="btn btnModal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="boutonValider" onclick="questionReco('reco'), affichReco(), ChangeEtatBtnVal()" class="btn btn-blueAdico mr-5 rounded-pill" style="float: right; margin-top: 10px; width: 150px; display: none;">Valider</button>
+    
+    <!-- Modal ouverture -->
+    <div class="modal fade" id="modalOuvrir" tabindex="-1" role="dialog" aria-labelledby="modalOuvrirLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style='width:fit-content;' role="document">
+                <div class="modal-content">
+                    <h5 class="modal-title" style="color: #4D4F5C;"id="modalOuvrirLabel">MODIFICATION DU STATUT D'UNE RECOMMANDATION</h5>
+                    <div class="traitHorizontal" style="margin-top: 10px;"></div>
+                    <div style="margin: 20px 150px;" id="divStatut">
+                        <label for="statut" style="color: #08453F;" class="typo-label">Statut*</label>
+                        <select class="form-control" Id="statut" name="statut" title="Sélectionnez un statut"></select>
+                    </div>
+                    <span id="annotation" style="color: #4D4F5C; font-size: 14px; margin: 0px 0px 0px auto;">*Champs obligatoires</span>
+                    <div class="modal-body text-center">
+                        <div class="col-12 d-flex flex-row-reverse pl-0 pr-0">
+                            <button class="d-block btn btn-blueAdico rounded-pill white ml-2 mr-2" id="valider">Valider</button>
+                            <button class="d-block btn btn-blueAdico rounded-pill white ml-2 mr-2" onclick="closeModale()" id="annuler">Annuler</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+<style>
+    body {
+        overflow: hidden;
+    }
+
+    .dx-texteditor-container {
+        height: auto;
+    }
+
+    .btn-blueAdico {
+        background: #00857A;
+        height: 60px !important;
+        color: #fff;
+    }
+
+    svg {
+        vertical-align: bottom !important;
+    }
+</style>
+
+<script>
+    function questionReco($type) {
+        if ($type == "questionnaire") {
+            document.getElementById("reco").hidden = true;
+            document.getElementById("btnReco").style.borderBottom = "1px solid #016066";
+            document.getElementById("btnQuestion").style.borderBottom = "4px solid #016066";
+            document.getElementById("boutonValider").hidden = false;
+        } else {
+            document.getElementById("questionnaire").hidden = true;
+            document.getElementById("btnQuestion").style.borderBottom = "1px solid #016066";
+            document.getElementById("btnReco").style.borderBottom = "4px solid #016066";
+            document.getElementById("boutonValider").hidden = true;
+        }
+        document.getElementById($type).hidden = false;
+    }
+
+    function remplirListeStatut(){
+        $.ajax({
+            url: '/api/recommendation-statuses',
+            type: 'get',
+            async: false,
+            dataType: 'json',
+            success: function(statuses) {
+                for (let i = 0; i < statuses.length; i++) {
+                    $("#statut").append('<option value="' + statuses[i].id + '">' + statuses[i].label + '</option>');   
+                }
+            }
+        });
+    }
+
+    function openModale(recommandationId, statutId) {
+        $('#modalOuvrir').modal('show');
+        remplirListeStatut();
+        $("#statut").val(statutId);
+        document.getElementById('valider').setAttribute('onclick', "changeStatut('" + recommandationId + "')");
+    }
+
+    function closeModale() {
+        $('#modalOuvrir').modal('hide');
+    }
+
+    $('#modalOuvrir').on('hidden.bs.modal', function() {
+        //vide le select de statuts
+        $("#statut").empty();
+    })
+
+    function changeStatut(recommandationId) {
+        $.ajax({
+            url: '/api/collectivite-statuses/' + recommandationId + '/' + $("#statut").val(),
+            type: 'POST',
+            async: true,
+            dataType: "json",
+            success: function(data) {
+                closeModale();
+                location.reload();
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        $userProgression = [];
+
+        $.ajax({
+            url: '/api/progression',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $userProgression = data;
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.error('Une erreur est survenue');
+            }
+        });
+        
+        $userProgression2 = undefined;
+        $count = 0;
+        $.ajax({
+            url: '/api/category/infos',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (categoryList) {
+                $Nbquestion = 0;
+                $Nbrep = 0;
+                for (let a = 0; a < categoryList.length; a++) {
+                    if ($userProgression[a] != undefined) {
+                        if (categoryList[a].level_two == 0 || $userProgression[a].level_two == 0) {
+                            $Nbquestion += categoryList[a].nb_question;
+                            if ($userProgression[a] != undefined) {
+                                $Nbrep += $userProgression[a].nb_repondu;
+                            }
+                            else {
+                                $Nbrep += 0;
+                            }
+                        }
+                    }
+                }
+
+                if ($Nbrep > $Nbquestion) {
+                    $Nbrep = $Nbquestion;
+                }
+
+                if ($Nbrep == $Nbquestion) {
+                    // $("#pasComplet").attr("hidden", true);
+                    // $(".progressContent").attr("hidden", true);
+                    // $("#complet").removeAttr("hidden");
+                } else {
+                    // $("#pasComplet").removeAttr("hidden");
+                    // $(".progressContent").removeAttr("hidden");
+                    // $("#complet").attr("hidden", true);
+                }
+
+                $.ajax({
+                    url: '/api/scores/{{ category.id }}',
+                    type: 'GET',
+                    async: false,
+                    dataType: 'json',
+                    success: function(scoreObject) {
+                        if (scoreObject.score == null) {
+                            // $('#complet')[0].hidden = true;
+                            // $('#completed2')[0].hidden = false;
+                        } else {
+                            let scoreUser100 = Math.floor(scoreObject.score/scoreObject.nb*100);
+                            if (scoreObject.nb == 0) {
+                                scoreUser100 = 0;
+                            }
+                            // TODO : Il faudrait revoir le calcul du score pour éviter ce genre de pansement
+                            if (scoreUser100 > 100) {
+                                scoreUser100 = 100;
+                            }
+                            $('#Score100').text(scoreUser100);
+                        }
+                    }
+                });
+            }
+        });
+
+        $.ajax({
+            url: '/api/category/{{ category.id }}',
+            type: 'GET',
+            async: true,
+            dataType: 'json',
+            success: function(data) {
+                document.getElementById("col44").textContent = data.name;
+                {% if is_granted('ROLE_LEVELTWO') %}
+                    document.getElementById("description").textContent = data.descriptionLevel2;
+                {% else %}
+                    document.getElementById("description").textContent = data.description;
+                {% endif %}
+
+                if (data.description == "") {
+                    $('#description').height("100px");
+                }
+                resize2();
+                if ($('#description').prop('scrollHeight') > $('#description').innerHeight()) {
+                    $("#description").after('<p class="align-items-center d-flex seeMore justify-content-end" onclick="openModal()">Voir plus</p>')
+                    $("#description").addClass('seeMoreP')
+                }
+            },
+            error: function(jqXhr, textStatus, errorThrown) {
+                console.error('Une erreur est survenue');
+            }
+        });
+
+        $questionnaire = [];
+        $count2 = 0;
+        $count3 = 1;
+
+        $.ajax({
+            url: '/api/questions/by-category/{{ category.id }}',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                $questionnaire = data.data;
+                for (let $i = 0; $i < data.data.length; $i++) {
+                    $.ajax({
+                        url: '/api/answer/by-question/' + data.data[$i].q_id,
+                        type: 'GET',
+                        async: false,
+                        dataType: 'json',
+                        success: function(data1) {
+                            $questionnaire[$i].reponse = data1.data;
+                        },
+                        error: function(jqXhr, textStatus, errorThrown) {
+                            console.error('Une erreur est survenue');
+                        }
+                    });
+                }
+
+                $theme = [];
+                for (let e = 0; e < $questionnaire.length; e++) {
+                    if (!$theme.includes($questionnaire[e].theme)) {
+                        $theme.push($questionnaire[e].theme);
+                    }
+                }
+
+                $count = 1;
+                for (let a = 0; a < $theme.length; a++) {
+                    let div1 = document.createElement('div');
+                    document.getElementById('questionnaire').append(div1);
+
+                    let p = document.createElement('p');
+                    p.setAttribute("class", "pQuestion");
+                    p.textContent = $theme[a];
+                    div1.append(p);
+
+                    for (let o = 0; o < $questionnaire.length; o++) {
+                        if ($questionnaire[o].theme == $theme[a]) {
+                            let div2 = document.createElement('div');
+                            div2.setAttribute("class", "cadreQuestion " + $questionnaire[o].parent_id);
+                            div2.setAttribute("id", $questionnaire[o].q_id);
+                            document.getElementById('questionnaire').append(div2);
+
+                            let div3 = document.createElement('div');
+                            div3.setAttribute("class", "num");
+                            div2.append(div3);
+                            if ($questionnaire[o].parent_id != null) {
+                                if (document.getElementsByClassName("num2")[o-1].textContent == $count-1) {
+                                    $count3 = 1;
+                                }
+                                // document.getElementsByClassName("num2")[o-1].textContent;
+                                let h5 = document.createElement('h5');
+                                h5.setAttribute("class", "num2");
+                                if (document.getElementsByClassName("num2")[o-1].textContent == $count-1) {
+                                    h5.textContent = $count-1+"."+$count3;
+                                } else {
+                                    h5.textContent = $count-1+"."+$count3;
+                                }
+                                $count3 += 1;
+                                div3.append(h5);
+                            } else {
+                                let h5 = document.createElement('h5');
+                                h5.setAttribute("class", "num2");
+                                h5.textContent = $count;
+                                div3.append(h5);
+                            }
+
+                            $questionnaire[o].num = div3.innerText;
+
+                            if ($count == 1) {
+                                document.getElementById('nbQuestions').innerHTML = $count + " question";
+                            } else {
+                                document.getElementById('nbQuestions').innerHTML = $count + " questions";
+                            }
+
+                            let div11 = document.createElement('div');
+                            div11.setAttribute("style", "margin-top: 40px;width: 25px;");
+                            div3.append(div11);
+                            if ($questionnaire[o].q_definition != null && $questionnaire[o].q_definition != "") {
+                                $def = JSON.stringify($questionnaire[o].q_definition);
+                                if ($questionnaire[o].q_definitionTitle != null && $questionnaire[o].q_definitionTitle != "") {
+                                    $title = $questionnaire[o].q_definitionTitle;
+                                    $(".modal-title-def").html($title)
+                                }
+                                let btn = document.createElement('button');
+                                btn.setAttribute("class", "btnInfo");
+                                // btn.setAttribute("data-target", "#definitionModal");
+                                btn.setAttribute("onclick", "openModalDef(" + $def + ")");
+                                // btn.setAttribute("onmouseenter", "viewInfo(infoQuestion" + o + ")");
+                                // btn.setAttribute("onmouseleave", "exitInfo(infoQuestion" + o + ")");
+                                div11.append(btn);
+
+                                let i = document.createElement('i');
+                                i.textContent = "i";
+                                i.setAttribute("style", "font-style: normal !important; font-weight: bold;");
+                                btn.append(i);
+
+                                // let div13 = document.createElement('div');
+                                // div13.setAttribute("id", "infoQuestion" + o);
+                                // div13.setAttribute("class", "divInfo")
+                                // div13.setAttribute("hidden", true);
+                                // div2.append(div13);
+
+                                // let p2 = document.createElement('p');
+                                // p2.textContent = $questionnaire[o].Definition;
+                                // div13.append(p2);
+                            }
+                            
+                            if ($questionnaire[o].q_levelTwo == 1) {
+                                let divlvl2 = document.createElement('div');
+                                divlvl2.setAttribute("style", "margin-top: 40px;width: 25px;");
+                                div3.append(divlvl2);
+
+                                let icon = document.createElement('img');
+                                icon.setAttribute("src", "/img/crownVert.png");
+                                icon.setAttribute("style", "margin-right: 10px");
+                                divlvl2.append(icon);
+                            }
+
+                            let div4 = document.createElement('div');
+                            if ($questionnaire[o].q_levelTwo == 1) {
+                                div4.setAttribute("class", "contenuReco niveau2");
+                            } else {
+                                div4.setAttribute("class", "contenuReco");
+                            }
+                            div2.append(div4);
+
+                            // if ($questionnaire[o].q_levelTwo == 1) {
+                            //     let icon2 = document.createElement('img');
+                            //     icon2.setAttribute("src", "/img/crownBlanc.png");
+                            //     icon2.setAttribute("style", "position: absolute; bottom: 10;right: 10;width: 115px;");
+                            //     div4.append(icon2);
+                            // }
+                            
+                            let sup = document.createElement('button');
+                            sup.setAttribute("id", "sup"+$questionnaire[o].q_id);
+                            sup.setAttribute("name", "sup"+$questionnaire[o].q_id);
+                            sup.setAttribute("class", "btn btn-primary");
+                            sup.setAttribute("style", "float: right; background-color: #08433d;");
+                            sup.setAttribute("title", "Supprimer ma selection");
+                            sup.textContent = "X";
+                            sup.setAttribute("onclick", "supRep('" + $questionnaire[o].q_id + "')");
+                            div4.append(sup);
+
+                            let div5 = document.createElement('div');
+                            div5.setAttribute("class", "titreReco");
+                            div4.append(div5);
+
+                            let div6 = document.createElement('div');
+                            div6.setAttribute("class", "textReco");
+                            div4.append(div6);
+
+                            let p1 = document.createElement('p');
+                            p1.textContent = $questionnaire[o].q_question;
+                            div6.append(p1);
+
+                            if ($questionnaire[o].q_additionalInformation != "" && $questionnaire[o].q_additionalInformation != null) {
+                                let p11 = document.createElement('p');
+                                p11.setAttribute("class", "infoComplementaire");
+                                p11.textContent = $questionnaire[o].q_additionalInformation;
+                                div6.append(p11);
+                            }
+
+                            let div7 = document.createElement('div');
+                            div7.setAttribute("class", "reponse");
+                            div4.append(div7);
+
+                            let div9 = document.createElement('div');
+                            div9.setAttribute("class", "");
+                            div7.append(div9);
+
+                            let div8 = document.createElement('div');
+                            div7.append(div8);
+
+                            for (let y = 0; y < $questionnaire[o].reponse.length; y++) {
+                                if ($questionnaire[o].reponse[y].type == "input") {
+                                    let div10 = document.createElement('div');
+                                    div10.setAttribute("id", $questionnaire[o].reponse[y].id + "div");
+                                    div9.append(div10);
+
+                                    let label = document.createElement('label')
+                                    label.textContent = $questionnaire[o].reponse[y].body;
+                                    div10.append(label);
+
+                                    let rep = document.createElement('textarea')
+                                    rep.setAttribute("class", "inputRep");
+                                    rep.setAttribute("style", "resize: auto;");
+                                    rep.setAttribute("id", $questionnaire[o].reponse[y].id);
+                                    rep.setAttribute("name", $questionnaire[o].reponse[y].question.id);
+                                    rep.setAttribute("placeholder", "Remplissez ici");
+                                    rep.setAttribute("onchange", "saveRep('" + $questionnaire[o].reponse[y].question.id + "')");
+                                    // rep.textContent = $questionnaire[o].reponse[y].body;
+                                    div10.append(rep);
+                                } else {
+                                    // if ($questionnaire[o].q_multiple == false) {
+                                    // } else {
+                                    // }
+                                    let article = document.createElement('article');
+                                    article.setAttribute("class", "feature");
+                                    div8.append(article);
+
+                                    let input1 = document.createElement('input');
+                                    input1.setAttribute("type", "radio");
+                                    input1.setAttribute("id", $questionnaire[o].reponse[y].id);
+                                    input1.setAttribute("name", $questionnaire[o].reponse[y].question.id);
+                                    input1.setAttribute("class", "inputRep2");
+                                    input1.setAttribute("onclick", "saveRep('" + $questionnaire[o].reponse[y].question.id + "')");
+                                    article.append(input1);
+
+                                    let div12 = document.createElement('div');
+                                    div12.setAttribute("class", "btnText");
+                                    div12.setAttribute("id", $questionnaire[o].reponse[y].id + "text");
+                                    div12.textContent = $questionnaire[o].reponse[y].body;
+                                    article.append(div12);
+                                }
+                            }
+
+                            if ($questionnaire[o].parent_id != null) {
+                                div2.hidden = true;
+                            } else {
+                                $count += 1;
+                            }
+                        }
+                    }
+                }
+
+                $userRep = [];
+                $questions = [];
+                for (let $e = 0; $e < data.data.length; $e++) {
+                    $.ajax({
+                        url: '/api/collectivite-answers/by-question/' + data.data[$e].q_id,
+                        type: 'GET',
+                        async: false,
+                        dataType: 'json',
+                        success: function($userRep) {
+                            if ($userRep.length > 0) {
+                                $count2 += 1;
+                            }
+                            $questions = document.getElementsByName(data.data[$e].q_id);
+                            for (let $u = 0; $u < $userRep.length; $u++) {
+                                for (let $y = 0; $y < $questions.length; $y++) {
+                                    if ($userRep[$u].answer.id == $questions[$y].id) {
+                                        if ($questions[$y].className == 'inputRep2') {
+                                            $questions[$y].checked = true;
+                                        } else if ($questions[$y].className == 'inputRep') {
+                                            $questions[$y].value = $userRep[$u].body;
+                                        }
+
+                                        $.ajax({
+                                            url: '/api/questions/by-parent-answer/' + $userRep[$u].answer.id,
+                                            type: 'get',
+                                            async: false,
+                                            dataType: 'json',
+                                            success: function(data) {
+                                                if (data.data.length != 0) {
+                                                    let answerId = $userRep[$u].answer.id;
+                                                    for (let r = 0; r < data.data.length; r++) {
+                                                        if (document.getElementById(data.data[r].id) != null) {
+                                                            if (data.data[r].parentAnswer.id == answerId) {
+                                                            document.getElementById(data.data[r].id).hidden = false;
+                                                            } else {
+                                                                document.getElementById(data.data[r].id).hidden = true;
+                                                            }
+                                                        }
+                                                        
+                                                    }
+
+                                                    $count4 = 0;
+                                                    for (let j = 0; j < document.getElementsByClassName("cadreQuestion").length; j++) {
+                                                        if (document.getElementsByClassName("cadreQuestion")[j].hidden == false && document.getElementsByClassName("cadreQuestion")[j].children[1].classList.value == "contenuReco") {
+                                                            $count4 += 1;
+                                                        }
+
+                                                    }
+
+                                                    $count5 = 0;
+                                                    for (let v = 0; v < document.getElementsByClassName("cadreQuestion").length; v++) {
+                                                        if (document.getElementsByClassName("cadreQuestion")[v].hidden == false) {
+                                                            $count5 += 1;
+                                                        }
+
+                                                    }
+
+                                                    if ($count5 == 1) {
+                                                        document.getElementById('nbQuestions').innerHTML = $count5 + " question";
+                                                    } else {
+                                                        document.getElementById('nbQuestions').innerHTML = $count5 + " questions";
+                                                    }
+                                                }
+                                            },
+                                            error: function(jqXhr, textStatus, errorThrown) {
+                                                console.error('Une erreur est survenue');
+                                            }
+                                        });
+                                    }
+                                }
+
+                                for (let $y = 0; $y < $questions.length; $y++) {
+                                    if ($userRep[$u].answer.id == $questions[$y].id) {
+
+                                        if ($questions[$y].className == 'inputRep2') {
+                                            $questions[$y].checked = true;
+                                        } else if ($questions[$y].className == 'inputRep') {
+                                            $questions[$y].value = $userRep[$u].body;
+                                        }
+
+                                    }
+
+                                }
+                            }
+                        },
+                        error: function(jqXhr, textStatus, errorThrown) {
+                            console.error('Une erreur est survenue');
+                        }
+                    });
+                }
+
+                if (typeof $count5 !== "undefined") {
+                    $temp3 = $count5;
+                } else {
+                    $temp3 = $questionnaire.length;
+                }
+
+                if ($temp3 == $count2) {
+                    document.getElementById("modif").hidden = false;
+                    document.getElementById("textModif").hidden = false;
+
+                    for (let u = 0; u < document.getElementsByClassName("feature").length; u++) {
+                        document.getElementsByClassName("feature")[u].setAttribute("style", "margin: unset;");
+                    }
+
+                    $input = [];
+                    $input = document.getElementsByClassName("inputRep2");
+
+                    for (let $a = 0; $a < $input.length; $a++) {
+                        if ($input[$a].checked == false) {
+                            document.getElementById($input[$a].id + "text").hidden = true;
+                        } else if ($input[$a].checked == true) {
+                            $input[$a].disabled = true;
+                        }
+                    }
+
+                    $input2 = [];
+                    $input2 = document.getElementsByClassName("inputRep");
+
+                    for (let $x = 0; $x < $input2.length; $x++) {
+                        if ($input2[$x].value == "") {
+                            document.getElementById($input2[$x].id + "div").hidden = true;
+                        } else if ($input2[$x].value != "") {
+                            $input2[$x].disabled = true;
+                        }
+                    }
+                }
+
+            },
+            error: function(jqXhr, textStatus, errorThrown) {
+                console.error('Une erreur est survenue');
+            }
+        });
+        userProgression();
+    });
+
+    function affichReco() {
+
+        {% if app.user.collectivite.opsn is null %}
+            if ($userProgression[0].category_name == "Gouvernance") {
+                $("#rattachementModal").toggle();
+            }
+        {% endif %}
+
+        $nbSup = document.getElementsByClassName('cadreReco2').length;
+        for (let k = 0; k < $nbSup; k++) {
+            document.getElementsByClassName('cadreReco2')[0].remove();
+        }
+
+        if ($userProgression[0] == undefined) {
+            $temp = 0;
+        } else {
+            $temp = $userProgression[0].nb_repondu;
+        }
+
+        $count7 = 0;
+        for (let v = 0; v < document.getElementsByClassName("cadreQuestion").length; v++) {
+            if (document.getElementsByClassName("cadreQuestion")[v].hidden == false) {
+                $count7 += 1;
+            }
+            
+        }
+
+        if (typeof $count7 !== "undefined") {
+            $temp2 = $count7;
+        } else {
+            $temp2 = $nbQuestion;
+        }
+
+        if ($temp < $temp2) {
+            document.getElementById('msgReco2').hidden = false;
+            document.getElementById('msgReco1').hidden = true;
+        } else {
+            document.getElementById('msgReco2').hidden = true;
+            $.ajax({
+                url: '/api/recommendations/by-category/{{ category.id }}',
+                type: 'get',
+                async: true,
+                dataType: 'json',
+                success: function(data) {
+                    $recommandation = data;
+                    if ($recommandation == 0) {
+                        document.getElementById('msgReco1').hidden = false;
+                    } else {
+                        document.getElementById('msgReco1').hidden = true;
+                        for (let i = 0; i < $recommandation.length; i++) {
+                            let div1 = document.createElement('div');
+                            div1.setAttribute("class", "cadreReco2");
+                            document.getElementById('reco').append(div1);
+
+                            let div2 = document.createElement('div');
+                            div2.setAttribute("class", "num3");
+                            div2.setAttribute("height", div1.clientHeight);
+                            div1.append(div2);
+
+                            let h5 = document.createElement('h5');
+                            h5.setAttribute("class", "num2");
+                            h5.setAttribute("style", "color: #fff !important;width: 35px;");
+
+                            for (let u = 0; u < $questionnaire.length; u++) {
+                                if ($recommandation[i].question_id == $questionnaire[u].q_id) {
+                                    h5.textContent = $questionnaire[u].num;
+                                }
+                            }
+
+                            div2.append(h5);
+
+                            let h3 = document.createElement('h3');
+                            // h3.textContent = i+1;
+                            div2.append(h3);
+
+                            let div3 = document.createElement('div');
+                                div3.setAttribute("class", "contenuReco cadreText");
+                                if ($recommandation[i].level_two == 1) {
+                                    div3.setAttribute("style", "margin-right: 10px; background-color: #E9FBF9 !important;");
+                                } else {
+                                    div3.setAttribute("style", "margin-right: 10px;");
+                                }
+                                div1.append(div3);
+
+                            let div9 = document.createElement('div');
+                            div9.setAttribute("class", "contenuReco");
+                            if ($recommandation[i].level_two == 1) {
+                                div9.setAttribute("style", "background-color: #E9FBF9 !important;");
+                            }
+                            div1.append(div9);
+
+                            // for (let t = 0; t < 2; t++) {
+                                if ($recommandation[i].NiveauLabel != undefined) {
+                                    let div15 = document.createElement('div');
+                                    div15.setAttribute("id", "NiveauLabel");
+                                    div15.setAttribute('style', "background-color: " + $recommandation[i].NiveauCouleur + ";")
+                                    div9.append(div15);
+
+                                    let p0 = document.createElement('p');
+                                    p0.setAttribute("style", "margin: 0px;");
+                                    p0.textContent = $recommandation[i].NiveauLabel;
+                                    div15.append(p0);
+                                }
+                            // }
+
+                            let div14 = document.createElement('div');
+                            div14.setAttribute("class", "" + $recommandation[i].id)
+                            div14.setAttribute('style', "padding: 3px 3px 3px 7px;")
+                            div9.append(div14);
+
+                            if ($recommandation[i].status_id === null) {
+                                $recommandation[i].status_id = 4;
+                                $recommandation[i].status_label = "À définir";
+                            }
+
+                            let p6 = document.createElement('p');
+                            p6.setAttribute("style", "display: inline-block; vertical-align: middle; margin-top: 25px");
+                            p6.textContent = $recommandation[i].status_label;
+                            div14.append(p6);
+
+                            let button1 = document.createElement('button');
+                            button1.setAttribute("style", "width: 15px; height: 15px; border: none; background: none; padding: 0px; margin-left: 10px; outline: none; vertical-align: sub");
+                            button1.setAttribute('onclick', "openModale('" + $recommandation[i].id + "', '" + $recommandation[i].status_id + "')");
+                            button1.setAttribute("id", "ouvrir");
+                            div14.append(button1);
+                            
+                            let img1 = document.createElement('img');
+                            img1.setAttribute("src", "/img/Modifier.svg");
+                            img1.setAttribute("style", "display: inline-block; width: 15px; height: 15px; vertical-align: inherit; outline: none");
+                            button1.append(img1);
+
+                            {% if is_granted('ROLE_LEVELTWO') %}
+                            let div16 = document.createElement('div');
+                            div16.setAttribute("style", "text-align: center;")
+                            div9.append(div16);
+
+                            let a3 = document.createElement('a');
+                            a3.setAttribute("class", "buttonDetail");
+                            a3.setAttribute("href", "/recommandation/" + $recommandation[i].id)
+                            div16.append(a3);
+                            
+                            let img3 = document.createElement('img');
+                            img3.setAttribute("src", "/img/awesome-plus-circle.svg");
+                            img3.setAttribute("style", "margin-right: 10px");
+                            a3.append(img3);
+
+                            let p7 = document.createElement('p');
+                            p7.setAttribute("style", "font-size: 11px; margin: 0px !important; color: #00857A");
+                            p7.textContent = "Voir le détail";
+                            a3.append(p7);
+                            {% endif %}
+
+                            let div4 = document.createElement('div');
+                            div4.setAttribute("class", "titreReco2");
+                            if ($recommandation[i].Niveau2 == 1) {
+                                div4.setAttribute("style", "display: inline-flex; align-items: baseline");
+                            }
+                            div3.append(div4);
+
+                            if ($recommandation[i].Niveau2 == 1) {
+                                let icon3 = document.createElement('img');
+                                icon3.setAttribute("src", "./img/crownVert.png");
+                                icon3.setAttribute("style", "margin-right: 10px");
+                                div4.append(icon3);
+                            }
+
+                            let h3bis = document.createElement('p');
+                            h3bis.setAttribute("style", "margin-bottom: 0rem;");
+                            h3bis.textContent = $recommandation[i].title;
+                            div4.append(h3bis);
+
+                            let div5 = document.createElement('div');
+                            div5.setAttribute("class", "textReco2");
+                            div3.append(div5);
+
+                            let p = document.createElement('p');
+                            p.textContent = $recommandation[i].body;
+                            div5.append(p);
+                        }
+                    }
+                },
+                error: function(jqXhr, textStatus, errorThrown) {
+                    console.error('Une erreur est survenue');
+                }
+            });
+        }
+    }
+
+    function modif() {
+        for (let u = 0; u < document.getElementsByClassName("feature").length; u++) {
+            document.getElementsByClassName("feature")[u].setAttribute("style", "margin: 5px;");
+        }
+
+        $("#boutonValider").removeClass('d-none');
+        document.getElementById("modif").hidden = true;
+        document.getElementById("textModif").hidden = true;
+        // document.getElementById("completed2").style.left = "25px";
+        document.getElementById("boutonValider").style.display = "block";
+
+        $input3 = [];
+        $input3 = document.getElementsByClassName("inputRep2");
+
+        for (let $a = 0; $a < $input3.length; $a++) {
+            if ($input3[$a].checked == false) {
+                document.getElementById($input3[$a].id + "text").hidden = false;
+            } else if ($input3[$a].checked == true) {
+                $input3[$a].disabled = false;
+            }
+        }
+
+        $input4 = [];
+        $input4 = document.getElementsByClassName("inputRep");
+
+        for (let $x = 0; $x < $input4.length; $x++) {
+            if ($input4[$x].value == "") {
+                document.getElementById($input4[$x].id + "div").hidden = false;
+            } else if ($input4[$x].value != "") {
+                $input4[$x].disabled = false;
+            }
+        }
+    }
+
+    function saveRep($questionId) {
+        $elements = document.getElementsByName($questionId);
+
+        $jsonQuestionId2 = $elements[0].name;
+        $.ajax({
+            url: '/api/collectivite-answers/by-question/' + $jsonQuestionId2,
+            type: 'DELETE',
+            async: false,
+            dataType: 'json',
+            // data: {
+            //     'CollectiviteId': $jsonCollectiviteId2,
+            //     'QuestionId': $jsonQuestionId2
+            // }
+        });
+
+        for (let i = 0; i < $elements.length; i++) {
+            if ($elements[i].className == "inputRep2") {
+                if ($elements[i].checked == true) {
+                    $jsonReponseId = $elements[i].id;
+                    $jsonInputText = "";
+                    $.ajax({
+                        url: '/api/collectivite-answers',
+                        type: 'POST',
+                        async: true,
+                        dataType: 'json',
+                        data: {
+                            'answer_id': $jsonReponseId,
+                            'body': $jsonInputText
+                        },
+                        beforeSend: function() {
+                            document.getElementById('divSave').hidden = false;
+                            document.getElementById('textSave').innerHTML = "Enregistrement...";
+                            // document.getElementById("completed2").style.left = "120px";
+                        },
+                        success: function(data, textStatus, jqXhr) {
+                            if (jqXhr.status != 201) {
+                                console.error('Une erreur est survenue');
+                            }
+                        },
+                        error: function(jqXhr, textStatus, errorThrown) {
+                            console.error('Une erreur est survenue');
+                        },
+                        complete: function() {
+                            document.getElementById('textSave').innerHTML = "Enregistré";
+                            // document.getElementById("completed2").style.left = "81px";
+                        }
+                    });
+
+                    $.ajax({
+                        url: '/api/questions/by-parent-answer2/' + $elements[i].id + '/' + $elements[i].name + '/{{ category.id }}',
+                        type: 'GET',
+                        async: false,
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.data.length != 0) {
+                                /*for (let r = 0; r < data.data.length; r++) {
+                                    // if (data.data[r].Visible == "Oui") {
+                                        document.getElementById(data.data[r].id).hidden = false;
+                                        for (let g = 0; g < document.getElementsByName(data.data[r].id).length; g++) {
+                                            document.getElementsByName(data.data[r].id)[g].checked = false;
+                                        }
+                                    // } else {
+                                        // document.getElementById(data.data[r].id).hidden = true;
+                                    // }
+                                }*/
+
+                                // TODO : nouveau code de la dernière version dont le fonctionnement semble différent que ce qui est attendu Il faudra choisir
+                                for (let r = 0; r < data.data.length; r++) {
+                                    if (data.data[r].Visible == "Oui" && document.getElementById(data.data[r].id) != null) {
+                                        document.getElementById(data.data[r].id).hidden = false;
+                                        for (let g = 0; g < document.getElementsByName(data.data[r].id).length; g++) {
+                                            document.getElementsByName(data.data[r].id)[g].checked = false;
+                                        }
+
+                                    } else if (document.getElementById(data.data[r].id) != null) {
+                                        document.getElementById(data.data[r].id).hidden = true;
+                                    }
+                                }
+
+                                $count4 = 0;
+                                for (let j = 0; j < document.getElementsByClassName("cadreQuestion").length; j++) {
+                                    if (document.getElementsByClassName("cadreQuestion")[j].hidden == false && document.getElementsByClassName("cadreQuestion")[j].children[1].classList.value == "contenuReco") {
+                                        $count4 += 1;
+                                    }
+                                }
+
+                                $count5 = 0;
+                                for (let v = 0; v < document.getElementsByClassName("cadreQuestion").length; v++) {
+                                    if (document.getElementsByClassName("cadreQuestion")[v].hidden == false) {
+                                        $count5 += 1;
+                                    }
+                                }
+                                
+                                if ($count5 == 1) {
+                                    document.getElementById('nbQuestions').innerHTML = $count5 + " question";
+                                } else {
+                                    document.getElementById('nbQuestions').innerHTML = $count5 + " questions";
+                                }
+
+                            }
+                        },
+                        error: function(jqXhr, textStatus, errorThrown) {
+                            console.error('Une erreur est survenue');
+                        }
+                    });
+
+                }
+            } else if ($elements[i].className == "inputRep") {
+                if ($elements[i].value != '') {
+                    $jsonReponseId = $elements[i].id;
+                    $jsonInputText = $elements[i].value;
+                    $.ajax({
+                        url: '/api/collectivite-answers',
+                        type: 'POST',
+                        async: true,
+                        dataType: 'json',
+                        data: {
+                            'answer_id': $jsonReponseId,
+                            'body': $jsonInputText
+                        },
+                        beforeSend: function() {
+                            document.getElementById('divSave').hidden = false;
+                            document.getElementById('textSave').innerHTML = "Enregistrement...";
+                            document.getElementById("completed2").style.left = "120px";
+                        },
+                        success: function(data) {
+                            if (data != 1) {
+                                console.error('Une erreur est survenue');
+                            }
+                        },
+                        error: function(jqXhr, textStatus, errorThrown) {
+                            console.error('Une erreur est survenue');
+                        },
+                        complete: function() {
+                            document.getElementById('textSave').innerHTML = "Enregistré";
+                            document.getElementById("completed2").style.left = "85px";
+                        }
+                    });
+                }
+            }
+        }
+        userProgression();
+        userHistorique();
+    }
+
+    function supRep($questionId) {
+        $reponse = document.getElementsByName($questionId);
+
+        for (let i = 0; i < $reponse.length; i++) {
+            $reponse[i].checked = false;
+            saveRep($questionId);
+        }
+
+        window.location.reload();
+
+    }
+
+    function userProgression() {
+        $.ajax({
+            url: '/api/progression/by-category/{{ category.id }}',
+            type: 'get',
+            async: true,
+            dataType: 'json',
+            success: function(data) {
+                $userProgression = data.data;
+                $nbQuestion = 0;
+                if (typeof $count5 !== "undefined") {
+                    $nbQuestion = $count5;
+                } else {
+                    for (let l = 0; l < document.getElementsByClassName("num2").length; l++) {
+                        if (document.getElementsByClassName("num2")[l].parentElement.parentElement.attributes['hidden'] == undefined) {
+                            $nbQuestion = $nbQuestion + 1;
+                        }
+                        
+                    }
+                }
+
+                var circumference = 42 * 2 * Math.PI;
+                if ($userProgression.length == 0) {
+                    var percent = (0 / $nbQuestion) * 100;
+                } else {
+                    var percent = ($userProgression[0].nb_repondu / $nbQuestion) * 100;
+                }
+                // TODO : Il faudrait revoir le calcul du score pour éviter ce genre de pansement
+                if (percent >= 100) {
+                    percent = 100;
+                }
+                document.querySelector('#pourcentage').textContent = Math.round(percent) + "%";
+
+                if ($("#pourcentage").text() == "100%") {
+                    $("#boutonValider").css('display', 'block');
+                } else {
+                    $("#boutonValider").css('display', 'none');
+                }
+
+                BtnValider();
+                const offset = circumference - percent / 100 * circumference;
+                document.querySelector('#cercle0').style.strokeDashoffset = offset;
+
+                if (document.getElementById("modif").hidden == false) {
+                    document.getElementById("completed2").style.left = "83px";
+                }
+            },
+            error: function(jqXhr, textStatus, errorThrown) {
+                console.error('Une erreur est survenue');
+            }
+        });
+    }
+
+    function userHistorique() {
+        $.ajax({
+            url: '/api/scores',
+            type: 'POST',
+            async: true,
+            dataType: 'json',
+            success: function(data) {
+            },
+            error: function(jqXhr, textStatus, errorThrown) {
+                console.error('Une erreur est survenue');
+            }
+        });
+    }
+
+    function viewInfo($info) {
+        $info.hidden = false;
+    }
+
+    function exitInfo($info2) {
+        $info2.hidden = true;
+    }
+
+    function openModal() {
+        var content = $("#description").text();
+        var modal = $("#descriptionModal");
+        $("#modal-body").html(content);
+        $(".modal-title").html($("#titreCat:first-child").text());
+        modal.toggle();
+    }
+
+    $modal = 0;
+    function openModalDef($definition) {
+        
+        $("#modal-bodyDef").html($definition);
+        $("#definitionModal").toggle();
+        $modal = 0;
+    }
+
+    $(window).click(function(e) {
+        if ($modal == 1 && $("#definitionModal")[0].attributes[5].nodeValue == 'display: block;') {
+            $("#definitionModal").toggle();
+            $modal = 0;
+        }
+        $modal = 1;
+    });
+
+    function BtnValider() {
+        if (document.getElementById('modif').hidden == false) {
+            $("#boutonValider").addClass('d-none');
+        } else {
+            $("#boutonValider").removeClass('d-none');
+        }
+    }
+
+    function ChangeEtatBtnVal() {
+        for (let u = 0; u < document.getElementsByClassName("feature").length; u++) {
+            document.getElementsByClassName("feature")[u].setAttribute("style", "margin: unset;");
+        }
+        $("#boutonValider").addClass('d-none');
+        document.getElementById('divSave').hidden = true;
+        document.getElementById("modif").hidden = false;
+        document.getElementById("textModif").hidden = false;
+        document.getElementById("completed2").style.left = "83px";
+        document.getElementById("boutonValider").style.display = "none";
+
+        $input5 = [];
+        $input5 = document.getElementsByClassName("inputRep2");
+
+        for (let $a = 0; $a < $input5.length; $a++) {
+            if ($input5[$a].checked == false) {
+                document.getElementById($input5[$a].id + "text").hidden = true;
+            } else if ($input5[$a].checked == true) {
+                $input5[$a].disabled = true;
+            }
+        }
+
+        $input6 = [];
+        $input6 = document.getElementsByClassName("inputRep");
+
+        for (let $x = 0; $x < $input6.length; $x++) {
+            if ($input6[$x].value == "") {
+                document.getElementById($input6[$x].id + "div").hidden = true;
+            } else if ($input6[$x].value != "") {
+                $input6[$x].disabled = true;
+            }
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "admin/base.html.twig" %}
+
+{% block content %}
+<div class="col-md-12">
+    <div class="info" style="height: 130px; margin-top: 30px;">
+        <div id="traitVertical" class="col-3">
+            <h2 id="titreColOPSN">Mes demandes de rattachement</h2>
+        </div>
+
+        <div id="progress2">
+            <div id="nbCol" class="center">
+                <p id="nbCol2" class="size29"></p>
+                <p class="size13">Demandes de rattachement</p>
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
+
+<div class="px-3">
+    <div id="gridContainer"></div>
+</div>
+
+<style>
+    .dx-texteditor.dx-editor-outlined{
+        margin: 0;
+    }
+
+    .px-3 {
+        margin-top: 11px;
+    }
+
+    .dx-datagrid-header-panel {
+        border-bottom: 1px solid #08433D !important;
+        margin-bottom: 6px;
+    }
+
+    .dx-tag-remove-button {
+        display: none;
+    }
+</style>
+
+<script src="{{ asset('/admin/js/rattachementOPSN.js') }}"></script>
+{% endblock %}

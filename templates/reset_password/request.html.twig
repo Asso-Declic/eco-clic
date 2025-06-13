@@ -1,0 +1,33 @@
+{% extends 'security/base.html.twig' %}
+{% form_theme requestForm with ['form_div_layout.html.twig'] only %}
+
+{% block title %}Réinitialiser votre mot de passe{% endblock %}
+
+{% block content %}
+    {% for flash_error in app.flashes('reset_password_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+        <div>
+            <p class="text-center fs mt-5 col-9">
+                Modifier votre mot de passe
+            </p>
+            <p class="text-center fs mb-5 col-9">
+                Veuillez renseigner votre adresse email ci-dessous
+            </p>
+        </div>
+    {{ form_start(requestForm) }}
+        <fieldset class="formRow mb-3 connexion">
+            <div class="formRow--item col-12">
+                <p>Adresse Email* :</p>
+                <label for="username_input_login" class="formRow--input-wrapper js-inputWrapper">
+                    {{ form_widget(requestForm.username, { 'attr': {'class': 'formRow--input js-input form-input', 'placeholder': 'Adresse Email'}, 'label_attr': {'class': 'formRow--input-wrapper js-inputWrapper'}}) }}
+                </label>
+                <p class="text-right">*Champs obligatoires</p>
+            </div>
+        </fieldset>
+        <div class="col-6 row align-items-baseline" style="margin-bottom: 65px; margin: 0 auto !important;">
+            <button type="button" id="annuler" class="d-block btn btn-blueAdico rounded-pill white col-12 col-lg-5 fs" style=" background-color: #F0F0F0;color: #08453F" onclick="javascript:window.history.back()"> Annuler </button>
+            <button type="submit" class="d-block btn btn-blueAdico rounded-pill white col-12 col-lg-5 fs" style="margin-top: 10%;"> Valider </button>
+        </div>
+    {{ form_end(requestForm) }}
+{% endblock %}

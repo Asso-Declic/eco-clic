@@ -1,0 +1,103 @@
+{% extends "security/base.html.twig" %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+{% if error %}
+    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+{% for type, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+{% if app.user %}
+    <div class="mb-3">
+        Attention, vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('security_logout') }}">Déconnectez-vous d'abord</a>
+    </div>
+{% endif %}
+<form action="{{ path("security_login") }}" method="post" class="connexion">
+    <p class="text-center fs mt-4">Saisir vos informations ci-dessous</p>
+    <fieldset>
+        <!-- Identifiant -->
+        <fieldset class="formRow mb-3">
+            <div class="formRow--item col-12">
+                <label for="username_input_login" class="formRow--input-wrapper js-inputWrapper">
+                    <input type="text" class="formRow--input js-input form-input iconIdentifiant" id="username_input_login" name="username" placeholder="Identifiant" value="{{ last_username }}">
+                    <span class="iconPass4"><img class="iconPassSize" src="{{ asset('img/coche_verte.svg') }}" alt=""></span>
+                </label>
+            </div>
+        </fieldset>
+
+        <!-- Mot de passe -->
+        <fieldset class="formRow mb-3">
+            <div class="formRow--item col-12">
+                <label for="password_input_eyes" class="formRow--input-wrapper js-inputWrapper">
+                    <input type="password" class="formRow--input js-input form-input iconMDP" id="password_input_eyes" name="password" placeholder="Mot de passe">
+                    <span class="iconPass" title="Afficher mot de passe"><img class="iconPassSize" src="{{ asset('img/Oeil.svg') }}" alt=""></span>
+                </label>
+            </div>
+        </fieldset>
+
+        <a href="{{ path('security_reset_password_request') }}" class="text-right d-block col-12">
+            <span id="forgotPass" class="opa80 fs">
+                Mot de passe oublié ?
+            </span>
+        </a>
+
+        <div class="col-7">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            {#
+                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                See https://symfony.com/doc/current/security/remember_me.html
+
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" name="_remember_me"> Remember me
+                    </label>
+                </div>
+            #}
+            <button type="submit" class="d-block btn btn-blueAdico rounded-pill white mt-10 col-12 col-lg-12 fs"> Se connecter </button>
+        </div>
+
+    </fieldset>
+</form>
+{% endblock %}
+
+{% block footer_scripts %}
+    <style>
+        @media (min-height: 717px) {
+            #userSpace {
+                height: 100vh;
+            }
+        }
+    </style>
+
+    <script>
+        $(document).ready(function() {
+            $(window).on('resize', function() {
+                if ($(document).height() > $(window).height()) {
+                    document.querySelector(".footer").style.position = "inherit";
+                } else {
+                    document.querySelector(".footer").style.position = "absolute";
+                }
+                document.getElementById("espace").style.height = $(document).height() + "px";
+            });
+
+            if ($(document).height() > $(window).height()) {
+                document.querySelector(".footer").style.position = "inherit";
+            } else {
+                document.querySelector(".footer").style.position = "absolute";
+            }
+
+            // document.getElementById("espace").style.height = $(document).height()+"px";
+        });
+    </script>
+
+    <script src="http://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+    <script src="./js/placeholderRGAA.js"></script>
+    <script src="./js/index.js"></script>
+{% endblock %}

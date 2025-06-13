@@ -1,0 +1,332 @@
+/*//////////////////////////////////////////////////////////////////
+[ login ]*/
+.limiter {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.container-login100 {
+  width: 100%;  
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+
+.wrap-login100 {
+  width: 520px;
+  min-height: 100vh;
+  background: #fff;
+  position: relative;
+  margin: 0 auto;
+}
+
+/*------------------------------------------------------------------
+[ Login100 more ]*/
+.login100-more {
+  background-image: url('../images/background.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: calc(90% - 520px);
+  position: relative;
+  z-index: 1;
+}
+
+
+
+/*==================================================================
+[ Form ]*/
+
+.login100-form {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.login100-form-title {
+  display: block;
+  width: 100%;
+  font-family: Poppins-Bold;
+  font-size: 39px;
+  color: #333333;
+  line-height: 1.2;
+  text-align: left;
+}
+
+
+
+
+/*------------------------------------------------------------------
+[ Button ]*/
+.container-login100-form-btn {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wrap-login100-form-btn {
+  display: block;
+  position: relative;
+  z-index: 1;
+  border-radius: 25px;
+  overflow: hidden;
+}
+
+.login100-form-bgbtn {
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 300%;
+  background: #e8519e;
+  background: -webkit-linear-gradient(top, #e8519e, #c77ff2, #e8519e, #c77ff2);
+  background: -o-linear-gradient(top, #e8519e, #c77ff2, #e8519e, #c77ff2);
+  background: -moz-linear-gradient(top, #e8519e, #c77ff2, #e8519e, #c77ff2);
+  background: linear-gradient(top, #e8519e, #c77ff2, #e8519e, #c77ff2);
+  bottom: -100%;
+  left: 0;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.login100-form-btn {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  min-width: 244px;
+  height: 50px;
+
+  font-family: Poppins-Medium;
+  font-size: 16px;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.wrap-login100-form-btn:hover .login100-form-bgbtn {
+  bottom: 0;
+}
+
+/*[ Responsive ]*/
+
+@media (max-width: 576px) {
+  .wrap-login100 {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .login100-more {
+    background-image: none;
+    width: auto;
+  }
+}
+
+.test24 {
+  margin-left: 20% !important;
+}
+
+@media (max-width: 576px) {
+  .test24 {
+    margin-left: 18%!important;
+  }
+}
+
+
+
+
+/*page-connexion*/
+
+.container {
+    margin: 0;
+    padding: 0;
+}
+
+.fond {
+    background: transparent url('../images/background.png') 0% 0% no-repeat padding-box;
+    opacity: 1;
+    width: 100%;
+    height: auto;
+}
+
+#content {
+    margin-top: 7%;
+    margin-left: 73.5%;
+    
+}
+
+.divimg {
+  margin: auto;
+  margin-top: 30px;
+}
+
+.img {
+    max-width: 300px;
+    max-height: 150px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+p {
+    margin-top: 30px;
+}
+
+.wrap-login100 p, .wrap-login100 label {
+  color: #4D4F5C;
+}
+
+.test {
+    text-align: center;
+    margin: 30px;
+}
+
+input {
+    margin-bottom: 30px;
+    left: 1062px;
+    width: 612px;
+    height: 80px;
+    border: 1px solid #B4B4B44D;
+    border-radius: 40px;
+    opacity: 1;
+    padding-left: 30px;
+}
+
+.oublie {
+    margin-left: 57%;
+    top: 690px;
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) 20px/14px var(--unnamed-font-family-lato);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    color: var(--unnamed-color-4d4f5c);
+    font: normal normal normal 20px/14px Lato;
+    letter-spacing: 0px;
+    color: #4D4F5C;
+    opacity: 0.5;
+}
+
+#log {
+    background: url('../images/Coche_verte.svg')90% 45% no-repeat padding-box;
+    margin: 0 30px 30px 30px;
+}
+
+#log::placeholder, #pass::placeholder, #mail::placeholder {
+  color: rgb(192, 193, 197);
+}
+
+#pass {
+    background: url('../images/Oeil.svg')90% 45% no-repeat padding-box;
+    margin: 30px;
+}
+
+.connect {
+  margin: 30px;
+  color: white;
+  width: 612px;
+  height: 80px;
+  background: var(--bleu-adico) 0% 0% no-repeat padding-box;
+  background: #0072B4 0% 0% no-repeat padding-box;
+  border-radius: 40px;
+  opacity: 1;
+  border: none;
+}
+
+.connect2 {
+    margin: 30px auto 0;
+    color: white;
+    width: 312px;
+    height: 80px;
+    background: var(--bleu-adico) 0% 0% no-repeat padding-box;
+    background: #0072B4 0% 0% no-repeat padding-box;
+    border-radius: 40px;
+    opacity: 1;
+    border: none;
+}
+
+.traitVertical {
+    border-right: 2px solid #c0c0ce;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
+    height: 20px;
+}
+
+#footer {
+    font-size: 11px;
+}
+
+.bouton {
+  margin: 0px;
+}
+
+/* mdp_oublie*/
+
+.droite {
+    margin-left: 70%;
+}
+
+/*new_mdp*/
+
+.annuler {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  margin-right: 32%;
+  color:  #0072B4;
+  width: 612px;
+  height: 80px;
+  left: auto;
+  background: var(--bleu-adico) 0% 0% no-repeat padding-box;
+  background: white 0% 0% no-repeat padding-box;
+  border-radius: 40px;
+  opacity: 1;
+}
+
+#footer1 {
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 0.5%;
+  justify-content: center;
+}
+
+@media (max-height: 768px) {
+  #footer1 {
+      position: inherit;
+  }
+}
+
+.row {
+  margin-right: 35px !important;
+}
+
+#footer1 a {
+  margin-left: 5px;
+  margin-right: 5px;
+  color: #4D4F5C;
+}
+
+#chart {
+  height: 450px;
+}

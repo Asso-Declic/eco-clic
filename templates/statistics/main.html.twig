@@ -1,0 +1,218 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+<div class="col-md-12">
+    <div class="info" style="height: 130px; margin-top: 30px;">
+        <div id="traitVertical" class="col-3">
+            <h2>Statistiques</h2>
+        </div>        
+    </div>
+</div>
+
+<div class="page-content">
+    <div style="display: flex; margin-top: 25px;" id="bloc">
+        <div class="chart-container" style="width: 69%;">
+            <div id="chart"></div>
+        </div>
+
+        <div class="modal-content" style="width: 30%; margin-right: 15px; background-color: #E9FBF9;">
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <h5 class="modal-title text-center" style="color: #4D4F5C;" id="modalFiltreLabel">FILTRES</h5>
+                <button data-toggle="modal" data-target="#infoFiltre" class="btnInfo" style="text-transform: none; font-size: medium; margin-left: 10px;">i</button>
+            </div>
+            
+            <div id="Population">
+                <div class="divAcceuil">
+                    <p style="color: #08453F; font-size: 20px; min-inline-size: max-content; margin: 10px;">Population</p>
+                    <div id="trait2"></div>
+                </div>
+                <fieldset class="selectFilter">
+                    {# <input type="radio" name="radioFilter" id="COMCOMPop" onclick="validerFiltre()"/> #}
+                    <input type="radio" name="radioFilter" id="DepartementPop" onclick="validerFiltre()"/>
+                    
+                    {# <label for="COMCOMPop"></label> #}
+                    <label for="DepartementPop"></label>
+                </fieldset> 
+                <fieldset class="selectFilter">
+                    <input type="radio" name="radioFilter" id="RegionPop" onclick="validerFiltre()"/>
+                    <input type="radio" name="radioFilter" id="France" class="PopFrance" onclick="validerFiltre()"/>
+                    
+                    <label for="RegionPop"></label>
+                    <label for="France">France</label>
+                </fieldset>
+            </div>
+
+            <div id="TypeColl">
+                <div class="divAcceuil">
+                    <p style="color: #08453F; font-size: 20px; min-inline-size: max-content; margin: 10px;">Type de collectivite</p>
+                    <div id="trait2"></div>
+                </div>
+                <fieldset class="selectFilter">
+                    {# <input type="radio" name="radioFilter" id="COMCOMType" onclick="validerFiltre()"/> #}
+                    <input type="radio" name="radioFilter" id="DepartementType" onclick="validerFiltre()"/>
+                    
+                    {# <label for="COMCOMType"></label> #}
+                    <label for="DepartementType"></label>
+                </fieldset> 
+                <fieldset class="selectFilter">
+                    <input type="radio" name="radioFilter" id="RegionType" onclick="validerFiltre()"/>
+                    
+                    <label for="RegionType"></label>
+                </fieldset>
+            </div>
+
+            <div class="text-center" style="margin-top: 25px;">
+                <div class="col-12 d-flex flex-row-reverse justify-content-center pl-0 pr-0">
+                    {# <button class="d-block btn btn-blueAdico rounded-pill white ml-2 mr-2" style="background-color: #E9FBF9;" id="valider" onclick="validerFiltre()">Valider</button> #}
+                    <button class="d-block btn btn-blueAdico rounded-pill white ml-2 mr-2 statButton" onclick="ReinitialiserFiltre()" id="annuler">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="traitHorizontal" style="margin: 10px 5px;"></div>
+</div>
+
+<div id="infoFiltre" class="modal" tabindex="-1" role="dialog" data-target="#infoFiltre">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content p-5">
+            <div class="modal-title-def modal-title">
+                <h2 style="color: #08433D;">Fonctionnement des filtres</h2>
+            </div>
+            <div id="modal-bodyDef" class="modal-body p-0 mt-2">
+                Il est possible de comparer le score global obtenu  avec d’autres structures également inscrites dans la démarche de sobriété numérique. Les filtres dans la partie "population" permettent de se comparer avec des structures de taille similaire. Ceux dans la partie "type de collectivité" permettent de se comparer à des structures de même nature sans prendre en compte la taille des collectivités. 
+            </div>
+            <div class="d-flex flex-row-reverse mt-5">
+                <button type="button" data-dismiss="modal" class="btn btnModal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @media (max-width: 1600px) {
+        #bloc {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .modal-content {
+            width: 100% !important;
+        }
+    }
+</style>
+
+<script>
+    // var nameCollectivite = '';
+    var nameDepartement = '';
+    var nameRegion = '';
+    var seriesName = [];
+
+    // On charge les titres des filtres
+    $.ajax({
+        url: '/api/stats/filters',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (filters) {
+            nameDepartement = filters.departement.name;
+            nameRegion = filters.region.name;
+            seriesName.push(nameDepartement);
+            seriesName.push(nameRegion);
+            seriesName.push(filters.nation.name);
+
+            $("label[for='DepartementPop']").text(nameDepartement);
+            $("#DepartementPop").addClass("Pop" + nameDepartement);
+            $("label[for='DepartementType']").text(nameDepartement);
+            $("#DepartementType").addClass("Type" + nameDepartement);
+            $("label[for='RegionPop']").text(nameRegion);
+            $("#RegionPop").addClass("Pop" + nameRegion);
+            $("label[for='RegionType']").text(nameRegion);
+            $("#RegionType").addClass("Type" + nameRegion);
+        },
+        error: function (jqXhr, textStatus, errorThrown) {
+            console.error('Une erreur est survenue');
+        }
+    });
+
+    // On charge les données
+    $.ajax({
+        url: '/api/stats/complete',
+        type: 'GET',
+        async: false,
+        dataType: 'json',
+        success: function (stats) {
+            statsList = stats;
+        },
+        error: function (jqXhr, textStatus, errorThrown) {
+            console.error('Une erreur est survenue');
+        }
+    });
+
+    const chart = $('#chart').dxChart({
+        palette: 'Ocean',
+        dataSource: statsList,
+        commonSeriesSettings: {
+            argumentField: 'scoredAt',
+            type: 'line',
+        },
+        margin: { top: 5, right: 15, bottom: 5, left: 15 },
+        argumentAxis: {
+            valueMarginsEnabled: false,
+            discreteAxisDivisionMode: 'crossLabels',
+            argumentType: 'datetime',  
+            grid: { visible: true },
+            type: 'continuous',
+        },
+        series: [
+            { valueField: 'score', name: 'Votre score global' },
+            { valueField: 'scorePopulation' + nameDepartement, name: 'Population ' + nameDepartement, visible: false},
+            { valueField: 'scorePopulation' + nameRegion, name: 'Population ' + nameRegion, visible: false },
+            { valueField: 'scorePopulationFrance', name: 'Population France', visible: false },
+            { valueField: 'scoreType' + nameDepartement, name: 'Type ' + nameDepartement, visible: false },
+            { valueField: 'scoreType' + nameRegion, name: 'Type ' + nameRegion, visible: false },
+        ],
+        legend: {
+            verticalAlignment: 'bottom',
+            horizontalAlignment: 'center',
+            itemTextPosition: 'bottom',
+        },
+        title: {
+            text: 'Historique du score global',
+        },
+        export: { enabled: true },
+        tooltip: { enabled: true },
+    }).dxChart('instance');
+
+    function validerFiltre() {
+        for (let i = 0; i < seriesName.length; i++) {
+            for (let j = 0; j < $('input[name="radioFilter"]:not(:checked)').length; j++) {
+                if ("Pop"+seriesName[i] == $('input[name="radioFilter"]:not(:checked)').eq(j).attr('class')) {
+                    $("#chart").dxChart("getSeriesByName", "Population " + seriesName[i]).hide();
+                }
+                else if("Type"+seriesName[i] == $('input[name="radioFilter"]:not(:checked)').eq(j).attr('class')) {
+                    $("#chart").dxChart("getSeriesByName", "Type " + seriesName[i]).hide();
+                }
+            }
+            for (let j = 0; j < $('input[name="radioFilter"]:checked').length; j++) {
+                if ("Pop"+seriesName[i] == $('input[name="radioFilter"]:checked').eq(j).attr('class')) {
+                    $("#chart").dxChart("getSeriesByName", "Population " + seriesName[i]).show();
+                }
+                else if("Type"+seriesName[i] == $('input[name="radioFilter"]:checked').eq(j).attr('class')) {
+                    $("#chart").dxChart("getSeriesByName", "Type " + seriesName[i]).show();
+                }
+            }
+        }
+    }
+
+    function ReinitialiserFiltre() {
+        $('input[name="radioFilter"]:checked').prop('checked', false);
+        validerFiltre();
+    }
+
+    $( window ).on( "resize", function() {
+        $('#content').width(window.innerWidth-250);
+        $('#chart').dxChart('instance').refresh();
+    });
+    
+</script>
+{% endblock %}

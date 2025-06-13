@@ -1,0 +1,218 @@
+body {
+    font-family: sans-serif;
+}
+
+a,
+a:hover,
+a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    height: 100vh;
+    background: #FFFFFF;
+    color: #000000;
+    transition: all 0.3s;
+    border-right: 1px solid #F2F2F2;
+}
+
+#sidebar ul.components {
+    padding: 5px 0 0 0;
+}
+
+#sidebar ul p {
+    color: #000000;
+}
+
+#sidebar ul li a {
+    padding: 15px 10px 15px 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+#sidebar ul li a:hover {
+    color: #000000;
+    background-color: #E9FBF9;
+    border-left: 5px solid #000000;
+}
+
+#logo {
+    margin-top: 7px;
+    margin-left: 77px;
+    width: 83px;
+    height: 49px;
+}
+
+#retrecirBoutonG {
+    margin-top: 7px;
+    font-size: 0.9em;
+}
+
+#retrecir {
+    border-top: #00857A 1px solid;
+}
+
+#sidebar.active {
+    min-width: 50px;
+    max-width: 50px;
+}
+
+#sidebar.active span {
+    display: none;
+}
+
+
+/* #sidebar.active .sidebar-header {
+    display: none;
+} */
+
+#sidebar.active #logoEcoclic {
+    display: none;
+}
+
+#sidebar.active #faviconEcoclic {
+    display: block !important;
+}
+
+#sidebar.active #retrecirBoutonG {
+    display: none;
+}
+
+#retrecirBoutonP {
+    display: none;
+}
+
+#sidebar.active #retrecirBoutonP {
+    display: inline;
+}
+
+#fermer-telephone {
+    cursor: pointer;
+    width: 50px;
+    margin-left: 5px;
+    display: none;
+}
+
+#fermer-telephone p {
+    margin: 0px;
+    text-align: center;
+}
+
+.iconMenu {
+    width: 20px;
+    height: 21px;
+}
+
+@media (max-width: 1280px) {
+    #fermer-telephone {
+        display: inline-block;
+        position: absolute;
+        margin-top: 5px;
+    }
+
+    #sidebar {
+        margin-left: -250px;
+        z-index: 10;
+    }
+
+    .components {
+        height: 100%;
+    }
+
+    #content {
+        position: absolute;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    #sidebar.active {
+        position: relative;
+        width: 100%;
+        margin-left: 0;
+        min-width: 250px;
+        max-width: 250px;
+        height: 100vh;
+        background: #FFFFFF;
+    }
+
+    #sidebar.active .sidebar-header {
+        display: block;
+        margin-top: 5px;
+    }
+
+    #sidebar.active #retrecir {
+        display: none;
+    }
+
+    #sidebar.active span {
+        display: inline-block;
+    }
+
+    .container-fluid {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    .menuPhone p {
+        margin: 0px !important;
+    }
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    background-color: #F2F2F2;
+}
+
+#content {
+    width: 100%;
+}
+
+.container-fluid {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.container-fluid {
+    width: auto;
+}
+
+.container-fluid {
+    width: auto;
+}
+
+.page-content {
+    max-height: 95vh;
+    padding: 15px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.menuPhone {
+    display: none;
+}
+
+.Menufooter {
+    margin-left: 25px;
+}
+
+.space {
+    margin-left: 25px;
+    margin-bottom: 0;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.notif {
+    padding: 5px;
+    margin-bottom: 3px;
+    background-color: #e9fbf9;
+}

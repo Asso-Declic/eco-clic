@@ -1,0 +1,38 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Patch Note{% endblock %}
+
+{% block content %}
+
+<div class="col-md-12">
+    <div class="info" style="height: 130px; margin-top: 30px;">
+         <h2>Patch Note</h2>   
+    </div>
+</div>
+
+<div style="margin: 30px auto;" class="col-12">
+
+    {% block body %}
+        {{ form(form) }}
+    {% endblock %}
+
+</div>
+
+<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+<script src="{{ asset('admin/js/patchNote.js') }}"></script>
+
+<style>
+    #patch_note > div:nth-child(3) {
+        text-align: center;
+    }
+
+    #patch_note_Valider {
+        background-color: #00857A;
+        border-color: #00857A;
+    }
+
+    #patch_note > div:nth-child(1) > label, #patch_note > div:nth-child(2) > label {
+        font-size: larger;
+    }
+</style>
+{% endblock %}

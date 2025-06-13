@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+
+{% block metas %}
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" href="{{ asset('css/dx-ecoclicAdmin.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/common-ecoclicAdmin.css') }}" />
+{% endblock %}
+
+{% block menu %}
+    {% include "admin/menu.html.twig" %}
+{% endblock %}

@@ -1,0 +1,269 @@
+*[class^="col"] {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.btn:hover {
+    color: #fff !important;
+}
+
+@media (min-width: 991.98px) and (max-width: 6000px) {
+    body {
+        background-image: url("../img/background.png");
+        background-size: 41.7% 100%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    .fs {
+        font-size: larger;
+    }
+}
+
+.center * {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.row {
+    margin: 0 !important;
+}
+
+.logo {
+    height: auto;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.connexion {
+    width: 50%;
+}
+
+.opa80 {
+    opacity: 0.8;
+}
+
+.btn-blueAdico {
+    background: #00857A;
+    height: 60px !important;
+    color: #fff;
+}
+
+.blueAdico {
+    color: #00857A !important;
+}
+
+.sousligne {
+    text-decoration: underline !important;
+}
+
+.traitVertical {
+    border-right: 2px solid #c0c0ce;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
+    height: 28px;
+}
+
+.mt-10 {
+    margin-top: 10%;
+}
+
+.form-input {
+    border-radius: 40px !important;
+    border-color: #4D4F5C !important;
+    margin-right: 0px !important;
+}
+
+.iconIdentifiant {
+    background-image: url("../img/coche_verte.svg");
+    background-position: 95%;
+    background-repeat: no-repeat;
+}
+
+.iconPass:hover,
+.iconPass1:hover {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+}
+
+a:hover {
+    color: #00857A;
+}
+
+@media (min-width: 991.98px) and (max-width: 6000px) {
+    #espace {
+        background-color: #00857A;
+    }
+    .fs {
+        font-size: larger;
+    }
+}
+
+@media screen and (max-width: 991.98px) {
+    body {
+        background-color: #fff;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+    #userSpace {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+    .mt-10 {
+        margin-top: 20%;
+    }
+    .btn-blueAdico {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+}
+
+@media screen and (max-width: 1600px) {
+    .logo {
+        margin-top: 5%;
+    }
+    #userSpace {
+        /* height: 100vh; */
+        width: 100vw;
+    }
+}
+
+@media screen and (max-width: 1400px) {}
+
+@media screen and (max-width: 1200px) {
+    .logo {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .logo {
+        width: 40%;
+        height: auto;
+    }
+}
+
+.inputInscription {
+    display: flex;
+}
+
+.iconPass,
+.iconPass1,
+.iconPass4 {
+    position: absolute;
+    top: 12px;
+    left: 86%;
+}
+
+input[type='checkbox'] {
+    accent-color: #08453F;
+}
+
+.iconFeuilleSize {
+    height: 30px;
+}
+
+.iconPassSize {
+    height: 20px;
+}
+
+@media (min-width:400px) {
+    .iconFeuille {
+        position: absolute;
+        top: 11px;
+        left: 90%;
+    }
+    .iconPass,
+    .iconPass1,
+    .iconPass4 {
+        position: absolute;
+        top: 12px;
+        left: 90%;
+    }
+}
+
+@media (min-width: 576px) {
+    .iconFeuilleSize {
+        height: 34px;
+    }
+    .iconFeuille {
+        position: absolute;
+        top: 9px;
+        left: 90.4%;
+    }
+    .iconPass,
+    .iconPass1,
+    .iconPass4 {
+        position: absolute;
+        top: 12px;
+        left: 90%;
+    }
+}
+
+@media (min-width: 768px) {
+    .iconFeuilleSize {
+        height: 40px;
+    }
+    .iconFeuille {
+        position: absolute;
+        top: 5px;
+        left: 90%;
+    }
+    .iconPass,
+    .iconPass1,
+    .iconPass4 {
+        position: absolute;
+        top: 12px;
+        left: 90%;
+    }
+}
+
+.scroller {
+    scrollbar-color: #4D4F5C grey;
+    scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+    background: #4D4F5C;
+    border-radius: 10px;
+}
+
+
+/* Track */
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+    background: #41434d;
+}
+
+#declic>img {
+    width: 300px;
+    height: auto;
+}
+
+#declic {
+    text-align: center;
+}
+
+#espace {
+    background-image: url("../img/background.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}

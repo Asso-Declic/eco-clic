@@ -1,0 +1,896 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Plan d'action{% endblock %}
+
+{% block metas %}
+<script src="{{ asset('js/popper.min.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="info" style="height: 130px; margin-top: 30px;">
+            <div id="traitVertical" class="col-3">
+                <h2>Plan d'action</h2>
+                {% if collectivite.lastAnsweredAt is not null %}
+                <h6><span id="type"></span><span id="lastModif"> Derni&egrave;re modification : {{ collectivite.lastAnsweredAt|date('d/m/Y') }}</span></h6>
+                {% endif %}
+                {% if collectivite.firstAnsweredAt is not null %}
+                <h6><span id="type"></span><span id="firstNote"> Premi&egrave;re notation : {{ collectivite.firstAnsweredAt|date('d/m/Y') }} </span></h6> 
+                {% endif %}
+            </div>
+
+            <div id="progress" hidden>
+                <svg class="progress-ring" width="105" height="105">
+                    <circle id="cercle0" class="progress-ring__circle" stroke="white" stroke-width="4" fill="transparent" r="45" cx="50" cy="55" style="stroke-dasharray: 326.726, 326.726; stroke-dashoffset: 326.726;"></circle>
+                </svg>
+
+                <!-- <p class="progressContent" id="indice" style="top: 32px; left: 26px; color: #08453F;" hidden="true">
+                    Score </br><span id="score" style="font-size: 18px; color: #000;"></span>
+                </p> -->
+                <p class="progressContent" id="indice" style="top: 14px; line-height: 1; left: 15px; color: #fafafa; font-size: 26px;background-image: linear-gradient(#08433D 0 0); background-position: bottom center; background-size: 79% 1.5px; background-repeat: no-repeat;" hidden="true">
+                    <span id="A" class="scoreLetter" style="color: #038141;">A</span><span id="B" class="scoreLetter" style="color: #627A39;">B</span><span id="C" class="scoreLetter" style="color: #966A09;">C</span><span id="D" class="scoreLetter" style="color: #B65713;">D</span><span id="E" class="scoreLetter" style="color: #A80000;">E</span>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <div style="margin: 15px; padding: 10px 0px; border-bottom: 1px solid #08433D;">
+        <div class="dropdown" style="display: inline-block">
+            <button class="btn filtres dropdown-toggle" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-filter"></i><span class="px-4">Catégorie</span>
+            </button>
+            <div id="selectCateg" class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <div id="treeviewCateg" class="dropdown-item"></div>
+            </div>
+        </div>
+        <div class="dropdown" style="display: inline-block">
+            <button class="btn filtres dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown" data-auto-close="outside" aria-expanded="false">
+                <i class="fas fa-filter"></i><span class="px-4">Niveau de recommandation</span>
+            </button>
+            <ul id="selectPrio" class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                <div id="treeview2"></div>
+            </ul>
+        </div>
+        <div class="dropdown" style="display: inline-block">
+            <button class="btn filtres dropdown-toggle" id="dropdownMenuButton3" data-toggle="dropdown" data-auto-close="outside" aria-expanded="false">
+                <i class="fas fa-filter"></i><span class="px-4">Statut</span>
+            </button>
+            <ul id="selectStatut" class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+                <div id="treeviewStatut"></div>
+            </ul>
+        </div>
+        <button class="btn" id="btnExtractReco" onclick='extract();'><i class="fa-solid fa-download"></i>Extraire les recommandations</button>
+    </div>
+
+    <div id="recommandations" class="page-content">
+    </div>
+
+    <!-- <div id="divErreur" style="text-align: center; margin: 100px;">
+        <p>Veuillez compléter toutes les catégories!</p>
+    </div> -->
+
+    <div id="divRien" style="text-align: center; margin: 100px;" hidden>
+        <p>Félicitation nous n'avons pas de recommandations à vous proposer</p>
+    </div>
+
+
+    <!-- Modal ouverture -->
+    <div class="modal fade" id="modalOuvrir" tabindex="-1" role="dialog" aria-labelledby="modalOuvrirLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style='width:fit-content;' role="document">
+            <div class="modal-content">
+                <h5 class="modal-title" style="color: #4D4F5C;" id="modalOuvrirLabel">MODIFICATION DU STATUT D'UNE RECOMMANDATION</h5>
+                <div class="traitHorizontal" style="margin-top: 10px;"></div>
+                <div style="margin: 20px 150px;" id="divStatut">
+                    <label for="statut" style="color: #08453F;" class="typo-label">Statut*</label>
+                    <select class="form-control" Id="statut" name="statut" title="Sélectionnez un statut"></select>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="col-12 d-flex flex-row-reverse pl-0 pr-0">
+                        <button class="d-block btn btn-blueAdico rounded-pill white ml-2 mr-2" id="valider">Valider</button>
+                        <button class="d-block btn btn-blueAdico rounded-pill white ml-2 mr-2" onclick="closeModale()" id="annuler">Annuler</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal voir plus -->
+    <div id="descriptionRecoModal" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-5">
+                <div class="modal-title-reco modal-title"></div>
+                <div id="modal-body" class="modal-body p-0 mt-2">
+                </div>
+                <div class="d-flex flex-row-reverse mt-5">
+                    <button type="button" onclick="$('#descriptionRecoModal').toggle()" class="btn btnModal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .scoreRectangle {
+            top: 27px !important;
+        }
+    </style>
+    <script>
+        $(function() {
+            let textReco;
+            $(".filtres").width($(".dropdownFiltres").width());
+
+            $(".bouton-filtres-the").on('click', function() {
+                $(".filtres-the").toggleClass('d-none');
+            });
+
+            $(".bouton-filtres-geo").on('click', function() {
+                $(".filtres-geo").toggleClass('d-none');
+            });
+
+            $("#ouvrir").click(function() {
+                //ouverture modal
+                $('#modalOuvrir').modal('show');
+            });
+
+            $('#modalOuvrir').on('hidden.bs.modal', function() {
+                //vide le select de statuts
+                $("#statut").empty();
+            })
+
+            ///////////////////////////////////// Devextreme treeview /////////////////////////////////////
+            var treeViewCategCount = 0;
+            var treeViewCateg = $("#treeviewCateg").dxTreeView({
+                dataSource: "/api/category/filters",
+                dataStructure: "tree",
+                width: 340,
+                height: 320,
+                showCheckBoxesMode: "selectAll",
+                keyExpr: "id",
+                parentIdExpr: "category_id",
+                itemsExpr: "themes",
+                selectionMode: "multiple",
+                displayExpr: (item) => {
+                    if (item.name != undefined) {
+                        return item.name;
+                    } else {
+                        return item.label;
+                    }
+                },
+                selectAllText: 'Toutes les catégories',
+                selectByClick: true,
+                onSelectionChanged: function(e) {
+                    $tabNotSelect = [];
+                    const selectedNodes2 = e.component.getSelectedNodes();
+                    const selectedNodes = e.component.getNodes();
+                    for (let k = 0; k < selectedNodes.length; k++) {
+                        if (selectedNodes[k].selected == false) {
+                            $tabNotSelect.push(selectedNodes[k].key);
+                        }
+
+                        for (let g = 0; g < selectedNodes[k].children.length; g++) {
+                            if (selectedNodes[k].children[g].selected == false) {
+                                $tabNotSelect.push(selectedNodes[k].children[g].key);
+                            }
+                        }
+
+                    }
+                    for (let p = 0; p < $tabNotSelect.length; p++) {
+                        if (document.getElementById("parent" + $tabNotSelect[p]) != null) {
+                            document.getElementById("parent" + $tabNotSelect[p]).hidden = true;
+                        }
+                        for (let g = 0; g < document.getElementsByClassName($tabNotSelect[p]).length; g++) {
+                            document.getElementsByClassName($tabNotSelect[p])[g].hidden = true;
+                        }
+                    }
+
+                    for (let s = 0; s < selectedNodes2.length; s++) {
+                        if (document.getElementById("parent" + selectedNodes2[s].key) != null) {
+                            document.getElementById("parent" + selectedNodes2[s].key).hidden = false;
+                        }
+                        for (let f = 0; f < document.getElementsByClassName(selectedNodes2[s].key).length; f++) {
+                            document.getElementsByClassName(selectedNodes2[s].key)[f].hidden = false;
+                        }
+                    }
+
+                    if (typeof $tabNotSelect2 != "undefined") {
+
+                        for (let p = 0; p < $tabNotSelect2.length; p++) {
+                            // cacher les reco avec les tag dont l'id correspond
+                            for (let h = 0; h < document.getElementsByClassName("niveau" + $tabNotSelect2[p]).length; h++) {
+                                if (document.getElementsByClassName("niveau" + $tabNotSelect2[p])[h] != null) {
+                                    document.getElementsByClassName("niveau" + $tabNotSelect2[p])[h].parentElement.parentElement.parentElement.hidden = true;
+                                }
+                            }
+                        }
+                    }
+
+                    if (typeof $tabNotSelect3 != "undefined") {
+                        for (let p = 0; p < $tabNotSelect3.length; p++) {
+                            for (let g = 0; g < document.getElementsByClassName(" statut" + $tabNotSelect3[p]).length; g++) {
+                                if (document.getElementsByClassName("statut" + $tabNotSelect3[p])[g] != null) {
+                                    document.getElementsByClassName("statut" + $tabNotSelect3[p])[g].hidden = true;
+                                }
+                            }
+                        }
+                    }
+                    Hide();
+                },
+                onContentReady: function(e) {
+                    var id = getUrlParam("Id", "")
+                    if (id != "") {
+                        e.component.selectItem(id);
+                    } else {
+                        if (treeViewCategCount != 1) {
+                            treeViewCategCount = 1;
+                            e.component.selectAll();
+                        }
+                    }
+                    $('.dx-treeview-select-all-item').removeClass('dx-widget')
+                },
+            }).dxTreeView('instance');
+
+            var treeViewStatutCount = 0;
+            var treeViewStatut = $("#treeviewStatut").dxTreeView({
+                dataSource: "/api/recommendation-statuses",
+                dataStructure: "plain",
+                width: 340,
+                height: 320,
+                showCheckBoxesMode: "selectAll",
+                keyExpr: "id",
+                selectionMode: "multiple",
+                displayExpr: "label",
+                selectAllText: 'Tous les statuts',
+                selectByClick: true,
+                onSelectionChanged: function(e) {
+                    $tabNotSelect3 = [];
+                    const selectedNodes2 = e.component.getSelectedNodes();
+                    const selectedNodes = e.component.getNodes();
+
+                    for (let k = 0; k < selectedNodes.length; k++) {
+                        if (selectedNodes[k].selected == false) {
+                            $tabNotSelect3.push(selectedNodes[k].key);
+                        }
+                    }
+
+                    for (let p = 0; p < $tabNotSelect3.length; p++) {
+                        // cacher les reco avec les tag dont la class correspond
+                        for (let g = 0; g < document.getElementsByClassName(" statut" + $tabNotSelect3[p]).length; g++) {
+                            if (document.getElementsByClassName(" statut" + $tabNotSelect3[p])[g] != null) {
+                                document.getElementsByClassName(" statut" + $tabNotSelect3[p])[g].hidden = true;
+
+                                //cache les catégories si il n'y a plus de recommandations affiché dedans
+                                let cadreReco = document.getElementsByClassName(" statut" + $tabNotSelect3[p])[g].parentElement;
+                                let hidden = 0;
+
+                                for (let i = 0; i < cadreReco.querySelectorAll('.cadreReco2').length; i++) {
+                                    if (cadreReco.querySelectorAll('.cadreReco2')[i].getAttribute("hidden") !== null) {
+                                        hidden++;
+                                    }
+
+                                    if (i == cadreReco.querySelectorAll('.cadreReco2').length - 1) {
+                                        if (hidden - 1 == i) {
+                                            cadreReco.hidden = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    for (let s = 0; s < selectedNodes2.length; s++) {
+                        // afficher les reco avec les tag dont la class correspond
+                        for (let f = 0; f < document.getElementsByClassName(" statut" + selectedNodes2[s].key).length; f++) {
+                            if (document.getElementsByClassName(" statut" + selectedNodes2[s].key)[f] != null) {
+                                document.getElementsByClassName(" statut" + selectedNodes2[s].key)[f].hidden = false;
+
+                                //affiche les catégories qui ont été cachés avec le trie 
+                                let cadreReco = document.getElementsByClassName(" statut" + selectedNodes2[s].key)[f].parentElement;
+                                let notHidden = 0;
+
+                                for (let i = 0; i < cadreReco.querySelectorAll('.cadreReco2').length; i++) {
+                                    if (cadreReco.querySelectorAll('.cadreReco2')[i].getAttribute("hidden") === null) {
+                                        notHidden++;
+                                    }
+
+                                    if (i == cadreReco.querySelectorAll('.cadreReco2').length - 1) {
+                                        if (notHidden - 1 == i) {
+                                            cadreReco.hidden = false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (typeof $tabNotSelect != "undefined") {
+                        for (let p = 0; p < $tabNotSelect.length; p++) {
+
+                            if (document.getElementById("parent" + $tabNotSelect[p]) != null) {
+                                document.getElementById("parent" + $tabNotSelect[p]).hidden = true;
+                            }
+                            for (let g = 0; g < document.getElementsByClassName($tabNotSelect[p]).length; g++) {
+                                document.getElementsByClassName($tabNotSelect[p])[g].hidden = true;
+                            }
+                        }
+                    }
+
+                    if (typeof $tabNotSelect2 != "undefined") {
+                        for (let p = 0; p < $tabNotSelect2.length; p++) {
+                            // cacher les reco avec les tag dont l'id correspond
+                            for (let h = 0; h < document.getElementsByClassName("niveau" + $tabNotSelect2[p]).length; h++) {
+                                if (document.getElementsByClassName("niveau" + $tabNotSelect2[p])[h] != null) {
+                                    document.getElementsByClassName("niveau" + $tabNotSelect2[p])[h].parentElement.hidden = true;
+                                }
+                            }
+
+                        }
+                    }
+                    Hide();
+                },
+                onContentReady: function(e) {
+                    var id = getUrlParam("Id", "")
+                    if (id != "") {
+                        e.component.selectItem(id);
+                    } else {
+                        if (treeViewStatutCount != 1) {
+                            treeViewStatutCount = 1;
+                            e.component.selectAll();
+                        }
+                    }
+                    $('.dx-treeview-select-all-item').removeClass('dx-widget')
+                },
+            }).dxTreeView('instance');
+        });
+
+        var treeViewCount2 = 0;
+        var treeView = $("#treeview2").dxTreeView({
+            dataSource: "/api/recommendation-levels",
+            dataStructure: "plain",
+            width: 340,
+            height: 320,
+            showCheckBoxesMode: "selectAll",
+            keyExpr: "id",
+            selectionMode: "multiple",
+            displayExpr: "label", 
+            selectAllText: 'Toutes les prioritées',
+            selectByClick: true,
+            onSelectionChanged: function(e) {
+                $tabNotSelect2 = [];
+                const selectedNodes2 = e.component.getSelectedNodes();
+                const selectedNodes = e.component.getNodes();
+
+                for (let k = 0; k < selectedNodes.length; k++) {
+                    if (selectedNodes[k].selected == false) {
+                        $tabNotSelect2.push(selectedNodes[k].key);
+                    }
+                }
+
+                for (let p = 0; p < $tabNotSelect2.length; p++) {
+                    // cacher les reco avec les tag dont l'id correspond
+                    for (let h = 0; h < document.getElementsByClassName(" niveau" + $tabNotSelect2[p]).length; h++) {
+                        if (document.getElementsByClassName(" niveau" + $tabNotSelect2[p])[h] != null) {
+                            document.getElementsByClassName(" niveau" + $tabNotSelect2[p])[h].hidden = true;
+
+                            let cadreReco = document.getElementsByClassName(" niveau" + $tabNotSelect2[p])[h].parentElement;
+                            let hidden = 0;
+
+                            for (let i = 0; i < cadreReco.querySelectorAll('.cadreReco2').length; i++) {
+                                if (cadreReco.querySelectorAll('.cadreReco2')[i].getAttribute("hidden") !== null) {
+                                    hidden++;
+                                }
+
+                                if (i == cadreReco.querySelectorAll('.cadreReco2').length - 1) {
+                                    if (hidden - 1 == i) {
+                                        cadreReco.hidden = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                for (let s = 0; s < selectedNodes2.length; s++) {
+                    // afficher les reco avec les tag dont l'id correspond
+                    for (let h = 0; h < document.getElementsByClassName(" niveau" + selectedNodes2[s].key).length; h++) {
+                        if (document.getElementsByClassName(" niveau" + selectedNodes2[s].key)[h] != null) {
+                            document.getElementsByClassName(" niveau" + selectedNodes2[s].key)[h].hidden = false;
+
+                            let cadreReco = document.getElementsByClassName(" niveau" + selectedNodes2[s].key)[h].parentElement;
+                            let notHidden = 0;
+
+                            for (let i = 0; i < cadreReco.querySelectorAll('.cadreReco2').length; i++) {
+                                if (cadreReco.querySelectorAll('.cadreReco2')[i].getAttribute("hidden") === null) {
+                                    notHidden++;
+                                }
+
+                                if (i == cadreReco.querySelectorAll('.cadreReco2').length - 1) {
+                                    if (notHidden - 1 == i) {
+                                        cadreReco.hidden = false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (typeof $tabNotSelect != "undefined") {
+
+                    for (let p = 0; p < $tabNotSelect.length; p++) {
+                        if (document.getElementById("parent" + $tabNotSelect[p]) != null) {
+                            document.getElementById("parent" + $tabNotSelect[p]).hidden = true;
+                        }
+                        for (let g = 0; g < document.getElementsByClassName($tabNotSelect[p]).length; g++) {
+                            document.getElementsByClassName($tabNotSelect[p])[g].hidden = true;
+                        }
+                    }
+                }
+
+                if (typeof $tabNotSelect3 != "undefined") {
+                    for (let p = 0; p < $tabNotSelect3.length; p++) {
+                        for (let g = 0; g < document.getElementsByClassName(" statut" + $tabNotSelect3[p]).length; g++) {
+                            if (document.getElementsByClassName(" statut" + $tabNotSelect3[p])[g] != null) {
+                                document.getElementsByClassName(" statut" + $tabNotSelect3[p])[g].hidden = true;
+                            }
+                        }
+                    }
+                }
+                Hide();
+            },
+            onContentReady: function(e) {
+                var id = getUrlParam("Id", "")
+                if (id != "") {
+                    e.component.selectItem(id);
+                } else {
+                    if (treeViewCount2 != 1) {
+                        treeViewCount2 = 1;
+                        e.component.selectAll();
+                    }
+                }
+                $('.dx-treeview-select-all-item').removeClass('dx-widget')
+            },
+        }).dxTreeView('instance');
+
+        function Hide() {
+            // cache le theme si il n'y a pas de reco
+            if (document.getElementsByClassName("theme").length > 0) {
+                for (let t = 0; t < document.getElementsByClassName("theme").length; t++) {
+                    $count4 = 0;
+                    for (let r = 1; r < document.getElementsByClassName(document.getElementsByClassName("theme")[t].classList[2]).length; r++) {
+                        if (document.getElementsByClassName(document.getElementsByClassName("theme")[t].classList[2])[r].hidden == false) {
+                            $count4 = 1;
+                        }
+                    }
+
+                    if ($count4 != 1) {
+                        document.getElementsByClassName("theme")[t].hidden = true;
+                    } else {
+                        document.getElementsByClassName("theme")[t].hidden = false;
+                    }
+                }
+            }
+        }
+
+        function dropdown(e) {
+            var str = e.attr('id');
+            str = str.substring(8, );
+            $("#description_" + str).slideToggle()
+        }
+
+        $.ajax({
+            url: '/api/scores',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function(globalScore) {
+                // $('#progress')[0].style.backgroundColor = "#E9FBF9";
+                // $('#progress')[0].style.borderRadius = "90px";
+                // $('#progress')[0].style.marginRight = "5px";
+                // document.querySelector('#score').textContent = Math.floor(globalScore.score * 100 / globalScore.nb)+"/100";
+                // $('#indice').removeAttr('hidden');
+
+                $('#progress')[0].style.backgroundColor = "#fff";
+                document.getElementById("progress").classList.add("scoreRectangle");
+
+                $score = globalScore.score;
+
+                if ($score >= 99) {
+                    document.getElementById("A").classList.add("scoreZoom");
+                } else if ($score < 99 && $score >= 80) {
+                    document.getElementById("B").classList.add("scoreZoom");
+                } else if ($score < 80 && $score >= 60) {
+                    document.getElementById("C").classList.add("scoreZoom");
+                } else if ($score < 60 && $score >= 40) {
+                    document.getElementById("D").classList.add("scoreZoom");
+                } else if ($score < 40) {
+                    document.getElementById("E").classList.add("scoreZoom");
+                }
+
+                $('#indice').removeAttr('hidden');
+            },
+            error: function(jqXhr, textStatus, errorThrown) {
+                console.error('Une erreur est survenue');
+            }
+        });
+        
+        $.ajax({
+            url: '/api/progression?unified=true',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function(progression) {
+                $Nbrep = progression.totalAnswers;
+                $Nbquestion = progression.totalQuestions;
+                // if ($Nbquestion > $Nbrep) {
+                //     document.getElementById('progress').hidden = true;
+                //     //document.getElementById('recommandations').hidden = true;
+                //     document.getElementById('dropdownMenuButton1').hidden = true;
+                //     document.getElementById('divErreur').hidden = false;
+                // } else {
+                //     document.getElementById('progress').hidden = false;
+                //     //document.getElementById('recommandations').hidden = false;
+                //     document.getElementById('dropdownMenuButton1').hidden = false;
+                //     document.getElementById('divErreur').hidden = true;
+                // }
+            },
+            error: function(jqXhr, textStatus, errorThrown) {
+                console.error('Une erreur est survenue');
+            }
+        });
+
+        function reduire($div) {
+            for (let f = 0; f < document.getElementsByClassName($div).length; f++) {
+                if (document.getElementsByClassName($div)[f].hidden == true) {
+                    document.getElementsByClassName($div)[f].hidden = false;
+                    document.getElementById("img" + $div).style.cssText += "transform: rotate(0deg);"
+                } else {
+                    document.getElementsByClassName($div)[f].hidden = true;
+                    document.getElementById("img" + $div).style.cssText += "transform: rotate(180deg);"
+                }
+            }
+
+            if (typeof $tabNotSelect2 != "undefined") {
+                for (let p = 0; p < $tabNotSelect2.length; p++) {
+                    // cacher les reco avec les tag dont l'id correspond
+                    for (let h = 0; h < document.getElementsByClassName("niveau" + $tabNotSelect2[p]).length; h++) {
+                        if (document.getElementsByClassName("niveau" + $tabNotSelect2[p])[h] != null) {
+                            document.getElementsByClassName("niveau" + $tabNotSelect2[p])[h].parentElement.parentElement.parentElement.hidden = true;
+                        }
+                    }
+                }
+            }
+
+            if (typeof $tabNotSelect3 != "undefined") {
+
+                for (let p = 0; p < $tabNotSelect3.length; p++) {
+                    for (let g = 0; g < document.getElementsByClassName(" statut" + $tabNotSelect3[p]).length; g++) {
+                        if (document.getElementsByClassName(" statut" + $tabNotSelect3[p])[g] != null) {
+                            document.getElementsByClassName(" statut" + $tabNotSelect3[p])[g].hidden = true;
+                        }
+                    }
+                }
+
+            }
+            Hide();
+        }
+
+        function remplirListeStatut() {
+            $.ajax({
+                url: '/api/recommendation-statuses',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function(statuts) {
+                    for (let i = 0; i < statuts.length; i++) {
+                        $("#statut").append('<option value="' + statuts[i].id + '">' + statuts[i].label + '</option>');
+                    }
+
+                }
+            });
+        }
+
+        function openModale(recommandationId, StatutId) {
+            $('#modalOuvrir').modal('show');
+            remplirListeStatut();
+            $("#statut").val(StatutId);
+            document.getElementById('valider').setAttribute('onclick', "changeStatut('" + recommandationId + "')");
+        }
+
+        function closeModale() {
+            $('#modalOuvrir').modal('hide');
+        }
+
+        function changeStatut(recommandationId) {
+
+            $.ajax({
+                url: '/api/collectivite-statuses/' + recommandationId + '/' + $("#statut").val(),
+                type: 'POST',
+                async: true,
+                dataType: "json",
+                success: function(data) {
+                    closeModale();
+                    location.reload();
+                }
+            });
+        }
+
+        $.ajax({
+            url: '/api/recommendations/totals-by-collectivite/{{collectivite.id}}',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function(recommandations) {
+                recommandations = recommandations.data;
+                if (recommandations.length == 0) {
+                    document.getElementById("divRien").hidden = false;
+                    document.getElementById("recommandations").hidden = true;
+                } else {
+                    $categorie = [];
+                    for (let e = 0; e < recommandations.length; e++) {
+                        if (!$categorie.includes(recommandations[e].category_id)) {
+                            $categorie.push(recommandations[e].category_id);
+                        }
+                    }
+
+                    $theme = [];
+                    for (let y = 0; y < recommandations.length; y++) {
+                        if (!$theme.includes(recommandations[y].theme_id)) {
+                            $theme.push(recommandations[y].theme_id);
+                        }
+                    }
+
+                    $obj = [];
+                    for (let a = 0; a < $categorie.length; a++) {
+                        $temp = [];
+                        for (let i = 0; i < recommandations.length; i++) {
+                            if (recommandations[i].category_id == $categorie[a]) {
+                                $temp.push([recommandations[i]]);
+                            }
+                        }
+
+                        $obj2 = [];
+                        for (let u = 0; u < $theme.length; u++) {
+                            $temp2 = [];
+                            for (let o = 0; o < $temp.length; o++) {
+                                if ($temp[o][0].theme_id == $theme[u]) {
+                                    $temp2.push($temp[o][0]);
+                                }
+                            }
+                            $obj2[$theme[u]] = $temp2;
+                        }
+
+                        for (let z = 0; z < $theme.length; z++) {
+                            if ($obj2[$theme[z]].length == 0) {
+                                delete $obj2[$theme[z]];
+                            }
+                        }
+
+                        $obj[$categorie[a]] = $obj2;
+                    }
+
+                    $count = 1;
+
+                    var a1 = Object.keys($obj).map(function(k) {
+                        return $obj[k];
+                    })
+
+                    for (let h = 0; h < a1.length; h++) {
+                        $nb = 0;
+                        let div0 = document.createElement('div');
+
+                        document.getElementById('recommandations').append(div0);
+
+                        var a2 = Object.keys(a1[h]).map(function(k) {
+                            return a1[h][k];
+                        })
+
+                        div0.setAttribute("id", "parent" + a2[0][0].category_id);
+
+                        for (let w = 0; w < a2.length; w++) {
+                            $nb2 = 0;
+                            for (let n = 0; n < a2[w].length; n++) {
+                                if ($nb == 0) {
+                                    let div6 = document.createElement('div');
+                                    div6.setAttribute("class", "divIconCateg");
+                                    div0.append(div6);
+
+                                    let div7 = document.createElement('div');
+                                    div7.setAttribute("class", "divRond");
+                                    div6.append(div7);
+
+                                    let img = document.createElement('img');
+                                    img.setAttribute("class", "IconCateg");
+                                    if (a2[w][n].category_image != null && a2[w][n].category_image != "") {
+                                        img.setAttribute("src", "/img/" + a2[w][n].category_image);
+                                        img.setAttribute("alt", a2[w][n].category_name);
+                                    }
+                                    div7.append(img);
+
+                                    let p = document.createElement('p');
+                                    p.setAttribute("class", "categ");
+                                    p.textContent = a2[w][n].category_name;
+                                    div6.append(p);
+
+                                    let div8 = document.createElement('div');
+                                    div8.setAttribute("id", "trait2");
+                                    div6.append(div8);
+
+                                    let img2 = document.createElement('img');
+                                    img2.setAttribute("id", "img" + a2[w][n].category_id);
+                                    img2.setAttribute("style", "cursor: pointer; margin: auto 10px; filter: brightness(0) saturate(100%) invert(20%) sepia(88%) saturate(387%) hue-rotate(125deg) brightness(92%) contrast(99%);");
+                                    img2.setAttribute("src", "img/Flechetype2.svg");
+                                    img2.setAttribute("onclick", "reduire('" + a2[w][n].category_id + "')");
+                                    div6.append(img2);
+
+                                    $nb = 1;
+                                }
+
+                                if ($nb2 == 0) {
+                                    let p2 = document.createElement('p');
+                                    p2.setAttribute("class", "theme " + a2[w][n].category_id + " " + a2[w][n].theme_id);
+                                    p2.textContent = a2[w][n].theme_label;
+                                    div0.append(p2);
+                                    $nb2 = 1;
+                                }
+
+                                if (a2[w][n].status_id === null) {
+                                    a2[w][n].status_id = 4;
+                                    a2[w][n].status_label = "À définir";
+                                }
+
+                                if (a2[w][n].status_id === 4 && a2[w][n].status_label == null) {
+                                    a2[w][n].status_label = "À définir";
+                                }
+
+                                if (a2[w][n].status_label == "Planifiée") {
+                                    a2[w][n].status_id = 0;
+                                } else if (a2[w][n].status_label == "En cours") {
+                                    a2[w][n].status_id = 1;
+                                } else if (a2[w][n].status_label == "Réalisée") {
+                                    a2[w][n].status_id = 2;
+                                } else if (a2[w][n].status_label == "À planifier") {
+                                    a2[w][n].status_id = 3;
+                                } else if (a2[w][n].status_label == "À définir") {
+                                    a2[w][n].status_id = 4;
+                                }
+
+                                let div1 = document.createElement('div');
+                                div1.setAttribute("class", "cadreReco2 " + a2[w][n].category_id + " " + a2[w][n].theme_id + " statut" + a2[w][n].status_id + " niveau" + a2[w][n].level_id);
+                                div0.append(div1);
+
+                                let div2 = document.createElement('div');
+                                div2.setAttribute("class", "num3");
+                                div2.setAttribute("height", div1.clientHeight);
+                                div1.append(div2);
+
+                                let h3 = document.createElement('h3');
+                                // h3.textContent = $count;
+                                div2.append(h3);
+
+                                let div3 = document.createElement('div');
+                                div3.setAttribute("class", "contenuReco cadreText");
+                                if (a2[w][n].level_two == 1) {
+                                    div3.setAttribute("style", "margin-right: 10px; background-color: #E9FBF9 !important;");
+                                } else {
+                                    div3.setAttribute("style", "margin-right: 10px;");
+                                }
+                                div1.append(div3);
+
+                                let div9 = document.createElement('div');
+                                div9.setAttribute("class", "contenuReco");
+                                if (a2[w][n].level_two == 1) {
+                                    div9.setAttribute("style", "background-color: #E9FBF9 !important;");
+                                }
+                                div1.append(div9);
+
+                                // for (let t = 0; t < 2; t++) {
+                                    if (a2[w][n].level_label != undefined) {
+                                        let div10 = document.createElement('div');
+                                    div10.setAttribute("id", "NiveauLabel");
+                                    div10.setAttribute('style', "background-color: " + a2[w][n].level_color + ";")
+                                    div9.append(div10);
+
+                                    let p5 = document.createElement('p');
+                                    p5.setAttribute("style", "margin: 0px;");
+                                    p5.setAttribute("class", " niv" + a2[w][n].level_id);
+                                    p5.textContent = a2[w][n].level_label;
+                                    div10.append(p5);
+                                }
+                                // }
+
+                                let div11 = document.createElement('div');
+                                div11.setAttribute("class", "" + a2[w][n].id)
+                                div11.setAttribute('style', "padding: 3px 3px 3px 7px;")
+                                div9.append(div11);
+
+                                let p6 = document.createElement('p');
+                                p6.setAttribute("style", "display: inline-block; vertical-align: middle; margin-top: 25px");
+                                p6.textContent = a2[w][n].status_label;
+                                div11.append(p6);
+
+                                let button1 = document.createElement('button');
+                                button1.setAttribute("style", "width: 15px; height: 15px; border: none; background: none; padding: 0px; margin-left: 10px; outline: none; vertical-align: sub");
+                                button1.setAttribute('onclick', "openModale('" + a2[w][n].id + "', '" + a2[w][n].status_id + "')");
+                                button1.setAttribute("id", "ouvrir");
+                                div11.append(button1);
+
+                                let img1 = document.createElement('img');
+                                img1.setAttribute("src", "/img/Modifier.svg");
+                                img1.setAttribute("style", "display: inline-block; width: 15px; height: 15px; vertical-align: inherit; outline: none");
+                                button1.append(img1);
+
+                                let div12 = document.createElement('div');
+                                div12.setAttribute("style", "text-align: center;")
+                                div9.append(div12);
+                                
+                                {% if is_granted('ROLE_LEVELTWO') %}
+                                    let a3 = document.createElement('a');
+                                    a3.setAttribute("class", "buttonDetail");
+                                    a3.setAttribute("href", "/recommandation/" + a2[w][n].id)
+                                    div12.append(a3);
+
+                                    let img3 = document.createElement('img');
+                                    img3.setAttribute("src", "/img/awesome-plus-circle.svg");
+                                    img3.setAttribute("style", "margin-right: 10px")
+                                    a3.append(img3);
+                                
+                                    let p7 = document.createElement('p');
+                                    p7.setAttribute("style", "font-size: 11px; margin: 0px !important; color: #00857A");
+                                    p7.textContent = "Voir le détail";
+                                    a3.append(p7);
+                                {% endif %}
+
+                                let div4 = document.createElement('div');
+                                div4.setAttribute("class", "titreReco2");
+                                if (a2[w][n].level_two == 1) {
+                                    div4.setAttribute("style", "display: inline-flex; align-items: baseline");
+                                }
+                                div3.append(div4);
+
+                                if (a2[w][n].level_two == 1) {
+                                    let icon3 = document.createElement('img');
+                                    icon3.setAttribute("src", "./img/crownVert.png");
+                                    icon3.setAttribute("style", "margin-right: 10px");
+                                    div4.append(icon3);
+                                }
+
+                                let p3 = document.createElement('p');
+                                p3.setAttribute("style", "margin-bottom: 0rem;");
+                                p3.setAttribute("id", "titreRecommandation" + a2[w][n].id)
+                                p3.textContent = a2[w][n].question;
+                                div4.append(p3);
+
+                                let div5 = document.createElement('div');
+                                div5.setAttribute("class", "textReco2");
+                                div3.append(div5);
+
+                                let p4 = document.createElement('p');
+                                p4.innerHTML = a2[w][n].body;
+                                p4.setAttribute("id", "descriptionRecommandation" + a2[w][n].id);
+                                div5.append(p4);
+
+                                $count += 1;
+                            }
+                        }
+                    }
+                }
+            },
+            error: function(jqXhr, textStatus, errorThrown) {
+                console.error('Une erreur est survenue');
+            }
+        });
+
+        function extract() {
+            $.ajax({
+                url: '/api/recommendations/download/{{collectivite.id}}/0',
+                type: 'get',
+                async: false,
+                dataType: 'json',
+                success: function(data) {
+                    window.location = '/api/recommendations/download/{{collectivite.id}}/1';
+                }
+            });
+        }
+
+    </script>
+{% endblock %}

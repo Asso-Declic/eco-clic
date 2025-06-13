@@ -1,0 +1,20 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Logs{% endblock %}
+
+{% block content %}
+<div class="col-md-12">
+    <div class="info" style="height: 130px; margin-top: 30px;">
+        <div id="traitVertical" class="col-3">
+            <h2 id="titre">Logs</h2>
+        </div>
+        
+    </div>
+</div>
+
+<div class="px-3" style="margin-top: 11px;">
+    <div id="gridContainer"></div>
+</div>
+
+<script src="{{ asset('admin/js/logs.js') }}"></script>
+{% endblock %}

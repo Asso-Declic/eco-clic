@@ -1,0 +1,717 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block header_scripts %}
+<script src="{{ asset('js/statistiques.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="page-content">
+        <div class="row">
+            <!-- Main  -->
+            <div class="col-xl-6 col-md-12">
+                <div class="info">
+                    <div>
+                        <h2 id="col"></h2>
+                        <h3><span id="type"></span><span> - </span><span id="CP"></span></h3>
+                        <h6><span></span><span id="lastModif">
+                        {% if collectivite.lastAnsweredAt is not null %}
+                        Dernière modification : {{ collectivite.lastAnsweredAt|date('d/m/Y') }}
+                        {% else %}
+                        <a id="commencer" hidden style="text-decoration: underline; cursor: pointer;">Démarrer le questionnaire</a>
+                        {% endif %}
+                        </span></h6>
+                        {% if app.user.opsn is not null %}
+                        <h6>Connecté en tant qu'OPSN</h6>
+                        {% endif %}
+                        
+                    </div>
+                    <div id="progress" class="">
+                        <svg class="progress-ring" width="105" height="105">
+                            <circle id="cercle0" class="progress-ring__circle" stroke="white" stroke-width="4"
+                                fill="transparent" r="45" cx="50" cy="55"
+                                style="stroke-dasharray: 326.726, 326.726; stroke-dashoffset: 326.726;"></circle> 
+                        </svg>
+
+                        <p class="progressContent" id="completion" style="top: 40px; left: 22px;" hidden="true">
+                            Complété à </br><span id="pourcentage" style="font-size: 18px;"></span>
+                        </p>
+
+                        <p class="progressContent" id="indice"
+                            style="top: 14px; line-height: 1; left: 15px; color: #fafafa; font-size: 26px;background-image: linear-gradient(#08433D 0 0); background-position: bottom center; background-size: 79% 1.5px; background-repeat: no-repeat;"
+                            hidden="true">
+                            {# Score </br><span id="score" style="font-size: 18px; color: #000;"></span> #}
+                            <span id="A" class="scoreLetter" style="color: #038141;">A</span><span id="B"
+                                class="scoreLetter" style="color: #627A39;">B</span><span id="C" class="scoreLetter"
+                                style="color: #966A09;">C</span><span id="D" class="scoreLetter"
+                                style="color: #B65713;">D</span><span id="E" class="scoreLetter"
+                                style="color: #A80000;">E</span>
+                        </p>
+                    </div>
+                    
+                </div>
+
+                <button class="btn" id="btnExtract" onclick='extract();'><i class="fa-solid fa-download"></i>Extraire les recommandations</button>
+
+                <div id="pasComplet" class="align-items-center flex-column justify-content-center m-5" style="height: 50vh;">
+                    <div class="align-items-center d-flex flex-column">
+                        <p style="text-align: center; font-size: 20px;">
+                            L'éco-clic est une plateforme conçue par des experts
+                            du numérique responsable pour donner des clefs aux
+                            collectivités qui veulent améliorer leurs actions en
+                            matière de développement numérique durable et
+                            ainsi aider à la préservation de notre planète.
+                        </p>
+                        <p style="font-size: 20px;">
+                            À vous de jouer
+                        </p>
+                    </div>
+
+                    
+                    <a id="commencer-btn" class="btn btn-blueAdico fs mt-5 p-4 rounded-pill" 
+                    style="background-color: #00857A; color: white; height: 80px; width: 50%; cursor: pointer; height: auto !important;">Commencer</a>
+                </div>
+
+                <div id="complet" hidden>
+                    <div id="Statistiques">
+                        <div class="divAcceuil">
+                            <div class="divRond" style="margin-right: 0px;">
+                                <img src="{{ asset('img/statistiques.svg') }}" style="filter: brightness(0) invert(1); padding: 5px; width: 23px; height: 23px;">
+                            </div>
+                            <p style="color: #08453F; font-size: 20px; min-inline-size: max-content; margin: 10px;">Statistiques</p>
+                            <div id="trait2"></div>
+                            <img id="imgdivStatistiquesContent" src="{{ asset('img/Flechetype2.svg') }}" style="cursor: pointer; margin: auto 10px; filter: brightness(0) saturate(100%) invert(20%) sepia(88%) saturate(387%) hue-rotate(125deg) brightness(92%) contrast(99%);" onclick="reduire('divStatistiquesContent')">
+                        </div>
+                        <div id="divStatistiquesContent" style="background-color: #FFFFFF; border-radius: 6px;">
+                            <div class="demo-container">
+                                <div id="chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {# <div id="stat">
+                    <div id="titreStat">
+                        <h3 style="margin-bottom: 0;">Statistiques</h3>
+                        <div id="trait"></div>
+                        <a href="#" style="text-decoration: underline; cursor: pointer;line-height: 2; padding-top: 2px;">Voir tout</a>
+                    </div>
+
+                    <div id="graph">
+                        <div class="col-12 pt-5">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                                <span class="sous-titre" style="font-weight: bold; margin: auto 0;">Votre évolution</span>
+                                
+                                <div>
+                                    <div class="dropdown">
+                                        <button class="align-items-center btn d-flex justify-content-between btn filtres dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                            <span class="px-4">Thématiques</span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <div id="treeview"></div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="chart"></div>
+                        </div>
+                    </div>
+                    
+                </div> #}
+            </div>
+
+            <div id="recommandations" class="col-xl-6 col-md-12 row">
+                <div id="last" class="reco div1 col-xl-5 col-md-12" style="border: none;" hidden>
+                    <div class="recoTitre row">
+                        <svg class="progress-ring" width="90" height="120">
+                            <circle id="cercle4" class="progress-ring__circle" stroke-width="3" fill="#fff" r="32" cx="60" cy="60" style="stroke-dasharray: 201.06192982974676, 201.06192982974676; stroke-dashoffset: 0;" stroke="#12857A"></circle>
+                        </svg>
+                        <img class="progressContent progressReco black pictoGreen" src="{{ asset('/img/plusLoin.svg') }}" alt="Pour aller plus loin">
+                        <p class="pReco">Pour aller plus loin</p>
+                    </div>
+                    <div class="recoQuestion row">
+                        <p class="recoText">Pour bénéficier des questions approfondies,</p>
+                    </div>
+                    <div class="recoDispo row">
+                        <p class="recoText">merci de vous rapprocher de votre OPSN</p>
+                    </div>
+                    <div class="fleche">
+                        <i class="fa-solid fa-lock fa-xl"></i>
+                    </div>
+                </div>
+
+                <a class="tous div1 col-xl-5 col-md-12 p-0" style="color: #fff;" href="{{ path('recommandation_browse') }}">                    
+                <div class="pTous">
+                    <div style="font-size:large">Accéder au plan </div>
+                    <div style="font-size:large">d'action</div>
+                </div>
+
+                <div class="fleche flecheTous">
+                    <i class="fa-solid fa-arrow-right fa-xl"></i>
+                </div>
+                    
+                </a>
+                    
+            </div>
+        </div>
+    </div>
+
+    <!-- modal du patch note -->
+    <div class="modal" id="modalePatchNote" tabindex="-1">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title sous-titre">Patch note</h4>
+                </div>
+                <div class="modal-body">
+                    <h5 id="title"></h5>
+                    <p id="body"></p>
+                    <div style="text-align: center;">
+                        <button type="button" class="btn btn-secondary" onclick="closePatch();" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<style>
+.divA {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    margin-left: -30px;
+}
+
+.recoQuestionAlign {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.recoMarge {
+    margin-bottom: 0px;
+}
+
+.svgDisplay {
+    display: block;
+    min-width: 90px;
+}
+
+@media (max-width: 650px) {
+    #indice, #progress {
+        position: inherit;
+        margin: 10px auto;
+    }
+
+    #completion {
+        top: unset !important;
+        left: unset !important;
+    }
+
+    #col {
+        font-size: 1.5rem;
+    }
+
+    #type {
+        font-size: 1.25rem;
+    }
+}
+</style>
+
+<script>
+
+    $.ajax({
+        url: '/api/patch_note',
+        type: 'get',
+        async: false,
+        dataType: 'json',
+        success: function(data) {
+            $("#title")[0].innerHTML = data.title;
+            $("#body")[0].innerHTML = data.body;
+        },
+        error: function(jqXhr, textStatus, errorThrown) {
+            console.error('Une erreur est survenue');
+        }
+    });
+
+    function closePatch() {
+        $("#modalePatchNote").modal('hide');
+    }
+
+    $(document).ready(function () {
+
+        $.ajax({
+            url: '/api/users/current',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                if (data.isVu == false && $("#title")[0].innerHTML != "" && $("#body")[0].innerHTML != "") {
+                    $("#modalePatchNote").modal('show');
+                
+                    $.ajax({
+                        url: '/api/users/update-isVu',
+                        type: 'PATCH',
+                        async: false,
+                        dataType: 'json',
+                        error: function (jqXhr, textStatus, errorThrown) {
+                            console.error('Une erreur est survenue');
+                        }
+                    });
+                }
+
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.error('Une erreur est survenue');
+            }
+        });
+
+        
+        
+        function Timeout() {
+            setTimeout(size, 300);
+        }
+
+        $(window).on('resize', size);
+        $("#retrecir").on('click', Timeout);
+        size();
+
+        function size() {
+            if (window.innerWidth > 970) {
+                $('#content').width(window.innerWidth - $('#sidebar').width());
+                // $('#chart').dxChart("instance").render();
+            } else {
+                $('#content').width("100%");
+            }
+            
+        }
+
+        $Siret = "";
+        $.ajax({
+            url: '/api/collectivites/infos',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                document.getElementById("col").textContent = data[0].c_name;
+                if (data[0].type == "Mairie") {
+                    document.getElementById("type").textContent = "Commune";
+                } else {
+                    document.getElementById("type").textContent = data[0].type;
+                }
+                document.getElementById("CP").textContent = data[0].c_postalCode;
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.error('Une erreur est survenue');
+            }
+        });
+
+        $userProgression = [];
+        
+        $.ajax({
+            url: '/api/progression',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function (data) {
+                $userProgression = data;
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.error('Une erreur est survenue');
+            }
+        });
+
+        $userProgression2 = undefined;
+        $count = 0;
+        $.ajax({
+            url: '/api/category/infos',
+            type: 'GET',
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                $nb_question = 0;
+                $Nbrep = 0;
+                for (let a = 0; a < data.length; a++) {
+                    $nb_question += data[a].nb_question;
+                    if ($userProgression[a] != undefined) {
+                        $Nbrep += $userProgression[a].nb_repondu;
+                    }
+                    else {
+                        $Nbrep += 0;
+                    }
+                }
+
+                if ($Nbrep > $nb_question) {
+                    $Nbrep = $nb_question;
+                }
+
+                if ($Nbrep == $nb_question) {
+                    document.getElementById("pasComplet").hidden = true;
+                    document.getElementById("complet").hidden = false;
+                } else {
+                    document.getElementById("pasComplet").hidden = false;
+                    document.getElementById("pasComplet").classList.add("d-flex");
+                    document.getElementById("complet").hidden = true;
+                }
+
+                if ($("#pourcentage").text() == "100%") {
+                    $("#boutonValider").css('display', 'block');
+                } else {
+                    $("#boutonValider").css('display', 'none');
+                }
+
+                if ($Nbrep == 0) {
+                    document.getElementById("btnExtract").hidden = true;
+                }
+
+                var circumference = 52 * 2 * Math.PI;
+                var percent = ($Nbrep / $nb_question) * 100;
+                const offset = circumference - percent / 100 * circumference;
+                if (offset != 0) {
+                    if ($Nbrep == 0) {
+                        document.querySelector('#pourcentage').textContent = "0%";
+                        document.querySelector('#cercle0').style.strokeDashoffset = offset;
+                        $('#completion').removeAttr('hidden');
+                    } else {
+                        document.querySelector('#cercle0').style.strokeDashoffset = offset;
+                        document.querySelector('#pourcentage').textContent = Math.round(percent) + "%";
+                        $('#completion').removeAttr('hidden');
+                    }
+                } else {
+                    // appel ajax qui recup ponderation des questions
+                    $.ajax({
+                        url: '/api/scores' ,
+                        type: 'GET',
+                        async: false,
+                        dataType: 'json',
+                        success: function (data) {
+                            $.ajax({
+                                url: '/api/scores',
+                                type: 'GET',
+                                async: false,
+                                dataType: 'json',
+                                success: function (data2) {
+                                    $score = data2['score'];
+                                }
+                            });
+
+                            $('#progress')[0].style.backgroundColor = "#fff";
+                            document.getElementById("progress").classList.add("scoreRectangle");
+
+                            if ($score >= 99) {
+                                document.getElementById("A").classList.add("scoreZoom");
+                            }else if ($score < 99 && $score >= 80) {
+                                document.getElementById("B").classList.add("scoreZoom");
+                            } else if ($score < 80 && $score >= 60) {
+                                document.getElementById("C").classList.add("scoreZoom");
+                            } else if ($score < 60 && $score >= 40) {
+                                document.getElementById("D").classList.add("scoreZoom");
+                            } else if ($score < 40) {
+                                document.getElementById("E").classList.add("scoreZoom");
+                            }
+
+                            $('#indice').removeAttr('hidden');
+                            $('#last').removeAttr('hidden');
+                        },
+                        error: function (jqXhr, textStatus, errorThrown) {
+                            console.error('Une erreur est survenue');
+                        }
+                    });
+                    
+                }
+                
+                // On récupère le nombre de recommandation disponibles que le user a au total que l'on va afficher séparément sur chaque catégories
+                let nbRecommandationUser = [];
+                $.ajax({
+                    url: '/api/recommendations/totals-per-categories',
+                    type: 'get',
+                    async: false,
+                    dataType: 'json',
+                    success: function(data2) {
+                        for (let i = 0; i < data.length; i++) {
+                            nbRecommandationUser[i] = data2['data'][i].nb_recommandation;
+                        }
+                    }
+                });
+
+                for (let i = 0; i < data.length; i++) {
+                    for (let y = 0; y < $userProgression.length; y++) {
+                        if ($userProgression[y].category_id == data[i].id) {
+                            $userProgression2 = $userProgression[y];
+                            break;
+                        } else {
+                            $userProgression2 = undefined;
+                        }
+                    }
+
+                    var circumference2 = 32 * 2 * Math.PI;
+                    if ($userProgression2 != undefined) {
+                        if ($userProgression2.nb_repondu > data[i].nb_question) {
+                            $userProgression2.nb_repondu = data[i].nb_question;
+                        }
+
+                        var percent2 = ($userProgression2.nb_repondu / data[i].nb_question) * 100;
+                    } else {
+                        var percent2 = (0 / data[i].nb_question) * 100;
+                    }
+                    //percent2 = cercle 
+                    const offset2 = circumference2 - percent2 / 100 * circumference2;
+                    let div1 = document.createElement('div');
+                    div1.setAttribute("class", "reco div1 col-xl-5 col-md-12");
+                    document.getElementById('recommandations').insertBefore(div1, document.getElementById('last'));
+
+                    $(document).ready(function() {
+                        if ($(window).width() < 1280) {
+                            $(div1).removeClass('col-xl-5');
+                        }
+
+                        $(window).resize(function() {
+                            if ($(window).width() < 1280) {
+                                $(div1).removeClass('col-xl-5');
+                            } else {
+                                $(div1).addClass('col-xl-5');
+                            }
+                        });
+                    });
+
+                    let divA = document.createElement('a');
+                    divA.setAttribute("href", "/categories/" + data[i].id);
+                    divA.setAttribute("class", "divA");
+                    div1.append(divA);
+
+                    let div2 = document.createElement('div');
+                    div2.setAttribute("class", "recoTitre row");
+                    div1.append(div2);
+
+                    let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    svg.setAttribute("class", "progress-ring");
+                    svg.setAttribute("width", "90");
+                    svg.setAttribute("height", "120");
+                    div2.append(svg);
+
+                    let circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    circle.setAttribute("id", "cercle" + i);
+                    circle.setAttribute("class", "progress-ring__circle");
+
+                    circle.setAttribute("stroke-width", "3");
+                    circle.setAttribute("fill", "#fff");
+                    circle.setAttribute("r", "32");
+                    circle.setAttribute("cx", "60");
+                    circle.setAttribute("cy", "60");
+                    circle.setAttribute("style", "stroke-dasharray: " + circumference2 + ", " + circumference2 + "; stroke-dashoffset: " + offset2 + ";");
+                    svg.append(circle);
+
+                    let img = document.createElement('img');
+                    img.setAttribute("class", "progressContent progressReco");
+                    if (data[i].image != null && data[i].image != "") {
+                        img.setAttribute("src", "/img/" + data[i].image);
+                        img.setAttribute("alt", data[i].name);
+                    }
+                    div2.append(img);
+
+                    let p1 = document.createElement('p');
+                    p1.setAttribute("class", "pReco");
+                    p1.textContent = data[i].name;
+                    div2.append(p1);
+
+                    let div3 = document.createElement('div');
+                    div3.setAttribute("class", "recoQuestion row");
+                    div1.append(div3);
+
+                    let i1 = document.createElement('img');
+                    i1.setAttribute("style", "padding-bottom: 15px;");
+                    i1.setAttribute("src", "/img/questionMessage.svg");
+                    div3.append(i1);
+
+                    let p2 = document.createElement('p');
+                    p2.setAttribute("class", "recoNumber");
+                    if ($userProgression2 != undefined) {
+
+                        if ($userProgression2.nb_repondu > data[i].nb_question) {
+                            $userProgression2.nb_repondu = data[i].nb_question;
+                        }
+
+                        p2.textContent = $userProgression2.nb_repondu + "/" + data[i].nb_question;
+                        $count = 0;
+
+                        if ($userProgression2.nb_repondu > 0) {
+                            // document.getElementById("commencer").innerHTML = "Reprendre";
+                            document.getElementById("commencer-btn").innerHTML = "Reprendre";
+                        } else {
+                            // document.getElementById("commencer").innerHTML = "Commencer";
+                            document.getElementById("commencer-btn").innerHTML = "Commencer";
+                        }
+
+                        if ($userProgression2.nb_repondu != data[i].nb_question) {
+                            // document.getElementById("commencer").hidden = false;
+                            // document.getElementById("commencer").href = "/categories/" + data[i].id;
+                            document.getElementById("commencer-btn").hidden = false;
+                            document.getElementById("commencer-btn").href = "/categories/" + data[i].id;
+
+                        }
+                    } else {
+                        p2.textContent = 0 + "/" + data[i].nb_question;
+                        $count = $count + 1;
+
+                        if (document.getElementById("commencer").hidden == true) {
+                            document.getElementById("commencer").hidden = false;
+
+                            document.getElementById("commencer").href = "/categories/" + data[i].id;
+                            document.getElementById("commencer-btn").hidden = false;
+                            document.getElementById("commencer-btn").href = "/categories/" + data[i].id;
+                        }
+                    }
+                    div3.append(p2);
+
+                    let p3 = document.createElement('p');
+                    p3.setAttribute("class", "recoText");
+                    p3.textContent = "questions complétées";
+                    div3.append(p3);
+
+                    let div4 = document.createElement('div');
+                    div4.setAttribute("class", "recoDispo row");
+                    div1.append(div4);
+
+                    let i2 = document.createElement('img');
+                    i2.setAttribute("style", "padding-bottom: 15px;");
+                    i2.setAttribute("src", "/img/clipboard.svg");
+                    div4.append(i2);
+
+                    let p4 = document.createElement('p');
+                    p4.setAttribute("class", "recoNumber");
+                    // p4.textContent = data[i].nbReco;
+                    p4.textContent = nbRecommandationUser[i];
+                    div4.append(p4);
+
+                    let p5 = document.createElement('p');
+                    p5.setAttribute("class", "recoText");
+                    p5.textContent = "recommandations disponibles";
+                    div4.append(p5);
+
+                    let div5 = document.createElement('div');
+                    div5.setAttribute("class", "fleche");
+                    div1.append(div5);
+
+                    let a = document.createElement('a');
+                    a.setAttribute("href", "/categories/" + data[i].id);
+                    div5.append(a);
+
+                    let i3 = document.createElement('i');
+                    i3.setAttribute("class", "fa-solid fa-arrow-right fa-xl");
+                    a.append(i3);
+                    if (percent2 <= 25) {
+                        circle.setAttribute("stroke", "#D64309");
+                        $(".progressReco").addClass("black")
+                        $($(circle).parent().parent().children()[1]).addClass("pictoRed")
+                    }
+                    else if (percent2 >= 26 && percent2 <= 99) {
+                        circle.setAttribute("stroke", "#FFBA4D");
+                        $(".progressReco").addClass("black")
+                        $($(circle).parent().parent().children()[1]).addClass("pictoYellow")
+                    }
+                    else if (percent2 == 100) {
+                        circle.setAttribute("stroke", "#12857A");
+                        $(".progressReco").addClass("black")
+                        $($(circle).parent().parent().children()[1]).addClass("pictoGreen")
+                    }
+                }
+                
+                if ("{{ collectivite.levelTwo }}" == "1") {
+                    $('#last')[0].hidden = true;
+                } else {
+                    $('#last')[0].hidden = false;
+                }
+
+            },
+            error: function(jqXhr, textStatus, errorThrown) {
+                console.error('Une erreur est survenue');
+            }
+        });
+
+        // À la fin, on affiche les stats si on est complet
+        if (document.getElementById('complet').hidden === false) {
+            $.ajax({
+                url: '/api/stats',
+                type: 'GET',
+                async: false,
+                dataType: 'json',
+                success: function (stats) {
+                    statsList = stats;
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    console.error('Une erreur est survenue');
+                }
+            });
+
+            $('#divStatistiquesContent').dxChart({
+                palette: 'Ocean',
+                dataSource: statsList,
+                commonSeriesSettings: {
+                    argumentField: 'scoredAt',
+                    type: 'line',
+                },
+                margin: {
+                    top: 5,
+                    right: 15,
+                    bottom: 5,
+                    left: 15
+                },
+                argumentAxis: {
+                    valueMarginsEnabled: false,
+                    discreteAxisDivisionMode: 'crossLabels',
+                    argumentType: 'datetime',  
+                    grid: {
+                        visible: true,
+                    },
+                    type: 'continuous',
+                },
+                series: [
+                    { valueField: 'score', name: 'Score global de la collectivité' },
+                ],
+                legend: {
+                    verticalAlignment: 'bottom',
+                    horizontalAlignment: 'center',
+                    itemTextPosition: 'bottom',
+                },
+                title: {
+                    text: 'Historique du score global',
+                },
+                export: {
+                    enabled: true,
+                },
+                tooltip: {
+                    enabled: true,
+                },
+            }).dxChart('instance');
+        }
+    });
+
+    function reduire($div) {
+
+        if (document.getElementById($div).hidden == true) {
+            document.getElementById($div).hidden = false;
+            document.getElementById("img" + $div).style.cssText += "transform: rotate(0deg);"
+        } else {
+            document.getElementById($div).hidden = true;
+            document.getElementById("img" + $div).style.cssText += "transform: rotate(180deg);"
+        }
+    }  
+
+    function extract() {
+        $.ajax({
+            url: '/api/recommendations/download/{{collectivite.id}}/0',
+            type: 'get',
+            async: false,
+            dataType: 'json',
+            success: function(data) {
+                window.location = '/api/recommendations/download/{{collectivite.id}}/1';
+            }
+        });
+    }
+</script>
+ {% endblock %}

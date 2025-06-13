@@ -1,0 +1,22 @@
+{# name est le nom qui construit l'id et qui sert pour inclure le fichier de template #}
+{% macro simple_modale(name, title) %}
+<div class="modal fade" id="{{ name }}Modal" tabindex="-1" role="dialog" aria-labelledby="{{ name }}ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="{{ name }}ModalLabel">MENTIONS LÉGALES</h5>
+            </div>
+            <div class="modal-body" style="margin: 10px; border: 1px solid #08453F;">
+                {% include "security/modals/" ~ name ~ ".html.twig" %}
+            </div>
+            <div class="modal-footer">
+                <button style="border: 1px solid grey; color: #08453F;" type="button" class="btn btn-light" data-dismiss="modal">Retour</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{{ _self.simple_modale('cgu', 'CONDITIONS GÉNÉRALES') }}
+{{ _self.simple_modale('mention', 'MENTIONS LÉGALE') }}
+
