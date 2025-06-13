@@ -194,6 +194,9 @@ Push du code concernant les modifications des fonctionnalités suivantes :
 - coté administration : Amélioration du système de recommandation personnalisé.| 24/02/2025;
 - notification lorsqu'une recommandation est activée par l'opsn | 25/02/2025;
 - modification de l'affichage des recommandations | 04/04/2025;
+- modification de l'export excel | 09/06/2025;
+- ajout d'un bouton d'extraction de toute les collectivités pour les admin | 10/06/2025;
+
 
 ## Licence Open Source
 
