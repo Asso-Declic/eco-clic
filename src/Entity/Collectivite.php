@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\CollectiviteRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+// use App\Entity\RecommandationPerso;
+use App\Repository\CollectiviteRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CollectiviteRepository::class)]
@@ -85,6 +86,9 @@ class Collectivite
 
     #[ORM\OneToMany(mappedBy: 'collectivite', targetEntity: Notification::class, orphanRemoval: true)]
     private Collection $notifications;
+
+    // #[ORM\OneToOne(mappedBy: 'Collectivite', cascade: ['persist', 'remove'])]
+    // private ?RecommandationPerso $recommandationPerso = null;
 
     public function __construct()
     {
@@ -421,4 +425,21 @@ class Collectivite
 
         return $this;
     }
+
+    // public function getRecommandationPerso(): ?RecommandationPerso
+    // {
+    //     return $this->recommandationPerso;
+    // }
+
+    // public function setRecommandationPerso(RecommandationPerso $recommandationPerso): static
+    // {
+    //     // set the owning side of the relation if necessary
+    //     if ($recommandationPerso->getCollectivite() !== $this) {
+    //         $recommandationPerso->setCollectivite($this);
+    //     }
+
+    //     $this->recommandationPerso = $recommandationPerso;
+
+    //     return $this;
+    // }
 }
