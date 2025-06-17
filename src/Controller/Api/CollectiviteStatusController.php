@@ -2,48 +2,67 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\CollectiviteStatus;
 use App\Entity\Recommandation;
+use App\Entity\CollectiviteStatus;
+use App\Entity\RecommandationPerso;
 use App\Entity\RecommandationStatus;
-use App\Repository\CollectiviteStatusRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\CollectiviteStatusRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/api/collectivite-statuses', name: 'api_collectivite_status_')]
 class CollectiviteStatusController extends AbstractController
 {
     #[Route(
-        '/{recommandation}/{status}',
+        '/{id}/{status}',
         name: 'set',
         methods: ['POST', 'PUT'],
-        requirements: ['recommandation' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$', 'status' => '\d+']
+        requirements: ['id' => '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$', 'status' => '\d+']
     )]
-    public function set(CollectiviteStatusRepository $collectiviteStatusRepository, EntityManagerInterface $em, Recommandation $recommandation, RecommandationStatus $status): JsonResponse
-    {
-        /*
-        La logique originale créait un statut pour chaque recommandation dès l'inscription
-        Aucune création de statut n'existait autrement. Changeons cette logique pour éviter des statuts inutiles en BDD
-        et pour éviter des déconvenus en cas de bug de la base de données. Lors d'un update, si le statut n'existe pas, on le crée.
-        */
-        $collectivite = $this->getUser()->getCollectivite();
-        $collectiviteStatus = $collectiviteStatusRepository->findOneBy(['recommandation' => $recommandation, 'collectivite' => $collectivite]);
+    public function set(
+    string $id,
+    RecommandationStatus $status,
+    EntityManagerInterface $em,
+    CollectiviteStatusRepository $collectiviteStatusRepository
+): JsonResponse {
+    $recommandationPerso = $em->getRepository(RecommandationPerso::class)->find($id);
 
-        if ($collectiviteStatus === null) {
-            $collectiviteStatus = new CollectiviteStatus();
-            $collectiviteStatus->setRecommandation($recommandation);
-            $collectiviteStatus->setCollectivite($collectivite);
-            $collectiviteStatus->setStatus($status);
-            $em->persist($collectiviteStatus);
-            $statusCode = Response::HTTP_CREATED;
-        } else {
-            $collectiviteStatus->setStatus($status);
-            $statusCode = Response::HTTP_OK;
-        }
+    if ($recommandationPerso !== null) {
+        // Cas 1 : c'est une recommandation perso
+        $recommandationPerso->setStatus($status);
         $em->flush();
-
-        return $this->json($collectiviteStatus, $statusCode, [], ['groups' => 'collectivite_status']);
+        return $this->json(['message' => 'Statut mis à jour pour RecommandationPerso.'], Response::HTTP_OK);
     }
+
+    // Cas 2 : c'est une recommandation générique
+    $recommandation = $em->getRepository(Recommandation::class)->find($id);
+    if ($recommandation === null) {
+        return $this->json(['error' => 'Recommandation non trouvée.'], Response::HTTP_NOT_FOUND);
+    }
+
+    $collectivite = $this->getUser()->getCollectivite();
+    $collectiviteStatus = $collectiviteStatusRepository->findOneBy([
+        'recommandation' => $recommandation,
+        'collectivite' => $collectivite,
+    ]);
+
+    if ($collectiviteStatus === null) {
+        $collectiviteStatus = new CollectiviteStatus();
+        $collectiviteStatus->setRecommandation($recommandation);
+        $collectiviteStatus->setCollectivite($collectivite);
+        $collectiviteStatus->setStatus($status);
+        $em->persist($collectiviteStatus);
+        $statusCode = Response::HTTP_CREATED;
+    } else {
+        $collectiviteStatus->setStatus($status);
+        $statusCode = Response::HTTP_OK;
+    }
+
+    $em->flush();
+
+    return $this->json($collectiviteStatus, $statusCode, [], ['groups' => 'collectivite_status']);
+}
 }
