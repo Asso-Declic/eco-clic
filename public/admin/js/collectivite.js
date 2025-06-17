@@ -323,6 +323,7 @@ function recoPerso(CategId, collectiviteId, Categorie) {
                         $reponseBtn = [];
                         $reco = [];
                         $selectedReco = [];
+                        $RecoPerso = [];
 
                         for (let i = 0; i < reponse.length; i++) {
                             if (reponse[i].type == "reponse") {
@@ -349,6 +350,8 @@ function recoPerso(CategId, collectiviteId, Categorie) {
                                 $reco.push({ "id": reponse[i].id, "body": reponse[i].body });
                             } else if (reponse[i].type == "selectedReco") {
                                 $selectedReco.push({ "id": reponse[i].id, "body": reponse[i].body });
+                            } else if (reponse[i].type == "perso") {
+                                $RecoPerso.push({ "id": reponse[i].id, "body": reponse[i].body });
                             }
                         }
 
@@ -371,6 +374,30 @@ function recoPerso(CategId, collectiviteId, Categorie) {
                         }
 
                         $('#select-reco-text')[0].hidden = false;
+
+                        if ($('#divRecoPerso')[0]) {
+                            $('#divRecoPerso')[0].remove();
+                        }
+
+                        let div4 = document.createElement('div');
+                        div4.setAttribute("id", "divRecoPerso");
+                        div4.setAttribute("class", "divRecoPerso");
+                        $('#select-reco').after(div4);
+
+                        let div6 = document.createElement('div');
+                        div6.setAttribute("class", "select-reco-text");
+                        div6.textContent = "Recommandation personnalisée :";
+                        div4.append(div6);
+
+                        let textarea = document.createElement('textarea');
+                        textarea.setAttribute("class", "form-control");
+                        textarea.setAttribute("id", "recoPersoText");
+                        textarea.setAttribute("rows", "3");
+                        textarea.setAttribute("placeholder", "Ajouter une recommandation personnalisée");
+                        if ($RecoPerso.length != 0) {
+                            textarea.value = $RecoPerso[0].body;
+                        }
+                        div4.append(textarea);
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
                         console.error('Une erreur est survenue');
@@ -417,6 +444,34 @@ function updateRecoPerso() {
             }
             
             recoPerso($categId, $collectiviteId, document.getElementById("ModaleRecoPersoLabel").innerHTML.replace("RECOMMANDATIONS - ", ""));
+        },
+        error: function (jqXhr, textStatus, errorThrown) {
+            console.error('Une erreur est survenue');
+        }
+    });
+
+    $.ajax({
+        url: '/api/recommendation-customs/perso',
+        type: 'post',
+        async: true,
+        dataType: 'html',
+        data: {
+            'recommandation': document.querySelector("#recoPersoText").value,
+            'collectivite': $collectiviteId,
+            'question': $questionId
+        },
+        success: function (data) {
+
+            if ($('#select-reco').dxTagBox("instance").option("selectedItems").length > 0) {
+                $.ajax({
+                    url: '/api/collectivites/addNotif',
+                    async: true,
+                    type: 'post',
+                    data: {
+                        'categorie': $categId,
+                    }
+                });
+            }
         },
         error: function (jqXhr, textStatus, errorThrown) {
             console.error('Une erreur est survenue');
