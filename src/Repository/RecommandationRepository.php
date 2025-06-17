@@ -178,13 +178,20 @@ class RecommandationRepository extends ServiceEntityRepository
     		    FROM recommandation_custom
                 INNER JOIN recommandation ON recommandation.id = recommandation_custom.recommandation_id
     		    WHERE recommandation_custom.question_id = :IdQuestion3
-                AND recommandation_custom.collectivite_id = :CollectiviteId2", $rsm);
+                AND recommandation_custom.collectivite_id = :CollectiviteId2
+            UNION
+            SELECT recommandation_perso.id, recommandation_perso.body, ' ' as r, 'perso' as type
+                FROM recommandation_perso
+                WHERE recommandation_perso.question_id = :IdQuestion4
+                AND recommandation_perso.collectivite_id = :CollectiviteId3", $rsm);
 
         $q->setParameter('IdQuestion', $question->getId());
         $q->setParameter('IdQuestion2', $question->getId());
         $q->setParameter('IdQuestion3', $question->getId());
+        $q->setParameter('IdQuestion4', $question->getId());
         $q->setParameter('CollectiviteId', $collectivite->getId());
         $q->setParameter('CollectiviteId2', $collectivite->getId());
+        $q->setParameter('CollectiviteId3', $collectivite->getId());
 
         return $q->getScalarResult();
     }
@@ -254,17 +261,44 @@ class RecommandationRepository extends ServiceEntityRepository
             AND answer.question_id = recommandation.question_id  
             AND recommandation_custom.collectivite_id = :CollectiviteId5
             AND IF(collectivite.level_two = 1, question.level_two = 0 OR question.level_two = 1, question.level_two = 0))
+
+            UNION
+
+            SELECT
+                recommandation_perso.id,
+                recommandation_perso.question_id,
+                recommandation_perso.title,
+                recommandation_perso.body,
+                category.name,
+                recommandation_level.label AS NiveauLabel,
+                recommandation_level.color AS NiveauCouleur,
+                question.level_two,
+                question.sort_order
+            FROM recommandation_perso
+            INNER JOIN question ON recommandation_perso.question_id = question.id
+            INNER JOIN category ON question.category_id = category.id
+            INNER JOIN recommandation_level ON recommandation_perso.level_id = recommandation_level.id
+            WHERE recommandation_perso.collectivite_id = :CollectiviteId6
+            AND question.category_id = :id4
+            AND (
+                    (SELECT level_two FROM collectivite WHERE id = :CollectiviteId7) = 0 AND question.level_two = 0
+                    OR (SELECT level_two FROM collectivite WHERE id = :CollectiviteId8) = 1 AND (question.level_two = 0 OR question.level_two = 1)
+                )
             ORDER BY sort_order
             ", $rsm);
 
         $q->setParameter('id', $category->getId());
         $q->setParameter('id2', $category->getId());
         $q->setParameter('id3', $category->getId());
+        $q->setParameter('id4', $category->getId());
         $q->setParameter('CollectiviteId', $collectivite->getId());
         $q->setParameter('CollectiviteId2', $collectivite->getId());
         $q->setParameter('CollectiviteId3', $collectivite->getId());
         $q->setParameter('CollectiviteId4', $collectivite->getId());
         $q->setParameter('CollectiviteId5', $collectivite->getId());
+        $q->setParameter('CollectiviteId6', $collectivite->getId());
+        $q->setParameter('CollectiviteId7', $collectivite->getId());
+        $q->setParameter('CollectiviteId8', $collectivite->getId());
 
         $reco = $q->getScalarResult();
 
@@ -283,11 +317,25 @@ class RecommandationRepository extends ServiceEntityRepository
 
             $a->setParameter('RecoId', $q->getScalarResult()[$i]["id"]);
             $a->setParameter('CollectiviteId6', $collectivite->getId());
+
+            $b = $this->getEntityManager()->createNativeQuery(
+            "SELECT recommandation_perso.status_id, recommandation_status.label as status_label
+            FROM recommandation_perso
+            INNER JOIN recommandation_status ON recommandation_perso.status_id = recommandation_status.Id
+            WHERE recommandation_perso.id = :RecoId2
+            AND recommandation_perso.collectivite_id = :CollectiviteId7", $rsm);
+
+            $b->setParameter('RecoId2', $q->getScalarResult()[$i]["id"]);
+            $b->setParameter('CollectiviteId7', $collectivite->getId());
             
             if (count($a->getScalarResult()) > 0) {
                 $reco[$i] += $a->getScalarResult()[0];
+                $reco[$i] += array("perso" => "0");
+            } elseif (count($b->getScalarResult()) > 0) {
+                $reco[$i] += $b->getScalarResult()[0];
+                $reco[$i] += array("perso" => "1");
             } else {
-                $reco[$i] += array("status_id" => "4", "status_label" => "À définir");
+                $reco[$i] += array("status_id" => "4", "status_label" => "À définir", "perso" => "0");
             }
 
         }
