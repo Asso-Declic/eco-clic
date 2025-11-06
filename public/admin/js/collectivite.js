@@ -250,6 +250,8 @@ function recoPerso(CategId, collectiviteId, Categorie) {
         })
         $('#ModaleRecoPerso').modal('show');
         $('#ModaleRecoPersoLabel')[0].innerHTML = "RECOMMANDATIONS - " + Categorie;
+    } else {
+        alert("Aucune recommandation disponible pour cette catégorie.");
     }
 
     const selectReponse = $('#select-reponse').dxTagBox({
