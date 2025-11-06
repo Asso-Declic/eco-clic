@@ -27,42 +27,32 @@ class InseeService
 
     public function getInformationFomSiret(string $siret)
     {
-        $token = $this->getToken();
-        $responseJson = $this->httpClient->request(
-            'GET',
-            'https://api.insee.fr/entreprises/sirene/V3.11/siret/' . $siret,
-            [
-                'headers' => [
-                    'Accept: application/json',
-                    'Authorization: Bearer ' . $token,
-                ],
-                'body' => ['grant_type' => 'client_credentials'],
-            ]
-        )->getContent();
-        $response = json_decode($responseJson);
+        try {
+            $responseJson = $this->httpClient->request(
+                'GET',
+                'https://api.insee.fr/api-sirene/3.11/siret/' . $siret,
+                [
+                    'headers' => [
+                        'Accept' => 'application/json',
+                        'X-INSEE-Api-Key-Integration' => $_ENV['INSEE_API_AUTH'],
+                    ],
+                ]
+            )->getContent();
 
-        if ($response->header->statut >= 400) {
-            throw new \Exception('Erreur ' . $response->header->statut . ': ' . $response->header->message);
+            $response = json_decode($responseJson);
+
+            // Vérification si le header contient un statut d'erreur
+            if (isset($response->header->statut) && $response->header->statut >= 400) {
+                throw new \Exception('Erreur ' . $response->header->statut . ': ' . $response->header->message);
+            }
+
+            // Retourne l'objet établissement si présent, sinon tout le retour
+            return $response->etablissement ?? $response;
+
+        } catch (\Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface $e) {
+            throw new \Exception('Erreur HTTP lors de la requête à l’API INSEE : ' . $e->getMessage());
+        } catch (\Exception $e) {
+            throw new \Exception('Erreur lors de la récupération des données Sirene : ' . $e->getMessage());
         }
-
-        return $response->etablissement;
-    }
-
-    public function getToken()
-    {
-        $responseJson = $this->httpClient->request(
-            'POST',
-            'https://api.insee.fr/token',
-            [
-                'headers' => [
-                    'Authorization: Basic ' . $_ENV['INSEE_API_AUTH'],
-                    'Content-Type: application/x-www-form-urlencoded'
-                ],
-                'body' => ['grant_type' => 'client_credentials'],
-            ]
-        )->getContent();
-
-        $response = json_decode($responseJson);
-        return $response->access_token;
     }
 }
