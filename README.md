@@ -195,6 +195,7 @@ Push du code concernant les modifications des fonctionnalités suivantes :
 - notification lorsqu'une recommandation est activée par l'opsn | 25/02/2025;
 - modification de l'affichage des recommandations | 04/04/2025;
 - ajout d'un champ de recommandation personaliser | 17/06/2025;
+- affichage d'un alerte quand il n'y a pas de reco dans la partie admin | 06/11/2025;
 
 ## Licence Open Source
 
