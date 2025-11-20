@@ -130,6 +130,11 @@ La documentation utilisateur se trouve sur Gitbook : https://asso-declic.gitbook
 
 La documentation pour les développeurs est ici-même dans le dossier `docs`.
 
+## Infos
+Informations de connexion pour l'utilisateur enregistrer dans la bdd
+identifiant : demo.demo
+Mot de passe : #Demo@demo60#
+
 ## Changelog
 
 Premier dépôt pour utilisation du GitLab par l'équipe R&D | 30/08/2023
