@@ -1646,7 +1646,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `email`, `last_name`, `first_name`, `password`, `collectivite_id`, `admin_collectivite`, `token`, `username`, `active`, `cgu_checked`, `verified`, `admin_opsn`, `super_admin`, `opsn_id`, `is_vu`) VALUES
-('a75b0e12-5b02-11f0-9376-3822e20d3cc2', 'demo@demo.fr', 'demo', 'demo', NULL, '404', 1, NULL, 'demo.demo', 1, 1, 1, 1, 1, '404', 1);
+('a75b0e12-5b02-11f0-9376-3822e20d3cc2', 'demo@demo.fr', 'demo', 'demo', '$2y$13$9g.neanWBb1.H2F2nGK79.MgG.PSq7k9wph8d5v0x.Y0Q8oZuVgX6', '404', 1, NULL, 'demo.demo', 1, 1, 1, 1, 1, '404', 1);
 
 -- --------------------------------------------------------
 
