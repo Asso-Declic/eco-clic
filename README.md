@@ -71,7 +71,7 @@ Il n'est pas nécessaire de créer la base de donnée vous même au préalable. 
 
 #### Sur une instance déjà en cours, sans Symfony
 
-Au début du projet, le code n'utilisait pas le framework Symfony. Le choix de passer à ce framework demande quelques adaptations. Des migrations ont été mises en place et il faudra les initialiser. Plus d'informations sur [Installation sur une instance déjà en place](Installation%20sur%20une%20instance%20déjà%20en%20place.md)
+Au début du projet, le code n'utilisait pas le framework Symfony. Le choix de passer à ce framework demande quelques adaptations. Des migrations ont été mises en place et il faudra les initialiser.
 
 #### Migrations
 
