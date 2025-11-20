@@ -14,7 +14,7 @@ Retrouvez le code source : https://github.com/Asso-Declic/eco-clic
 ## Installation
 L'éco-clic s'utilise directement sur nos serveurs. Vous pouvez contribuer au code ou juste apprendre comment il fonctionne. Si vous ne souhaitez pas utiliser le service SaaS proposé par Déclic, vous pouvez déployer votre propre instance indépendante.
 
-Ces instructions d'installations sont destinées à la mise en production du projet. Il existe une version [pour les développeurs](Installation%20pour%20les%20devs.md)
+Ces instructions d'installations sont destinées à la mise en production du projet.
 
 ### Code
 
