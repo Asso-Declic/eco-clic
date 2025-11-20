@@ -6,7 +6,7 @@ Retrouvez le guide utilisateur : https://asso-declic.gitbook.io/guide-utilisateu
 Retrouvez le code source : https://github.com/Asso-Declic/eco-clic
 
 ### Technos
-- PHP >= 8.1
+- PHP >= 8.2
 - MySQL == 5.7
 - git
 - composer
