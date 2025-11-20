@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 20 nov. 2025 à 10:32
+-- Généré le : jeu. 20 nov. 2025 à 10:37
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.2.26
 
@@ -304,60 +304,6 @@ CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
   `execution_time` int DEFAULT NULL,
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `doctrine_migration_versions`
---
-
-INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
-('DoctrineMigrations\\Version20230509120223', '2023-05-10 15:40:52', 1233),
-('DoctrineMigrations\\Version20230509124504', '2023-05-10 15:40:53', 69),
-('DoctrineMigrations\\Version20230510103745', '2023-10-02 19:58:07', 1700),
-('DoctrineMigrations\\Version20230510152551', '2023-10-02 19:58:09', 1151),
-('DoctrineMigrations\\Version20230510153651', '2023-10-02 19:58:10', 42),
-('DoctrineMigrations\\Version20230510154901', '2023-10-02 19:58:10', 180),
-('DoctrineMigrations\\Version20230510155717', '2023-10-02 19:58:10', 734),
-('DoctrineMigrations\\Version20230515080056', '2023-10-02 19:58:11', 339),
-('DoctrineMigrations\\Version20230515122348', '2023-10-02 19:58:11', 6848),
-('DoctrineMigrations\\Version20230515140604', '2023-10-02 19:58:18', 5358),
-('DoctrineMigrations\\Version20230515210304', '2023-10-02 19:58:24', 2017),
-('DoctrineMigrations\\Version20230515210707', '2023-10-02 19:58:26', 138),
-('DoctrineMigrations\\Version20230515211201', '2023-10-02 19:58:26', 116),
-('DoctrineMigrations\\Version20230517094230', '2023-10-02 19:58:26', 560),
-('DoctrineMigrations\\Version20230525081523', '2023-10-02 19:58:27', 0),
-('DoctrineMigrations\\Version20230525090230', '2023-10-02 19:58:27', 1574),
-('DoctrineMigrations\\Version20230525095022', '2023-10-02 19:58:28', 1754),
-('DoctrineMigrations\\Version20230525113130', '2023-10-02 19:58:30', 1875),
-('DoctrineMigrations\\Version20230525122711', '2023-10-02 19:58:32', 854),
-('DoctrineMigrations\\Version20230525124037', '2023-10-02 19:58:33', 3645),
-('DoctrineMigrations\\Version20230525132913', '2023-10-02 19:58:36', 610),
-('DoctrineMigrations\\Version20230530092248', '2023-10-02 19:58:37', 712),
-('DoctrineMigrations\\Version20230531112328', '2023-10-02 19:58:38', 523),
-('DoctrineMigrations\\Version20230609144411', '2023-10-02 19:58:38', 212),
-('DoctrineMigrations\\Version20230613131229', '2023-10-02 19:58:39', 77),
-('DoctrineMigrations\\Version20230626145421', '2023-10-02 19:58:39', 469),
-('DoctrineMigrations\\Version20230630120704', '2023-10-02 19:58:39', 58),
-('DoctrineMigrations\\Version20230630122719', '2023-10-02 19:58:39', 492),
-('DoctrineMigrations\\Version20230811114416', '2023-10-02 19:58:40', 45),
-('DoctrineMigrations\\Version20230811115210', '2023-10-02 19:58:40', 234),
-('DoctrineMigrations\\Version20230921075141', '2023-10-02 19:58:40', 58),
-('DoctrineMigrations\\Version20230926215720', '2023-10-02 19:58:40', 108),
-('DoctrineMigrations\\Version20230929084227', '2023-10-02 19:58:40', 283),
-('DoctrineMigrations\\Version20231001205241', '2023-10-02 19:58:41', 220),
-('DoctrineMigrations\\Version20231001211302', '2023-10-02 19:58:41', 631),
-('DoctrineMigrations\\Version20231002133006', '2023-10-02 19:58:41', 400),
-('DoctrineMigrations\\Version20231002153040', '2023-10-02 19:58:42', 2013),
-('DoctrineMigrations\\Version20231002163818', '2023-10-02 19:58:44', 954),
-('DoctrineMigrations\\Version20231002190046', '2023-10-02 19:58:45', 1822),
-('DoctrineMigrations\\Version20231002194803', '2023-10-02 19:58:47', 1301),
-('DoctrineMigrations\\Version20231002203327', '2023-10-02 20:34:45', 29),
-('DoctrineMigrations\\Version20231117135821', '2023-11-17 14:59:26', 86),
-('DoctrineMigrations\\Version20231120091631', '2023-11-20 10:16:35', 10),
-('DoctrineMigrations\\Version20231120131242', '2023-11-20 14:12:51', 42),
-('DoctrineMigrations\\Version20240604131832', '2024-06-04 15:18:54', 13),
-('DoctrineMigrations\\Version20250225091425', '2025-02-25 10:16:10', 159),
-('DoctrineMigrations\\Version20250616115727', '2025-06-16 13:57:45', 159),
-('DoctrineMigrations\\Version20250616120231', '2025-06-16 14:02:37', 103);
 
 -- --------------------------------------------------------
 
