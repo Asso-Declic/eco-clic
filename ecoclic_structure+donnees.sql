@@ -1,0 +1,1815 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : 127.0.0.1:3306
+-- Généré le : jeu. 20 nov. 2025 à 10:37
+-- Version du serveur : 9.1.0
+-- Version de PHP : 8.2.26
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de données : `ecoclic`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `answer`
+--
+
+DROP TABLE IF EXISTS `answer`;
+CREATE TABLE IF NOT EXISTS `answer` (
+  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `body` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `question_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `ponderation` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_DADD4A251E27F6BF` (`question_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `category`
+--
+
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE IF NOT EXISTS `category` (
+  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `description_level2` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `sort_order` int DEFAULT NULL,
+  `level_two` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `category`
+--
+
+INSERT INTO `category` (`id`, `name`, `image`, `description`, `description_level2`, `sort_order`, `level_two`) VALUES
+('38e51811-4329-11ed-af88-040300000000', 'Sensibilisation et formation', 'Formation.svg', 'La sensibilisation et la formation sont le socle indispensable de l\'adhésion de tous à une démarche d\'amélioration continue. Les réponses apportées aux questions suivantes permettront de déterminer votre niveau de maturité en la matière. ', 'La sensibilisation et la formation sont le socle indispensable de l\'adhésion de tous à une démarche d\'amélioration continue. Les réponses apportées aux questions suivantes permettront de déterminer votre niveau de maturité en la matière. Afin d\'y répondre, pensez à réunir, s\'ils existent, les documents relatifs aux sensibilisations et formations réalisées en matière de sobriété numérique (descriptifs voire supports de présentation/communication, liste des participants, attestations ou plan de formation...).', 2, 0),
+('526bb3e9-0156-11ee-b776-0cc47a39c2c0', 'Pour aller plus loin', 'plusLoin.svg', 'La sobriété numérique s\'inscrit dans la notion plus large de numérique responsable. Il s\'agit d\'agir non seulement sur l\'empreinte environnementale du numérique, mais aussi sur ses impacts sociaux et économiques, dans le respect des objectifs de développement durable de l\'ONU (ODD). Ce questionnaire a pour objet de vous indiquer certaines actions qui pourraient être menées pour s\'inscrire dans cet objectif plus large auquel renvoie également la réglementation française et européenne.', 'La sobriété numérique s’inscrit dans la notion plus large de numérique responsable. Il s’agit d’agir non seulement sur l’empreinte environnementale du numérique, mais aussi sur ses impacts sociaux et économiques, dans le respect des objectifs de développement durable de l’ONU (ODD). Ce questionnaire a pour objet de vous indiquer certaines actions qui pourraient être menées pour s’inscrire dans cet objectif plus large auquel renvoie également la réglementation française et européenne.', 8, 1),
+('54aa9a19-432e-11ed-af88-040300000000', 'Usages', 'Usages.svg', 'Il est important d\'impliquer l\'ensemble des utilisateurs dans la démarche. Cela passe par le questionnement de leurs usages au quotidien. ', 'Il est important d\'impliquer l\'ensemble des utilisateurs dans la démarche. Cela passe par le questionnement de leurs usages au quotidien. Munissez-vous, si vous en disposez, de la charte informatique et autres documents encadrant les pratiques numériques pour répondre aux questions suivantes.', 6, 0),
+('708d624a-432f-11ed-af88-040300000000', 'Écoconception et sobriété éditoriale', 'EcoConception.svg', 'L\'écoconception et la sobriété éditoriale visent la production de services numériques, contenus et supports de communication plus sobres. Il s\'agit de prendre en compte et de minimiser autant que possible leur impact environnemental dès la phase de conception et tout au long de leur cycle de vie.', 'L\'écoconception et la sobriété éditoriale visent la production de services numériques, contenus et supports de communication plus sobres. Il s\'agit de prendre en compte et de minimiser autant que possible leur impact environnemental dès la phase de conception et tout au long de leur cycle de vie. Pour répondre aux questions suivantes, vous pourriez avoir besoin, s\'ils existent, des documents d\'achats/techniques de vos logiciels, applications et services de communication en ligne (site internet, extranet, intranet, progiciel web ou mobile et mobilier urbain numérique). Il vous faudra également ceux centralisant les règles éditoriales et graphiques de votre structure (charte graphique par exemple).', 7, 0),
+('8444bdb4-432a-11ed-af88-040300000000', 'Gestion du parc informatique', 'ParcNumerique2.svg', 'La connaissance de votre parc numérique est le préalable nécessaire à la mise en oeuvre des actions le concernant. Cela permettra en effet de cibler plus efficacement les axes d\'amélioration pour une gestion optimale. \r\nEn parallèle, l\'allongement de la durée de vie des équipements numériques est essentiel à une démarche vers un numérique plus sobre. De ce fait, il est important de connaître les pratiques de votre structure qui y contribuent ou, au contraire, y font obstacle. \r\nDe même, l\'impact environnemental et dans une moindre mesure la consommation d\'énergie du numérique sont des facettes importantes de la démarche. La mise en place de bonnes pratiques couplée au suivi de certains indicateurs permet de les maîtriser. \r\nEnfin, la bonne gestion des DEEE est indispensable à plus d\'un titre. Tant en raison des risques de pollution et pour la santé liés à leur fin de vie, que pour les ressources réutilisables et recyclables qu\'ils contiennent. Il convient aussi de tenir compte du papier d\'impression pour avoir une vision complète des déchets liés au numérique.', 'La connaissance de votre parc numérique est le préalable nécessaire à la mise en œuvre des actions le concernant. Cela permettra en effet de cibler plus efficacement les axes d\'amélioration pour une gestion optimale. Afin de répondre aux questions suivantes, vous aurez besoin, si vous en disposez, des documents relatifs à votre parc numérique (inventaire, cartographie, bons de remise, fiches techniques...). \nEn parallèle, l\'allongement de la durée de vie des équipements numériques est essentiel à une démarche vers un numérique plus sobre. De ce fait, il est important de connaître les pratiques de votre structure qui y contribuent ou, au contraire, y font obstacle. Afin de répondre aux questions ci-après, préparez les éventuels consignes et documents diffusés à ce sujet, ainsi que vos contrats de maintenance informatique ou procédures internes, mais aussi conventions de partenariat avec des tiers du réemploi et de la réutilisation. \nDe même, l\'impact environnemental et dans une moindre mesure la consommation d\'énergie du numérique sont des facettes importantes de la démarche. La mise en place de bonnes pratiques couplée au suivi de certains indicateurs permet de les maîtriser. Afin de répondre aux questions suivantes, réunissez les données chiffrées en votre possession sur l\'impact environnemental et la consommation d\'énergie de votre parc numérique et les paramétrages y afférent, voire les références des outils ainsi que les procédures mises en place en la matière. \nEnfin, la bonne gestion des DEEE est indispensable à plus d\'un titre. Tant en raison des risques de pollution et pour la santé liés à leur fin de vie, que pour les ressources réutilisables et recyclables qu\'ils contiennent. Il convient aussi de tenir compte du papier d\'impression pour avoir une vision complète des déchets liés au numérique. Veuillez-vous munir, si vous en disposez, de vos contrats de prestation ou conventions avec vos partenaires en charge de la prise en charge des DEEE et du papier et autres documents liés au suivi de ces déchets.', 4, 0),
+('b5aa2df1-4328-11ed-af88-040300000000', 'Gouvernance', 'Gouvernance.svg', 'La mise en place d\'une gouvernance est un facteur déterminant du bon déroulé de toute démarche d\'amélioration continue. Ainsi, les questions suivantes interrogent l\'organisation mise en place à l\'échelle de votre structure pour la mener à bien. ', 'La mise en place d\'une gouvernance est un facteur déterminant du bon déroulé de toute démarche d\'amélioration continue. Ainsi, les questions suivantes interrogent l\'organisation mise en place à l\'échelle de votre structure pour la mener à bien. Pour y répondre, vous pourriez avoir besoin de différents documents que nous invitons à préparer en amont, s\'ils existent (organigramme, fiches de postes, plan d\'actions, engagements écrits, budgets... en lien avec la sobriété numérique).', 1, 0),
+('d573027d-432d-11ed-af88-040300000000', 'Réseaux et données', 'Reseaux.svg', 'Face à l\'augmentation exponentielle des données numériques traitées, les réseaux et centres de données sont de plus en plus sollicités et s\'adaptent en conséquence. Les questions ci-après ont vocation à déterminer la gestion des données de votre structure, et notamment leur stockage, leur sauvegarde, leur transfert. ', 'Face à l\'augmentation exponentielle des données numériques traitées, les réseaux et centres de données sont de plus en plus sollicités et s\'adaptent en conséquence. Les questions ci-après ont vocation à déterminer la gestion des données de votre structure, et notamment leur stockage, leur sauvegarde, leur transfert. Pour y répondre, vous pourriez avoir besoin, s\'ils existent, des contrats et autres documents relatifs à la sauvegarde de vos données (des postes de travail, serveurs, datas centers, mais aussi des logiciels hébergés le cas échéant), mais aussi logiciels de partage/travail collaboratif. En complément, pensez à votre registre des traitements ou autre document de suivi des durées d\'utilité administrative (DUA) et de l\'archivage.', 5, 0),
+('e4a990cd-4329-11ed-af88-040300000000', 'Achats et locations', 'Achat.svg', 'Les achats publics sont sans équivoque l\'un des principaux leviers de la maîtrise de l\'empreinte environnementale du numérique.  À ce titre, vos pratiques d\'achats et locations en la matière doivent être analysées (équipements numériques, impressions et papier, énergie).', 'Les achats publics sont sans équivoque l\'un des principaux leviers de la maîtrise de l\'empreinte environnementale du numérique. À ce titre, vos pratiques d\'achats et locations en la matière doivent être analysées (équipements numériques, impressions et papier, énergie). Pour ce faire, munissez-vous de vos contrats, cahiers des charges, appels d\'offres et autres documents y afférent en votre possession (politiques d\'achat, clausiers/clauses-types...).', 3, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `collectivite`
+--
+
+DROP TABLE IF EXISTS `collectivite`;
+CREATE TABLE IF NOT EXISTS `collectivite` (
+  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `name` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `population` int NOT NULL,
+  `departement_id` char(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `siret` char(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `latitude` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `longitude` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:guid)',
+  `opsn_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:guid)',
+  `level_two` tinyint(1) NOT NULL DEFAULT '0',
+  `postal_code` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_answered_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `last_answered_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `link_demand_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:guid)',
+  PRIMARY KEY (`id`),
+  KEY `IDX_CFA408A1CCF9E01E` (`departement_id`),
+  KEY `IDX_CFA408A1C54C8C93` (`type_id`),
+  KEY `IDX_CFA408A1173BE8BE` (`opsn_id`),
+  KEY `IDX_CFA408A1BF77FE2D` (`link_demand_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `collectivite`
+--
+
+INSERT INTO `collectivite` (`id`, `name`, `population`, `departement_id`, `siret`, `latitude`, `longitude`, `type_id`, `opsn_id`, `level_two`, `postal_code`, `first_answered_at`, `last_answered_at`, `link_demand_id`) VALUES
+('403', 'opsnAdmin1', 0, NULL, NULL, NULL, NULL, '73097104-8c33-11ed-97b8-0242ac110004', '403', 0, NULL, NULL, NULL, NULL),
+('404', 'opsnAdmin2', 0, NULL, NULL, NULL, NULL, '73097104-8c33-11ed-97b8-0242ac110004', '404', 0, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `collectivite_answer`
+--
+
+DROP TABLE IF EXISTS `collectivite_answer`;
+CREATE TABLE IF NOT EXISTS `collectivite_answer` (
+  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `answer_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `collectivite_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `body` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `answered_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `user_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:guid)',
+  PRIMARY KEY (`id`),
+  KEY `IDX_85E83017AA334807` (`answer_id`),
+  KEY `IDX_85E83017A7991F51` (`collectivite_id`),
+  KEY `IDX_85E83017A76ED395` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `collectivite_status`
+--
+
+DROP TABLE IF EXISTS `collectivite_status`;
+CREATE TABLE IF NOT EXISTS `collectivite_status` (
+  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `recommandation_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `collectivite_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `status_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_24351F2E61AAE789` (`recommandation_id`) USING BTREE,
+  KEY `IDX_24351F2EA7991F51` (`collectivite_id`),
+  KEY `IDX_24351F2E6BF700BD` (`status_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `collectivite_type`
+--
+
+DROP TABLE IF EXISTS `collectivite_type`;
+CREATE TABLE IF NOT EXISTS `collectivite_type` (
+  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `label` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `collectivite_type`
+--
+
+INSERT INTO `collectivite_type` (`id`, `label`) VALUES
+('3e85465a-ffff-11eb-acf0-0cc47a0ad120', 'CA'),
+('57482110-fe97-11eb-acf0-0cc47a0ad120', 'MAIRIE'),
+('5748268d-fe97-11eb-acf0-0cc47a0ad120', 'COMCOM'),
+('73097104-8c33-11ed-97b8-0242ac110004', 'AUTRE'),
+('7ab89f99-8c33-11ed-97b8-0242ac110004', 'EPCI');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `departement`
+--
+
+DROP TABLE IF EXISTS `departement`;
+CREATE TABLE IF NOT EXISTS `departement` (
+  `code` char(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `region_code` char(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`code`),
+  KEY `IDX_C1765B63AEB327AF` (`region_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `departement`
+--
+
+INSERT INTO `departement` (`code`, `name`, `region_code`) VALUES
+('01', 'Ain', '84'),
+('02', 'Aisne', '32'),
+('03', 'Allier', '84'),
+('04', 'Alpes-de-Haute-Provence', '93'),
+('05', 'Hautes-Alpes', '93'),
+('06', 'Alpes-Maritimes', '93'),
+('07', 'Ardèche', '84'),
+('08', 'Ardennes', '44'),
+('09', 'Ariège', '76'),
+('10', 'Aube', '44'),
+('11', 'Aude', '76'),
+('12', 'Aveyron', '76'),
+('13', 'Bouches-du-Rhône', '93'),
+('14', 'Calvados', '28'),
+('15', 'Cantal', '84'),
+('16', 'Charente', '75'),
+('17', 'Charente-Maritime', '75'),
+('18', 'Cher', '24'),
+('19', 'Corrèze', '75'),
+('21', 'Côte-d\'Or', '27'),
+('22', 'Côtes-d\'Armor', '53'),
+('23', 'Creuse', '75'),
+('24', 'Dordogne', '75'),
+('25', 'Doubs', '27'),
+('26', 'Drôme', '84'),
+('27', 'Eure', '28'),
+('28', 'Eure-et-Loir', '24'),
+('29', 'Finistère', '53'),
+('2A', 'Corse-du-Sud', '94'),
+('2B', 'Haute-Corse', '94'),
+('30', 'Gard', '76'),
+('31', 'Haute-Garonne', '76'),
+('32', 'Gers', '76'),
+('33', 'Gironde', '75'),
+('34', 'Hérault', '76'),
+('35', 'Ille-et-Vilaine', '53'),
+('36', 'Indre', '24'),
+('37', 'Indre-et-Loire', '24'),
+('38', 'Isère', '84'),
+('39', 'Jura', '27'),
+('40', 'Landes', '75'),
+('41', 'Loir-et-Cher', '24'),
+('42', 'Loire', '84'),
+('43', 'Haute-Loire', '84'),
+('44', 'Loire-Atlantique', '52'),
+('45', 'Loiret', '24'),
+('46', 'Lot', '76'),
+('47', 'Lot-et-Garonne', '75'),
+('48', 'Lozère', '76'),
+('49', 'Maine-et-Loire', '52'),
+('50', 'Manche', '28'),
+('51', 'Marne', '44'),
+('52', 'Haute-Marne', '44'),
+('53', 'Mayenne', '52'),
+('54', 'Meurthe-et-Moselle', '44'),
+('55', 'Meuse', '44'),
+('56', 'Morbihan', '53'),
+('57', 'Moselle', '44'),
+('58', 'Nièvre', '27'),
+('59', 'Nord', '32'),
+('60', 'Oise', '32'),
+('61', 'Orne', '28'),
+('62', 'Pas-de-Calais', '32'),
+('63', 'Puy-de-Dôme', '84'),
+('64', 'Pyrénées-Atlantiques', '75'),
+('65', 'Hautes-Pyrénées', '76'),
+('66', 'Pyrénées-Orientales', '76'),
+('67', 'Bas-Rhin', '44'),
+('68', 'Haut-Rhin', '44'),
+('69', 'Rhône', '84'),
+('70', 'Haute-Saône', '27'),
+('71', 'Saône-et-Loire', '27'),
+('72', 'Sarthe', '52'),
+('73', 'Savoie', '84'),
+('74', 'Haute-Savoie', '84'),
+('75', 'Paris', '11'),
+('76', 'Seine-Maritime', '28'),
+('77', 'Seine-et-Marne', '11'),
+('78', 'Yvelines', '11'),
+('79', 'Deux-Sèvres', '75'),
+('80', 'Somme', '32'),
+('81', 'Tarn', '76'),
+('82', 'Tarn-et-Garonne', '76'),
+('83', 'Var', '93'),
+('84', 'Vaucluse', '93'),
+('85', 'Vendée', '52'),
+('86', 'Vienne', '75'),
+('87', 'Haute-Vienne', '75'),
+('88', 'Vosges', '44'),
+('89', 'Yonne', '27'),
+('90', 'Territoire de Belfort', '27'),
+('91', 'Essonne', '11'),
+('92', 'Hauts-de-Seine', '11'),
+('93', 'Seine-Saint-Denis', '11'),
+('94', 'Val-de-Marne', '11'),
+('95', 'Val-d\'Oise', '11'),
+('971', 'Guadeloupe', '1'),
+('972', 'Martinique', '2'),
+('973', 'Guyane', '3'),
+('974', 'La Réunion', '4'),
+('976', 'Mayotte', '6');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `doctrine_migration_versions`
+--
+
+DROP TABLE IF EXISTS `doctrine_migration_versions`;
+CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
+  `version` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `executed_at` datetime DEFAULT NULL,
+  `execution_time` int DEFAULT NULL,
+  PRIMARY KEY (`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `log`
+--
+
+DROP TABLE IF EXISTS `log`;
+CREATE TABLE IF NOT EXISTS `log` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `type` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `messenger_messages`
+--
+
+DROP TABLE IF EXISTS `messenger_messages`;
+CREATE TABLE IF NOT EXISTS `messenger_messages` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `body` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `headers` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue_name` varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `available_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `delivered_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
+  PRIMARY KEY (`id`),
+  KEY `IDX_75EA56E0FB7336F0` (`queue_name`),
+  KEY `IDX_75EA56E0E3BD61CE` (`available_at`),
+  KEY `IDX_75EA56E016BA31DB` (`delivered_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `notification`
+--
+
+DROP TABLE IF EXISTS `notification`;
+CREATE TABLE IF NOT EXISTS `notification` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `collectivite_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `category_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `posted_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  PRIMARY KEY (`id`),
+  KEY `IDX_BF5476CAA7991F51` (`collectivite_id`),
+  KEY `IDX_BF5476CA12469DE2` (`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `opsn`
+--
+
+DROP TABLE IF EXISTS `opsn`;
+CREATE TABLE IF NOT EXISTS `opsn` (
+  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `name` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `departement` char(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `logo` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone_number` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `postal_address` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `website` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `siret` char(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `latitude` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `longitude` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `opsn`
+--
+
+INSERT INTO `opsn` (`id`, `name`, `email`, `departement`, `active`, `logo`, `phone_number`, `postal_address`, `website`, `siret`, `latitude`, `longitude`) VALUES
+('403', 'opsnAdmin1', NULL, '', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('404', 'opsnAdmin2', NULL, '', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `opsn_departement`
+--
+
+DROP TABLE IF EXISTS `opsn_departement`;
+CREATE TABLE IF NOT EXISTS `opsn_departement` (
+  `opsn_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `departement_code` char(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`opsn_id`,`departement_code`),
+  KEY `IDX_DB4914C6173BE8BE` (`opsn_id`),
+  KEY `IDX_DB4914C66A333750` (`departement_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `opsn_departement`
+--
+
+INSERT INTO `opsn_departement` (`opsn_id`, `departement_code`) VALUES
+('403', '02'),
+('404', '60');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `patch_note`
+--
+
+DROP TABLE IF EXISTS `patch_note`;
+CREATE TABLE IF NOT EXISTS `patch_note` (
+  `title` varchar(500) NOT NULL,
+  `body` longtext NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `posted_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `population`
+--
+
+DROP TABLE IF EXISTS `population`;
+CREATE TABLE IF NOT EXISTS `population` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `collectivite_type_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `min` int NOT NULL,
+  `max` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_B449A008DC4E869` (`collectivite_type_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `population`
+--
+
+INSERT INTO `population` (`id`, `collectivite_type_id`, `min`, `max`) VALUES
+(9, '57482110-fe97-11eb-acf0-0cc47a0ad120', 0, 499),
+(10, '57482110-fe97-11eb-acf0-0cc47a0ad120', 500, 999),
+(11, '57482110-fe97-11eb-acf0-0cc47a0ad120', 1000, 3499),
+(12, '57482110-fe97-11eb-acf0-0cc47a0ad120', 3500, 4999),
+(13, '57482110-fe97-11eb-acf0-0cc47a0ad120', 5000, 9999),
+(14, '57482110-fe97-11eb-acf0-0cc47a0ad120', 10000, 19999),
+(15, '57482110-fe97-11eb-acf0-0cc47a0ad120', 20000, 49999),
+(16, '57482110-fe97-11eb-acf0-0cc47a0ad120', 50000, 99999),
+(17, '57482110-fe97-11eb-acf0-0cc47a0ad120', 100000, 1000000000);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `question`
+--
+
+DROP TABLE IF EXISTS `question`;
+CREATE TABLE IF NOT EXISTS `question` (
+  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `question` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `theme_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:guid)',
+  `category_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:guid)',
+  `multiple` tinyint(1) NOT NULL DEFAULT '0',
+  `definition` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `additional_information` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `definition_title` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `sort_order` int NOT NULL,
+  `parent_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:guid)',
+  `parent_answer_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:guid)',
+  `level_two` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_B6F7494E59027487` (`theme_id`),
+  KEY `IDX_B6F7494E12469DE2` (`category_id`),
+  KEY `IDX_B6F7494E727ACA70` (`parent_id`),
+  KEY `IDX_B6F7494E5B7867E9` (`parent_answer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `question`
+--
+
+INSERT INTO `question` (`id`, `question`, `theme_id`, `category_id`, `multiple`, `definition`, `additional_information`, `definition_title`, `sort_order`, `parent_id`, `parent_answer_id`, `level_two`) VALUES
+('6c5a609b-4af4-11ee-b615-0cc47a39c2c2', 'À votre connaissance, votre structure a-t-elle pris en compte la sobriété numérique et la transition environnementale dans ses actions et projets en lien avec le numérique ? ', '0', 'b5aa2df1-4328-11ed-af88-040300000000', 0, 'Sobriété numérique : Démarche d\'amélioration continue visant à maîtriser l\'empreinte environnementale du numérique par l\'adoption d\'un usage et de pratiques raisonnées en la matière. \n\nTransition environnementale : La transition environnementale est une évolution vers un nouveau modèle économique et social, un modèle de développement durable qui renouvelle nos façons de consommer, de produire, de travailler, de vivre ensemble pour répondre aux grands enjeux environnementaux, ceux du changement climatique, de la rareté des ressources, de la perte accélérée de la biodiversité et de la multiplication des risques sanitaires environnementaux.', '', NULL, 1, NULL, NULL, 0),
+('a950ed4d-4aff-11ee-b615-0cc47a39c2c2', 'Les élus de votre structure ont-ils été formés aux enjeux et bonnes pratiques en matière de sobriété numérique ?', '0', '38e51811-4329-11ed-af88-040300000000', 0, '', '', NULL, 4, NULL, NULL, 0),
+('ead873c4-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle mis en place une gouvernance pour la sobriété numérique (désignation d\'un référent, prise d\'engagements, définition d\'objectifs, mise en place d\'actions...)?', '0', 'b5aa2df1-4328-11ed-af88-040300000000', 0, '', '', NULL, 2, '6c5a609b-4af4-11ee-b615-0cc47a39c2c2', '01a8eb61-4af5-11ee-b615-0cc47a39c2c2', 0),
+('ead8cae7-06bc-11ee-b776-0cc47a39c2c0', 'Des missions liées à la sobriété numérique ont-elles été confiées au personnel? ', '0', 'b5aa2df1-4328-11ed-af88-040300000000', 0, '', '', NULL, 4, 'ead873c4-06bc-11ee-b776-0cc47a39c2c0', '0d00b3ab-06bd-11ee-b776-0cc47a39c2c0', 1),
+('ead8f657-06bc-11ee-b776-0cc47a39c2c0', 'Ces personnes sont-elles à temps plein sur ces missions? ', '0', 'b5aa2df1-4328-11ed-af88-040300000000', 0, '', '', NULL, 5, 'ead8cae7-06bc-11ee-b776-0cc47a39c2c0', '0d0102e8-06bd-11ee-b776-0cc47a39c2c0', 1),
+('ead9205e-06bc-11ee-b776-0cc47a39c2c0', 'Des missions liées à la sobriété numérique ont-elles été confiées aux élus?', '0', 'b5aa2df1-4328-11ed-af88-040300000000', 0, '', '', NULL, 6, 'ead873c4-06bc-11ee-b776-0cc47a39c2c0', '0d00b3ab-06bd-11ee-b776-0cc47a39c2c0', 1),
+('ead94a96-06bc-11ee-b776-0cc47a39c2c0', 'Un référent sobriété numérique a-t-il été désigné?', '0', 'b5aa2df1-4328-11ed-af88-040300000000', 0, '', ' La désignation d\'un référent vise à garantir la prise en compte systématique dans le cadre du fonctionnement de la structure, ainsi que la diffusion des enjeux et bonnes pratiques de la sobriété numérique. ', NULL, 7, 'ead873c4-06bc-11ee-b776-0cc47a39c2c0', '0d00b3ab-06bd-11ee-b776-0cc47a39c2c0', 1),
+('ead9753f-06bc-11ee-b776-0cc47a39c2c0', 'Un organe de pilotage et/ou groupe de travail a-t-il été mis en place sur le sujet de la sobriété numérique? ', '0', 'b5aa2df1-4328-11ed-af88-040300000000', 0, '', ' La gouvernance est un élément indispensable au bon déroulement de toute démarche d\'amélioration continue : sans vision d\'ensemble, transversale et portée par une instance de pilotage collégiale, l\'adhésion de tous au plan d\'action défini et sa mise en œuvre effective ont de fortes chances d\'être compromises. ', NULL, 8, 'ead873c4-06bc-11ee-b776-0cc47a39c2c0', '0d00b3ab-06bd-11ee-b776-0cc47a39c2c0', 1),
+('ead99d87-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle pris des engagements en matière de sobriété numérique? ', '0', 'b5aa2df1-4328-11ed-af88-040300000000', 0, '', '', NULL, 9, 'ead873c4-06bc-11ee-b776-0cc47a39c2c0', '0d00b3ab-06bd-11ee-b776-0cc47a39c2c0', 1),
+('ead9ca87-06bc-11ee-b776-0cc47a39c2c0', 'Les engagements pris par votre structure ont-ils été rendus publics?', '0', 'b5aa2df1-4328-11ed-af88-040300000000', 0, '', ' Le fait de rendre publics les engagements pris fait appel au devoir d\'exemplarité. Cela vise à encourager votre structure à concrétiser et tenir ses engagements.', NULL, 10, 'ead99d87-06bc-11ee-b776-0cc47a39c2c0', '0d02bf0b-06bd-11ee-b776-0cc47a39c2c0', 1),
+('ead9ef35-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle engagé des actions ou fixé des objectifs en matière de sobriété numérique? ', '0', 'b5aa2df1-4328-11ed-af88-040300000000', 0, '', '', NULL, 11, 'ead873c4-06bc-11ee-b776-0cc47a39c2c0', '0d00b3ab-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eada1203-06bc-11ee-b776-0cc47a39c2c0', 'Les actions engagées et/ou objectifs fixés par votre structure ont-ils été formalisés sous forme d\'un plan d\'actions?', '0', 'b5aa2df1-4328-11ed-af88-040300000000', 0, '', ' Afin de mener une démarche d\'amélioration continue cohérente et efficace, l\'élaboration d\'un plan d\'action est une étape incontournable. ', NULL, 12, 'ead9ef35-06bc-11ee-b776-0cc47a39c2c0', '0d03888c-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eada3460-06bc-11ee-b776-0cc47a39c2c0', 'Avez-vous alloué une part du budget de votre structure à la mise en oeuvre d\'une démarche de sobriété numérique? ', '0', 'b5aa2df1-4328-11ed-af88-040300000000', 0, '', '', NULL, 13, 'ead873c4-06bc-11ee-b776-0cc47a39c2c0', '0d00b3ab-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eada5694-06bc-11ee-b776-0cc47a39c2c0', 'Des actions de sensibilisation sont-elles menées auprès du personnel sur les enjeux et bonnes pratiques en matière de sobriété numérique? ', '0', '38e51811-4329-11ed-af88-040300000000', 0, '', ' La sensibilisation peut être assurée par le relai d\'informations (celles produites par l\'ADEME ou encore l\'INR), l\'organisation d\'évènements thématiques (par exemple la Fresque du numérique ou du climat ou le World Clean Up Day). Elle vise à alerter et apporter un premier niveau de connaissances sur le sujet. \nUne bonne compréhension des enjeux et bonnes pratiques de la sobriété numérique est un préalable indispensable à la mise en oeuvre du plan d\'action défini. Elle est le gage d\'une meilleure adhésion à la démarche de chacune des parties prenantes. \nLa diversification des supports de sensibilisation assure une diffusion optimale des enjeux et bonnes pratiques de la sobriété numérique auprès de différents utilisateurs. ', NULL, 1, NULL, NULL, 0),
+('eada8fd0-06bc-11ee-b776-0cc47a39c2c0', 'Le personnel de votre structure a-t-il été formé aux enjeux et bonnes pratiques en matière de sobriété numérique? ', '0', '38e51811-4329-11ed-af88-040300000000', 0, '', ' La formation vient en complément de la sensibilisation afin d\'apporter les compétences nécessaires à la bonne mise en oeuvre du plan d\'actions (par exemple formation aux achats responsables pour les acheteurs publics, aux enjeux et bonnes pratiques de la sobriété numérique pour le référent ou encore à l\'écoconception pour le service informatique). \nLa formation des responsables et/ou agents et autres personnes les plus concernés est l\'assurance que les enjeux et bonnes pratiques de la sobriété numérique soient bien systématiquement pris en compte et intégrés aux divers projets qu\'ils mènent à bien. Cela contribue par ailleurs à la sensibilisation des équipes dans lesquelles ils évoluent ou avec lesquelles ils collaborent, et donc à l\'acculturation de l\'ensemble de la structure. ', NULL, 2, NULL, NULL, 0),
+('eadacc92-06bc-11ee-b776-0cc47a39c2c0', 'Des actions de sensibilisation sont-elles menées auprès des élus sur les enjeux et bonnes pratiques en matière de sobriété numérique? ', '0', '38e51811-4329-11ed-af88-040300000000', 0, '', '', NULL, 3, NULL, NULL, 0),
+('eadb0117-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle recours à la location de matériels numériques? ', '0', 'e4a990cd-4329-11ed-af88-040300000000', 0, '', ' Selon le Guide des achats numériques responsables de la Direction des Achats de l\'État (DAE) : La location est une alternative à l\'achat des équipements numériques. Cette pratique permet à l\'organisation d\'ajuster son parc au besoin de chaque utilisateur et de faire face à des urgences ou à des besoins ponctuels. Cette approche est un des axes forts de l\'économie circulaire : «l\'économie de la fonctionnalité» c\'est à dire acheter l\'usage plutôt que le bien.\r\nPour autant, son impact bénéfique reste conditionné au fait que le matériel loué soit réintroduit dans un cycle de vie prolongé par l\'opérateur.', NULL, 1, NULL, NULL, 0),
+('eadb3a87-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle pris des mesures permettant de favoriser la sobriété numérique dans les achats et locations d\'équipements et services numériques telles que l\'ajout de clauses contractuelles, une prise en compte des écolabels, des indices de réparabilité, d\'éco-conception, d\'achat ou de location d\'équipements issus du réemploi ou de la réutilisation ?', '0', 'e4a990cd-4329-11ed-af88-040300000000', 0, 'Écolabel : Le terme « écolabel » est réservé aux labels environnementaux qui répondent à la norme ISO 14024, c\'est-à-dire respectant des exigences très précises prenant en compte les impacts environnementaux des produits tout au long de leur cycle de vie.\r\nLes produits sont certifiés par un organisme indépendant, garantissant la conformité du produit aux critères d\'un référentiel, préalablement élaboré en commun par des professionnels, des associations de consommateurs et de protection de l\'environnement et les pouvoirs publics. \r\n\r\nIndice de réparabilité : L\'indice de réparabilité est une information transmise à l\'acheteur d\'un équipement électroménagers et électroniques sur la capacité à réparer le produit acheté. Les critères et les modalités de calcul de l\'indice de réparabilité incluent notamment la démontabilité du produit, la disponibilité des conseils d\'utilisation et d\'entretien, encore la disponibilité et le prix des pièces détachées nécessaires au bon fonctionnement du produit. Prévu par la loi anti-gaspillage et l\'article L. 541-9-2 du code de l\'environnement, l\'indice de réparabilité est obligatoire depuis le 1er janvier 2021. Il concerne 5 catégories d\'équipements électroménagers et électroniques, notamment les ordinateurs et les smartphones.\r\n\r\nÉcoconception : L\'éco-conception est un standard pour réduire les impacts environnementaux d\'un produit ou d\'un service défini par la norme ISO 14062 qui intègre des contraintes environnementales dans la conception de produits et services selon une approche globale et multicritères. \r\n\r\nRéemploi : Toute opération par laquelle des substances, matières ou produits qui ne sont pas des déchets sont utilisés de nouveau pour un usage identique à celui pour lequel ils avaient été conçus. \r\n\r\nRéutilisation : Toute opération par laquelle des substances, matières ou produits qui sont devenus des déchets sont utilisés de nouveau.', '', NULL, 2, NULL, NULL, 0),
+('eadb8410-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle recours au réemploi interne de matériels numériques? ', '0', 'e4a990cd-4329-11ed-af88-040300000000', 0, 'Le réemploi interne de matériels numériques consistent à les réaffecter à d\'autres utilisateurs aux besoins desquels ils peuvent encore répondre. Par exemple en réaffectant l\'ordinateur utilisé par le service communication à un autre poste nécessitant un appareil moins exigeant en terme de performance (pour réaliser des tâches bureautiques simples par exemple).', ' Le meilleur outil numérique est celui que l\'on n\'achète pas car la phase de fabrication est la plus impactante pour l\'environnement (épuisement des ressources abiotiques, consommation en eau et énergie...). Ainsi, il est préférable, dans la mesure du possible, de privilégier le réemploi de matériel existant ou l\'acquisition de matériel reconditionné. ', NULL, 3, 'eadb3a87-06bc-11ee-b776-0cc47a39c2c0', '0d065fb8-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eadbba62-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle recours aux filières externes du reconditionnement, du réemploi et/ou de la réutilisation en matière d\'achats numériques?', '0', 'e4a990cd-4329-11ed-af88-040300000000', 0, 'Selon l\'article R122-4 du code de la consommation, Un produit ou une pièce détachée d\'occasion, au sens de l\'article L. 321-1 du code de commerce, peut être qualifié de \'\' produit reconditionné \'\' ou être accompagné du terme \'\' reconditionné \'\', dès lors que les conditions suivantes sont réunies :\r\n\r\n1° Le produit ou la pièce détachée a subi des tests portant sur toutes ses fonctionnalités afin d\'établir qu\'il répond aux obligations légales de sécurité et à l\'usage auquel le consommateur peut légitimement s\'attendre ;\r\n\r\n2° S\'il y avait lieu, le produit ou la pièce détachée a subi une ou plusieurs interventions afin de lui restituer ses fonctionnalités. Cette intervention inclut la suppression de toutes les données enregistrées ou conservées en lien avec un précédent usage ou un précédent utilisateur, avant que le produit ou la pièce ne change de propriétaire. ', '', NULL, 4, 'eadb3a87-06bc-11ee-b776-0cc47a39c2c0', '0d065fb8-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eadbf343-06bc-11ee-b776-0cc47a39c2c0', 'Des clauses environnementales sont-elles inclues dans les appels d\'offre et contrats conclus hors marché pour l\'achats d\'équipements numériques? ', '0', 'e4a990cd-4329-11ed-af88-040300000000', 0, '', ' Il est important de demander des garanties et engagements des candidats aux marchés publics portant sur le numérique (achat de matériels, solutions logicielles, création/refonte d\'un site internet, d\'une application...) compte tenu de la part importante de la conception/fabrication dans l\'impact environnemental d\'un produit numérique. Cela est d\'autant plus important pour les collectivités territoriales qui commencent à avoir des obligations en la matière (cf. la loi AGEC et son décret d\'application du 9 mars et le projet de loi pour réduire l\'empreinte environnementale du numérique en France). \r\nCela s\'inscrit enfin dans les objectifs du Plan National des Achats Responsables (PNAD) 2022-2025 et notamment celui visant à ce que, d\'ici 2025, 100% des contrats de la commande publique notifiés au cours de l\'année comprennent au moins une considération environnementale. ', NULL, 5, 'eadb3a87-06bc-11ee-b776-0cc47a39c2c0', '0d065fb8-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eadc2bc8-06bc-11ee-b776-0cc47a39c2c0', 'Tenez-vous compte des écolabels et autres référentiels dans le cadre de vos achats numériques (Energie Star, 80 Plus, EPEAT, Blue Angel...)? ', '0', 'e4a990cd-4329-11ed-af88-040300000000', 0, '', ' Les écolabels sont le gage de faire l\'acquisition d\'équipements numériques conçus avec des matériaux et substances moins impactantes pour l\'environnement, pour durer et consommer le moins d\'énergie possible durant leur fonctionnement, ou encore dont la fin de vie et notamment le recyclage est optimisé dès leur fabrication. ', NULL, 6, 'eadb3a87-06bc-11ee-b776-0cc47a39c2c0', '0d065fb8-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eadc66b4-06bc-11ee-b776-0cc47a39c2c0', 'Tenez-vous compte de l\'indice de réparabilité dans le cadre de vos achats pour les outils numériques qui en disposent? ', '0', 'e4a990cd-4329-11ed-af88-040300000000', 0, '', ' Dans une optique d\'allongement de la durée de vie des outils numériques, il est préférable d\'opter pour ceux facilement réparables (conception simplifiant le démontage, disponibilité de pièces détachées...), dans l\'attente de l\'apparition de l\'indice de durabilité. ', NULL, 7, 'eadb3a87-06bc-11ee-b776-0cc47a39c2c0', '0d065fb8-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eadc9d71-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure dispose-t-elle d\'une politique d\'achat et de renouvellement des outils numériques définie?', '0', 'e4a990cd-4329-11ed-af88-040300000000', 0, '', ' La mise en place d\'une politique d\'achats sera bénéfique tant pour l\'environnement que pour la rationalisation des coûts qui en découlera. Cela est aussi un facteur d\'amélioration des process internes par la documentation. ', NULL, 8, 'eadb3a87-06bc-11ee-b776-0cc47a39c2c0', '0d065fb8-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eadcd379-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle pris des mesures permettant de favoriser la sobriété numérique dans les achats pour l\'impression telles que le choix du papier, de l\'encre et des toners ?', '0', 'e4a990cd-4329-11ed-af88-040300000000', 0, '', '', NULL, 9, NULL, NULL, 0),
+('eade5b21-06bc-11ee-b776-0cc47a39c2c0', 'Tenez-vous compte des écolabels dans le cadre de vos achats de papiers (FSC, PEFC, Blue Angel......)?', '0', 'e4a990cd-4329-11ed-af88-040300000000', 0, '', ' En moyenne, un français imprime 20 pages par jour, ce qui représente, notamment, par personne et par an : \n- 6 600 pages imprimées ; \n- 1 arbre utilisé ; \n- 12 500 litres d\'eau consommés. \nOr, derrière ces chiffres, il faut tenir compte du fait que : \n- les e-mails représentent 10 à 38% du volume d\'impression ; \n- 16% des impressions ne sont jamais lues et 65% pourraient être lues sur un écran ; \n- ¼ des impressions sont jetées dans les 5 minutes suivant l\'impression.\nIl est donc nécessaire d\'agir pour réduire l\'impact des impressions. ', NULL, 10, 'eadcd379-06bc-11ee-b776-0cc47a39c2c0', '0d092c84-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eade9913-06bc-11ee-b776-0cc47a39c2c0', 'Utilisez-vous du papier recyclé pour vos impressions?', '0', 'e4a990cd-4329-11ed-af88-040300000000', 0, '', '', NULL, 11, 'eadcd379-06bc-11ee-b776-0cc47a39c2c0', '0d092c84-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eadec861-06bc-11ee-b776-0cc47a39c2c0', 'Avez-vous adopté des pratiques d\'achat en matière de toner et cartouches d\'encre sobres (recharge, achat de toner/cartouches recyclés...)? ', '0', 'e4a990cd-4329-11ed-af88-040300000000', 0, '', '', NULL, 12, 'eadcd379-06bc-11ee-b776-0cc47a39c2c0', '0d092c84-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eadefc43-06bc-11ee-b776-0cc47a39c2c0', 'Faîtes-vous appel à des fournisseurs d\'énergie dite « verte »/renouvelable? ', '0', 'e4a990cd-4329-11ed-af88-040300000000', 0, 'Énergies primaires : L\'énergie primaire est celle qui sert notamment à fabriquer l\'électricité que nous consommons, appelée quant à elle « énergie finale » (nucléaire, hydraulique, solaire, gaz, pétrole, charbon...). \r\nÉnergies renouvelables/fossiles : Une énergie est dite renouvelable lorsqu\'elle provient de sources que la nature renouvelle en permanence, par opposition à une énergie non renouvelable dont les stocks s\'épuisent, ce qui est le cas des énergies fossiles. ', ' Les énergies primaires dites fossiles utilisées pour la production de l\'électricité nécessaire au fonctionnement du parc numérique ont un impact environnemental supérieur aux énergies dites renouvelables. \r\nL\'achat de ce type d\'énergie consiste à l\'obtention d\'un certificat attestant qu\'une quantité d\'énergie équivalente à la consommation du client produite à partir de sources d\'énergies renouvelables a été injectée dans le réseau de distribution. Il n\'est en effet pas possible de déterminer la nature de l\'énergie effectivement consommée à la prise électrique : toutes les productions se confondent une fois qu\'elles ont rejoint le réseau de distribution. \r\nLe but est d\'aider au développement des filières renouvelables afin que la part de production qui en est issue augmente, entrainant une baisse des impacts environnementaux liés aux énergies fossiles. ', NULL, 13, NULL, NULL, 0),
+('eadf40b1-06bc-11ee-b776-0cc47a39c2c0', 'Disposez-vous d\'un inventaire du parc numérique de votre structure (postes informatiques et écrans, téléphones, tablettes, supports de sauvegardes amovibles, vidéoprojecteurs...)? ', 'b11043a2-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', ' Une gestion optimale du parc numérique implique d\'en connaître la composition de manière à affecter au mieux les ressources existantes tout en limitant les acquisitions au strict nécessaire, avec tous les impacts environnementaux que cela permet d\'éviter. ', NULL, 1, NULL, NULL, 0),
+('eadf7764-06bc-11ee-b776-0cc47a39c2c0', 'Avez-vous documenté l\'architecture de votre système d\'information (serveurs et autres matériels informatiques, infrastructures, applicatif, etc.)? ', 'b11043a2-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, 'Un système d\'information (SI) est un ensemble des moyens humains et matériels (terminaux et infrastructures numériques, solutions applicatives, etc.) ayant pour finalité d\'élaborer, traiter, stocker, acheminer, présenter ou détruire l\'information.', ' La cartographie est un outil essentiel à la maîtrise du système d\'information. Elle permet d\'avoir connaissance de l\'ensemble des composants du SI et d\'obtenir une meilleure lisibilité de celui-ci en le présentant sous différentes vues. Au-delà de la sécurité, c\'est donc un élément indispensable à la rationalisation du SI en vue de réduire son impact environnemental. ', NULL, 2, 'eadf40b1-06bc-11ee-b776-0cc47a39c2c0', '0d0b296c-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eadfd1c0-06bc-11ee-b776-0cc47a39c2c0', 'L\'architecture de votre système d\'information est-elle optimisée par rapport aux besoins de votre structure? ', 'b11043a2-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', ' La rationalisation du système d\'information (SI) permet d\'éviter des coûts et impacts environnementaux dispensables. ', NULL, 3, 'eadf40b1-06bc-11ee-b776-0cc47a39c2c0', '0d0b296c-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae0041e-06bc-11ee-b776-0cc47a39c2c0', 'Quelle est la durée de vie moyenne des postes informatiques de votre structure? ', 'b11043a2-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 4, 'eadf40b1-06bc-11ee-b776-0cc47a39c2c0', '0d0b296c-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae03ede-06bc-11ee-b776-0cc47a39c2c0', 'Quelle est la durée de vie moyenne des copieurs/imprimantes de votre structure? ', 'b11043a2-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 5, 'eadf40b1-06bc-11ee-b776-0cc47a39c2c0', '0d0b296c-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae07ac9-06bc-11ee-b776-0cc47a39c2c0', 'Quelle est la durée de vie moyenne des téléphones de votre structure?', 'b11043a2-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 6, 'eadf40b1-06bc-11ee-b776-0cc47a39c2c0', '0d0b296c-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae0b739-06bc-11ee-b776-0cc47a39c2c0', 'Assurez-vous la traçabilité des attributions et besoins en outils informatiques en interne? ', 'b11043a2-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 7, NULL, NULL, 0),
+('eae0efce-06bc-11ee-b776-0cc47a39c2c0', 'Connaissez-vous le taux moyen d\'équipement numérique/utilisateur de votre structure? ', 'b11043a2-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', 'Le taux moyen d\'équipement par utilisateur peut être pertinent en prenant en compte dans le calcul, soit uniquement les agents utilisant des équipements numériques dans le cadre de leurs missions, soit l\'ensemble des agents de la structure. Si possible réaliser les deux calculs.', NULL, 8, 'eae0b739-06bc-11ee-b776-0cc47a39c2c0', '0d0d8749-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae128ef-06bc-11ee-b776-0cc47a39c2c0', 'Quels sont le nombre et la taille moyenne des écrans mis à disposition des utilisateurs ?', 'b11043a2-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', ' La consommation d\'énergie et de matières d\'un écran augmente avec le carré de la diagonale. Plus un écran est grand, plus il consomme. Il convient donc de limiter les écrans supplémentaires, ainsi que leur taille. \r\nPour les ordinateurs portables, la taille de l\'écran impacte l\'autonomie de la batterie. En effet, les deux tiers de l\'énergie d\'un ordinateur son imputables à l\'écran.', NULL, 9, 'eae0b739-06bc-11ee-b776-0cc47a39c2c0', '0d0d8749-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae2025d-06bc-11ee-b776-0cc47a39c2c0', 'Combien de téléphones professionnels (fixes et mobiles) sont-ils mis à disposition des utilisateurs de votre structure et de quels types (téléphones simples, reconditionnés, en réemploi, smartphone...)? ', 'b11043a2-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', ' Selon L\'Institut du Numérique Responsable (INR) : Bien que les téléphones fixes aient une durée de vie longue et que leur empreinte environnementale soit faible comparée à celle des autres équipements du système d\'information, ils sont souvent plus nombreux que les utilisateurs. Par ailleurs, les téléphones fixes sont de moins en moins utilisés car ils sont souvent redondants avec les mobiles (notamment depuis l\'apparition des forfaits mobiles illimités).', NULL, 12, 'eae0b739-06bc-11ee-b776-0cc47a39c2c0', '0d0d8749-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae246b3-06bc-11ee-b776-0cc47a39c2c0', 'L\'utilisation des outils professionnels à des fins personnelles et/ou l\'utilisation d\'outils personnels à des fins professionnelles est-elle autorisée?', 'b11043a2-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, 'L\'acronyme \"BYOD\" signifie \"Bring Your Own Device\" (en français : \"Apportez Votre Equipement Personnel de Communication\" ou AVEC). Cela désigne l\'usage d\'équipements informatiques dans un contexte professionnel.', ' La mutualisation des usages permet la réduction du taux d\'équipement et impacts liés à la démultiplication des outils numériques. \nConcernant par exemple les téléphones et ordinateurs portables, les impacts environnementaux liés à ces derniers sont nombreux touts au long de son cycle de vie, aussi est-il préférable de ne pas faire doublon avec un terminal professionnel et un autre personnel lorsque cela est possible. L\'ANSSI (Agence Nationale de Sécurité des Systèmes d\'Information) indique que cette pratique du BYOD est à proscrire (se référer à son guide du nomadisme de 2018). La CNIL (Commission Nationale de l\'informatique et des libertés est plus mesurée (avec les bonnes mesures de sécurité la pratique n\'est pas systématiquement à éviter).\n\nDans tous cas, s\'assurer de prendre en compte les composantes de cybersécurité avant toute action en la matière.', NULL, 14, NULL, NULL, 0),
+('eae2877c-06bc-11ee-b776-0cc47a39c2c0', 'Avez-vous mis en place des consignes et pratiques de nature à allonger la durée de vie de vos équipements numériques (favoriser la réparation avant le remplacement, dissocier le remplacement des équipements selon les besoins, maintenance...)?', 'b11106a0-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', 'La mise en place d\'un document centralisant ces éléments d\'information permettra une meilleure gestion du parc numérique. ', NULL, 1, NULL, NULL, 0),
+('eae2c4d3-06bc-11ee-b776-0cc47a39c2c0', 'Mettez-vous à disposition des protections pour les équipements numériques fournis (sacoche, coque...)?', 'b11106a0-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 2, 'eae2877c-06bc-11ee-b776-0cc47a39c2c0', '0d107c20-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae300f3-06bc-11ee-b776-0cc47a39c2c0', 'Régulez-vous les attributions d\'équipements numériques en fonction des besoins réels des utilisateurs?', 'b11106a0-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 3, 'eae2877c-06bc-11ee-b776-0cc47a39c2c0', '0d107c20-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae33bb4-06bc-11ee-b776-0cc47a39c2c0', 'Quelle est la durée de dotation moyenne pour les principaux équipements mis à disposition des utilisateurs (ordinateurs fixes ou mobiles, écrans et autres accessoires, téléphones mobiles et tablettes)? ', 'b11106a0-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 4, 'eae2877c-06bc-11ee-b776-0cc47a39c2c0', '0d107c20-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae37420-06bc-11ee-b776-0cc47a39c2c0', 'La configuration des équipements numériques est-elle adaptée aux différents profils utilisateur? ', 'b11106a0-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 4, 'eae2877c-06bc-11ee-b776-0cc47a39c2c0', '0d107c20-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae3aeb4-06bc-11ee-b776-0cc47a39c2c0', 'Le renouvellement des unités centrales est-il dissocié de celui des écrans et autres accessoires? ', 'b11106a0-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', ' Selon l\'Institut du Numérique Responsable (INR) : La durée de vie des écrans est souvent 2 à 3 fois plus longue que celle des desktops/laptops et les autres périphériques (station d\'accueil, clavier, souris, chargeurs, sacoches, etc.) sont quasiment inusables. \r\nCette bonne pratique réduit considérablement les impacts environnementaux – notamment ceux associés à la fabrication et à la fin de vie des équipements - tout en faisant faire d\'importantes économies à l\'entreprise. Et l\'utilisateur conserve son environnement habituel.', NULL, 5, 'eae2877c-06bc-11ee-b776-0cc47a39c2c0', '0d107c20-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae3ecd0-06bc-11ee-b776-0cc47a39c2c0', 'La mise à niveau notamment par l\'ajout ou le remplacement de composants est-elle privilégiée au renouvellement des outils numériques? ', 'b11106a0-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 6, 'eae2877c-06bc-11ee-b776-0cc47a39c2c0', '0d107c20-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae42705-06bc-11ee-b776-0cc47a39c2c0', 'Des composants disponibles en interne sont-ils utilisés pour la mise à niveau des équipements numériques (issus d\'autres équipements en fin de vie par exemple)? ', 'b11106a0-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 7, 'eae3ecd0-06bc-11ee-b776-0cc47a39c2c0', '0d144cb7-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae46319-06bc-11ee-b776-0cc47a39c2c0', 'Réparez-vous les équipements numériques en cas de panne/casse?', 'b11106a0-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', ' D\'après le rapport d\'information Pour une transition numérique écologique de la mission d\'information sur l\'empreinte environnementale du numérique remis au Sénat : La fabrication et la distribution (la « phase amont ») de ces terminaux utilisés en France engendrent 86 % de leurs émissions totales et sont donc responsables de 70 % de l\'empreinte carbone totale du numérique en France.\r\nAinsi, plus la durée de vie des équipements numériques est allongée, moins il est nécessaire de les renouveler, ce qui réduit mécaniquement les impacts de la phase amont décrits ci-avant.', NULL, 8, 'eae2877c-06bc-11ee-b776-0cc47a39c2c0', '0d107c20-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae4a1db-06bc-11ee-b776-0cc47a39c2c0', 'La maintenance informatique (matériel et logiciels) est-elle assurée de façon régulière? ', 'b11106a0-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 9, 'eae2877c-06bc-11ee-b776-0cc47a39c2c0', '0d107c20-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae4daaa-06bc-11ee-b776-0cc47a39c2c0', 'Utilisez-vous des solutions logicielles et systèmes d\'exploitation libres?', 'b11106a0-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', ' Le libre, par son mode de fonctionnement basé sur une contribution communautaire, est plus vertueux en ce qu\'il favorise moins l\'obsolescence logicielle que les solutions logicielles et systèmes d\'exploitation reposant sur un écosystème propriétaire et fermé. \r\nPar exemple, le système d\'exploitation Linux est reconnu pour permettre le prolongement de la durée de vie de poste informatique ancien.', NULL, 10, NULL, NULL, 0),
+('eae51626-06bc-11ee-b776-0cc47a39c2c0', 'Qu\'advient-il du matériel encore fonctionnel remplacé?', 'b11106a0-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', ' L\'allongement de la durée de vie des équipements numériques est la priorité compte tenu de l\'impact de leur fabrication. Opter pour le réemploi du matériel numérique encore fonctionnel permet d\'y contribuer en lui offrant une nouvelle vie. ', NULL, 11, NULL, NULL, 0),
+('eae552de-06bc-11ee-b776-0cc47a39c2c0', 'Avez-vous mis en place des consignes et pratiques de nature à réduire la consommation d\'énergie de votre parc informatique (mise en veille, extinction des équipements, paramétrage de la luminosité, suivi des consommations...)? ', 'b111b80e-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 1, NULL, NULL, 0),
+('eae58bfd-06bc-11ee-b776-0cc47a39c2c0', 'Les équipements numériques sont-ils paramétrés de manière à réduire leur consommation d\'énergie (mode économie d\'énergie par défaut, suppression d\'applications énergivores, paramétrage par défaut de la luminosité, etc.)?', 'b111b80e-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 2, 'eae552de-06bc-11ee-b776-0cc47a39c2c0', '0d16bb01-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae5ca98-06bc-11ee-b776-0cc47a39c2c0', 'Avez-vous mis en place une politique d\'économie d\'énergie de votre système d\'information (SI)? ', 'b111b80e-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', ' La centralisation des paramétrages et bonnes pratiques diffusées favorisant les économies d\'énergie en un document unique permet d\'en assurer l\'application systématique et ainsi la pleine effectivité. ', NULL, 3, 'eae552de-06bc-11ee-b776-0cc47a39c2c0', '0d16bb01-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae6072c-06bc-11ee-b776-0cc47a39c2c0', 'Avez-vous mis en place des outils de mesure de la consommation d\'énergie de votre parc informatique? ', 'b111b80e-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', ' Si la consommation d\'énergie finale (électricité principalement) n\'est pas considérée comme une donnée déterminante de l\'impact environnemental du numérique, elle reste toutefois utile à étudier pour déceler des axes d\'amélioration. ', NULL, 4, 'eae552de-06bc-11ee-b776-0cc47a39c2c0', '0d16bb01-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae642ee-06bc-11ee-b776-0cc47a39c2c0', 'Utilisez-vous un logiciel de power management? ', 'b111b80e-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, 'Solution logicielle ayant pour objet d\'améliorer et d\'optimiser l\'efficacité énergétique d\'un parc numérique, principalement par la surveillance et le contrôle des équipements le composant. ', '', NULL, 5, 'eae6072c-06bc-11ee-b776-0cc47a39c2c0', '0d18255f-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae67ca7-06bc-11ee-b776-0cc47a39c2c0', 'Connaissez-vous la part du système d\'information (SI) dans la consommation énergétique totale de votre structure? ', 'b111b80e-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 6, 'eae6072c-06bc-11ee-b776-0cc47a39c2c0', '0d18255f-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae6b4b3-06bc-11ee-b776-0cc47a39c2c0', 'Avez-vous mis en place des outils de mesure de l\'impact environnemental de votre parc numérique?', 'b111b80e-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', ' Il est primordial de mesurer l\'impact environnemental du système d\'information (SI) afin de pouvoir quantifier et suivre les améliorations résultant de l\'ensemble des actions mises en place. Cela permettra également, lorsque cette pratique sera généralisée, de réaliser des études comparatives entre les structures. ', NULL, 7, 'eae552de-06bc-11ee-b776-0cc47a39c2c0', '0d16bb01-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae6f0c0-06bc-11ee-b776-0cc47a39c2c0', 'Avez-vous mis en place des paramétrages favorisant la sobriété numérique en matière d\'impression de documents (impression en noir et blanc, recto/verso, protégée...)? ', 'b111b80e-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 8, NULL, NULL, 0),
+('eae72d87-06bc-11ee-b776-0cc47a39c2c0', 'Connaissez-vous les obligations de votre structure en matière de traitement des DEEE? ', 'b112172d-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, 'Les DEEE ou D3E sont les déchets d\'équipements électriques et électroniques (EEE) en fin de vie. Ils sont considérés par la réglementation environnementale en vigueur comme étant des déchets dangereux car ils contiennent des substances réglementées. Le code de l\'environnement définit les équipements électriques et électroniques comme étant des équipements « fonctionnant grâce à des courants électriques ou à des champs électromagnétiques, ainsi que les équipements de production, de transfert et de mesure de ces courants et champs, conçus pour être utilisés à une tension ne dépassant pas 1 000 volts en courant alternatif et 1 500 volts en courant continu. »\r\nIls contiennent par ailleurs des ressources qui peuvent être réutilisées ou recyclées. ', ' Une mauvaise gestion des EEE encore fonctionnels et DEEE est source de nombreux impacts négatifs, notamment : \r\n- Perte de matériaux réutilisables ; \r\n- Pollution de l\'air et des sols ; \r\n- Favorisation des trafics mondiaux liés aux DEEE ; \r\n- Pollution et impacts sociaux au sein des tiers pays où sont envoyés les DEEE pour traitement...', NULL, 1, NULL, NULL, 0),
+('eae791b1-06bc-11ee-b776-0cc47a39c2c0', 'Une politique de gestion des DEEE est-elle en place (postes informatiques, téléphones, imprimantes/scanners, cartouches d\'encre et toner...)? ', 'b112172d-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 2, 'eae72d87-06bc-11ee-b776-0cc47a39c2c0', '0d1a4a0c-06bd-11ee-b776-0cc47a39c2c0', 0),
+('eae7cc9e-06bc-11ee-b776-0cc47a39c2c0', 'Pourriez-vous estimer le volume de vos DEEE sur une année? ', 'b112172d-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', '', NULL, 3, 'eae791b1-06bc-11ee-b776-0cc47a39c2c0', '0d1abd7a-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae80242-06bc-11ee-b776-0cc47a39c2c0', 'Selon quelle modalité les outils numériques sont-ils reliés au réseau internet?', '0', 'd573027d-432d-11ed-af88-040300000000', 0, '', ' Plusieurs études ont démontré que les réseaux mobiles (2G/3G4G/5G) présentent un impact environnemental largement supérieur aux autres (filaire et Wi-Fi). Voir notamment la note de synthèse de l\'étude corédigée par l\'Arcep et l\'ADEME de janvier 2022 (Évaluation de l\'impact environnemental du numérique en France et analyse prospective) : Par ailleurs, les réseaux fixes concentrent la majorité des impacts (entre 75 et 90 % des impacts suivant l\'indicateur). Mais, rapporté à la quantité de Go consommée sur chaque réseau, l\'impact environnemental des réseaux fixes devient inférieur à celui des réseaux mobiles. Par Go consommé, les réseaux mobiles ont près de trois fois plus d\'impact que les réseaux fixes pour l\'ensemble des indicateurs environnementaux étudiés.  ', NULL, 1, NULL, NULL, 0),
+('eae84289-06bc-11ee-b776-0cc47a39c2c0', 'Une politique de gestion des données numériques (suppression des doublons, mutualisation des données, durée de conservation limitée, archivage intermédiaire et définitif, système d\'archivage électronique (SAE), etc.) est-elle en place?', '0', 'd573027d-432d-11ed-af88-040300000000', 0, '', ' Selon le Livre blanc de l\'action GreenConcept : Chaque octet a un impact. Il faut donc réduire au maximum la quantité de données produites, traitées, transportées et stockées.\r\nLa donnée est en effet au cœur du sujet de la sobriété numérique puisque c\'est afin de la traiter, de la stocker, ou encore de la transférer que les infrastructures numériques sont mises en place. ', NULL, 2, NULL, NULL, 0),
+('eae87dc3-06bc-11ee-b776-0cc47a39c2c0', 'Quelles sont les modalités de stockage et de sauvegarde de vos données informatiques (solutions logicielles, sites et applications hébergés, sauvegarde externalisée...)?', '0', 'd573027d-432d-11ed-af88-040300000000', 0, '', ' La sauvegarde des données numériques est indispensable pour toute structure et ne doit pas être négligée. C\'est la clé de la reprise/continuité d\'activité suite à tout incident informatique (bug, cyberattaque...). \r\nSi la sobriété numérique invite à rationnaliser le système d\'information (SI), cela ne doit pas être au détriment de la disponibilité des données essentielles. L\'équilibre tient à l\'adoption d\'une politique de sauvegarde adaptée aux besoins de votre structure. ', NULL, 3, NULL, NULL, 1),
+('eae8bb58-06bc-11ee-b776-0cc47a39c2c0', 'Une politique de gestion des supports de sauvegarde (répartition des données, choix du type de support selon la nature et la disponibilité attendue, etc.) est-elle définie? ', '0', 'd573027d-432d-11ed-af88-040300000000', 0, '', ' Plus un dispositif de stockage de données est performant, plus il consomme d\'énergie. L\'écart entre la technologie la plus sobre et la plus énergivore peut varier d\'un facteur 30. C\'est pourquoi il est préférable d\'adapter le support à la disponibilité des données attendue. ', NULL, 4, 'eae87dc3-06bc-11ee-b776-0cc47a39c2c0', '0d1ca6c8-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae8f743-06bc-11ee-b776-0cc47a39c2c0', 'Favorisez-vous les centres de données qui prennent des engagements environnementaux? ', '0', 'd573027d-432d-11ed-af88-040300000000', 0, 'Le PUE est un indicateur mis au point pour mesurer l\'efficacité énergétique d\'un data center. Il est calculé en divisant le total de l\'énergie consommée par le datacenter par le total de l\'énergie utilisée par les équipements informatiques (serveur, stockage, réseau). Ainsi, plus le résultat du PUE est proche de 1, moins le data center consomme d\'énergie. \r\nD\'autres indicateurs complémentaires existent comme le WUE (Water Usage Effectiveness) ou encore le CUE (Carbon Usage Effectiveness). ', ' Contrairement à ce que pensent généralement les personnes interrogées, les centres de données (ou datas centers) ont un impact plus faible, par comparaison avec les terminaux des utilisateurs. Toutefois, il reste important de privilégier ceux qui s\'engagent pour plus de sobriété numérique compte tenu du volume toujours plus important de données qui y sont stockées et de services numériques qui en dépendent.', NULL, 5, 'eae87dc3-06bc-11ee-b776-0cc47a39c2c0', '0d1ca6c8-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae938d8-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure dispose-t-elle d\'une ou plusieurs salles serveurs/centres de données internes ? Si oui, quelles en sont les modalités d\'agencement et de gestion (organisation des baies, température moyenne de fonctionnement…) ?', '0', 'd573027d-432d-11ed-af88-040300000000', 0, '', ' Les modalités d\'agencement et de gestion des salles serveurs/centres de données influent grandement sur leur efficacité énergétique et, plus largement, leur impact environnemental. ', NULL, 7, 'eae87dc3-06bc-11ee-b776-0cc47a39c2c0', '0d1ca6c8-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae9732c-06bc-11ee-b776-0cc47a39c2c0', 'Quelle est la durée de vie moyenne de vos serveurs?', '0', 'd573027d-432d-11ed-af88-040300000000', 0, '', '  D\'après le Baromètre des pratiques Green IT des entreprises en France 2020 : 79 % des entreprises qui ont adopté une stratégie Green IT déclarent que leurs serveurs ont une durée de vie moyenne de plus de 5 ans. En face, 76 % des entreprises n\'ayant pas adopté de stratégie Green IT déclarent une durée de vie moyenne de leurs serveurs inférieure à 3 ans. ', NULL, 8, 'eae938d8-06bc-11ee-b776-0cc47a39c2c0', 'a85ac5ce-09e2-11ee-9ecf-0cc47a39c2c2', 1),
+('eae9ad81-06bc-11ee-b776-0cc47a39c2c0', 'Connaissez-vous la proportion de serveurs physiques et virtuels (aussi appelés Virtual machine (VM)) voire le taux de virtualisation de votre structure?', '0', 'd573027d-432d-11ed-af88-040300000000', 0, '', ' Le taux de virtualisation correspond à la formule suivante : nombre de serveurs virtuels/nombre de serveurs physiques. ', NULL, 9, 'eae87dc3-06bc-11ee-b776-0cc47a39c2c0', '0d1ca6c8-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eae9e800-06bc-11ee-b776-0cc47a39c2c0', 'Quelle est la capacité de stockage/utilisateur de votre structure (tous supports confondus)? ', '0', 'd573027d-432d-11ed-af88-040300000000', 0, '', ' Une capacité de stockage surdimensionnée, c\'est le risque que des ressources soient mobilisées de façon non pertinente avec tous les coûts et impacts que cela implique. ', NULL, 10, NULL, NULL, 1),
+('eaea20ae-06bc-11ee-b776-0cc47a39c2c0', 'Selon quelle modalité est-il possible de partager des documents en interne et à l\'externe ?', '0', 'd573027d-432d-11ed-af88-040300000000', 0, '', ' Selon l\'Institut du Numérique Responsable (INR) : Mettre en place des dossiers de partage de documents (ou espace de travail de travail collaboratif) permet d\'éviter l\'envoi de pièces jointes volumineuses et la duplication des documents sur différents postes de travail ou dans différents dossiers.', NULL, 11, NULL, NULL, 1),
+('eaea5d42-06bc-11ee-b776-0cc47a39c2c0', 'Assurez-vous un suivi de la volumétrie des données numériques traitées via votre système d\'information (SI)? ', '0', 'd573027d-432d-11ed-af88-040300000000', 0, '', ' Le suivi de la volumétrie des données numériques est un préalable à l\'adaptation et l\'optimisation de la politique de stockage et de gestion des données de votre structure. ', NULL, 12, NULL, NULL, 1),
+('eaea942d-06bc-11ee-b776-0cc47a39c2c0', 'Des obligations et/ou bonnes pratiques favorisant la sobriété numérique (gestion et tri des boîtes de messagerie, espaces de stockage en ligne, mise en veille et extinction des outils numériques...) ont-elles été mises en place via la charte informatique ou tout autre support ou format? ', '0', '54aa9a19-432e-11ed-af88-040300000000', 0, '', ' La charte informatique est le document indiqué pour assurer la diffusion et l\'opposabilité des règles et pratiques communes définies par la structure concernant le numérique (sécurité informatique, protection des données, usages autorisés, sanctions, etc.). ', NULL, 1, NULL, NULL, 0),
+('eaead655-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure fait-elle un usage régulier de la visioconférence? ', '0', '54aa9a19-432e-11ed-af88-040300000000', 0, '', ' Tout comme les déplacements, la visioconférence a des impacts environnementaux qu\'il faut prendre en compte pour définir le format le plus approprié pour la tenue d\'une réunion (terminaux utilisés pour y participer, réseaux utilisés, nombre de participants, durée de la réunion...). \r\nÀ noter que d\'après une étude menée par des chercheurs de l\'université Purdue, de l\'université de Yale et du Massachusetts Institute of Technology, désactiver la webcam réduit de 96% l\'impact environnemental lié à la visioconférence.', NULL, 2, NULL, NULL, 0),
+('eaeb0f2f-06bc-11ee-b776-0cc47a39c2c0', 'Le télétravail est-il en place? ', '0', '54aa9a19-432e-11ed-af88-040300000000', 0, '', ' Bien que la mise en place du télétravail implique de nouveaux impacts qu\'il est nécessaire de prendre en compte dans son déploiement afin d\'éviter le phénomène des effets de rebond, sa mise en place permet, dans de nombreux contextes, de réduire les émissions de gaz à effets de serre liées aux déplacements. Selon une récente étude de l\'ADEME (2020) : En conclusion, l\'ensemble des effets rebond identifiés (déplacements supplémentaires, relocalisation du domicile, usage de la visioconférence, consommations énergétiques du domicile...) peuvent réduire en moyenne de 31 % les bénéfices environnementaux du télétravail. Cependant, si l\'on prend en compte également les effets positifs induits - en particulier ceux générés par le flex office organisé, nous obtenons une balance positive de + 52 %. Ces bénéfices sont significatifs et justifient l\'encouragement du développement du télétravail, dans un contexte où il est par ailleurs plébiscité par les salariés eux-mêmes en raison de ses avantages individuels (qualité de vie, gain de temps et d\'argent, etc.).', NULL, 3, NULL, NULL, 0),
+('eaeb4f85-06bc-11ee-b776-0cc47a39c2c0', 'Avez-vous mis en place des consignes particulières favorisant la sobriété numérique en matière d\'impression de documents (police imposée, nombre limité d\'impressions...)? ', '0', '54aa9a19-432e-11ed-af88-040300000000', 0, '', ' En moyenne, un français imprime 20 pages par jour, ce qui représente, notamment, par personne et par an : \n- 6 600 pages imprimées ; \n- 1 arbre utilisé ; \n- 12 500 litres d\'eau consommés. \nOr, derrière ces chiffres, il faut tenir compte du fait que : \n- les e-mails représentent 10 à 38% du volume d\'impression ; \n- 16% des impressions ne sont jamais lues et 65% pourraient être lues sur un écran ; \n- ¼ des impressions sont jetées dans les 5 minutes suivant l\'impression.\nIl est donc nécessaire d\'agir pour réduire l\'impact des impressions. ', NULL, 4, NULL, NULL, 0),
+('eaeb8dc2-06bc-11ee-b776-0cc47a39c2c0', 'La collecte et le recyclage du papier sont-ils réalisés au sein de votre structure? ', '0', '54aa9a19-432e-11ed-af88-040300000000', 0, '', ' Décret Tri 5 flux : \r\nDans le prolongement de la loi sur la transition énergétique, et en complément de l\'obligation sur le tri et la valorisation des emballages professionnels (Art. R 543-66 à 72 du code de l\'Environnement), le décret n°2016-288 du 10 mars 2016 oblige depuis le 1er juillet 2016 au tri à la source et à la valorisation de 5 flux de déchets (Art. D 543 à 287 du code de l\'Environnement), à savoir : papier/carton, métal, plastique, verre et bois.', NULL, 5, NULL, NULL, 0);
+INSERT INTO `question` (`id`, `question`, `theme_id`, `category_id`, `multiple`, `definition`, `additional_information`, `definition_title`, `sort_order`, `parent_id`, `parent_answer_id`, `level_two`) VALUES
+('eaebdb76-06bc-11ee-b776-0cc47a39c2c0', 'Les services numériques (logiciels, applications...) utilisés sont-ils écoconçus? ', '0', '708d624a-432f-11ed-af88-040300000000', 0, '', ' Selon la Mission interministérielle Numérique Écoresponsable (MiNumÉco) : L\'écoconception des services numériques n\'est pas uniquement une recherche d\'optimisation, d\'efficience ou de performance mais une réflexion plus globale sur l\'usage des technologies. Il est important d\'intégrer les impacts environnementaux du numérique dans la conception des services numériques en visant directement ou indirectement à allonger la durée des vies des équipements numériques, à réduire la consommation de ressources informatiques et énergétiques des terminaux, des réseaux et des centres de données.\r\nPar exemple, lorsqu\'un service de communication en ligne présente des erreurs dans son code ou que celui-ci est rédigé de façon complexe, les navigateurs internet prennent plus de temps pour en charger le contenu car ils doivent au préalable compenser ces erreurs et déchiffrer l\'ensemble, ce qui implique un impact environnemental plus important. ', NULL, 1, NULL, NULL, 0),
+('eaec1930-06bc-11ee-b776-0cc47a39c2c0', 'Vos services de communication au public en ligne (principalement sites internet et applications mobiles) sont-ils écoconçus?', '0', '708d624a-432f-11ed-af88-040300000000', 0, 'Services de communication au public en ligne : Selon le Référentiel Général d\'Amélioration de l\'Accessibilité (RGAA), \'\'Les services de communication au public en ligne sont définis comme toute mise à disposition du public ou de catégories de public, par un procédé de communication électronique, de signes, de signaux, d\'écrits, d\'images, de sons ou de messages de toute nature qui n\'ont pas le caractère d\'une correspondance privée (article 1er de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l\'économie numérique). Conformément au II de l\'article 47 de la loi du 11 février 2005, ils comprennent notamment :\r\nles sites internet, intranet, extranet ; les progiciels, dès lors qu\'ils constituent des applications utilisées au travers d\'un navigateur web ou d\'une application mobile ;\r\nles applications mobiles qui sont définies comme tout logiciel d\'application conçu et développé en vue d\'être utilisé sur des appareils mobiles, tels que des téléphones intelligents (smartphones) et des tablettes, hors système d\'exploitation ou matériel ;\r\nle mobilier urbain numérique, pour leur partie applicative ou interactive, hors système d\'exploitation ou matériel.\'\'', '', NULL, 2, NULL, NULL, 0),
+('eaec7d75-06bc-11ee-b776-0cc47a39c2c0', 'Un suivi statistiques et/ou le dépôt de cookies et autres traceurs sont-ils appliqués aux services de communication au public en ligne (principalement sites internet et applications mobiles) de votre structure? ', '0', '708d624a-432f-11ed-af88-040300000000', 0, '', ' Les cookies et autres traceurs ainsi que les personnalisations qu\'ils rendent possibles ont un impact environnemental important, aussi est-il préférable de réduire leur utilisation au strict minimum afin d\'alléger le poids environnemental d\'un service de communication en ligne (site internet, application mobile...). \r\nCela rejoint par ailleurs le principe de pertinence et de minimisation des données collectées posé par le RGPD. ', NULL, 2, 'eaec1930-06bc-11ee-b776-0cc47a39c2c0', '0d22ccc7-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eaecba23-06bc-11ee-b776-0cc47a39c2c0', 'Les personnes en charge de la communication sont-elles au fait des principes de la sobriété éditoriale? ', '0', '708d624a-432f-11ed-af88-040300000000', 0, '', ' D\'après le Shift Project, le trafic de données est responsable de plus de la moitié de l\'impact énergétique mondial du numérique, avec 55 % de sa consommation d\'énergie annuelle. Chaque octet transféré ou stocké sollicite des terminaux et des infrastructures de grande envergure, gourmandes en énergie (centres de données, réseaux). \nEn 2018, les flux vidéo représentaient 80 % des flux de données mondiaux et 80 % de l\'augmentation de leur volume annuel. Les 20 % restants étaient constitués de sites web, de données, de jeux vidéo, etc. La croissance rapide du volume total de données - donc de la consommation d\'énergie et des émissions de gaz à effet de serre associées – est ainsi en très large partie due à la vidéo.\nLa sobriété éditoriale vise à réduire ces différents impacts par la mise en place d\'une communication raisonnée et adaptée aux besoins de votre structure et des personnes auxquelles elle s\'adresse. ', NULL, 3, NULL, NULL, 0),
+('eaecfa36-06bc-11ee-b776-0cc47a39c2c0', 'Avez-vous imposé des règles particulières en matière de traitement de texte et autres documents bureautiques (police d\'écriture, tailles et couleurs des caractères, marges, format de documents (Word, PDF, etc.), etc.)? ', '0', '708d624a-432f-11ed-af88-040300000000', 0, '', ' Le choix de la police d\'écriture ou encore la taille des caractères, mais aussi les couleurs et bien d\'autres paramètres sont susceptibles de réduire l\'impact environnemental du traitement de texte et autre fichiers des suites bureautiques, particulièrement sur la phase d\'impression. ', NULL, 4, NULL, NULL, 1),
+('eaed3454-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure dispose-t-elle d\'une charte graphique? ', '0', '708d624a-432f-11ed-af88-040300000000', 0, '', ' Une charte graphique assure l\'uniformisation des documents produits par la structure tout en permettant de rationnaliser la consommation d\'encre et de papier, réduisant ainsi l\'impact environnemental des impressions et supports de communication. C\'est par ailleurs l\'occasion d\'intégrer des principes d\'accessibilité afin de s\'assurer que les documents puissent être consultés et compris par tous. ', NULL, 5, 'eaecfa36-06bc-11ee-b776-0cc47a39c2c0', '0d23f9f5-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eaed725d-06bc-11ee-b776-0cc47a39c2c0', 'Le montant total annuel des achats de votre structure est-il supérieur à 50 millions d\'euros HT? ', 'ffef7f08-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, '', '', NULL, 1, NULL, NULL, 1),
+('eaedab44-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle adopté un schéma de promotion des achats publics socialement et écologiquement responsables?', 'ffef7f08-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, '', '', NULL, 2, 'eaed725d-06bc-11ee-b776-0cc47a39c2c0', '0d24ba23-06bd-11ee-b776-0cc47a39c2c0', 1),
+('eaede4b2-06bc-11ee-b776-0cc47a39c2c0', 'Des clauses sociales sont-elles inclues dans les appels d\'offre et contrats conclus hors marché? ', 'ffef7f08-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, '', ' Il est nécessaire de tenir compte des conditions de travail et de vie des personnes qui fabriquent les équipements et services numériques.\r\nCela peut également être un outil pour promouvoir le retour à l\'emploi de personnes qui en sont éloignées. \r\nCela s\'inscrit enfin dans les objectifs du Plan National des Achats Responsables (PNAD) 2022-2025 et notamment celui visant à ce que, d\'ici 2025, 30% des contrats de la commande publique notifiés au cours de l\'année comprennent au moins une considération sociale. ', NULL, 3, NULL, NULL, 1),
+('eaee2338-06bc-11ee-b776-0cc47a39c2c0', 'Tenez-vous compte du Débit d\'Absorption Spécifique (DAS) dans le cadre des achats numériques? ', 'ffef7f08-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, 'Le DAS évalue l\'énergie de sondes électromagnétiques qu\'absorbe le corps humain lors de l\'utilisation d\'un équipement radioélectrique tel qu\'un téléphone. Il s\'exprime en watt par kilogramme (W/kg) et se divise en trois types correspondant chacun à une partie du corps et aux usages propres à chacune d\'elles : le DAS tête, le DAS tronc et le DAS membre. \r\nLe DAS de chaque téléphone mis sur le marché doit être contrôlé en laboratoire pour respecter la réglementation européenne. ', ' Selon L\'Institut du Numérique Responsable (INR) : En 2011, l\'Organisation Mondiale de la Santé (OMS) a classé les champs de radiofréquences électromagnétiques émis par les terminaux mobiles connectés (téléphones, smartphones, tablettes, etc.) comme « potentiellement cancérigènes ». En 2015, la France a voté la « loi relative à la sobriété, à la transparence, à l\'information et à la concertation en matière d\'exposition aux ondes électromagnétiques ». Cette loi impose l\'application des principes de précaution et de sobriété face aux émissions d\'ondes électromagnétiques (antennes relais, téléphones portables et smartphones, box internet, etc.).', NULL, 4, NULL, NULL, 1),
+('eaee6416-06bc-11ee-b776-0cc47a39c2c0', 'Faites-vous appel à des acteurs locaux de la réparation, du réemploi et/ou de la réutilisation d\'équipements informatiques?', 'ffef7f08-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, '\"Le concept d\'économie sociale et solidaire (ESS) désigne un ensemble d\'entreprises organisées sous forme de coopératives, mutuelles, associations, ou fondations, dont le fonctionnement interne et les activités sont fondés sur un principe de solidarité et d\'utilité sociale.  Ces entreprises adoptent des modes de gestion démocratiques et participatifs. Elles encadrent strictement l\'utilisation des bénéfices qu\'elles réalisent : le profit individuel est proscrit et les résultats sont réinvestis. Leurs ressources financières sont généralement en partie publiques.  Elles bénéficient d\'un cadre juridique renforcé par la loi n° 2014-856 du 31 juillet 2014 modifiée relative à l\'économie sociale et solidaire.\" Pour plus d’informations voir : https://www.economie.gouv.fr/cedef/economie-sociale-et-solidaire ', '', NULL, 5, NULL, NULL, 1),
+('eaee9d7f-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure mène-t-elle une démarche de mise en conformité aux règles relatives à la protection des données (Règlement Général sur la Protection des Données (RGPD), Loi Informatique et Libertés (LIL)...)? ', 'ffef8496-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, '', ' Depuis le 25 mai 2018, l\'article 37 du RGPD, oblige les organismes publics à désigner un délégué à la protection des données (DPD) chargé de veiller à la gestion et à la protection de ces dernières, en toute indépendance et conformément aux obligations énumérées par ce règlement.\r\nOrganismes publics comme privés doivent se conformer aux règles applicables en matière de protection des données, principalement le Règlement Général sur la Protection des Données (RGPD). ', NULL, 1, NULL, NULL, 1),
+('eaeed982-06bc-11ee-b776-0cc47a39c2c0', 'Des actions de sensibilisation sont-elles menées auprès du personnel sur les enjeux et bonnes pratiques en matière de protection des données et de sécurité informatique? ', 'ffef8496-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, '', '', NULL, 2, NULL, NULL, 1),
+('eaef0f77-06bc-11ee-b776-0cc47a39c2c0', 'Des actions de sensibilisation sont-elles menées auprès des élus sur les enjeux et bonnes pratiques en matière de protection des données et de sécurité informatique? ', 'ffef8496-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, '', '', NULL, 3, NULL, NULL, 1),
+('eaef4a05-06bc-11ee-b776-0cc47a39c2c0', 'Une politique de protection contre les risques cyber a-t-elle été adoptée pour votre structure? ', 'ffef8496-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, '', ' La sécurité informatique contribue à l\'allongement de la durée de vie des outils numériques. En effet, en cas d\'attaque cyber, il est parfois nécessaire de renouveler une partie voire l\'intégralité du parc numérique. \r\nPar ailleurs, elle participe également aux mesures de sécurité qui s\'imposent au responsable de traitement dans le cadre du RGPD afin de prévenir les violations de données personnelles. ', NULL, 4, NULL, NULL, 1),
+('eaef89eb-06bc-11ee-b776-0cc47a39c2c0', 'Avez-vous réalisé l\'homologation au Référentiel Général de Sécurité (RGS) de votre système d\'information (SI)? ', 'ffef8496-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, '', ' L\'homologation RGS vise à la sécurisation du système d\'information qui figure parmi les objectifs de la stratégie numérique responsable telle que définie par la loi REEN et son décret d\'application. \r\nÀ noter que ce processus est obligatoire pour les organismes publics disposant de téléservices. ', NULL, 5, NULL, NULL, 1),
+('eaefc832-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle mis en place une démarche en faveur de l\'inclusion numérique? ', 'ffef87b9-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, 'L\'inclusion numérique s\'entend tant par l\'accès matériel aux outils numériques et réseaux de communication (notamment pour les personnes éloignées du numérique par manque de moyens ou d\'infrastructures) que par l\'accès effectif de tous aux services de communication au public en ligne (notamment pour les personnes ayant des difficultés avec le numérique ou dont l\'accès est conditionné par l\'accessibilité dudit service). ', ' Face à la dématérialisation des services publics, il est indispensable d\'œuvrer en faveur de l\'inclusion numérique afin de ne pas générer d\'inégalités et situations discriminatoires dans le cadre de vos services de communication au public en ligne et ceux de vos partenaires institutionnels. ', NULL, 1, NULL, NULL, 1),
+('eaf00a4e-06bc-11ee-b776-0cc47a39c2c0', 'Des actions de sensibilisation sont-elles menées auprès du personnel sur les enjeux et bonnes pratiques en matière d\'inclusion numérique? ', 'ffef87b9-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, '', '', NULL, 2, NULL, NULL, 1),
+('eaf0418a-06bc-11ee-b776-0cc47a39c2c0', 'Des actions de sensibilisation sont-elles menées auprès des élus sur les enjeux et bonnes pratiques en matière de protection d\'inclusion numérique? ', 'ffef87b9-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, '', '', NULL, 3, NULL, NULL, 1),
+('eaf0788d-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure respecte-t-elle les préconisations et obligations en matière d\'accessibilité numérique? ', 'ffef87b9-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, 'Rendre possible l\'accès à l\'information et aux fonctionnalités d\'un service de communication au public en ligne, quelle que soit la nature du handicap des personnes et la façon dont elles consultent l\'information. Concrètement, c\'est un ensemble de règles et de bonnes pratiques graphiques, fonctionnelles et techniques, permettant de s\'assurer que les services de communication sont accessibles aux personnes handicapées.', ' Les organismes publics et quelques catégories d\'acteurs privés (notamment ceux bénéficiant d\'une délégation de service public, recevant des fonds publics ou encore en partie contrôlés par un organisme public) ont des obligations à respecter en vertu de la loi n°2005-102 et du décret n°2019-768 afin que leurs services de communication au public en ligne soient accessibles aux personnes handicapées. Cela implique de respecter un ensemble de règles posées par le Référentiel Général d\'Amélioration de l\'Accessibilité (RGAA). ', NULL, 4, NULL, NULL, 1),
+('eaf0bf23-06bc-11ee-b776-0cc47a39c2c0', 'Votre structure respecte-t-elle les préconisations et obligations en matière d\'ouverture de ses données (Open Data )? ', 'ffef8a66-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, 'L\'open data désigne un mouvement, né en Grande-Bretagne et aux États-Unis, d\'ouverture et de mise à disposition des données produites et collectées par les services publics (administrations, collectivités locales...).', ' Dans une société où l\'information est devenue une richesse, l\'Open data, ou l\'ouverture des données publiques, permet de mettre en commun des données qui deviendront, à leur tour, de l\'information. \r\nLa loi NOTRe est un texte fondateur pour l\'ouverture des données publiques. Depuis 2016, la loi pour une République Numérique et le décret n°2016-360 relatif aux marchés publics ont renforcé le cadre juridique de l\'Open data en rendant obligatoires plusieurs dispositions pour les collectivités territoriales.\r\nLes collectivités de plus de 3 500 habitants et comptant au moins 50 agents doivent publier certaines catégories de documents administratifs, notamment « toutes les informations dont la publication présente un intérêt économique, social, sanitaire ou environnemental ».', NULL, 1, NULL, NULL, 1),
+('eaf0fe3d-06bc-11ee-b776-0cc47a39c2c0', 'Mettez -vous à disposition du public des bornes d\'accès/une connexion Wifi gratuite? ', 'ffef8d65-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, '', ' D\'après l\'ADEME : Pour utiliser son téléphone mobile, une connexion Wifi consomme moins et sollicite moins le réseau que la 4G (ou la 5G).\r\nEn complément, selon le Livre blanc de l\'action GreenConcept : Les impacts environnementaux de la transmission d\'un GigaOctet via le réseau 4G sont jusqu\'à 20 fois plus important que via le réseau ADSL et Wifi. ', NULL, 1, NULL, NULL, 1),
+('eaf1cc7a-06bc-11ee-b776-0cc47a39c2c0', 'Souhaitez-vous diffuser les enjeux et bonnes pratiques du numérique responsable auprès du public? ', 'ffef8d65-0699-11ee-b776-0cc47a39c2c0', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 0, 'Le numérique responsable est une démarche d\'amélioration continue qui vise à améliorer l\'empreinte écologique et sociale du numérique. ', ' La place centrale des collectivités territoriales dans le quotidien des administrés et acteurs locaux en font un levier clé pour la bonne diffusion des enjeux et bonnes pratiques du numérique responsable. ', NULL, 2, NULL, NULL, 1),
+('fd893fe8-4af6-11ee-b615-0cc47a39c2c2', 'Combien d\'imprimantes/copieurs sont-ils mis à disposition des utilisateurs et quelles sont les modalités de répartitions ?', 'b11043a2-0453-11ee-b776-0cc47a39c2c0', '8444bdb4-432a-11ed-af88-040300000000', 0, '', 'L\'optimisation du parc d\'impression est primordiale. Elle permet d\'ajuster l\'utilisation de l\'outil au juste besoin et ainsi de réduire les impacts liés à la fabrication du matériel, les consommations d\'énergie, et plus largement les coûts liés au parc. \r\nA noter qu\'une grande partie des consommations d\'énergie ne résultent pas des impressions mais des temps de veille/d\'arrêt des imprimantes, notamment de nuit et durant les week-ends. En effet, qu\'ils soient en veille ou éteints, les outils numériques laissés branchés consomment toujours de l\'énergie. ', '', 10, 'eae0b739-06bc-11ee-b776-0cc47a39c2c0', '0d0d8749-06bd-11ee-b776-0cc47a39c2c0', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `recommandation`
+--
+
+DROP TABLE IF EXISTS `recommandation`;
+CREATE TABLE IF NOT EXISTS `recommandation` (
+  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `title` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `short_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `body` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `details` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `question_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `level_id` smallint UNSIGNED NOT NULL,
+  `status_id` int NOT NULL DEFAULT '4',
+  PRIMARY KEY (`id`),
+  KEY `IDX_C7782A281E27F6BF` (`question_id`),
+  KEY `IDX_C7782A285FB14BA7` (`level_id`),
+  KEY `IDX_C7782A286BF700BD` (`status_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `recommandation`
+--
+
+INSERT INTO `recommandation` (`id`, `title`, `short_title`, `body`, `details`, `question_id`, `level_id`, `status_id`) VALUES
+('01ab58b1-4af5-11ee-b615-0cc47a39c2c2', 'À votre connaissance, votre structure a-t-elle pris en compte la sobriété numérique et la transition environnementale dans ses actions et projets en lien avec le numérique ?', 'Mettre en place une gouvernance', 'Mettre en place une gouvernance de la démarche vers un numérique plus sobre (désignation d\'un référent opérationnel/élu, création d\'un comité de pilotage, rédaction d\'un plan d\'actions...).', '', '6c5a609b-4af4-11ee-b615-0cc47a39c2c2', 2, 4),
+('036c12fc-4b00-11ee-b615-0cc47a39c2c2', 'Les élus de votre structure ont-ils été formés aux enjeux et bonnes pratiques en matière de sobriété numérique ?', 'Formation des élus', 'Former les élus les plus concernés aux enjeux et bonnes pratiques de la sobriété numérique.', NULL, 'a950ed4d-4aff-11ee-b615-0cc47a39c2c2', 0, 4),
+('0688903e-4678-11ee-b615-0cc47a39c2c2', 'Ces personnes sont-elles à temps plein sur ces missions ?', 'Missions \"Sobriété numérique\" des agents et autres personnels', 'Les besoins en ETP (équivalent temps plein) peuvent fortement varier en fonction de l\'ampleur du SI d\'une collectivité et de la manière dont elle met à disposition et maintient l\'accès à divers services numériques pour ses agents et administrés. Il est donc avant tout question de proportionnalité, en évitant l\'écueil du manque de moyens comme son opposé de la sur-allocation.', '', 'ead8f657-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('100251a8-09ba-11ee-b881-0cc47a39c2c2', 'L\'architecture de votre système d\'information est-elle optimisée par rapport aux besoins de votre structure ? ', 'Décommissionnement des services numériques', 'Effectuer une revue des solutions logicielles et applications déployées afin d\'en étudier l\'utilité et l\'utilisation réelles. Désinstaller celles qui ne sont pas utilisées ou n\'apportent pas de plus-value à votre structure et privilégier une architecture applicative modulaire.', '', 'eadfd1c0-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('100256a2-09ba-11ee-b881-0cc47a39c2c2', 'Quelle est la durée de vie moyenne des postes informatiques de votre structure ? ', 'Durée de vie moyenne des équipements numériques', 'Documenter la durée de vie moyenne des postes informatiques afin d\'en suivre l\'évolution.', '', 'eae0041e-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('100259dd-09ba-11ee-b881-0cc47a39c2c2', 'Quelle est la durée de vie moyenne des copieurs/imprimantes de votre structure ? ', 'Durée de vie moyenne des copieurs et imprimantes', 'Documenter la durée de vie moyenne copieurs/imprimantes afin d\'en suivre l\'évolution.', '', 'eae03ede-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('10025cc4-09ba-11ee-b881-0cc47a39c2c2', 'Quelle est la durée de vie moyenne des téléphones de votre structure ?', 'Durée de vie moyenne des téléphones', 'Documenter la durée de vie moyenne téléphones afin d\'en suivre l\'évolution.', '', 'eae07ac9-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'L\'utilisation des outils professionnels à des fins personnelles et/ou l\'utilisation d\'outils personnels à des fins professionnelles est-elle autorisée ?', 'Mutualisation des usages professionnels et personnels', 'Autoriser l\'utilisation des outils numériques professionnels sur le temps personnel et/ou favoriser la pratique du BYOD (Bring Your Own Device). À noter toutefois que cette dernière est fortement déconseillée par l\'ANSSI (Agence nationale de la sécurité des systèmes d\'information) pour des raisons de sécurité du système d\'information. Sa mise en place est envisageable sous réserve de bien l\'encadrer. \nCes pratiques doivent dans tous les cas être encadrées par un document de type charte informatique afin de ne pas remettre en cause la sécurité du système d\'information, la protection des données personnelles, ainsi que le nécessaire cloisonnement entre vie privée et vie professionnelle. Consulter les ressources humaines, le DPO et/ou le RSSI de votre structure pour un accompagnement.', '', 'eae246b3-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('1002624a-09ba-11ee-b881-0cc47a39c2c2', 'Avez-vous mis en place des consignes et pratiques de nature à allonger la durée de vie de vos équipements numériques (favoriser la réparation avant le remplacement, dissocier le remplacement des équipements selon les besoins, maintenance...) ?', 'Consignes et pratiques pour allonger de la durée de vie des équipements numériques', 'Mettre en place des consignes et pratiques de nature à allonger la durée de vie de vos équipements numériques (favoriser la réparation avant le remplacement, dissocier le remplacement des équipements selon les besoins, assurer une maintenance régulière...).', '', 'eae2877c-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('10026519-09ba-11ee-b881-0cc47a39c2c2', 'La maintenance informatique (matériel et logiciels) est-elle assurée de façon régulière ? ', 'Pertinence des mises à jour proposées', 'Etudier la pertinence de mettre à jour une solution logicielle ou un système d\'exploitation avant d\'y procéder. Seules les mises à jour de sécurité sont indispensables, les autres n\'apportant que des évolutions de fonctionnalités diverses. \r\nCette étude doit être réalisée avec le concours du service compétent ou le prestataire pour prévenir tout risque d\'atteinte à la sécurité du système d\'information (SI).', '', 'eae4a1db-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('100268ee-09ba-11ee-b881-0cc47a39c2c2', 'Avez-vous mis en place des consignes et pratiques de nature à réduire la consommation d\'énergie de votre parc informatique (mise en veille, extinction des équipements, paramétrage de la luminosité, suivi des consommations...) ? ', 'Économie d\'énergie du parc numérique', 'Appliquer et diffuser les bonnes pratiques favorisant les économies d\'énergie dans l\'utilisation des équipements numériques. Cela contribuera également à allonger la durée de vie de leur batterie et donc des équipements eux-mêmes.', 'Appliquer et diffuser les bonnes pratiques favorisant les économies d\'énergie dans l\'utilisation des équipements numériques afin d\'allonger la durée de vie de leur batterie et donc la durée de vie des équipements eux-mêmes :  - Privilégier le mode d\'alimentation le plus économique/écologique (paramétrage de la batterie, mode économie d\'énergie par exemple).  - Mettre en veille les équipements numériques dès qu\'ils ne sont pas utilisés ou les éteindre en cas d\'inactivité prolongée (30 minutes à une heure d\'inactivité environ).  - Adapter la luminosité de l\'écran selon les besoins.  - Limiter le nombre de programmes ouverts et inutilisés. Les fermer en cas d\'absence (pause du midi notamment) afin d\'éviter l\'envoi de requêtes inutiles.  - Désactiver les fonctions GPS, Wifi, Bluetooth et autres lorsqu\'elles ne sont pas utilisées.  - Éteindre les écrans et autres équipements non utilisés.', 'eae552de-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('10026bd4-09ba-11ee-b881-0cc47a39c2c2', 'Une politique de gestion des supports de sauvegarde (répartition des données, choix du type de support selon la nature et la disponibilité attendue, etc.) est-elle définie ? ', '', 'Sous réserve que cela ne porte pas atteinte à la disponibilité des données et à la continuité d\'activité, désactiver les transferts automatiques de données et assurer un tri régulier des espaces de stockage hébergés (cloud), dans le respect des durées de conservation et règles d\'archivage qui s\'imposent à la structure. \r\nSe rapprocher du service compétent ou du prestataire pour un accompagnement.                                                                                                               ', '', 'eae8bb58-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('10026eb6-09ba-11ee-b881-0cc47a39c2c2', 'Favorisez-vous les centres de données qui prennent des engagements environnementaux ? ', 'Centres de données français', 'Privilégier les centres de données installés sur le territoire français : au-delà des enjeux de protection et de souveraineté des données numériques, le mix énergétique français est plus favorable à la maîtrise de l\'empreinte environnementale de ces infrastructures.', '', 'eae8f743-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('10027220-09ba-11ee-b881-0cc47a39c2c2', 'Quelle est la durée de vie moyenne de vos serveurs ?', '', 'Documenter la durée de vie moyenne des serveurs physiques afin d\'en suivre l\'évolution.', '', 'eae9732c-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('100274d4-09ba-11ee-b881-0cc47a39c2c2', 'Des obligations et/ou bonnes pratiques favorisant la sobriété numérique (gestion et tri des boîtes de messagerie, espaces de stockage en ligne, mise en veille et extinction des outils numériques...) ont-elles été mises en place via la charte informatique ou tout autre support ou format ? ', 'Diffusion des bonnes pratiques en interne', 'Appliquer et diffuser les principes de la sobriété numérique à la gestion des boîtes mail (rédaction, pièces jointes, , tri, paramétrages, etc.), à la navigation en ligne (choix du navigateur, recherches, etc.) ou encore à l\'écoute de musique et autres contenus audiovisuels durant le temps de travail (streaming, choix du média, etc...).', 'Appliquer et diffuser les principes de la sobriété numérique à la gestion des boîtes mail :  - Assurer un tri régulier de sa boîte mail, dans le respect des durées de conservation et règles d\'archivage qui s\'imposent à la structure ;  - Se désabonner des newsletters inutiles ;  - Installer un anti-spams ; - Réduire autant que possible le nombre d\'emails envoyés : il préférable, lorsqu\'il peut être évité, de privilégier un canal de transmission d\'informations moins impactant (SMS, appel...) ;  - Privilégier le format texte au format HTML pour la rédaction d\'emails. Ce dernier format ne doit être utilisé que lorsque cela est indispensable ;  - Réduire le contenu de l\'email à l\'essentiel afin de réduire les temps d\'écriture et de lecture ;  - A l\'externe : Partager un lien vers le lieu de stockage en ligne institutionnel ou temporaire (cloud interne ou plateforme de partage en ligne) d\'un document plutôt que d\'en joindre une copie au mail envoyé. A défaut, compresser la taille des pièces jointes ; A l\'interne : privilégier le partage via serveur ou messagerie instantanée ;   - Bien cibler ses destinataires et n\'utiliser la fonctionnalité \"Répondre à tous\" que lorsque cela est réellement nécessaire ;  - Créer une signature sans image ni logo au moins pour les échanges internes ;  - Supprimer les pièces jointes des emails transférés ou auxquels une réponse est envoyée.  Appliquer et diffuser les principes de la sobriété numérique à la navigation en ligne :  - Fermer les pages et onglets inutilisés ;  - Vider le cache, supprimer les cookies et historique de navigation des navigateurs ; - Ajouter une solution bloquant la recharge des onglets ;  - Mettre en favoris/marque-pages les sites régulièrement consultés ;  - Choisir un navigateur internet moins énergivore (Chrome serait l\'un des plus gourmands devant Internet Explorer et Firefox) ;  - Se rendre directement sur le site en tapant l\'adresse dans la barre d\'url ou via les favoris et l\'historique plutôt que de lancer une recherche via un moteur de recherches ;  - Utiliser les mots clés les plus précis possible pour les recherches en ligne.   Ecoute de musique et autres contenus audiovisuels durant le temps de travail :  - Eviter le streaming vidéo (clips ou autres) ou réduire la qualité vidéo au minimum proposé/nécessaire pour la bonne compréhension de la vidéo ;  - Privilégier la radio ou les sites et applications de streaming audio et la fonctionnalité de téléchargement que ces outils proposent si possible.', 'eaea942d-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('10027797-09ba-11ee-b881-0cc47a39c2c2', 'Votre structure fait-elle un usage régulier de la visioconférence ? ', '', 'Désactiver les webcams lors des visioconférences lorsqu\'il n\'est pas pertinent de les garder allumées (lorsque l\'animateur projette une présentation ou qu\'une participation active n\'est pas attendue par exemple). Le but est de trouver le juste équilibre entre convivialité et maîtrise des impacts liés à l\'utilisation des webcams. ', '', 'eaead655-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('10027a4b-09ba-11ee-b881-0cc47a39c2c2', 'Avez-vous imposé des règles particulières en matière de traitement de texte et autres documents bureautiques (police d\'écriture, tailles et couleurs des caractères, marges, format de documents (Word, PDF, etc.), etc.) ? ', 'Police d\'écriture', 'Choisir une police d\'écriture économe en encre et accessible, par exemple : \r\n<ul>\r\n      <li>Cambria </li>\r\n      <li>Arial </li>\r\n      <li>Century Gothic</li>\r\n </ul>\r\nPrivilégier les polices dites système ou natives pour les services de communication au public en ligne afin de limiter les requêtes externes.', '', 'eaecfa36-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('4eddae39-09ba-11ee-b881-0cc47a39c2c2', 'Une politique de gestion des supports de sauvegarde (répartition des données, choix du type de support selon la nature et la disponibilité attendue, etc.) est-elle définie ? ', '', 'Lorsque cela est envisageable et approprié, privilégier la technologie dite du Thin Provisioning, aussi appelée Dynamic Provisioning ou allocation fine et dynamique pour la gestion de vos espaces de stockage. \nSe rapprocher du service compétent ou du prestataire pour un accompagnement.', 'Lorsque cela est envisageable et approprié, privilégier la technologie dite du Thin Provisioning, aussi appelée Dynamic Provisioning ou allocation fine et dynamique pour la gestion de vos espaces de stockage. Cette technique consiste à ne mobiliser que l\'espace de stockage réellement consommé plutôt que la totalité allouée, évitant ainsi que des ressources ne soient mobilisées pour de l\'espace vide. L\'espace de stockage disponible augmente progressivement, en fonction des besoins et peut être alloué là où il est nécessaire.  A noter que cette technologie présente certaines contraintes dont il est nécessaire de tenir compte avant sa mise en place (nécessité de surveiller la bonne allocation de l\'espace pour éviter d\'en atteindre les limites, d\'être connecté au réseau pour que l\'ajustement s\'opère, risque d\'indisponibilité des données en cas de panne...). Se rapprocher du service compétent ou du prestataire pour un accompagnement.', 'eae8bb58-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('4eddb6c8-09ba-11ee-b881-0cc47a39c2c2', 'Favorisez-vous les centres de données qui prennent des engagements environnementaux ? ', 'Indicateurs de performance environnementale des centres de données', 'Vérifier différents indicateurs de performance environnementale, notamment le PUE (Power Usage Effectiveness, indicateur d\'efficacité énergétique), CUE (Carbone Usage Effectiveness, indicateur d\'impact environnemental), WUE (Water Usage Effectiveness, indicateur d\'efficience dans l\'utilisation de l\'eau), REF (Renewable Energy Factor, ratio de l\'utilisation des énergies renouvelables) ou encore COP (Coefficient Of Performance, rendement de la production de froid) des datas centers au sein desquels votre structure stocke ses données.', '', 'eae8f743-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e0a1b0d-06bd-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle mis en place une gouvernance pour la sobriété numérique (désignation d\'un référent, prise d\'engagements, définition d\'objectifs, mise en place d\'actions...) ', 'Mettre en place une gouvernance', 'Une gouvernance de la démarche vers un numérique plus sobre contient tout ou partie de ces exemples d\'actions : \n- désignation d\'un référent opérationnel/élu, \n- création d\'un comité de pilotage, \n- rédaction d\'un plan d\'action,\n- sélection d\'indicateurs environnementaux et définition d\'objectifs,\n- attribution des critères de suivi et d\'atteinte des objectifs environnementaux,\n- organisation de points de suivi réguliers afin d\'approfondir progressivement les objectifs et/ou d\'élargir les indicateurs pris en compte.', '', 'ead873c4-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e0a60c3-06bd-11ee-b776-0cc47a39c2c0', 'Des missions liées à la sobriété numérique ont-elles été confiées au personnel ? ', 'Missions \"Sobriété numérique\" des agents et autres personnels', 'Intégrer la notion de sobriété numérique aux fiches de poste des agents directement concernés par la démarche et leur attribuer les missions correspondantes (acheteurs publics, agents du service informatique, de la communication...).', '', 'ead8cae7-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e0af297-06bd-11ee-b776-0cc47a39c2c0', 'Des missions liées à la sobriété numérique ont-elles été confiées aux élus ?', 'Missions \"Sobriété numérique\" des élus', 'Désigner au moins un élu en charge de la sobriété numérique afin que ses enjeux soient portés et pris en compte au sein des organes délibérants de votre structure.', '', 'ead9205e-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e0b2b43-06bd-11ee-b776-0cc47a39c2c0', 'Un référent sobriété numérique a-t-il été désigné ?', '', 'Désigner au moins un référent Sobriété numérique chargé principalement de :  <ul>      <li>diffuser les bonnes pratiques auprès des agents et autres personnels, ainsi que des élus et/ou responsables</li>      <li>d\'alerter et conseiller en lien avec la thématique dans le cadre des projets et missions de votre structure</li>      <li>de piloter la démarche d\'amélioration continue entamée par votre structure</li> </ul>', '', 'ead94a96-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e0b6541-06bd-11ee-b776-0cc47a39c2c0', 'Un organe de pilotage et/ou groupe de travail a-t-il été mis en place sur le sujet de la sobriété numérique ? ', '', 'Mettre en place un comité Sobriété numérique afin de piloter la démarche d\'amélioration continue entamée par votre structure de façon homogène et structurée. ', 'Mettre en place un comité Sobriété numérique afin de piloter la démarche d\'amélioration continue entamée par votre structure de façon homogène et structurée.  Le comité Sobriété numérique est un organe qui centralise la démarche d\'amélioration continue de la structure. Il est idéalement constitué : \n<ul>      \n    <li>du responsable de la structure ou d\'un représentant de ce dernier</li>      \n    <li>du référent Sobriété numérique</li>      \n    <li>des responsables des principales directions concernées par la démarche (DSI, Achats & marchés publics, Communication...).  Ce comité pourra être constitué d\'acteurs supplémentaires, utiles à la mise en œuvre de la démarche d\'amélioration continue (notamment les prestataires numériques externes)</li> \n</ul>', 'ead9753f-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e0b9f13-06bd-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle pris des engagements en matière de sobriété numérique ? ', '', 'Formaliser l\'investissement de votre structure dans la démarche par un acte d\'engagement. ', '', 'ead99d87-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e0bd836-06bd-11ee-b776-0cc47a39c2c0', 'Les engagements pris par votre structure ont-ils été rendus publics ?', '', 'Dans un souci de transparence et d\'exemplarité, il est recommandé de rendre les engagements pris en matière de sobriété numérique publics auprès des administrés et acteurs locaux. Cela est l\'opportunité de mettre en avant la démarche entamée par votre structure.', '', 'ead9ca87-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e0c6b0d-06bd-11ee-b776-0cc47a39c2c0', 'Les actions engagées et/ou objectifs fixés par votre structure ont-ils été formalisés sous forme d\'un plan d\'actions ?', '', 'Définir un plan d\'action afin de prioriser les mesures à mettre en place dans le cadre de la démarche d\'amélioration continue entamée. \nA noter que la loi dite REEN du 15 novembre 2021 introduit des obligations impactant le plan climat-air-énergie (PCAET) pour les collectivités concernées, ainsi que pour les communes de plus 50 000 habitants et les EPCI à fiscalité propre regroupant plus de 50 000 habitants. ', 'Définir un plan d\'actions afin de prioriser les mesures à mettre en place dans le cadre de la démarche d\'amélioration continue entamée.  Ce document doit permettre de répartir les responsabilités, d\'estimer les coûts financiers et humains (jours/hommes) et donc le budget et les ressources humaines à allouer, des objectifs concrets et indicateurs de progression/réussite correspondants, ainsi qu\'un délai de mise en œuvre réaliste et adéquat.  Il convient d\'arbitrer entre les actions les plus faciles à mettre en œuvre et celles dont l\'impact sera le plus conséquent pour améliorer l\'indice de maturité de votre structure.  A noter d\'une part, que les EPCI à fiscalité propre regroupant au moins 20 000 habitants sont soumis à l\'obligation d\'adoption d\'un plan climat-air-énergie depuis le 31 décembre 2018 ou dans un délai de deux ans à compter de leur création ou de la date à laquelle ils dépassent le seuil de 20 000 habitants. Ce plan devant notamment contenir un programme d\'actions à réaliser visant, entre autres, à réduire l\'empreinte environnementale du numérique sur leur territoire (sous réserve que l\'élaboration dudit plan n\'ait pas été confiée à un établissement public chargé du schéma de cohérence territoriale).  D\'autre part que, les communes de plus 50 000 habitants et les EPCI à fiscalité propre regroupant plus de 50 000 habitants doivent, au plus tard au 1er janvier 2025, définir une stratégie numérique responsable comprenant un volet sobriété numérique (réduction de l\'empreinte environnementale du numérique) ainsi que les mesures mises en place pour y parvenir. Un programme de travail préalable à l\'élaboration de cette stratégie devant être adopté au plus tard au 1er janvier 2023. ', 'eada1203-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e0cb729-06bd-11ee-b776-0cc47a39c2c0', 'Avez-vous alloué une part du budget de votre structure à la mise en oeuvre d\'une démarche de sobriété numérique ? ', 'Définir un budget', 'Établir un budget dédié à la démarche pour un numérique plus sobre. Si cette démarche est vouée à générer des économies, elle nécessite certaines dépenses qu\'il est préférable d\'anticiper (financement des sensibilisations/formations, d\'accompagnements spécifiques, achats de logiciels et service...).', '', 'eada3460-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e0d053a-06bd-11ee-b776-0cc47a39c2c0', 'Des actions de sensibilisation sont-elles menées auprès du personnel sur les enjeux et bonnes pratiques en matière de sobriété numérique ? ', 'Sensibilisation des agents et autres personnels', 'Assurer une sensibilisation régulière des agents et autres personnels de votre structure, aux enjeux et bonnes pratiques de la sobriété numérique.\nEn complément de sessions de sensibilisation, diffuser ces enjeux en interne via différents supports physiques et numériques (note d\'organisation, affichage, lettre d\'information interne...).', '', 'eada5694-06bc-11ee-b776-0cc47a39c2c0', 2, 1),
+('5e0d4df5-06bd-11ee-b776-0cc47a39c2c0', 'Le personnel de votre structure a-t-il été formé aux enjeux et bonnes pratiques en matière de sobriété numérique ? ', 'Formation du personnel', 'Former les responsables et/ou agents et autres personnels les plus concernés aux enjeux et bonnes pratiques de la sobriété numérique (DSI/service informatique, achats & marchés publics, communication...).', '', 'eada8fd0-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e0d96a4-06bd-11ee-b776-0cc47a39c2c0', 'Des actions de sensibilisation sont-elles menées auprès des élus sur les enjeux et bonnes pratiques en matière de sobriété numérique ? ', 'Sensibilisation des élus et membres des instances dirigeantes', 'Assurer une sensibilisation régulière des élus et membres des instances dirigeantes de votre structure, aux enjeux et bonnes pratiques de la sobriété numérique.', '', 'eadacc92-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e0ddf42-06bd-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle recours à la location de matériels numériques ? ', '', 'Privilégier la location d\'équipements numériques à l\'achat. \r\nVeiller toutefois à ce que le prestataire prenne des engagements favorisant effectivement l\'allongement de la durée de vie du matériel loué (matériel écolabellisé et durable, réemployé à l\'issue du contrat...). Il est par exemple possible de fixer un seuil minimum de réemploi du matériel loué à cette fin. ', '', 'eadb0117-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e0e3065-06bd-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle pris des mesures permettant de favoriser la sobriété numérique dans les achats et locations d\'équipements et services numériques telles que l\'ajout de clauses contractuelles, une prise en compte des écolabels, des indices de réparabilité, d\'éco-conception, d\'achat ou de location d\'équipements issus du réemploi ou de la réutilisation ?', '', 'Mettre en place des mesures permettant de favoriser la sobriété numérique dans les achats et locations d\'équipements et services numériques (ajout de clauses contractuelles, prise en compte des écolabels, de l\'indice de réparabilité, de l\'éco-conception, achat/location d\'équipements issus du réemploi ou de la réutilisation ...).', '', 'eadb3a87-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e0e7cd4-06bd-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle recours au réemploi interne de matériels numériques ? ', 'Réemploi en interne', 'Diminuer l\'achat d\'outils numériques neufs par le recours au réemploi en interne : étudier les possibilités de réaffecter les outils numériques qui ne répondent plus aux besoins de certains profils utilisateurs vers d\'autres profils aux besoins desquels ils peuvent encore répondre. ', '', 'eadb8410-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e0edb76-06bd-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle recours aux filières externes du reconditionnement, du réemploi et/ou de la réutilisation en matière d\'achats numériques ?', 'Achat d\'équipements numériques issus du reconditionnement, du réemploi et/ou de la réutilisation', 'Diminuer l\'achat d\'outils numériques neufs par le recours à l\'achat d\'outils numériques issus d\'une filière du réemploi externe ou reconditionnés. \nRespecter, a minima, les seuils fixés par le décret du 9 mars 2021 pris pour l\'application de la disposition correspondante de la loi AGEC.', 'Diminuer l\'achat d\'outils numériques neufs par l\'achat d\'outils numériques issus d\'une filière du réemploi externe ou reconditionné. Respecter, a minima, les seuils fixés par le décret en vigueur pris pour l\'application de la disposition correspondante de la loi AGEC (article 58) : I. - À compter du 1ᵉʳ janvier 2021, les biens acquis annuellement par les services de l\'État ainsi que par les collectivités territoriales et leurs groupements sont issus du réemploi ou de la réutilisation ou intègrent des matières recyclées dans des proportions de 20 % à 100 % selon le type de produit. II. - En cas de contrainte opérationnelle liée à la défense nationale ou de contrainte technique significative liée à la nature de la commande publique, le pouvoir adjudicateur n\'est pas soumis à l\'obligation prévue au I [...]. À noter que ce même texte prévoit la déclaration de la part des dépenses réalisées pour l\'acquisition de biens issus du réemploi ou de la réutilisation ou intégrant des matières recyclées.  Extrait du décret : Produis ou catégories de produits : Machines, matériel et fourniture informatique et de bureau, excepté les meubles et logiciels ; Terminaux informatiques ; Ordinateurs portables ; Ordinateur de bureau ; Accessoires informatiques ; Photocopieurs et matériel d\'impression offset ; Pièces et accessoires de photocopieurs ; Téléphones mobiles ; Téléphones fixes ; % issu du réemploi ou de la réutilisation ou intégrant des matières recyclées : 20% Dont % issu du réemploi ou de la réutilisation : 20%.\n\nIl est à noter que les pourcentages ci-dessus s\'appliquent de 2024 à 2027. À partir de 2027, les taux seront de 25 % puis 30 % à compter de 2030.', 'eadbba62-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', 'Des clauses environnementales sont-elles inclues dans les appels d\'offre et contrats conclus hors marché pour l\'achats d\'équipements numériques ? ', 'Clauses environnementales', 'Intégrer des clauses environnementales dans les appels d\'offre et contrats conclus hors marché. ', 'Intégrer des clauses environnementales dans les appels d\'offre et contrats conclus hors marché.  Pour les solutions logicielles et systèmes d\'exploitation : des exigences doivent être posées concernant la séparation des mises à jour des sécurité de celles dites de confort, l\'assurance d\'une continuité de ces mises à jour ainsi que du support technique durant un laps de temps suffisamment long, ou encore la nécessité que ces mises à jour n\'entrainent pas une hausse trop importante des prérequis techniques de nature à favoriser l\'obsolescence logicielle et ainsi une réduction de la durée de vie des équipements numériques.  Pour les biens et notamment le matériel numérique : des exigences doivent être posées concernant leur durée de vie, leur réparabilité voire leur durabilité (notamment facilité de démontage, disponibilité des pièces détachées...), les écolabels qu\'ils doivent présenter ou encore la gestion de leur fin de vie (reprise par le fournisseur/distributeur, prise en charge par un éco-organisme agréé...).  Dans tous les cas, l\'éco-conception doit être posée comme un prérequis indispensable.   A noter que des dispositions concernant les marchés publics doivent entrer en vigueur suite à l\'adoption de la loi Climat et résilience, suivant une date fixée par un décret en cours d\'étude et au plus tard le 22 août 2026. Celles-ci viendront modifier le code de la commande publique afin de généraliser la prise en compte de considérations relatives à l\'environnement en la matière tant dans les spécifications techniques que les conditions d\'exécution, mais aussi pour l\'attribution du marché.  L\'article 35 de la loi Climat et résilience introduit notamment l\'obligation pour les acheteurs et les autorités concédantes, de retenir au moins un critère d\'attribution prenant en compte les caractéristiques environnementales de l\'offre.  Le législateur a fait le choix de ne pas énumérer les caractéristiques environnementales qui doivent être spécifiquement prises en compte en tant que critère. En effet, la formulation retenue demeure large afin de laisser une certaine souplesse aux acheteurs et aux autorités concédantes. Il leur revient ainsi de déterminer le critère qui leur paraît le plus approprié au regard des caractéristiques du contrat concerné.  En pratique, cette évolution interdit le recours au critère unique du prix. Ainsi, si l\'acheteur fait le choix de ne retenir qu\'un seul critère de sélection, seul le critère unique du coût global intégrant nécessairement des considérations environnementales pourra désormais être retenu.   Pour aller plus loin : envisager la mise en place d\'un plan de progrès avec le titulaire/cocontractant afin d\'engager une démarche d\'amélioration continue conjointe vers une numérique plus sobre dans le cadre de la prestation assurée. ', 'eadbf343-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e10ccab-06bd-11ee-b776-0cc47a39c2c0', 'Tenez-vous compte des écolabels et autres référentiels dans le cadre de vos achats numériques (Energie Star, 80 Plus, EPEAT, Blue Angel...) ? ', 'Écolabels et autres référentiels pour les équipements numériques', 'Privilégier l\'achat d\'équipements numériques écolabellisés, qui répondent à des normes reconnues et/certifiés (EPEAT, TCO, Energy Star, 80 Plus, Blue Angel...). ', 'Privilégier l\'achat d\'équipements numériques écolabellisés, qui répondent à des normes reconnues et/ou certifiés (EPEAT, TCO, Energy Star, 80 Plus, Blue Angel...).   En cas de référence à des labels spécifiques dans le cadre d\'un achat, se référer aux articles R2111-12 à R2111-17 du code de la commande publique (modalités d\'utilisation de labels). Se référer également à la Section 4 Les labels (voir pages 22 et suivantes) du Guide des achats numériques responsables pour connaître les conditions permettant à l\'acheteur public d\'imposer à l\'opérateur économique qu\'il détienne un label particulier dans le cadre d\'un marché public.', 'eadc2bc8-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e1116b4-06bd-11ee-b776-0cc47a39c2c0', 'Tenez-vous compte de l\'indice de réparabilité dans le cadre de vos achats pour les outils numériques qui en disposent ? ', 'Indice de réparabilité', 'Tenir compte de l\'indice de réparabilité pour les achats d\'outils numériques. À noter que sa prise en compte devient obligatoire à compter du 1er janvier 2023. Son successeur, l\'indice de durabilité, n\'est applicable (au 1er janvier 2025) qu\'aux téléviseurs et machines à laver, sans qu\'une date pour les autres produits (ordinateurs, téléphones) ne soit connue.', '', 'eadc66b4-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Votre structure dispose-t-elle d\'une politique d\'achat et de renouvellement des outils numériques définie ?', 'Politique d\'achats', 'Mettre en place une politique d\'achats intégrant les principes de la sobriété numérique (critères techniques exigés (puissance, fiabilité, durabilité, ...), la politique d\'équipement associée (faire une étude des besoins utilisateurs : quel besoin dans quelle situation), règles d\'achat sobriété numérique sous forme de critères environnementaux ou d\'écoconditionnalités...). ', '', 'eadc9d71-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e11ca07-06bd-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle pris des mesures permettant de favoriser la sobriété numérique dans les achats pour l\'impression telles que le choix du papier, de l\'encre et des toners ?', '', 'Mettre en place des mesures permettant de favoriser la sobriété numérique dans les achats pour l\'impression (choix du papier, de l\'encre et des toners...). ', '', 'eadcd379-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e123aa5-06bd-11ee-b776-0cc47a39c2c0', 'Tenez-vous compte des écolabels dans le cadre de vos achats de papiers (FSC, PEFC, Blue Angel......) ', 'Écolabels pour les achats d\'impression', 'Privilégier l\'achat de papiers écolabellisés (Blue Angel ou FSC par exemple) et à faible grammage, dans le respect des articles R2111-12 à R2111-17 du code de la commande publique (modalités d\'utilisation de labels). ', '', 'eade5b21-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e129146-06bd-11ee-b776-0cc47a39c2c0', 'Utilisez-vous du papier recyclé pour vos impressions ?', 'Papier recyclé', 'Privilégier l\'achat de papiers recyclés (voir les papiers labellisés Blue Angel ou FSC recyclé notamment) et à faible grammage.\n\nRespecter, a minima, les seuils fixés par le décret en vigueur pris pour l\'application de la disposition correspondante de la loi AGEC.', 'Privilégier l\'achat de papiers recyclés (voir les papiers labellisés Blue Angel ou FSC recyclé notamment) et à faible grammage. En cas de référence à des labels spécifiques, se référer aux articles\n R2111-12 à R2111-17 du code de la commande publique (modalités d\'utilisation de labels).\n\nRespecter, a minima, les seuils fixés par le décret en vigueur pris pour l\'application de la disposition correspondante de la loi AGEC (article 58) : \"I. - À compter du 1er janvier 2021, les biens\n acquis annuellement par les services de l\'État ainsi que par les collectivités territoriales et leurs groupements, sont issus du réemploi ou de la réutilisation ou intègrent des matières recyclées dans des proportions de 20 % à 100 % selon le type de produit.\n\nII. - En cas de contrainte opérationnelle liée à la défense nationale ou de contrainte technique significative liée à la nature de la commande publique, le pouvoir adjudicateur n\'est pas soumis à l\'obligation\n prévue au I [...].\"\n\nExtrait du décret, exigences 2024 :\n\nProduis ou catégories de produits : Papier d\'impression ; Papier pour photocopie ;\n\n% issu du réemploi ou de la réutilisation ou intégrant des matières recyclées : 40%\n\nDont % issu du réemploi ou de la réutilisation : 0%', 'eade9913-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e12e526-06bd-11ee-b776-0cc47a39c2c0', 'Avez-vous adopté des pratiques d\'achat en matière de toner et cartouches d\'encre sobres (recharge, achat de toner/cartouches recyclés...) ? ', 'Toners et cartouches d\'encre', 'Modifier les pratiques d\'achat de cartouches et toner :\n\n- Recharger les cartouches / toners ;\n- Acheter des cartouches / toners recyclés longue durée.\n\nRespecter, a minima, les seuils fixés par le décret en vigueur pris pour l\'application de la disposition correspondante de la loi AGEC.', 'Modifier les pratiques d\'achat de cartouches et toner :\n\n- Recharger les cartouches / toners ;\n- Acheter des cartouches / toners recyclés longue durée.\n\nRespecter, a minima, les seuils fixés par le décret en vigueur pris pour l\'application de la disposition correspondante de la loi AGEC (article 58) : \"I. - À compter du 1er janvier 2021, les biens\n acquis annuellement par les services de l\'État ainsi que par les collectivités territoriales et leurs groupements, sont issus du réemploi ou de la réutilisation ou intègrent des matières recyclées dans des proportions de 20 % à 100 % selon le type de produit.\n\nII. - En cas de contrainte opérationnelle liée à la défense nationale ou de contrainte technique significative liée à la nature de la commande publique, le pouvoir adjudicateur n\'est pas soumis à l\'obligation\n prévue au I [...].\"\n\nExtrait du décret, exigences 2024 :\n\nProduis ou catégories de produits : Cartouches de toner ; Cartouches d\'encre ;\n\n% issu du réemploi ou de la réutilisation ou intégrant des matières recyclées : 20%\n\nDont % issu du réemploi ou de la réutilisation : 20%', 'eadec861-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e13362e-06bd-11ee-b776-0cc47a39c2c0', 'Faîtes-vous appel à des fournisseurs d\'énergie dite « verte »/renouvelable ? ', 'Origine de l\'énergie alimentant le système d\'information', 'Alimenter le système d\'information (SI) de préférence avec de l\'énergie renouvelable ou dite \"décarbonée\" ou encore \"verte\".', '', 'eadefc43-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e13858c-06bd-11ee-b776-0cc47a39c2c0', 'Disposez-vous d\'un inventaire du parc numérique de votre structure (postes informatiques et écrans, téléphones, tablettes, supports de sauvegardes amovibles, vidéoprojecteurs...) ? ', 'Inventaire du parc numérique', 'Tenir un inventaire du parc numérique de votre structure (postes informatiques et écrans, téléphones, tablettes, supports de sauvegardes amovibles, vidéoprojecteurs...). Celui-ci est un élément indispensable de la cartographie de son système d\'information (SI).', '', 'eadf40b1-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e13d5b9-06bd-11ee-b776-0cc47a39c2c0', 'Avez-vous documenté l\'architecture de votre système d\'information (serveurs et autres matériels informatiques, infrastructures, applicatif, etc.) ? ', 'Cartographie du système d\'information', 'Documenter l\'architecture de votre SI (serveurs, VM, applicatif, etc.). Se rapprocher du prestataire informatique le cas échéant pour un accompagnement.', '', 'eadf7764-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e142565-06bd-11ee-b776-0cc47a39c2c0', 'L\'architecture de votre système d\'information est-elle optimisée par rapport aux besoins de votre structure ? ', 'Rationalisation du système d\'information', 'Effectuer une revue de l\'architecture du système d\'information (SI) afin d\'identifier les ressources potentiellement inutilisées (serveurs, espaces de stockage...) et réétudier leur déploiement en conséquence. Privilégier une architecture modulaire et frugale s\'adaptant aux besoins de votre structure.', '', 'eadfd1c0-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e147765-06bd-11ee-b776-0cc47a39c2c0', 'Quelle est la durée de vie moyenne des postes informatiques de votre structure ? ', 'Allongement de la durée de vie des équipements numériques', 'Allonger la durée de vie des postes informatiques.', '', 'eae0041e-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e14be3b-06bd-11ee-b776-0cc47a39c2c0', 'Quelle est la durée de vie moyenne des copieurs/imprimantes de votre structure ? ', 'Allongement de la durée de vie des copieurs et imprimantes', 'Allonger la durée de vie des copieurs/imprimantes.', '', 'eae03ede-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e15069b-06bd-11ee-b776-0cc47a39c2c0', 'Quelle est la durée de vie moyenne des téléphones de votre structure ?', 'Allongement de la durée de vie des téléphones', 'Allonger la durée de vie des téléphones.', '', 'eae07ac9-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e154e7f-06bd-11ee-b776-0cc47a39c2c0', 'Assurez-vous la traçabilité des attributions et besoins en outils informatiques en interne ? ', 'Suivi des attributions d\'équipements numériques', 'Assurer le suivi des attributions d\'équipements numériques : \n-        Mettre en place une documentation assurant la traçabilité des attributions et restitutions d\'outils ; \n-        Effectuer une revue annuelle des besoins et attributions ; \n-        Inviter les utilisateurs à restituer le matériel non-utilisé pour réaffectation selon les besoins internes.', '', 'eae0b739-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e1597fd-06bd-11ee-b776-0cc47a39c2c0', 'Connaissez-vous le taux moyen d\'équipement numérique/utilisateur de votre structure ? ', 'Taux moyens d\'équipement numérique/utilisateur', 'Documenter le taux moyen d\'équipement numérique/utilisateur afin d\'en suivre l\'évolution.', '', 'eae0efce-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e15dfe9-06bd-11ee-b776-0cc47a39c2c0', 'Quels sont le nombre et la taille moyens des écrans mis à disposition des utilisateurs ?', 'Écrans mis à disposition', 'Réduire le nombre et la taille des écrans au strict nécessaire.', '', 'eae128ef-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e16c38b-06bd-11ee-b776-0cc47a39c2c0', 'Combien de téléphones professionnels (fixes et mobiles) sont-ils mis à disposition des utilisateurs de votre structure et de quels types (téléphones simples, reconditionnés, en réemploi, smartphone...) ? ', 'Limitation du nombre de téléphones', 'Limiter le nombre de terminaux de téléphonie.', '', 'eae2025d-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e1718ce-06bd-11ee-b776-0cc47a39c2c0', 'L\'utilisation des outils professionnels à des fins personnelles et/ou l\'utilisation d\'outils personnels à des fins professionnelles est-elle autorisée ?', 'Double carte SIM', 'Favoriser le recours à la double carte SIM afin de réduire les doublons téléphones portables professionnel/personnel.', '', 'eae246b3-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e176a1a-06bd-11ee-b776-0cc47a39c2c0', 'Avez-vous mis en place des consignes et pratiques de nature à allonger la durée de vie de vos équipements numériques (favoriser la réparation avant le remplacement, dissocier le remplacement des équipements selon les besoins, maintenance...) ?', 'Politique de gestion du parc numérique', 'Mettre en place une politique de gestion du parc numérique intégrant les principes de la sobriété numérique :\n- identification des besoins utilisateurs par profils-types, \n- cycle de vie des différents outils et notamment le potentiel réemploi interne ou externe de matériels en fin de vie, \n- durée d’amortissement,\n- méthodologie choisie pour sa réparabilité (interne ou externalisation), son impact environnemental (GES ou ACV), ses bonnes pratiques d’usage (extinction, veille, allumage, etc...).', '', 'eae2877c-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e17d587-06bd-11ee-b776-0cc47a39c2c0', 'Mettez-vous à disposition des protections pour les équipements numériques fournis (sacoche, coque...) ?', 'Protection des équipements numériques', 'Afin d\'allonger la durée de vie des équipements numériques, mettre en place toutes les protections physiques et logicielles adéquates (coque et écran de protection, étui ou sacoche de rangement, etc.). \r\nEn parallèle, il convient d\'inviter les utilisateurs à adopter les bons gestes pour prendre soin de leurs outils, notamment :\r\n<ul>\r\n            <li>Ne pas laisser les outils numériques au soleil ou près d\'une source de chaleur</li>\r\n            <li>Les installer sur des surfaces plate et rigide afin de ne pas gêner la ventilation</li>\r\n<li>Les dépoussiérer régulièrement avec du matériel adapté</li>\r\n<li>Respecter les consignes du fabricant sur la charge de la batterie. À défaut, consulter le fournisseur et le service compétent pour les connaître</li>\r\n        </ul>', '', 'eae2c4d3-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e18248f-06bd-11ee-b776-0cc47a39c2c0', 'Régulez-vous les attributions d\'équipements numériques en fonction des besoins réels des utilisateurs ?', 'Dotations adaptées aux besoins des utilisateurs', 'Il convient, d\'une part, de ne renouveler les équipements numériques que lorsque cela est réellement nécessaire. Autrement dit, lorsque l\'équipement n\'est plus fonctionnel, entrave la bonne réalisation des missions de l\'utilisateur ou constitue un risque pour la sécurité du système d\'information (SI). \r\nD\'autre part, l\'équipement attribué doit être adapté aux besoins réels de l\'utilisateur (type, taille, puissance, etc.). ', '', 'eae300f3-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e186c49-06bd-11ee-b776-0cc47a39c2c0', 'Quelle est la durée de dotation moyenne pour les principaux équipements mis à disposition des utilisateurs (ordinateurs fixes ou mobiles, écrans et autres accessoires, téléphones mobiles et tablettes) ? ', 'Durée de dotation des équipements numériques', 'Documenter et allonger la durée de dotation des équipements numériques. ', '', 'eae33bb4-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e18ad87-06bd-11ee-b776-0cc47a39c2c0', 'La configuration des équipements numériques est-elle adaptée aux différents profils utilisateur ? ', 'Configuration des équipements adaptées aux besoins utilisateur', 'Adapter la configuration des équipements numériques au juste nécessaire des usages métier.', '', 'eae37420-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e18f0ef-06bd-11ee-b776-0cc47a39c2c0', 'Le renouvellement des unités centrales est-il dissocié de celui des écrans et autres accessoires ? ', 'Renouvellement dissocié des équipements numériques', 'Dissocier le renouvellement des unités centrales de celui des écrans et autres accessoires (clavier, etc.). ', '', 'eae3aeb4-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e193f00-06bd-11ee-b776-0cc47a39c2c0', 'La mise à niveau notamment par l\'ajout ou le remplacement de composants est-elle privilégiée au renouvellement des outils numériques ? ', 'Privilégier la mise à niveau des équipements numériques', 'Mettre à niveau les équipements plutôt que de les remplacer (augmentation de la puissance, de la capacité de stockage...). ', 'Mettre à niveau les équipements plutôt que de les remplacer (augmentation de la puissance, de la capacité de stockage...).  Selon L\'Institut du Numérique Responsable (INR) : Sur les plans économique et environnemental, il est plus intéressant de doper un équipement vieillissant que de le remplacer par un équipement neuf. Le simple fait d\'ajouter de la capacité mémoire vive (RAM) suffit généralement à allonger la durée de vie d\'un poste de travail de 1 à 2 ans.  Pour les ordinateurs portables, on peut compléter la démarche en remplaçant le disque dur par un SSD.  Pour s\'assurer de pouvoir mettre en œuvre cette bonne pratique, il peut être judicieux d\'ajouter quelques exigences techniques lors de l\'appel d\'offre, notamment :  <ul>             <li>la facilité de démontage et la possibilité d\'accéder aux composants clés</li>             <li>et la possibilité d\'étendre la capacité de la mémoire vive et de remplacer les autres composants clés</li>         </ul>', 'eae3ecd0-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e1988a3-06bd-11ee-b776-0cc47a39c2c0', 'Des composants disponibles en interne sont-ils utilisés pour la mise à niveau des équipements numériques (issus d\'autres équipements en fin de vie par exemple) ? ', 'Réutilisation de composants disponibles', 'Pour la mise à niveau des équipements numériques, réutiliser si possible les composants encore fonctionnels des équipements numériques en fin de vie (barrettes de mémoire notamment).', '', 'eae42705-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e19f23e-06bd-11ee-b776-0cc47a39c2c0', 'Réparez-vous les équipements numériques en cas de panne/casse ?', 'Réparation des équipements numériques', 'Toujours considérer la réparation d\'un équipement numérique avant toute autre option (réemploi, réutilisation, recyclage...).', '', 'eae46319-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e1a440e-06bd-11ee-b776-0cc47a39c2c0', 'La maintenance informatique (matériel et logiciels) est-elle assurée de façon régulière ? ', 'Maintenance régulière des équipements numériques', 'Assurer une maintenance régulière des équipements numériques pour en prolonger la durée de vie. \nSe rapprocher du service interne ou prestataire en charge de la maintenance pour un accompagnement.', 'Assurer une maintenance régulière des équipements numériques pour en prolonger la durée de vie.  Des actions simples peuvent être mises en place :  <ul>             <li>installer une protection payante contre les virus et les malwares</li>             <li>mettre à jour régulièrement le système d\'exploitation</li> <li>rebooter occasionnellement les machines</li> <li>vider les fichiers temporaires : navigateur, système, etc.</li> <li>nettoyer la base de registre</li> <li>défragmenter le disque dur et la base de registre</li> <li>supprimer certains programmes du démarrage</li> <li>etc</li>         </ul>  Se rapprocher du service interne ou prestataire en charge de la maintenance pour un accompagnement.', 'eae4a1db-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e1a8fcc-06bd-11ee-b776-0cc47a39c2c0', 'Utilisez-vous des solutions logicielles et systèmes d\'exploitation libres ?', 'Favoriser le libre', 'Lorsque cela est possible, privilégier l\'utilisation de solutions logicielles et systèmes d\'exploitation libres.', '', 'eae4daaa-06bc-11ee-b776-0cc47a39c2c0', 0, 4);
+INSERT INTO `recommandation` (`id`, `title`, `short_title`, `body`, `details`, `question_id`, `level_id`, `status_id`) VALUES
+('5e1af44e-06bd-11ee-b776-0cc47a39c2c0', 'Qu\'advient-il du matériel encore fonctionnel remplacé ?', 'Réemploi en externe', 'Concernant le réemploi en externe : \nPour les équipements numériques (écrans, moniteurs et équipements comprenant des écrans d\'une surface supérieure à 100 cm2, ainsi que les petits équipements informatiques et de télécommunications) encore fonctionnels (moins de 10 ans), à défaut d\'un réemploi en interne (réaffectation à un autre utilisateur), ils doivent rejoindre les filières du réemploi et de la réutilisation. Respecter a minima les quotas réglementaires :\n<ul>\n            <li>Pour l\'année 2023, 25% des équipements numériques réformés orientés vers le réemploi et la réutilisation</li>\n            <li>Pour l\'année 2024, 35% des équipements numériques réformés orientés vers le réemploi et la réutilisation</li>\n<li>À partir de 2025, 50% des équipements numériques réformés orientés vers le réemploi et la réutilisation</li>\n        </ul>\nS\'agissant donc de vendre ou donner le bien, cela constitue un acte de cession qui peut être à titre gratuit, ou à titre onéreux. Il doit être établit selon les selon les conditions applicables en la matière. Il est dans tous les cas conseillé d\'établir une convention de cession ou un acte de vente à titre gratuit ou onéreux qui matérialise le transfert de propriété et par conséquent de responsabilité du bien. ', 'Concernant le réemploi en externe :  Pour les équipements numériques (écrans, moniteurs et équipements comprenant des écrans d\'une surface supérieure à 100 cm2, ainsi que les petits équipements informatiques et de télécommunications) encore fonctionnels (moins de 10 ans), à défaut d\'un réemploi en interne (réaffectation à un autre utilisateur), ils doivent rejoindre les filières du réemploi et de la réutilisation. Respecter a minima les quotas réglementaires :  <ul>             <li>Pour l\'année 2023, 25% des équipements numériques réformés orientés vers le réemploi et la réutilisation</li>             <li>Pour l\'année 2024, 35% des équipements numériques réformés orientés vers le réemploi et la réutilisation</li> <li>À partir de 2025, 50% des équipements numériques réformés orientés vers le réemploi et la réutilisation</li>         </ul> S\'agissant donc de vendre ou donner le bien, cela constitue un acte de cession qui peut être à titre gratuit (selon les conditions applicables pour les organismes publics), ou à titre onéreux :  La cession à titre gratuit, le don, est très encadrée pour les personnes publiques, en effet elle ne peut être qu\'à destination du personnel ou d\'une association (pour le détail, voir l\'article L3212-3 du Code général de la propriété des personnes publiques, renvoyant à l\'article précédent, L3212-2 concernant les biens de l\'État et de ses établissements publics). Sachant que le seuil de la valeur résiduelle unitaire du bien à céder a été fixée par décret à 300 euros (Décret n° 2009-1751 du 17/01/2019). Si la valeur du bien est supérieure à 300 euros, il doit faire l\'objet d\'une vente dans le respect des règles de la concurrence.  Il est dans tous les cas conseillé d\'établir une convention de cession ou un acte de vente à titre gratuit ou onéreux qui matérialise le transfert de propriété et par conséquent de responsabilité du bien. Cet acte permet d\'attester de la sortie du parc d\'équipements sans que celui-ci ne soit suivi comme déchet. Charge au nouveau propriétaire de gérer dans le futur sa fin d\'usage par un nouveau don ou par l\'abandon en déchets. En cas de don, il devra aussi mentionner l\'engagement du personnel ou du tiers à ne pas revendre l\'équipement ou l\'engagement de l\'association à n\'utiliser l\'équipement qui lui est cédé que pour l\'objet prévu par ses statuts, à l\'exclusion de tout autre, et notamment qu\'elle ne peut pas revendre l\'équipement. A noter toutefois l\'exception introduite par la loi 3DS du 21 février 2022 pour les associations reconnues d\'utilité publique ou d\'intérêt général : ces associations peuvent procéder à la cession, à un prix solidaire ne pouvant dépasser un seuil défini par décret, des biens ainsi alloués à destination de personnes en situation de précarité ou à des associations oeuvrant en faveur de telles personnes. ', 'eae51626-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e1b49da-06bd-11ee-b776-0cc47a39c2c0', 'Avez-vous mis en place des consignes et pratiques de nature à réduire la consommation d\'énergie de votre parc informatique (mise en veille, extinction des équipements, paramétrage de la luminosité, suivi des consommations...) ? ', 'Déconnexion des outils', 'Sauf contrainte technique ou organisationnelle, déconnecter ou débrancher tous les outils numériques en fin de journée. Le faire a minima avant les week-ends et absences prolongées. \nCette opération peut être facilitée par l\'installation de multiprises, voire la mise en place d\'un logiciel de power management. Les bénéfices sont la réduction de la consommation électrique de la struture.', '', 'eae552de-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e1b9e62-06bd-11ee-b776-0cc47a39c2c0', 'Les équipements numériques sont-ils paramétrés de manière à réduire leur consommation d\'énergie (mode économie d\'énergie par défaut, suppression d\'applications énergivores, paramétrage par défaut de la luminosité, etc.) ?', 'Paramètres d\'économie d\'énergie', 'Mettre en place, par défaut, les paramétrages favorisant une réduction de la consommation d\'énergie des outils numériques (options d\'alimentation, mise en veille automatique, etc.).', 'Mettre en place, par défaut, les paramétrages favorisant une réduction de la consommation d\'énergie des outils numériques :  <ul>             <li>Procéder au paramétrage des options d\'alimentation selon le profil utilisateur en favorisant autant que possible l\'économie d\'énergie</li>             <li>Paramétrer une mise en veille rapide. Plus le temps d\'inactivité avant mise en veille et court, mieux cela est en termes de sobriété. Couplé au verrouillage automatique des postes, cela contribue par ailleurs à la sécurité du système d\'information (SI) et données personnelles qu\'il contient</li>         </ul>  En parallèle, sensibiliser les utilisateurs qui laissent leurs équipements numériques, et notamment leur poste informatique, allumés inutilement. <ul>             <li>Réduire la luminosité des écrans au strict nécessaire pour le confort visuel de l\'utilisateur</li>             <li>Désactiver le lancement automatique des programmes qui n\'ont pas besoin de l\'être à l\'allumage des terminaux</li>         </ul>', 'eae58bfd-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e1c1153-06bd-11ee-b776-0cc47a39c2c0', 'Avez-vous mis en place une politique d\'économie d\'énergie de votre système d\'information (SI) ? ', 'Politique d\'économie d\'énergie', 'Définir une politique d\'économie d\'énergie de votre système d\'information (SI).', '', 'eae5ca98-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e1c617d-06bd-11ee-b776-0cc47a39c2c0', 'Avez-vous mis en place des outils de mesure de la consommation d\'énergie de votre parc informatique ? ', 'Outils de mesure de la consommation d\'énergie', 'Mettre en place des outils de mesure/monitoring de la consommation d\'énergie de votre parc numérique (postes informatiques, sites internet, applications...).', '', 'eae6072c-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e1cea54-06bd-11ee-b776-0cc47a39c2c0', 'Utilisez-vous un logiciel de power management ? ', 'Logiciel de power management', 'Utiliser un logiciel de power management qui étudie et minimise les consommations énergétiques.', '', 'eae642ee-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e1d42d4-06bd-11ee-b776-0cc47a39c2c0', 'Connaissez-vous la part du système d\'information (SI) dans la consommation énergétique totale de votre structure ? ', 'Consommation d\'énergie du SI', 'Documenter la part représentée par le SI dans la consommation énergétique totale de votre structure. ', '', 'eae67ca7-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e1d9f54-06bd-11ee-b776-0cc47a39c2c0', 'Avez-vous mis en place des outils de mesure de l\'impact environnemental de votre parc numérique ?', 'Outils de mesure de l\'impact environnemental', 'Mettre en place des outils de mesure/monitoring et/ou évaluer l\'impact environnemental du parc numérique (postes informatiques, sites internet, applications...).', '', 'eae6b4b3-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e1e096e-06bd-11ee-b776-0cc47a39c2c0', 'Avez-vous mis en place des paramétrages favorisant la sobriété numérique en matière d\'impression de documents (impression en noir et blanc, recto/verso, protégée...) ? ', 'Paramètres d\'impression par défaut', 'Modifier les paramètres d\'impression par défaut des postes informatiques et imprimantes (mode éco, noir et blanc, etc.).', 'Modifier les paramètres d\'impression par défaut des postes informatiques et imprimantes :  - Paramétrer par défaut les imprimantes en mode éco ; - Paramétrer par défaut l\'impression en noir et blanc et recto/verso ;  - Privilégier l\'impression en niveaux de gris et optimiser l\'utilisation d\'encre ;  - Paramétrer le mode « Suppression des pages blanches » en standard ;  - Mettre en place le mode épreuve pour limiter les impressions « ratées » ;  - Mettre en place un logiciel de suivi des impressions pour étudier et rationaliser les pratiques ;  - Mettre en place l\'impression sécurisée (consistant à ne libérer l\'impression du document que si l\'agent s\'identifie et indique son code confidentiel).', 'eae6f0c0-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e1e6525-06bd-11ee-b776-0cc47a39c2c0', 'Connaissez-vous les obligations de votre structure en matière de traitement des DEEE ? ', 'Collecte des DEEE', 'Organiser la collecte et assurer le recyclage des DEEE : \n-        Ne considérer le recyclage qu\'en dernier ressort et étudier la possibilité de réparer, réemployer ou réutiliser les EEE ainsi que leurs déchets collectés : à noter que les équipements informatiques fonctionnels de moins de 10 ans doivent désormais rejoindre les filières du réemploi et de la réutilisation (cf. Décret n° 2023-266 du 12 avril 2023 fixant les objectifs et modalités de réemploi et de réutilisation des matériels informatiques réformés par l\'Etat et les collectivités territoriales) ; \n-        Mettre en place de façon systématique et optimiser le tri des DEEE ; \n-        Choisir un éco-organisme agréé pour leur prise en charge ; \n-        Assurer une traçabilité des DEEE et notamment obtenir des attestations de bon traitement des prestataires externes chargés de leur reprise.', '', 'eae72d87-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e1eb9c5-06bd-11ee-b776-0cc47a39c2c0', 'Une politique de gestion des DEEE est-elle en place (postes informatiques, téléphones, imprimantes/scanners, cartouches d\'encre et toner...) ? ', 'Collecte des DEEE', 'Organiser la collecte et assurer le recyclage des DEEE : \n<ul>\n    <li>Ne considérer le recyclage qu\'en dernier ressort et étudier la possibilité de réparer, réemployer ou réutiliser les EEE ainsi que leurs déchets collectés : à noter que les équipements informatiques fonctionnels de moins de 10 ans doivent désormais rejoindre les filières du réemploi et de la réutilisation (précisions à venir par l\'adoption d\'un décret d\'application qui précisera les modalités, les quantités et le calendrier)</li>\n    <li>Mettre en place de façon systématique et optimiser le tri des DEEE</li>\n    <li>Choisir un éco-organisme agréé pour leur prise en charge</li>\n    <li>Assurer une traçabilité des DEEE et notamment obtenir des attestations de bon traitement des prestataires externes chargés de leur reprise.</li>\n</ul>', '', 'eae791b1-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e1f0544-06bd-11ee-b776-0cc47a39c2c0', 'Pourriez-vous estimer le volume de vos DEEE sur une année ? ', 'Volume des DEEE', 'Documenter le volume de vos DEEE sur une année afin d\'en suivre l\'évolution. ', '', 'eae7cc9e-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e1f6813-06bd-11ee-b776-0cc47a39c2c0', 'Selon quelles modalités les outils numériques sont-ils reliés au réseau internet ?', '', 'Privilégier la connexion réseau en filaire ou via Wi-Fi à défaut. L\'utilisation des réseaux mobiles (2G/3G/4G/5G) doit être réduite au strict minimum (par exemple en désactivant le transfert de données mobiles une fois la tâche accomplie).', '', 'eae80242-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e1fc3ee-06bd-11ee-b776-0cc47a39c2c0', 'Une politique de gestion des données numériques (suppression des doublons, mutualisation des données, durée de conservation limitée, archivage intermédiaire et définitif, système d\'archivage électronique (SAE), etc.) est-elle en place ?', '', 'Mettre en place une politique de gestion de la donnée afin d\'en limiter la quantité stockée sur les supports dédiés (gestion de la collecte, de la conservation, de l\'archivage des données, etc.). \nVeiller à tenir compte des règles propres à l\'archivage public dans ce processus. Se rapprocher du service des archives compétent, ainsi que des archives départementales pour un accompagnement. \nIl convient en outre d\'associer le délégué à la protection des données (DPO) de votre structure, s\'il y en a un, pour les questions relatives aux données personnelles. ', 'Mettre en place une politique de gestion de la donnée afin d\'en limiter la quantité stockée sur les supports dédiés : <ul>     <li>Appliquer le principe de pertinence et de minimisation des données collectées dans l\'ensemble des missions de la structure.  Envisager la mutualisation des données afin de prévenir la collecte et le stockage en double lorsque cela est pertinent et dans le respect des règles relatives à la protection des données personnelles le cas échéant (sécurité des données, information des personnes voire obtention préalable du consentement si nécessaire).  Il convient d\'associer le délégué à la protection des données (DPO) de votre structure, s\'il y en a un, pour les questions relatives aux données personnelles</li>     <li>Appliquer le principe de durée de conservation limitée des données dans l\'ensemble des missions de la structure et inviter les utilisateurs à trier leurs données numériques régulièrement afin de ne pas conserver des données qui ne sont plus pertinentes.  Veiller toutefois à tenir compte des règles propres à l\'archivage public dans ce processus, et notamment des Durée d\'Utilité Administrative (DUA) applicables ainsi que des règles liées au versement et à la destruction des documents administratifs.  Se rapprocher du service d\'archivage compétent, ainsi que des archives départementales pour un accompagnement</li>     <li>Appliquer les principes de l\'archivage intermédiaire et définitif à vos données numériques (par exemple via un Système d\'Archivage Électronique (SAE))</li>     <li>Refondre l\'arborescence des espaces de stockage afin d\'en optimiser la gestion (réduction des doublons, meilleure gestion des données et de l\'archivage, des habilitations et droits d\'accès...)</li> </ul>', 'eae84289-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e2018ad-06bd-11ee-b776-0cc47a39c2c0', 'Quelles sont les modalités de stockage et de sauvegarde de vos données informatiques (solutions logicielles, sites et applications hébergés, sauvegarde externalisée...) ? Plusieurs réponses possibles. ', '', 'Adopter une politique de sauvegarde adaptée aux besoins de votre structure. Celle-ci doit permettre d\'assurer la sécurité, la disponibilité des données et ainsi la continuité d\'activité en toute circonstance sans faire appel à des solutions disproportionnées (trop nombreuses redondances, durée de rétention trop longue, données non pertinentes inclues dans le processus, etc.). Se rapprocher du service compétent ou du prestataire informatique pour un accompagnement.\r\nLa bonne pratique en la matière est la règle des 3, 2, 1 :\r\n<ul>\r\n            <li>3 copies au moins des données protégées, les données primaires et deux sauvegardes</li>\r\n            <li>2 supports différents sur lesquels sont stockées ces copies ; la première sauvegarde doit se trouver sur site</li>\r\n<li>1 site externe pour la seconde sauvegarde afin de disposer d\'une ressource ultime, même si un événement catastrophique touchait le premier site</li>\r\n        </ul>', '', 'eae87dc3-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e209dec-06bd-11ee-b776-0cc47a39c2c0', 'Une politique de gestion des supports de sauvegarde (répartition des données, choix du type de support selon la nature et la disponibilité attendue, etc.) est-elle définie ? ', '', 'Réaffecter les données sur des supports de moins en moins énergivores (SSD, RAM, disque dur, bande magnétique, disque optique...) à mesure que la donnée est de moins en moins utilisée, selon la notion de température de la donnée (données chaudes, tièdes et froides).', '', 'eae8bb58-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e210bfc-06bd-11ee-b776-0cc47a39c2c0', 'Favorisez-vous les centres de données qui prennent des engagements environnementaux ? ', 'Engagements environnementaux des centres de données', 'Privilégier les prestataires qui ont ratifié le code européen de bonne conduite pour les datas centers ou encore ceux certifiés ISO 14001, ISO 26000 ou encore ISO 50001. A minima étudier les engagements pris en matière de développement durable et plus particulièrement ceux liés à l\'environnement.', '', 'eae8f743-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e21974f-06bd-11ee-b776-0cc47a39c2c0', 'Si votre structure dispose d\'une ou plusieurs salles serveurs/centres de données internes : quelles en sont les modalités d\'agencement et de gestion (organisation des baies, température moyenne de fonctionnement...) ?', '', 'Optimiser l\'organisation et la gestion des salles serveurs/centres de données internes (organisation, architecture, etc.).', 'Optimiser l\'organisation et la gestion des salles serveurs/datas centers internes :   <ul>             <li>Confiner les baies des salles serveurs</li>             <li>Organiser les baies en allées chaudes et froides</li> <li>Consolider les serveurs physiques sous-utilisés pour les regrouper</li> <li>Favoriser autant que possible le free cooling</li> <li>Réutiliser l\'énergie thermique produite par le data center</li> <li>Virtualiser les serveurs physiques sous-utilisés pour les regrouper</li> <li>Mettre en place un monitoring de l\'impact de leur fonctionnement</li> <li>Privilégier les équipements conformes aux exigences ASHRAE dont les normes font référence en la matière</li>         </ul>', 'eae938d8-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e21f181-06bd-11ee-b776-0cc47a39c2c0', 'Quelle est la durée de vie moyenne de vos serveurs ?', '', 'Allonger la durée de vie des serveurs physiques par l\'adoption de pratiques numériques plus sobres.', '', 'eae9732c-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e224bd1-06bd-11ee-b776-0cc47a39c2c0', 'Connaissez-vous la proportion de serveurs physiques et virtuels (aussi appelés Virtual machine (VM)) voire le taux de virtualisation de votre structure ?', 'Virtualisation des serveurs', 'Plutôt que la mise en place d\'un nouveau serveur physique, envisager la consolidation et notamment la virtualisation. La création d\'un serveur virtuel ou Virtual Machine (VM) permet d\'éviter l\'achat de nouveaux équipements et impacts liés au long de leur cycle de vie (fabrication, utilisation, fin de vie), voire le besoin de nouveaux locaux et coûts induits, mais aussi d\'augmenter le taux d\'occupation des serveurs existants qui ont tendance à être sous-utilisés ou encore de simplifier l\'infrastructure, son adaptation et sa maintenance. Il convient toutefois en premier lieu le besoin de mettre en place un nouveau serveur et de ne pas surdimensionner l\'infrastructure au regard des besoins réels de votre structure. \r\nSe rapprocher du service compétent ou du prestataire pour un accompagnement. ', '', 'eae9ad81-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e22ab8f-06bd-11ee-b776-0cc47a39c2c0', 'Quelle est la capacité de stockage/utilisateur de votre structure (tous supports confondus) ? ', '', 'S\'assurer que la capacité de stockage/utilisateur est proportionnée aux besoins et réduire cette capacité au strict nécessaire. Veiller à appliquer ce principe aux applicatifs et notamment aux boîtes de messagerie également. \r\nHors cas de mutualisation des outils mis à disposition pour les usages professionnels et personnels, ne pas favoriser le stockage de documents numériques personnels sur les supports et lieux de stockages mis à disposition. A minima, inviter les utilisateurs à limiter cette pratique. ', '', 'eae9e800-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e2307bd-06bd-11ee-b776-0cc47a39c2c0', 'Selon quelles modalités est-il possible de partager des documents en interne et à l\'externe ? Plusieurs réponses possibles.', '', 'Mettre en place des dossiers de partage de documents afin de réduire les envois de documents par mail. Des outils de travail collaboratif peuvent également être envisagés (intranet notamment). Les utilisateurs doivent être invités à privilégier l\'utilisation de ces solutions à l\'envoi d\'un email autant que possible, notamment via la charte informatique lorsqu\'elle existe.', '', 'eaea20ae-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e2355b3-06bd-11ee-b776-0cc47a39c2c0', 'Assurez-vous un suivi de la volumétrie des données numériques traitées via votre système d\'information (SI) ? ', 'Suivi de le volumétrie des données numériques', 'Assurer un suivi de la volumétrie des données numériques traitées via votre système d\'information (SI).', '', 'eaea5d42-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e23c64a-06bd-11ee-b776-0cc47a39c2c0', 'Des obligations et/ou bonnes pratiques favorisant la sobriété numérique (gestion et tri des boîtes de messagerie, espaces de stockage en ligne, mise en veille et extinction des outils numériques...) ont-elles été mises en place via la charte informatique ou tout autre support ou format ? ', 'Charte informatique et sobriété numérique', 'Intégrer les enjeux et bonnes pratiques de la sobriété numérique à la charte informatique de votre structure si elle existe. À défaut, les diffuser via un document dédié à faire signer par les utilisateurs pour en assurer l\'opposabilité.', '', 'eaea942d-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e242297-06bd-11ee-b776-0cc47a39c2c0', 'Votre structure fait-elle un usage régulier de la visioconférence ? ', '', 'Évaluer la pertinence d\'organiser une visioconférence. Si elle permet parfois d\'éviter des déplacements superflus et impactants pour l\'environnement, il est parfois préférable d\'opter pour un format en présentiel ou une conférence téléphonique selon les besoins.', '', 'eaead655-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e2474eb-06bd-11ee-b776-0cc47a39c2c0', 'Le télétravail est-il en place ? ', 'Mise en place du télétravail', 'Étudier la pertinence de déployer le télétravail au sein de votre structure.\n', '', 'eaeb0f2f-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e24dd53-06bd-11ee-b776-0cc47a39c2c0', 'Avez-vous mis en place des consignes particulières favorisant la sobriété numérique en matière d\'impression de documents (police imposée, nombre limité d\'impressions...) ? ', 'Bonnes pratiques pour les impressions', 'Inviter les utilisateurs à adopter les principes de sobriété numérique en matière d\'impression (quotas, suivi des impressions, paramétrages, etc...).', 'Inviter les utilisateurs à adopter les principes de sobriété numérique en matière d\'impression :  - Inviter les utilisateurs à réduire leurs impressions au strict nécessaire (notamment les emails qui n\'ont, en principe, pas vocation à être imprimés). Dans de nombreux cas, l\'enregistrement au format PDF peut pallier le besoin d\'imprimer.  - L\'instauration d\'un quota d\'impressions, ou encore la mise en place de l\'impression protégée sont de nature à favoriser cette réduction.  - Lorsque l\'impression est nécessaire, réduire le contenu imprimé au strict nécessaire (sélectionner uniquement le contenu utile, ne pas imprimer les pages vides, effacer les pubs, éléments d\'interface des pages web, signatures email, images non porteuses d\'information et autres éléments non pertinents). A noter que des applications permettant d\'épurer le document avant impression existent.  - Opter pour l\'impression recto/verso en noir et blanc sauf besoin particulier.  - La réduction de la taille des caractères, le choix d\'une police de caractère adéquate (voir la recommandation dédiée), ainsi que de la largeur des marges peuvent être source d\'économies d\'encre et de papier.  - Privilégier un format standard (A4, A5...).  - Pour optimiser le résultat, utiliser la fonction \"aperçu avant impression\".  - En complément, le recours au mode \"brouillon\".', 'eaeb4f85-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e252e66-06bd-11ee-b776-0cc47a39c2c0', 'La collecte et le recyclage du papier sont-ils réalisés au sein de votre structure ? ', 'Collecte du papier', 'Assurer la collecte et le recyclage du papier. \nInviter les personnes à ne pas froisser le papier destiné au recyclage afin de ne pas entraver le bon déroulement de ce processus. \nLes documents papiers contenant des données personnelles doivent être passés au destructeur de documents afin d\'en préserver la confidentialité.', NULL, 'eaeb8dc2-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('5e25aac6-06bd-11ee-b776-0cc47a39c2c0', 'Les services numériques (logiciels, applications...) utilisés sont-ils écoconçus ? ', '', 'Conformément aux dispositions de la loi AGEC, favoriser les services numériques (logiciels, applications...) écoconçus.\n\n', 'Favoriser les solutions logicielles et applications écoconçues.   Cf. l\'alinéa 2 de l\'article 55 de la loi AGEC : Lorsque le bien acquis est un logiciel, les administrations mentionnées au premier alinéa de l\'article L. 300-2 du code des relations entre le public et l\'administration promeuvent le recours à des logiciels dont la conception permet de limiter la consommation énergétique associée à leur utilisation.', 'eaebdb76-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e26131f-06bd-11ee-b776-0cc47a39c2c0', 'Vos services de communication au public en ligne (principalement sites internet et applications mobiles) sont-ils écoconçus ?', '', 'Appliquer les principes de l\'écoconception aux sites internet, applications mobiles et autres services de communication au public en ligne développés en interne ou par le biais de prestataires externes.', '', 'eaec1930-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e26593f-06bd-11ee-b776-0cc47a39c2c0', 'Un suivi statistiques et/ou le dépôt de cookies et autres traceurs sont-ils appliqués aux services de communication au public en ligne (principalement sites internet et applications mobiles) de votre structure ? ', '', 'Supprimer les cookies et autres traceurs dont les fonctionnalités ne sont pas exploitées.\r\nDans le cas où de tels outils sont utilisés, privilégier ceux qui collectent un minimum de données.\r\nSe rapprocher du service interne et/ou du prestataire informatique compétent(s).', '', 'eaec7d75-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e26b458-06bd-11ee-b776-0cc47a39c2c0', 'Les personnes en charge de la communication sont-elles au fait des principes de la sobriété éditoriale ? ', '', 'Tenir compte des principes de la sobriété éditoriale dans le cadre de la production des supports et la politique de communication de la structure.', 'Tenir compte des principes de la sobriété éditoriale dans le cadre de la production des supports de communication de la structure :  <ul> <li>Choisir le format le plus adapté pour la communication envisagée (papier ou numérique : si une information a une durée de vie courte, il est préférable de communiquer au format numérique)</li> <li>Adapter la taille et format des images et les utiliser avec parcimonie</li> <li>Ne pas multiplier les contenus vidéo et prêter attention à la méthode de diffusion (préférer par exemple une image-lien renvoyant vers la plateforme-tierce de diffusion que d\'insérer un lecteur média sur le site, prévoir une retranscription textuelle ou un résumé afin qu\'elle ne soit pas lancée inutilement, trouver la résolution optimale : la plus faible possible sans altérer la bonne transmission d\'information...)</li> <li>Pour les documents à télécharger : opter pour le format le plus adapté et le plus léger (le format PDF est réputé plus léger, ce qui n\'est pas toujours le cas de ceux produits via des logiciels de graphisme ; Ce format pose toutefois des difficultés en termes d\'accessibilité numérique). Les logiciels de suite bureautique prévoient à cet effet des options visant à réduire le poids des fichiers qu\'il convient d\'utiliser. A noter cependant qu\'un contenu au format HTML (directement intégré au site) reste plus léger qu\'un fichier en téléchargement</li> <li>Cibler au mieux les destinataires afin de maximiser le taux de lecture et ainsi prévenir les envois qui ne seront pas lus</li> <li>Rédiger le message de façon claire et simple en évitant les contenus superflus</li> <li>Appliquer les bonnes pratiques en matière d\'impression (éviter les aplats de couleurs et l\'utilisation du pelliculage ou du vernissage, opter pour des couleurs composées à partir d\'une ou plusieurs couleurs de base de la quadrichromie et éviter les couleurs à effet métallique qui nécessitent l\'emploi d\'encres auxquelles sont ajoutées des métaux notamment ou encore choisir un papier écolabellisé et/ou recyclé)</li> <li>Favoriser les pliages et découpages ainsi que les colles végétales à base d\'eau. Eviter en revanche les matériaux susceptibles de gêner le recyclage (agrafes, spirales...)</li> <li>Rédiger le contenu de manière à ce qu\'il ne se périme pas rapidement</li>         </ul>', 'eaecba23-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e26ffc6-06bd-11ee-b776-0cc47a39c2c0', 'Avez-vous imposé des règles particulières en matière de traitement de texte et autres documents bureautiques (police d\'écriture, tailles et couleurs des caractères, marges, format de documents (Word, PDF, etc.), etc.) ? ', 'Documents bureautiques', 'Mettre en place des règles favorisant la sobriété numérique dans l\'utilisation des suites bureautiques via la charte informatique ou encore sous forme de charte graphique.', '', 'eaecfa36-06bc-11ee-b776-0cc47a39c2c0', 0, 4),
+('5e274443-06bd-11ee-b776-0cc47a39c2c0', 'Votre structure dispose-t-elle d\'une charte graphique ? ', '', 'Concevoir une charte graphique tenant compte des principes de la sobriété numérique (choix de la police, éviter les aplats de couleurs...).', '', 'eaed3454-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e27dd50-06bd-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle adopté un schéma de promotion des achats publics socialement et écologiquement responsables ?', '', 'Adopter un schéma de promotion des achats publics socialement et écologiquement responsables, conformément aux dispositions de l\'article L2111-3 du code de la Commande publique.\nVeiller à inclure des objectifs environnementaux pour les achats numériques.', 'Conformément aux dispositions de l\'article L2111-3 du code de la Commande publique : « Les collectivités territoriales et les acheteurs soumis au présent code dont le statut est fixé par la loi adoptent un schéma de promotion des achats publics socialement et écologiquement responsables lorsque le montant total annuel de leurs achats est supérieur à [à cent millions d\'euros hors taxes.].  Ce schéma, rendu public, détermine les objectifs de politique d\'achat comportant des éléments à caractère social visant à concourir à l\'intégration sociale et professionnelle de travailleurs handicapés ou défavorisés et des éléments à caractère écologique ainsi que les modalités de mise en œuvre et de suivi annuel de ces objectifs. Ce schéma contribue également à la promotion d\'une économie circulaire. » Veiller à inclure des objectifs environnementaux pour les achats numériques.  À noter que, à compter du 1er janvier 2023, suite à l\'adoption de la loi Climat et résilience, le SPASER doit être rendu public notamment via le site internet de la structure, s\'il existe.  Des précisions seront également ajoutées concernant la rédaction du document : « Ce schéma comporte des indicateurs précis, exprimés en nombre de contrats ou en valeur et publiés tous les deux ans, sur les taux réels d\'achats publics relevant des catégories de l\'achat socialement et écologiquement responsable parmi les achats publics réalisés par la collectivité ou l\'acheteur concerné. Il précise les objectifs cibles à atteindre pour chacune de ces catégories, notamment ceux relatifs aux achats réalisés auprès des entreprises solidaires d\'utilité sociale agréées au sens de l\'article L. 3332-17-1 du code du travail, d\'une part, ou auprès des entreprises employant des personnes défavorisées ou appartenant à des groupes vulnérables, d\'autre part. ». ', 'eaedab44-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e282bc3-06bd-11ee-b776-0cc47a39c2c0', 'Des clauses sociales sont-elles inclues dans les appels d\'offre et contrats conclus hors marché ? ', 'Clauses sociales', 'Intégrer des clauses sociales dans les appels d\'offre et contrats conclus hors marché. \r\nA noter que des dispositions concernant les marchés publics doivent entrer en vigueur sur à l\'adoption de la loi Climat et résilience, suivant une date fixée par un décret en cours d\'étude et au plus tard le 22 août 2026. Celles-ci viendront généraliser la prise en compte de considérations relatives au domaine social ou l\'emploi en la matière, que ce soit dans les spécifications techniques que les conditions d\'exécution.', '', 'eaede4b2-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e287524-06bd-11ee-b776-0cc47a39c2c0', 'Tenez-vous compte du Débit d\'Absorption Spécifique (DAS) dans le cadre des achats numériques ? ', '', 'Fixer un niveau de DAS maximum dans le cadre de l\'acquisition d\'équipements numériques.\r\nEn complément, diffuser les bonnes pratiques suivantes aux utilisateurs : \r\n<ul>\r\n            <li>Éviter de placer l\'appareil contre le cœur, les hanches, les aisselles ou les parties génitales</li>\r\n            <li>Pour les téléphones, éviter les communications prolongées à l\'oreille en utilisant le haut parleur ou un kit main libre filaire</li>\r\n<li>Éloigner dès que possible l\'appareil du corps</li>\r\n<li>Dans la mesure du possible, privilégier les lieux où le signal réseau est bon</li>\r\n<li>Éviter de dormir avec le téléphone à moins de 50 cm de la tête, en charge ou non (le mettre en mode avion ou l\'éteindre)</li>\r\n        </ul>\r\n\r\nConsulter les notices des appareils pour connaître les conditions d\'usage fixées par leur fabricant. ', '', 'eaee2338-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e28fe0e-06bd-11ee-b776-0cc47a39c2c0', 'Votre structure mène-t-elle une démarche de mise en conformité aux règles relatives à la protection des données (Règlement Général sur la Protection des Données (RGPD), Loi Informatique et Libertés (LIL)...) ? ', '', 'Commencer ou poursuivre la mise en conformité de la structure aux règles relatives à la protection des données, à commencer par le RGPD (Règlement Général sur la Protection des Données) et la LIL (Loi Informatique et Libertés).', '', 'eaee9d7f-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e295408-06bd-11ee-b776-0cc47a39c2c0', 'Des actions de sensibilisation sont-elles menées auprès du personnel sur les enjeux et bonnes pratiques en matière de protection des données et de sécurité informatique ? ', 'Sensibilisation des agents et autres personnels', 'Assurer une sensibilisation régulière des agents et autres personnels de votre structure, aux enjeux et bonnes pratiques de protection des données et de sécurité informatique.\r\nEn complément de sessions de sensibilisation, diffuser ces enjeux en interne via différents supports physiques et numériques (note d\'organisation, affichage, lettre d\'information interne...).', '', 'eaeed982-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e29a826-06bd-11ee-b776-0cc47a39c2c0', 'Des actions de sensibilisation sont-elles menées auprès des élus sur les enjeux et bonnes pratiques en matière de protection des données et de sécurité informatique ? ', 'Sensibilisation des élus et membres des instances dirigeantes', 'Assurer une sensibilisation régulière des élus et membres des instances dirigeantes de votre structure, aux enjeux et bonnes pratiques de protection des données et de sécurité informatique. ', '', 'eaef0f77-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e29e7fe-06bd-11ee-b776-0cc47a39c2c0', 'Une politique de protection contre les risques cyber a-t-elle été adoptée pour votre structure ? ', '', 'Assurer la sécurisation du système d\'information contre les menaces cyber. ', '', 'eaef4a05-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e2a26cd-06bd-11ee-b776-0cc47a39c2c0', 'Avez-vous réalisé l\'homologation au Référentiel Général de Sécurité (RGS) de votre système d\'information (SI) ? ', 'Homologation RGS', 'Réaliser l\'homologation RGS de votre système d\'information. ', '', 'eaef89eb-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e2a6990-06bd-11ee-b776-0cc47a39c2c0', 'Votre structure a-t-elle mis en place une démarche en faveur de l\'inclusion numérique ? ', '', 'Adopter une démarche favorisant l\'inclusion numérique (aide à la réalisation de démarches en ligne, à l\'accès aux outils numériques, organisation d\'ateliers multimédias formant aux usages du numériques...).', '', 'eaefc832-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e2ab4e0-06bd-11ee-b776-0cc47a39c2c0', 'Des actions de sensibilisation sont-elles menées auprès du personnel sur les enjeux et bonnes pratiques en matière d\'inclusion numérique ? ', 'Sensibilisation des agents et autres personnels', 'Assurer une sensibilisation régulière des agents et autres personnels de votre structure, aux enjeux et bonnes pratiques en matière d\'inclusion numérique.\r\nEn complément de sessions de sensibilisation, diffuser ces enjeux en interne via différents supports physiques et numériques (note d\'organisation, affichage, lettre d\'information interne...).', '', 'eaf00a4e-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e2af979-06bd-11ee-b776-0cc47a39c2c0', 'Des actions de sensibilisation sont-elles menées auprès des élus sur les enjeux et bonnes pratiques en matière de protection d\'inclusion numérique ? ', 'Sensibilisation des élus et membres des instances dirigeantes', 'Assurer une sensibilisation régulière des élus et membres des instances dirigeantes de votre structure, aux enjeux et bonnes pratiques en matière d\'inclusion numérique. ', '', 'eaf0418a-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e2b59fb-06bd-11ee-b776-0cc47a39c2c0', 'Votre structure respecte-t-elle les préconisations et obligations en matière d\'accessibilité numérique ? ', '', 'Respecter les obligations et bonnes pratiques en matière d\'accessibilité numérique, à commencer par le RGAA (Référentiel Général d\'Amélioration de l\'Accessibilité).', '', 'eaf0788d-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e2bcda7-06bd-11ee-b776-0cc47a39c2c0', 'Votre structure respecte-t-elle les préconisations et obligations en matière d\'ouverture de ses données (Open Data ) ? ', '', 'Respecter les obligations et bonnes pratiques en matière d\'ouverture des données, notamment pour les collectivités de plus de 3500 habitants et comptant au moins 50 agents.', '', 'eaf0bf23-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e2c1c1c-06bd-11ee-b776-0cc47a39c2c0', 'Mettez -vous à disposition du public des bornes d\'accès/une connexion Wifi gratuite ? ', '', 'Mettre à disposition du public des points de connexion Wifi en libre accès.', '', 'eaf0fe3d-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('5e2c687f-06bd-11ee-b776-0cc47a39c2c0', 'Souhaitez-vous diffuser les enjeux et bonnes pratiques du numérique responsable auprès du public ? ', '', 'Sensibiliser et diffuser les enjeux et bonnes pratiques du numérique responsable auprès des administrés et acteurs locaux. ', '', 'eaf1cc7a-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('cdca3837-4c96-11ee-b615-0cc47a39c2c2', 'Votre structure a-t-elle engagé des actions ou fixé des objectifs en matière de sobriété numérique ?', 'Actions engagées et objectifs fixés', 'Engager des actions en matière de sobriété numérique.', NULL, 'ead9ef35-06bc-11ee-b776-0cc47a39c2c0', 2, 4),
+('ddcddb7c-467c-11ee-b615-0cc47a39c2c2', 'Faites-vous appel à des acteurs locaux de la réparation, du réemploi et/ou de la réutilisation d\'équipements informatiques ?', 'Acteurs locaux', 'Il existe des filières locales oeuvrant pour l\'économie circulaire (réparation et/ou revente d\'équipements numériques en fin d\'usage) regroupant notamment des acteurs de l\'économie sociale et solidaire.', '', 'eaee6416-06bc-11ee-b776-0cc47a39c2c0', 1, 4),
+('f582428a-4af9-11ee-b615-0cc47a39c2c2', 'Combien d’imprimantes/copieurs sont-ils mis à disposition des utilisateurs et quelles sont les modalités de répartitions ?', 'Optimisation du parc d\'impression', 'Optimiser l\'utilisation du parc d\'impression (modalités de répartition, choix, paramétrage et maintenance du matériel, sensibilisation des utilisateurs, etc.).', 'Optimiser l\'utilisation du parc d\'impression :\n- Supprimer les imprimantes individuelles au profit des copieurs multifonction mutualisés ; \n- Faire une étude des besoins afin de définir le type, les fonctionnalités, le nombre d\'imprimantes nécessaires et leur affectation optimale au sein des services ;\n- Opter pour des imprimantes robustes et éco-conçues ;\n- Procéder au paramétrage des impressions (voir la recommandation dédiée) ; \n- Suivre la consommation énergétique du parc (par exemple via une solution logicielle) ; \n- Dans la mesure du possible, débrancher les imprimantes (sous réserve de fonctionnalités liées au redémarrage qui pourraient entrainer des surconsommations comme le nettoyage des têtes d\'impression) ou mettre en place une solution de gestion des consommations durant les temps de veille/arrêts prolongés (nuits et week-ends principalement) ; \n- Former les utilisateurs à l\'utilisation des imprimantes pour réduire les erreurs d\'impression (un guide d\'utilisation peut être mis à leur disposition voire affiché à proximité par exemple) ; \n- Sensibiliser les utilisateurs aux impacts des impressions (environnementaux, financiers...) et aux gestes clés de l\'impression écoresponsable ; \n- Favoriser la dématérialisation pour réduire les besoins.', 'fd893fe8-4af6-11ee-b615-0cc47a39c2c2', 2, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `recommandation_answer`
+--
+
+DROP TABLE IF EXISTS `recommandation_answer`;
+CREATE TABLE IF NOT EXISTS `recommandation_answer` (
+  `recommandation_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `answer_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  PRIMARY KEY (`recommandation_id`,`answer_id`),
+  KEY `IDX_5BB381BC61AAE789` (`recommandation_id`),
+  KEY `IDX_5BB381BCAA334807` (`answer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `recommandation_answer`
+--
+
+INSERT INTO `recommandation_answer` (`recommandation_id`, `answer_id`) VALUES
+('01ab58b1-4af5-11ee-b615-0cc47a39c2c2', '01aa8539-4af5-11ee-b615-0cc47a39c2c2'),
+('036c12fc-4b00-11ee-b615-0cc47a39c2c2', '03614917-4b00-11ee-b615-0cc47a39c2c2'),
+('10025f8d-09ba-11ee-b881-0cc47a39c2c2', '0d102972-06bd-11ee-b776-0cc47a39c2c0'),
+('1002624a-09ba-11ee-b881-0cc47a39c2c2', '0d109285-06bd-11ee-b776-0cc47a39c2c0'),
+('100268ee-09ba-11ee-b881-0cc47a39c2c2', '0d16dd22-06bd-11ee-b776-0cc47a39c2c0'),
+('100274d4-09ba-11ee-b881-0cc47a39c2c2', '0d2086cf-06bd-11ee-b776-0cc47a39c2c0'),
+('10027797-09ba-11ee-b881-0cc47a39c2c2', '0d20ecf0-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0a1b0d-06bd-11ee-b776-0cc47a39c2c0', '0d00c687-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0a60c3-06bd-11ee-b776-0cc47a39c2c0', '0d011766-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0af297-06bd-11ee-b776-0cc47a39c2c0', '0d01c8c3-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0b2b43-06bd-11ee-b776-0cc47a39c2c0', '0d022375-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0b6541-06bd-11ee-b776-0cc47a39c2c0', '0d027aa7-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0b9f13-06bd-11ee-b776-0cc47a39c2c0', '0d02d405-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0bd836-06bd-11ee-b776-0cc47a39c2c0', '0d03348d-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0c6b0d-06bd-11ee-b776-0cc47a39c2c0', '0d040769-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0cb729-06bd-11ee-b776-0cc47a39c2c0', '0d047152-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0d053a-06bd-11ee-b776-0cc47a39c2c0', '0d04dcc7-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0d4df5-06bd-11ee-b776-0cc47a39c2c0', '0d0541dd-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0d96a4-06bd-11ee-b776-0cc47a39c2c0', '0d05a7d3-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0ddf42-06bd-11ee-b776-0cc47a39c2c0', '0d060d39-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0e3065-06bd-11ee-b776-0cc47a39c2c0', '0d067457-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0e7cd4-06bd-11ee-b776-0cc47a39c2c0', '0d06d955-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0edb76-06bd-11ee-b776-0cc47a39c2c0', '0d073fa2-06bd-11ee-b776-0cc47a39c2c0'),
+('5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', '0d07a68d-06bd-11ee-b776-0cc47a39c2c0'),
+('5e10ccab-06bd-11ee-b776-0cc47a39c2c0', '0d080dc0-06bd-11ee-b776-0cc47a39c2c0'),
+('5e1116b4-06bd-11ee-b776-0cc47a39c2c0', '0d0872c4-06bd-11ee-b776-0cc47a39c2c0'),
+('5e11627e-06bd-11ee-b776-0cc47a39c2c0', '0d08db87-06bd-11ee-b776-0cc47a39c2c0'),
+('5e11ca07-06bd-11ee-b776-0cc47a39c2c0', '0d09428d-06bd-11ee-b776-0cc47a39c2c0'),
+('5e123aa5-06bd-11ee-b776-0cc47a39c2c0', '0d09aa05-06bd-11ee-b776-0cc47a39c2c0'),
+('5e129146-06bd-11ee-b776-0cc47a39c2c0', '0d0a0e7b-06bd-11ee-b776-0cc47a39c2c0'),
+('5e12e526-06bd-11ee-b776-0cc47a39c2c0', '0d0a707b-06bd-11ee-b776-0cc47a39c2c0'),
+('5e13362e-06bd-11ee-b776-0cc47a39c2c0', '0d0ad899-06bd-11ee-b776-0cc47a39c2c0'),
+('5e13858c-06bd-11ee-b776-0cc47a39c2c0', '0d0b404c-06bd-11ee-b776-0cc47a39c2c0'),
+('5e13d5b9-06bd-11ee-b776-0cc47a39c2c0', '0d0ba279-06bd-11ee-b776-0cc47a39c2c0'),
+('5e154e7f-06bd-11ee-b776-0cc47a39c2c0', '0d0d9df3-06bd-11ee-b776-0cc47a39c2c0'),
+('5e1597fd-06bd-11ee-b776-0cc47a39c2c0', '0d0e057a-06bd-11ee-b776-0cc47a39c2c0'),
+('5e15dfe9-06bd-11ee-b776-0cc47a39c2c0', '0d0e724b-06bd-11ee-b776-0cc47a39c2c0'),
+('5e15dfe9-06bd-11ee-b776-0cc47a39c2c0', '0d0e89f0-06bd-11ee-b776-0cc47a39c2c0'),
+('5e16c38b-06bd-11ee-b776-0cc47a39c2c0', '0d0faab9-06bd-11ee-b776-0cc47a39c2c0'),
+('5e16c38b-06bd-11ee-b776-0cc47a39c2c0', '0d0fc18c-06bd-11ee-b776-0cc47a39c2c0'),
+('5e1718ce-06bd-11ee-b776-0cc47a39c2c0', '0d102972-06bd-11ee-b776-0cc47a39c2c0'),
+('5e176a1a-06bd-11ee-b776-0cc47a39c2c0', '0d109285-06bd-11ee-b776-0cc47a39c2c0'),
+('5e17d587-06bd-11ee-b776-0cc47a39c2c0', '0d10fda7-06bd-11ee-b776-0cc47a39c2c0'),
+('5e18248f-06bd-11ee-b776-0cc47a39c2c0', '0d1163a4-06bd-11ee-b776-0cc47a39c2c0'),
+('5e186c49-06bd-11ee-b776-0cc47a39c2c0', '0d11dcbd-06bd-11ee-b776-0cc47a39c2c0'),
+('5e18ad87-06bd-11ee-b776-0cc47a39c2c0', '0d13842e-06bd-11ee-b776-0cc47a39c2c0'),
+('5e18f0ef-06bd-11ee-b776-0cc47a39c2c0', '0d13f452-06bd-11ee-b776-0cc47a39c2c0'),
+('5e193f00-06bd-11ee-b776-0cc47a39c2c0', '0d14646e-06bd-11ee-b776-0cc47a39c2c0'),
+('5e1988a3-06bd-11ee-b776-0cc47a39c2c0', '0d14cf80-06bd-11ee-b776-0cc47a39c2c0'),
+('5e19f23e-06bd-11ee-b776-0cc47a39c2c0', '0d1538cc-06bd-11ee-b776-0cc47a39c2c0'),
+('5e1a8fcc-06bd-11ee-b776-0cc47a39c2c0', '0d1602d6-06bd-11ee-b776-0cc47a39c2c0'),
+('5e1af44e-06bd-11ee-b776-0cc47a39c2c0', '9c56ac2f-06c4-11ee-b776-0cc47a39c2c0'),
+('5e1af44e-06bd-11ee-b776-0cc47a39c2c0', '9c5a6757-06c4-11ee-b776-0cc47a39c2c0'),
+('5e1af44e-06bd-11ee-b776-0cc47a39c2c0', '9c5b15e9-06c4-11ee-b776-0cc47a39c2c0'),
+('5e1b49da-06bd-11ee-b776-0cc47a39c2c0', '0d16dd22-06bd-11ee-b776-0cc47a39c2c0'),
+('5e1b9e62-06bd-11ee-b776-0cc47a39c2c0', '0d1755e5-06bd-11ee-b776-0cc47a39c2c0'),
+('5e1c1153-06bd-11ee-b776-0cc47a39c2c0', '0d17cbcc-06bd-11ee-b776-0cc47a39c2c0'),
+('5e1c617d-06bd-11ee-b776-0cc47a39c2c0', '0d183f96-06bd-11ee-b776-0cc47a39c2c0'),
+('5e1cea54-06bd-11ee-b776-0cc47a39c2c0', '0d18b903-06bd-11ee-b776-0cc47a39c2c0'),
+('5e1d42d4-06bd-11ee-b776-0cc47a39c2c0', '0d192995-06bd-11ee-b776-0cc47a39c2c0'),
+('5e1d9f54-06bd-11ee-b776-0cc47a39c2c0', '0d1993f0-06bd-11ee-b776-0cc47a39c2c0'),
+('5e1e096e-06bd-11ee-b776-0cc47a39c2c0', '0d19fe62-06bd-11ee-b776-0cc47a39c2c0'),
+('5e1e6525-06bd-11ee-b776-0cc47a39c2c0', '0d1a60ca-06bd-11ee-b776-0cc47a39c2c0'),
+('5e1eb9c5-06bd-11ee-b776-0cc47a39c2c0', '5f99e1f3-06c5-11ee-b776-0cc47a39c2c0'),
+('5e1eb9c5-06bd-11ee-b776-0cc47a39c2c0', '5f9d3105-06c5-11ee-b776-0cc47a39c2c0'),
+('5e1f0544-06bd-11ee-b776-0cc47a39c2c0', '0d1b6b8b-06bd-11ee-b776-0cc47a39c2c0'),
+('5e1f6813-06bd-11ee-b776-0cc47a39c2c0', 'cf2da61c-06c5-11ee-b776-0cc47a39c2c0'),
+('5e1f6813-06bd-11ee-b776-0cc47a39c2c0', 'cf2f11b9-06c5-11ee-b776-0cc47a39c2c0'),
+('5e1fc3ee-06bd-11ee-b776-0cc47a39c2c0', '0d1c35db-06bd-11ee-b776-0cc47a39c2c0'),
+('5e2018ad-06bd-11ee-b776-0cc47a39c2c0', '0d1c8fb9-06bd-11ee-b776-0cc47a39c2c0'),
+('5e21974f-06bd-11ee-b776-0cc47a39c2c0', '0d1e0f8e-06bd-11ee-b776-0cc47a39c2c0'),
+('5e21974f-06bd-11ee-b776-0cc47a39c2c0', 'a85ac5ce-09e2-11ee-9ecf-0cc47a39c2c2'),
+('5e224bd1-06bd-11ee-b776-0cc47a39c2c0', '0d1eea74-06bd-11ee-b776-0cc47a39c2c0'),
+('5e22ab8f-06bd-11ee-b776-0cc47a39c2c0', '0d1f6773-06bd-11ee-b776-0cc47a39c2c0'),
+('5e2307bd-06bd-11ee-b776-0cc47a39c2c0', '03d7750e-06c7-11ee-b776-0cc47a39c2c0'),
+('5e2307bd-06bd-11ee-b776-0cc47a39c2c0', '03d7fc2e-06c7-11ee-b776-0cc47a39c2c0'),
+('5e2307bd-06bd-11ee-b776-0cc47a39c2c0', '0d1fb128-06bd-11ee-b776-0cc47a39c2c0'),
+('5e2355b3-06bd-11ee-b776-0cc47a39c2c0', '0d201f93-06bd-11ee-b776-0cc47a39c2c0'),
+('5e23c64a-06bd-11ee-b776-0cc47a39c2c0', '0d2086cf-06bd-11ee-b776-0cc47a39c2c0'),
+('5e242297-06bd-11ee-b776-0cc47a39c2c0', '0d20ecf0-06bd-11ee-b776-0cc47a39c2c0'),
+('5e2474eb-06bd-11ee-b776-0cc47a39c2c0', '0d21529c-06bd-11ee-b776-0cc47a39c2c0'),
+('5e24dd53-06bd-11ee-b776-0cc47a39c2c0', '0d21b662-06bd-11ee-b776-0cc47a39c2c0'),
+('5e252e66-06bd-11ee-b776-0cc47a39c2c0', '0d221b88-06bd-11ee-b776-0cc47a39c2c0'),
+('5e25aac6-06bd-11ee-b776-0cc47a39c2c0', '0d22805d-06bd-11ee-b776-0cc47a39c2c0'),
+('5e26131f-06bd-11ee-b776-0cc47a39c2c0', '0d22e28b-06bd-11ee-b776-0cc47a39c2c0'),
+('5e26131f-06bd-11ee-b776-0cc47a39c2c0', '990116a4-06c7-11ee-b776-0cc47a39c2c0'),
+('5e26593f-06bd-11ee-b776-0cc47a39c2c0', '0d2346f4-06bd-11ee-b776-0cc47a39c2c0'),
+('5e26b458-06bd-11ee-b776-0cc47a39c2c0', '0d23adad-06bd-11ee-b776-0cc47a39c2c0'),
+('5e26b458-06bd-11ee-b776-0cc47a39c2c0', 'b4ed52b0-06c7-11ee-b776-0cc47a39c2c0'),
+('5e274443-06bd-11ee-b776-0cc47a39c2c0', '0d2472a3-06bd-11ee-b776-0cc47a39c2c0'),
+('5e27dd50-06bd-11ee-b776-0cc47a39c2c0', '0d253451-06bd-11ee-b776-0cc47a39c2c0'),
+('5e282bc3-06bd-11ee-b776-0cc47a39c2c0', '0d259440-06bd-11ee-b776-0cc47a39c2c0'),
+('5e287524-06bd-11ee-b776-0cc47a39c2c0', '0d25f156-06bd-11ee-b776-0cc47a39c2c0'),
+('5e28fe0e-06bd-11ee-b776-0cc47a39c2c0', '36df8b00-06c8-11ee-b776-0cc47a39c2c0'),
+('5e28fe0e-06bd-11ee-b776-0cc47a39c2c0', '36e45077-06c8-11ee-b776-0cc47a39c2c0'),
+('5e28fe0e-06bd-11ee-b776-0cc47a39c2c0', '36e51fa9-06c8-11ee-b776-0cc47a39c2c0'),
+('5e295408-06bd-11ee-b776-0cc47a39c2c0', '0d2725c3-06bd-11ee-b776-0cc47a39c2c0'),
+('5e29a826-06bd-11ee-b776-0cc47a39c2c0', '0d2786ce-06bd-11ee-b776-0cc47a39c2c0'),
+('5e29e7fe-06bd-11ee-b776-0cc47a39c2c0', '0d27ebac-06bd-11ee-b776-0cc47a39c2c0'),
+('5e2a26cd-06bd-11ee-b776-0cc47a39c2c0', '0d285121-06bd-11ee-b776-0cc47a39c2c0'),
+('5e2a6990-06bd-11ee-b776-0cc47a39c2c0', '0d28b4e7-06bd-11ee-b776-0cc47a39c2c0'),
+('5e2ab4e0-06bd-11ee-b776-0cc47a39c2c0', '0d2922ed-06bd-11ee-b776-0cc47a39c2c0'),
+('5e2af979-06bd-11ee-b776-0cc47a39c2c0', '0d29904b-06bd-11ee-b776-0cc47a39c2c0'),
+('5e2b59fb-06bd-11ee-b776-0cc47a39c2c0', '969bf392-06c8-11ee-b776-0cc47a39c2c0'),
+('5e2b59fb-06bd-11ee-b776-0cc47a39c2c0', '969cb496-06c8-11ee-b776-0cc47a39c2c0'),
+('5e2b59fb-06bd-11ee-b776-0cc47a39c2c0', 'be48c3ee-06c8-11ee-b776-0cc47a39c2c0'),
+('5e2bcda7-06bd-11ee-b776-0cc47a39c2c0', '02406b9e-06c9-11ee-b776-0cc47a39c2c0'),
+('5e2bcda7-06bd-11ee-b776-0cc47a39c2c0', '024242f1-06c9-11ee-b776-0cc47a39c2c0'),
+('5e2bcda7-06bd-11ee-b776-0cc47a39c2c0', '025a8310-06c9-11ee-b776-0cc47a39c2c0'),
+('5e2c1c1c-06bd-11ee-b776-0cc47a39c2c0', '7614306c-06ce-11ee-b776-0cc47a39c2c0'),
+('5e2c687f-06bd-11ee-b776-0cc47a39c2c0', '0d2c33fe-06bd-11ee-b776-0cc47a39c2c0');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `recommandation_custom`
+--
+
+DROP TABLE IF EXISTS `recommandation_custom`;
+CREATE TABLE IF NOT EXISTS `recommandation_custom` (
+  `recommandation_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `collectivite_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `question_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `id` int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  KEY `IDX_74EADD0261AAE789` (`recommandation_id`),
+  KEY `IDX_74EADD02A7991F51` (`collectivite_id`),
+  KEY `IDX_74EADD021E27F6BF` (`question_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `recommandation_level`
+--
+
+DROP TABLE IF EXISTS `recommandation_level`;
+CREATE TABLE IF NOT EXISTS `recommandation_level` (
+  `id` smallint UNSIGNED NOT NULL,
+  `label` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `color` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `recommandation_level`
+--
+
+INSERT INTO `recommandation_level` (`id`, `label`, `color`) VALUES
+(0, 'Nécessaire', '#EEFFE5'),
+(1, 'Recommandé', '#FFF5E5'),
+(2, 'Prioritaire', '#F2D8AD');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `recommandation_perso`
+--
+
+DROP TABLE IF EXISTS `recommandation_perso`;
+CREATE TABLE IF NOT EXISTS `recommandation_perso` (
+  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `question_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `level_id` smallint UNSIGNED NOT NULL DEFAULT '1',
+  `status_id` int NOT NULL DEFAULT '4',
+  `title` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `body` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `collectivite_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  PRIMARY KEY (`id`),
+  KEY `IDX_6DBFAEF55FB14BA7` (`level_id`),
+  KEY `IDX_6DBFAEF56BF700BD` (`status_id`),
+  KEY `UNIQ_6DBFAEF51E27F6BF` (`question_id`) USING BTREE,
+  KEY `UNIQ_6DBFAEF5A7991F51` (`collectivite_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `recommandation_resource`
+--
+
+DROP TABLE IF EXISTS `recommandation_resource`;
+CREATE TABLE IF NOT EXISTS `recommandation_resource` (
+  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `recommandation_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `link` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_10A45F1361AAE789` (`recommandation_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `recommandation_resource`
+--
+
+INSERT INTO `recommandation_resource` (`id`, `recommandation_id`, `title`, `link`) VALUES
+('07b740af-4bc8-11ee-b615-0cc47a39c2c2', '5e28fe0e-06bd-11ee-b776-0cc47a39c2c0', 'Voir le site de la CNIL pour découvrir les obligations :', 'https://www.cnil.fr/'),
+('09b65281-4be0-11ee-b615-0cc47a39c2c2', 'ddcddb7c-467c-11ee-b615-0cc47a39c2c2', 'Consulter Carteco pour identifier les structures les plus proches : \r\nCarteco - Carte des structures ', 'https://carteco-ess.org/'),
+('13add36e-4bc3-11ee-b615-0cc47a39c2c2', '5e0d96a4-06bd-11ee-b776-0cc47a39c2c0', 'Voir le label \"VertVolt\" proposé par l\'ADEME\r\n', 'https://agirpourlatransition.ademe.fr/particuliers/vertvolt'),
+('1e2492fa-4be1-11ee-b615-0cc47a39c2c2', '5e2a6990-06bd-11ee-b776-0cc47a39c2c0', 'Voir la boîte à outils \"\"Mission société numérique\"\" : ', 'https://territoires.societenumerique.gouv.fr/'),
+('1e249901-4be1-11ee-b615-0cc47a39c2c2', '5e2a6990-06bd-11ee-b776-0cc47a39c2c0', 'Contacter le Hub territorial compétent : \n- Les Assembleurs (Hauts-de-France) : https://les.assembleurs.co/\n- Francilin (Ile-de-France) : https://francilin.fr/contact/\n- Conumm (Pays-de-la-Loire) :', ''),
+('1f4bddb0-4bd4-11ee-b615-0cc47a39c2c2', '5e27dd50-06bd-11ee-b776-0cc47a39c2c0', 'Articles L2111-3 et D2111-3 du code de la commande publique : ', 'https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000037703460'),
+('1f4be32c-4bd4-11ee-b615-0cc47a39c2c2', '5e27dd50-06bd-11ee-b776-0cc47a39c2c0', '', 'https://www.legifrance.gouv.fr/codes/id/LEGIARTI000037731037/#LEGIARTI000037731037'),
+('1f4be631-4bd4-11ee-b615-0cc47a39c2c2', '5e27dd50-06bd-11ee-b776-0cc47a39c2c0', 'Article 35 de la LOI n° 2021-1104 du 22 août 2021 portant lutte contre le dérèglement climatique et renforcement de la résilience face à ses effets (dite \"Climat et résilience\") : ', 'https://www.legifrance.gouv.fr/jorf/article_jo/JORFARTI000043957012'),
+('1f4be8de-4bd4-11ee-b615-0cc47a39c2c2', '5e27dd50-06bd-11ee-b776-0cc47a39c2c0', 'Voir la fiche technique de la DAJ du ministère de l\'Économie : ', 'https://www.economie.gouv.fr/daj/schema-promotion-achats-responsables-2019'),
+('2182e223-4bd7-11ee-b615-0cc47a39c2c2', '5e295408-06bd-11ee-b776-0cc47a39c2c0', 'Voir les ressources de la Commission\r\nNationale de l\'Informatique et des Libertés (CNIL), notamment celles dédiées aux collectivités territoriales : ', 'https://www.cnil.fr/fr/collectivites-territoriales'),
+('2182e7c1-4bd7-11ee-b615-0cc47a39c2c2', '5e295408-06bd-11ee-b776-0cc47a39c2c0', 'Voir également les différents supports de communication et sensibilisation de Cybermalveillance.gouv.fr : ', 'https://www.cybermalveillance.gouv.fr/tous-nos-contenus/a-propos/kit-de-communication'),
+('2182ec4d-4bd7-11ee-b615-0cc47a39c2c2', '5e295408-06bd-11ee-b776-0cc47a39c2c0', 'Ainsi que le Programme de sensibilisation aux risques numériques dans les collectivités territoriales élaboré par le groupe de travail piloté par Cybermalveillance.gouv.fr : ', 'https://www.cybermalveillance.gouv.fr/tous-nos-contenus/actualites/programme-sensibilisation-risques-numeriques-collectivites-territoriales'),
+('2182ef16-4bd7-11ee-b615-0cc47a39c2c2', '5e295408-06bd-11ee-b776-0cc47a39c2c0', 'Voir enfin les ressources répertoriées par le Groupe Projet Transformation Numérique des Territoires (TNT) pour la sensibilisation à la cybersécurité : \r\n- Guide d\'utilisation du catalogie : ', 'https://www.numerique.gouv.fr/uploads/guide-utilisation-catalogue-cybersecurite.pdf'),
+('2182f1ad-4bd7-11ee-b615-0cc47a39c2c2', '5e295408-06bd-11ee-b776-0cc47a39c2c0', '- Catalogue des ressources : ', 'https://airtable.com/embed/shr7lvpggEc6yry9C/tblAEDC0UsoFBBN5S?backgroundColor=yellowLight&viewControls=on'),
+('22a9f25a-4bc9-11ee-b615-0cc47a39c2c2', '100268ee-09ba-11ee-b881-0cc47a39c2c2', 'Des initiatives contribuent à la sensibilisation, voir notamment : \r\n- La Fresque du Numérique : ', 'https://www.fresquedunumerique.org/'),
+('22a9f709-4bc9-11ee-b615-0cc47a39c2c2', '100268ee-09ba-11ee-b881-0cc47a39c2c2', '- Les MOOC de l\'Institut du Numérique Responsable : ', 'https://www.academie-nr.org/'),
+('22a9f9fc-4bc9-11ee-b615-0cc47a39c2c2', '100268ee-09ba-11ee-b881-0cc47a39c2c2', '- Le MOOC de l\'INRIA :', 'https://www.fun-mooc.fr/fr/cours/impacts-environnementaux-du-numerique/'),
+('22a9fc88-4bc9-11ee-b615-0cc47a39c2c2', '100268ee-09ba-11ee-b881-0cc47a39c2c2', 'Voir le kit de sensibilisation pour un numérique plus responsable au travail de l\'ADEME : ', 'https://longuevieauxobjets.gouv.fr/entreprise/numerique-responsable/kit'),
+('22aa00a8-4bc9-11ee-b615-0cc47a39c2c2', '100268ee-09ba-11ee-b881-0cc47a39c2c2', '- Le \"serious game\" Econ[u]m : \r\n', 'https://ddemain.com/econum/jeu/'),
+('2ca5d6c3-4bca-11ee-b615-0cc47a39c2c2', '5e13d5b9-06bd-11ee-b776-0cc47a39c2c0', 'Se référer au guide de l\'ANSSI dédié :', 'https://www.ssi.gouv.fr/administration/guide/cartographie-du-systeme-dinformation/'),
+('2dc22200-4be4-11ee-b615-0cc47a39c2c2', '5e2a26cd-06bd-11ee-b776-0cc47a39c2c0', 'Voir le site de l\'ANSSI (Agence Nationale de la Sécurité des Systèmes d\'Information) : ', 'https://www.ssi.gouv.fr/entreprise/reglementation/confiance-numerique/le-referentiel-general-de-securite-rgs/'),
+('2dc22932-4be4-11ee-b615-0cc47a39c2c2', '5e2a26cd-06bd-11ee-b776-0cc47a39c2c0', 'Voir cet article de la CNIL en complément pour comprendre la notion de téléservices et le lien avec l\'homologation RGS :', 'https://www.cnil.fr/fr/teleservices-et-protection-de-la-vie-privee'),
+('2ea1c9fa-4bd6-11ee-b615-0cc47a39c2c2', '5e29a826-06bd-11ee-b776-0cc47a39c2c0', 'Voir les ressources de la Commission\r\nNationale de l\'Informatique et des Libertés (CNIL), notamment celles dédiées aux collectivités territoriales :', 'https://www.cnil.fr/fr/collectivites-territoriales'),
+('2ea1cfbe-4bd6-11ee-b615-0cc47a39c2c2', '5e29a826-06bd-11ee-b776-0cc47a39c2c0', 'Voir également les différents supports de communication et sensibilisation de Cybermalveillance.gouv.fr : ', 'https://www.cybermalveillance.gouv.fr/tous-nos-contenus/a-propos/kit-de-communication'),
+('2ea1d2a1-4bd6-11ee-b615-0cc47a39c2c2', '5e29a826-06bd-11ee-b776-0cc47a39c2c0', 'Ainsi que le Programme de sensibilisation aux risques numériques dans les collectivités territoriales élaboré par le groupe de travail piloté par Cybermalveillance.gouv.fr : ', 'https://www.cybermalveillance.gouv.fr/tous-nos-contenus/actualites/programme-sensibilisation-risques-numeriques-collectivites-territoriales'),
+('2ea1d533-4bd6-11ee-b615-0cc47a39c2c2', '5e29a826-06bd-11ee-b776-0cc47a39c2c0', 'Voir enfin les ressources répertoriées par le Groupe Projet Transformation Numérique des Territoires (TNT) pour la sensibilisation à la cybersécurité : \r\n- Guide d\'utilisation du catalogie : ', 'https://www.numerique.gouv.fr/uploads/guide-utilisation-catalogue-cybersecurite.pdf'),
+('2ea1d7a1-4bd6-11ee-b615-0cc47a39c2c2', '5e29a826-06bd-11ee-b776-0cc47a39c2c0', '- Catalogue des ressources : ', 'https://airtable.com/embed/shr7lvpggEc6yry9C/tblAEDC0UsoFBBN5S?backgroundColor=yellowLight&viewControls=on'),
+('3143669e-4bcc-11ee-b615-0cc47a39c2c2', '5e287524-06bd-11ee-b776-0cc47a39c2c0', 'Voir le site de l\'ANFR (Agence Nationale des Fréquences) pour plus d\'informations : ', 'https://www.anfr.fr/maitriser/equipements-radioelectriques/le-debit-dabsorption-specifique-das/le-das-cest-quoi'),
+('39860811-4be5-11ee-b615-0cc47a39c2c2', '5e2b59fb-06bd-11ee-b776-0cc47a39c2c0', 'Voir le site de la DINUM pour découvrir les obligations : ', 'https://accessibilite.numerique.gouv.fr/'),
+('39860c59-4be5-11ee-b615-0cc47a39c2c2', '5e2b59fb-06bd-11ee-b776-0cc47a39c2c0', 'Voir en complément les ressources proposées par DesignGouv : ', 'https://design.numerique.gouv.fr/accessibilite-numerique/'),
+('39860f1a-4be5-11ee-b615-0cc47a39c2c2', '5e2b59fb-06bd-11ee-b776-0cc47a39c2c0', 'Voir les aides proposées par le FIPHFP (Fond pour l\'Insertion des Personnes Handicapées dans la Fonction Publique) : \r\n- Audit initial d\'accessibilité numérique :', 'https://www.fiphfp.fr/employeurs/nos-aides-financieres/catalogue-des-interventions/audit-initial-d-accessibilite-numerique'),
+('3986119b-4be5-11ee-b615-0cc47a39c2c2', '5e2b59fb-06bd-11ee-b776-0cc47a39c2c0', '- Appui à la mise en œuvre de l\'accessibilité numérique :', 'https://www.fiphfp.fr/employeurs/nos-aides-financieres/catalogue-des-interventions/appui-a-la-mise-en-oeuvre-de-l-accessibilite-numerique'),
+('398613f5-4be5-11ee-b615-0cc47a39c2c2', '5e2b59fb-06bd-11ee-b776-0cc47a39c2c0', '- Pré-audit ou audit rapide d\'accessibilité numérique :', 'https://www.fiphfp.fr/employeurs/nos-aides-financieres/catalogue-des-interventions/pre-audit-ou-audit-rapide-d-accessibilite-numerique'),
+('39861648-4be5-11ee-b615-0cc47a39c2c2', '5e2b59fb-06bd-11ee-b776-0cc47a39c2c0', '- Aide à l\'adaptation du poste de travail d\'une personne en situation de handicap :', 'https://www.fiphfp.fr/employeurs/nos-aides-financieres/catalogue-des-interventions/aide-a-l-adaptation-du-poste-de-travail-d-une-personne-en-situation-de-handicap'),
+('3dfe226b-4bd5-11ee-b615-0cc47a39c2c2', '5e252e66-06bd-11ee-b776-0cc47a39c2c0', '\"En vertu de l\'article 16 de la loi REEN du 15 novembre 2021, les filières du réemploi et de la réutilisation deviennent incontournables pour les équipements informatiques encore fonctionnels : ', 'https://www.legifrance.gouv.fr/jorf/article_jo/JORFARTI000044327293'),
+('3dfe2770-4bd5-11ee-b615-0cc47a39c2c2', '5e252e66-06bd-11ee-b776-0cc47a39c2c0', 'Article L3212-2 et suivants du Code général de la propriété des personnes publiques : ', 'https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006070299/LEGISCTA000006164247/#LEGISCTA000006164247'),
+('3dfe2ab0-4bd5-11ee-b615-0cc47a39c2c2', '5e252e66-06bd-11ee-b776-0cc47a39c2c0', 'Décret n° 2009-1751 du 30 décembre 2009 relatif aux cessions gratuites de matériels informatiques : ', 'https://www.legifrance.gouv.fr/loda/id/LEGIARTI000021679223/#LEGIARTI000021679223'),
+('3dfe2d85-4bd5-11ee-b615-0cc47a39c2c2', '5e252e66-06bd-11ee-b776-0cc47a39c2c0', 'Article D3212-3 et suivants : ', 'https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006070299/LEGISCTA000024885751/#LEGISCTA000024885751'),
+('3dfe3036-4bd5-11ee-b615-0cc47a39c2c2', '5e252e66-06bd-11ee-b776-0cc47a39c2c0', 'Art 178 de la loi 3DS du 21 février 2022 : ', 'https://www.legifrance.gouv.fr/jorf/article_jo/JORFARTI000045197631'),
+('3dfe3500-4bd5-11ee-b615-0cc47a39c2c2', '5e252e66-06bd-11ee-b776-0cc47a39c2c0', 'Voir le mémento de la Direction National d\'Interventions Domaniales (DNID), à noter qu\'il n\'est pas à jour de l\'ajout de la loi 3DS : ', 'https://www.associations.gouv.fr/IMG/pdf/memento_dnid_v4_page_simple_16112019b.pdf'),
+('3dfe37ef-4bd5-11ee-b615-0cc47a39c2c2', '5e252e66-06bd-11ee-b776-0cc47a39c2c0', 'Décret n° 2022-1413 du 7 novembre 2022 fixant des prix solidaires pour la revente des matériels informatiques réformés et cédés à titre gratuit à certaines associations par les administrations : ', 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000046538108'),
+('3dfe3ac4-4bd5-11ee-b615-0cc47a39c2c2', '5e252e66-06bd-11ee-b776-0cc47a39c2c0', 'Décret n° 2023-266 du 12 avril 2023 fixant les objectifs et modalités de réemploi et de réutilisation des matériels informatiques réformés par l\'Etat et les collectivités territoriales : ', 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000047439314'),
+('3dfe3ece-4bd5-11ee-b615-0cc47a39c2c2', '5e252e66-06bd-11ee-b776-0cc47a39c2c0', 'Voir le programme LaCollecte.tech d\'Emmaüs Connect : ', 'https://lacollecte.tech/\"'),
+('436cc686-4bc7-11ee-b615-0cc47a39c2c2', '5e176a1a-06bd-11ee-b776-0cc47a39c2c0', 'Des initiatives contribuent à la sensibilisation, voir notamment : \r\n- La Fresque du Numérique : ', 'https://www.fresquedunumerique.org/'),
+('436ccc62-4bc7-11ee-b615-0cc47a39c2c2', '5e176a1a-06bd-11ee-b776-0cc47a39c2c0', '- Les MOOC de l\'Institut du Numérique Responsable : \r\n', 'https://www.academie-nr.org/'),
+('436ccfe2-4bc7-11ee-b615-0cc47a39c2c2', '5e176a1a-06bd-11ee-b776-0cc47a39c2c0', '- Le MOOC de l\'INRIA : \r\n', 'https://www.fun-mooc.fr/fr/cours/impacts-environnementaux-du-numerique/'),
+('436cd2fe-4bc7-11ee-b615-0cc47a39c2c2', '5e176a1a-06bd-11ee-b776-0cc47a39c2c0', 'Voir le kit de sensibilisation pour un numérique plus responsable au travail de l\'ADEME : \r\n\r\n', 'https://longuevieauxobjets.gouv.fr/entreprise/numerique-responsable/kit'),
+('436cd5fe-4bc7-11ee-b615-0cc47a39c2c2', '5e176a1a-06bd-11ee-b776-0cc47a39c2c0', '- Le \"serious game\" Econ[u]m : \r\n', 'https://ddemain.com/econum/jeu/'),
+('4cc6f78f-4bcc-11ee-b615-0cc47a39c2c2', '5e0b9f13-06bd-11ee-b776-0cc47a39c2c0', 'La signature de la Charte NR de l\'Institut du Numérique Responsable (INR) est une façon de marquer l\'engagement de votre structure dans une démarche plus large pour un numérique plus responsable :', 'https://charte.institutnr.org/'),
+('5b280239-4bc5-11ee-b615-0cc47a39c2c2', '5e29e7fe-06bd-11ee-b776-0cc47a39c2c0', 'Voir le guide rédigé par Cybermalveillance.gouv.fr en collaboration avec la Commission\r\nNationale de l’Informatique et des Libertés (CNIL) : \r\n', 'https://www.cnil.fr/sites/default/files/atoms/files/cybermalveillance.gouv_.fr-cnil_guide_sur_les_obligations_et_responsabilites_des_collectivites.pdf'),
+('673b954c-4bc3-11ee-b615-0cc47a39c2c2', '5e147765-06bd-11ee-b776-0cc47a39c2c0', 'Voir notamment : ', 'https://www.francenum.gouv.fr/guides-et-conseils/pilotage-de-lentreprise/materiel-informatique/comment-faire-durer-un-ordinateur'),
+('6cb9e0ee-4be6-11ee-b615-0cc47a39c2c2', '5e1116b4-06bd-11ee-b776-0cc47a39c2c0', 'Voir l\'article 15 de la loi REEN du 15 novembre 2021, venu modifier l\'article 55 de la loi AGEC du 10 février 2020 : ', 'https://www.legifrance.gouv.fr/jorf/article_jo/JORFARTI000044327292'),
+('767ccefd-4bd5-11ee-b615-0cc47a39c2c2', '5e0c6b0d-06bd-11ee-b776-0cc47a39c2c0', 'Art 34 de la loi REEN du 15 novembre 2021 : ', 'https://www.legifrance.gouv.fr/jorf/article_jo/JORFARTI000044327311'),
+('767cd60d-4bd5-11ee-b615-0cc47a39c2c2', '5e0c6b0d-06bd-11ee-b776-0cc47a39c2c0', 'Art 35 de la loi REEN du 15 novembre 2021 : ', 'https://www.legifrance.gouv.fr/jorf/article_jo/JORFARTI000044327312 '),
+('76861ce0-4be3-11ee-b615-0cc47a39c2c2', '5e123aa5-06bd-11ee-b776-0cc47a39c2c0', 'Voir le guide de l\'ADEME sur les écolabels : ', 'https://agirpourlatransition.ademe.fr/particuliers/labels-environnementaux'),
+('76862144-4be3-11ee-b615-0cc47a39c2c2', '5e123aa5-06bd-11ee-b776-0cc47a39c2c0', 'Voir également le guide du réseau RAPIDD (inscription préalable nécessaire) : ', 'https://rapidd.developpement-durable.gouv.fr/?action=publicPage&uri=intranetOnePage/7710'),
+('7686240d-4be3-11ee-b615-0cc47a39c2c2', '5e123aa5-06bd-11ee-b776-0cc47a39c2c0', 'Articles R2111-12 à R2111-17 du code de la commande publique : ', 'https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000037701019/LEGISCTA000037723688/#LEGISCTA000037731013'),
+('7a3dfea4-4bce-11ee-b615-0cc47a39c2c2', '5e1718ce-06bd-11ee-b776-0cc47a39c2c0', 'France Num, initiative gouvernementale pour la transformation numérique des TPE/PME, propose un guide sur les logiciels libres tout aussi pertinent pour les organismes publics, accompagné d\'une liste ', 'https://www.francenum.gouv.fr/guides-et-conseils/pilotage-de-lentreprise/logiciels-de-gestion-de-lentreprise/ou-trouver-des'),
+('7a3e04c3-4bce-11ee-b615-0cc47a39c2c2', '5e1718ce-06bd-11ee-b776-0cc47a39c2c0', '- Le comptoir du libre de l\'Adullact :', 'https://comptoir-du-libre.org/fr/ '),
+('7a3e07c2-4bce-11ee-b615-0cc47a39c2c2', '5e1718ce-06bd-11ee-b776-0cc47a39c2c0', '- L\'annuaire du libre Framalibre, et notamment la suite de solutions Framasoft ou encore LibreOffice : ', 'https://framalibre.org/ '),
+('7a3e0a62-4bce-11ee-b615-0cc47a39c2c2', '5e1718ce-06bd-11ee-b776-0cc47a39c2c0', '- Le Socle Interministériel de Logiciels Libres d\'Etalab (DINUM) : ', 'https://sill.etalab.gouv.fr/fr/software'),
+('7a3e0ce6-4bce-11ee-b615-0cc47a39c2c2', '5e1718ce-06bd-11ee-b776-0cc47a39c2c0', 'Voir également le projet EOLE, développé par le Pôle de Compétence Logiciels libres du Ministère de l’Éducation, avec le soutien du Ministère de la Transition écologique et solidaire, qui vise à favor', 'https://pcll.ac-dijon.fr/eole/'),
+('842709a3-4be4-11ee-b615-0cc47a39c2c2', '5e2bcda7-06bd-11ee-b776-0cc47a39c2c0', 'LOI n° 2016-1321 du 7 octobre 2016 pour une République numérique : ', 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000033202746/2022-03-17/'),
+('84270f81-4be4-11ee-b615-0cc47a39c2c2', '5e2bcda7-06bd-11ee-b776-0cc47a39c2c0', 'Articles L312-1 à D312-1-4 du code des relations entre le public et l\'administration : ', 'https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000031366350/LEGISCTA000031367735/#LEGISCTA000031367735 '),
+('8427142b-4be4-11ee-b615-0cc47a39c2c2', '5e2bcda7-06bd-11ee-b776-0cc47a39c2c0', 'Voir les fiches pratiques de la CNIL (rédigées notamment avec la Commission d\'Accès aux Documents Administratifs (CADA)) : ', 'https://www.cnil.fr/fr/open-data/fiches-pratiques'),
+('842716be-4be4-11ee-b615-0cc47a39c2c2', '5e2bcda7-06bd-11ee-b776-0cc47a39c2c0', 'Voir également le questionnaire de la CNIL et de la CADA conçu pour our aider les administrations à décider de la publication en ligne de leurs documents dans le cadre de l\'open data : ', 'https://www.cnil.fr/fr/webform/publication-en-ligne-de-donnees-publiques-quelles-sont-les-questions-se-poser '),
+('8427192f-4be4-11ee-b615-0cc47a39c2c2', '5e2bcda7-06bd-11ee-b776-0cc47a39c2c0', 'Pour une ouverture des données compatible avec les enjeux de sobriété numérique, voir le référentiel développé par Open Data France, GreenData - pour impact environnemental maîtrisé : ', 'https://opendatafrance.gitbook.io/greendata-pour-un-impact-maitrise-des-donnees/greendata/1.1-contexte'),
+('9eef2ec0-4bcd-11ee-b615-0cc47a39c2c2', '5e282bc3-06bd-11ee-b776-0cc47a39c2c0', 'Voir le Plan National des Achats Durables (PNAD) 2022-2025 : ', 'https://www.ecologie.gouv.fr/achats-publics-durables'),
+('9eef354f-4bcd-11ee-b615-0cc47a39c2c2', '5e282bc3-06bd-11ee-b776-0cc47a39c2c0', 'Voir la plateforme RAPIDD (la communauté des achats durables) qui a pour objet de réunir des ressources, d\'échanger entre pairs et de diffuser des informations relatives aux achats socialement et écol', 'https://rapidd.developpement-durable.gouv.fr/'),
+('9eef39e8-4bcd-11ee-b615-0cc47a39c2c2', '5e282bc3-06bd-11ee-b776-0cc47a39c2c0', 'Voir le Guide des achats numériques responsables qui propose des pistes de rédaction : ', 'https://ecoresponsable.numerique.gouv.fr/publications/guide-pratique-achats-numeriques-responsables/'),
+('9eef3d24-4bcd-11ee-b615-0cc47a39c2c2', '5e282bc3-06bd-11ee-b776-0cc47a39c2c0', 'Voir le Guide sur les aspects sociaux de la commande publique : ', 'https://www.economie.gouv.fr/daj/guide-sur-les-aspects-sociaux-de-la-commande-publique'),
+('9eef4022-4bcd-11ee-b615-0cc47a39c2c2', '5e282bc3-06bd-11ee-b776-0cc47a39c2c0', 'Voir le Guide \"Réussir son achat responsable - Guide thématique n°1 : Comment veiller au respect des droits de l’Homme au travail dans les chaînes d’approvisionnement ?\" :', 'https://www.economie.gouv.fr/files/files/directions_services/dae/doc/AR_guide_thematique_DH_VF.pdf?v=1663741102'),
+('9eef43a7-4bcd-11ee-b615-0cc47a39c2c2', '5e282bc3-06bd-11ee-b776-0cc47a39c2c0', 'Voir le \"Guide thématique n°2 : comment faire de son achat un outil au service de l’insertion des publics éloignés de l’emploi ?\" : ', 'https://www.economie.gouv.fr/files/files/directions_services/dae/doc/guide_thematique_insertion_VF.pdf?v=1679046348'),
+('9eef4672-4bcd-11ee-b615-0cc47a39c2c2', '5e282bc3-06bd-11ee-b776-0cc47a39c2c0', 'Voir la Plateforme de l\'inclusion :', 'https://inclusion.beta.gouv.fr/'),
+('9fbff705-4bcc-11ee-b615-0cc47a39c2c2', '5e1b49da-06bd-11ee-b776-0cc47a39c2c0', 'Des initiatives contribuent à la sensibilisation, voir notamment : \r\n- La Fresque du Numérique : ', 'https://www.fresquedunumerique.org/'),
+('9fbffc2c-4bcc-11ee-b615-0cc47a39c2c2', '5e1b49da-06bd-11ee-b776-0cc47a39c2c0', '- Les MOOC de l\'Institut du Numérique Responsable : ', 'https://www.academie-nr.org/'),
+('9fc0000a-4bcc-11ee-b615-0cc47a39c2c2', '5e1b49da-06bd-11ee-b776-0cc47a39c2c0', '- Le MOOC de l\'INRIA : ', 'https://www.fun-mooc.fr/fr/cours/impacts-environnementaux-du-numerique/'),
+('9fc002ad-4bcc-11ee-b615-0cc47a39c2c2', '5e1b49da-06bd-11ee-b776-0cc47a39c2c0', 'Voir le kit de sensibilisation pour un numérique plus responsable au travail de l\'ADEME : ', 'https://longuevieauxobjets.gouv.fr/entreprise/numerique-responsable/kit'),
+('9fc00529-4bcc-11ee-b615-0cc47a39c2c2', '5e1b49da-06bd-11ee-b776-0cc47a39c2c0', '- Le \"serious game\" Econ[u]m : ', 'https://ddemain.com/econum/jeu/'),
+('a4a46647-4be2-11ee-b615-0cc47a39c2c2', '5e129146-06bd-11ee-b776-0cc47a39c2c0', 'Décret n° 2024-134 du 21 février 2024 relatif à l\'obligation d\'acquisition par la commande publique de biens issus du réemploi ou de la réutilisation ou intégrant des matières recyclées et à l\'interdiction d\'acquisition par l\'État de produits en plastique', 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000049184670'),
+('a4a46cd0-4be2-11ee-b615-0cc47a39c2c2', '5e129146-06bd-11ee-b776-0cc47a39c2c0', 'LOI n° 2020-105 du 10 février 2020 relative à la lutte contre le gaspillage et à l\'économie circulaire dite \"loi AGEC\" : ', 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000041553759/2021-06-07/'),
+('a4a46fb1-4be2-11ee-b615-0cc47a39c2c2', '5e129146-06bd-11ee-b776-0cc47a39c2c0', 'Voir le guide de l\'ADEME sur les écolabels : ', 'https://agirpourlatransition.ademe.fr/particuliers/labels-environnementaux'),
+('a4a4722f-4be2-11ee-b615-0cc47a39c2c2', '5e129146-06bd-11ee-b776-0cc47a39c2c0', 'Voir également le guide du réseau RAPIDD (inscription préalable nécessaire) :', 'https://rapidd.developpement-durable.gouv.fr/?action=publicPage&uri=intranetOnePage/7710'),
+('a4a4753f-4be2-11ee-b615-0cc47a39c2c2', '5e129146-06bd-11ee-b776-0cc47a39c2c0', 'Articles R2111-12 à R2111-17 du code de la commande publique : ', 'https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000037701019/LEGISCTA000037723688/#LEGISCTA000037731013'),
+('b722e253-4bcc-11ee-b615-0cc47a39c2c2', '1002624a-09ba-11ee-b881-0cc47a39c2c2', 'Voir le Programme de Micro-Learning en accès libre sur les achats durables mis à disposition via le réseau RAPIDD : ', 'https://rapidd.developpement-durable.gouv.fr/article/8231'),
+('b722e8c0-4bcc-11ee-b615-0cc47a39c2c2', '1002624a-09ba-11ee-b881-0cc47a39c2c2', 'Voir le cours sur la communication responsable en libre accès proposé par l\'AACC et l’ADEME : ', 'https://www.aacc.fr/actualites-et-evenements/commissions/rse/communication-responsable'),
+('b81cfab6-4bd1-11ee-b615-0cc47a39c2c2', '5e1d9f54-06bd-11ee-b776-0cc47a39c2c0', 'Voir la boîte à outils de la mission interministérielle Green Tech : ', 'https://ecoresponsable.numerique.gouv.fr/publications/boite-outils/ '),
+('b81d0142-4bd1-11ee-b615-0cc47a39c2c2', '5e1d9f54-06bd-11ee-b776-0cc47a39c2c0', 'Notamment l\'outil EcoDiag : ', 'https://ecoinfo.cnrs.fr/ecodiag-calcul/'),
+('b81d050c-4bd1-11ee-b615-0cc47a39c2c2', '5e1d9f54-06bd-11ee-b776-0cc47a39c2c0', 'Voir également la boîte à outils de l\'INR qui propose notamment des outils de mesure des impacts environnementaux :\r\n', 'https://sustainableit-tools.isit-europe.org/'),
+('b81d0834-4bd1-11ee-b615-0cc47a39c2c2', '5e1d9f54-06bd-11ee-b776-0cc47a39c2c0', 'Notamment l\'outil de l\'INR, WeNR : ', 'https://wenr.isit-europe.org/fr/wenr-2021/'),
+('b81d0cf7-4bd1-11ee-b615-0cc47a39c2c2', '5e1d9f54-06bd-11ee-b776-0cc47a39c2c0', 'En complément, l\'INR propose également une évaluation à titre individuel de l\'empreinte environnementale professionnelle d\'un utilisateur : ', 'https://myimpact.isit-europe.org/fr/'),
+('b81d101c-4bd1-11ee-b615-0cc47a39c2c2', '5e1d9f54-06bd-11ee-b776-0cc47a39c2c0', 'Pour aller plus loin, envisager la réalisation d\'un Bilan GES, selon la méthode de l\'ADEME : ', 'https://bilans-ges.ademe.fr/fr/accueil'),
+('b8828d29-4be1-11ee-b615-0cc47a39c2c2', '5e12e526-06bd-11ee-b776-0cc47a39c2c0', 'Décret n° 2024-134 du 21 février 2024 relatif à l\'obligation d\'acquisition par la commande publique de biens issus du réemploi ou de la réutilisation ou intégrant des matières recyclées et à l\'interdiction d\'acquisition par l\'État de produits en plastique', 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000049184670'),
+('b882941d-4be1-11ee-b615-0cc47a39c2c2', '5e12e526-06bd-11ee-b776-0cc47a39c2c0', 'LOI n° 2020-105 du 10 février 2020 relative à la lutte contre le gaspillage et à l\'économie circulaire dite \"loi AGEC\" : ', 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000041553759/2021-06-07/'),
+('b9ea4a95-4bc3-11ee-b615-0cc47a39c2c2', '5e15069b-06bd-11ee-b776-0cc47a39c2c0', 'Voir notamment : ', 'https://agirpourlatransition.ademe.fr/particuliers/conso/conso-responsable/garder-smartphone-plus-longtemps-possible'),
+('be360081-4bd7-11ee-b615-0cc47a39c2c2', '5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', 'Voir La Réf, \"\"L\'outil pour connaître la réglementation des achats publics durables\"\" : ', 'https://3ar-na.fr/la-ref/'),
+('be360537-4bd7-11ee-b615-0cc47a39c2c2', '5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', 'Voir le Plan National des Achats Durables (PNAD) 2022-2025 : ', 'https://www.ecologie.gouv.fr/achats-publics-durables'),
+('be3608ca-4bd7-11ee-b615-0cc47a39c2c2', '5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', 'Voir la plateforme RAPIDD (la communauté des achats durables) qui a pour objet de réunir des ressources, d\'échanger entre pairs et de diffuser des informations relatives aux achats socialement et écol', 'https://rapidd.developpement-durable.gouv.fr/'),
+('be360b77-4bd7-11ee-b615-0cc47a39c2c2', '5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', 'et notamment l\'initiative du Guichet vert, service gratuit pensé \"\"comme un accompagnement de premier niveau afin de permettre aux acheteurs publics d\'intégrer des considérations environnementales dan', 'https://gipmaximilien.limesurvey.net/353211'),
+('be360e02-4bd7-11ee-b615-0cc47a39c2c2', '5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', 'Voir le Guide des achats numériques responsables qui propose des pistes de rédaction : ', 'https://ecoresponsable.numerique.gouv.fr/publications/guide-pratique-achats-numeriques-responsables/'),
+('be3610d0-4bd7-11ee-b615-0cc47a39c2c2', '5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', 'Article 35 de la LOI n° 2021-1104 du 22 août 2021 portant lutte contre le dérèglement climatique et renforcement de la résilience face à ses effets (dite \"\"Climat et résilience\"\") : ', 'https://www.legifrance.gouv.fr/jorf/article_jo/JORFARTI000043957012'),
+('be361494-4bd7-11ee-b615-0cc47a39c2c2', '5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', 'Voir La clause verte qui propose un clausier pour atteindre l\'objectif de 100% des achats avec une clause écologique : ', 'https://laclauseverte.fr/liste_des_clauses/'),
+('be36172e-4bd7-11ee-b615-0cc47a39c2c2', '5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', 'Voir les critères définis par l\'Union Européenne pour ses marchés (site en anglais mais ressources disponibles en français) :', 'https://ec.europa.eu/environment/gpp/eu_gpp_criteria_en.htm'),
+('be3619b4-4bd7-11ee-b615-0cc47a39c2c2', '5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', 'Voir le Guide de l\'Achat Public - L\'achat public : une réponse aux enjeux climatiques (celui-ci datant de 2016, il n\'est à jour des dernières évolutions réglementaires) : ', 'https://www.economie.gouv.fr/files/files/directions_services/daj/marches_publics/oeap/gem/guide-climat/guide-climat.pdf?v=1571062555'),
+('be361cdd-4bd7-11ee-b615-0cc47a39c2c2', '5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', 'Pour aller plus loin, voir le Guide de l\'achat public : mettre en place un plan de progrès dans un marché public : ', 'https://www.economie.gouv.fr/files/files/directions_services/dae/doc/Guide%20Plan%20de%20Progre%CC%80s-Hyperlien.pdf'),
+('c95d55a2-0e28-11f0-97c8-0242ac110004', '5e1116b4-06bd-11ee-b776-0cc47a39c2c0', 'Indice de réparabilité', 'https://www.ecologie.gouv.fr/politiques-publiques/indice-reparabilite'),
+('c95d646a-0e28-11f0-97c8-0242ac110004', '5e1116b4-06bd-11ee-b776-0cc47a39c2c0', 'Indice de durabilité', 'https://www.economie.gouv.fr/particuliers/tout-savoir-sur-lindice-de-durabilite#quels-sont-les-produits-concern-_1'),
+('cd60d2ad-4bd5-11ee-b615-0cc47a39c2c2', '5e0edb76-06bd-11ee-b776-0cc47a39c2c0', 'Décret n° 2024-134 du 21 février 2024 relatif à l\'obligation d\'acquisition par la commande publique de biens issus du réemploi ou de la réutilisation ou intégrant des matières recyclées et à l\'interdiction d\'acquisition par l\'Etat de produits en plastique', 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000049184670'),
+('cd60d811-4bd5-11ee-b615-0cc47a39c2c2', '5e0edb76-06bd-11ee-b776-0cc47a39c2c0', 'LOI n° 2020-105 du 10 février 2020 relative à la lutte contre le gaspillage et à l\'économie circulaire dite \"loi AGEC\" : ', 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000041553759/2021-06-07/'),
+('cd60dadb-4bd5-11ee-b615-0cc47a39c2c2', '5e0edb76-06bd-11ee-b776-0cc47a39c2c0', 'Arrêté du 13 janvier 2025 fixant les modalités de déclaration de la part des dépenses relatives à l\'acquisition de biens issus du réemploi ou de la réutilisation ou intégrant des matières recyclées :', 'https://www.legifrance.gouv.fr/loda/id/LEGIARTI000051001610/2025-01-19/'),
+('cd60dd4c-4bd5-11ee-b615-0cc47a39c2c2', '5e0edb76-06bd-11ee-b776-0cc47a39c2c0', 'Concernant la déclaration de la part des dépenses relatives à l\'acquisition de biens issus du réemploi ou de la réutilisation ou intégrant des matières recyclées : ', 'https://www.economie.gouv.fr/daj/top-depart-pour-la-declaration-des-depenses-2022-pour-les-biens-issus-du-reemploi-ou-de-la'),
+('cd60dfa2-4bd5-11ee-b615-0cc47a39c2c2', '5e0edb76-06bd-11ee-b776-0cc47a39c2c0', 'Loi AGEC', 'https://rapidd.developpement-durable.gouv.fr/?action=publicPage&uri=intranetOnePage/6804'),
+('d7ec5d67-4bc4-11ee-b615-0cc47a39c2c2', '5e26131f-06bd-11ee-b776-0cc47a39c2c0', 'Référentiel Général d\'Écoconception des Services Numériques (RGESN) co-rédigé par la Direction interministérielle du numérique (DINUM) et le ministère de la Transition écologique, mais aussi l\'ADEME (', 'https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/'),
+('d7ec64f5-4bc4-11ee-b615-0cc47a39c2c2', '5e26131f-06bd-11ee-b776-0cc47a39c2c0', 'Norme AFNOR SPEC 2201, disponible gratuitement sur le site de l\'AFNOR sous réserve de créer un compte utilisateur : \r\n', 'https://www.boutique.afnor.org/fr-fr/norme/afnor-spec-2201/ecoconception-des-services-numeriques/fa203506/323315'),
+('d7ec6912-4bc4-11ee-b615-0cc47a39c2c2', '5e26131f-06bd-11ee-b776-0cc47a39c2c0', '115 bonnes pratiques de l\'éco-conception Web du collectif GreenIT (à noter que ce référentiel a été décliné en livre) : \r\nhttps://collectif.greenit.fr/ecoconception-web/115-bonnes-pratiques-eco-concep', 'https://github.com/cnumr/best-practices'),
+('d7ec6d41-4bc4-11ee-b615-0cc47a39c2c2', '5e26131f-06bd-11ee-b776-0cc47a39c2c0', 'Référentiel du CNRS \"Je code : les bonnes pratiques en éco-conception de  service numérique à destination des développeurs de logiciels\" : \r\n', 'https://hal.science/hal-03009741v5/document'),
+('d7ec7209-4bc4-11ee-b615-0cc47a39c2c2', '5e26131f-06bd-11ee-b776-0cc47a39c2c0', 'Guide d’éco-conception de services numériques des Designers Éthiques : \r\n', 'https://eco-conception.designersethiques.org/guide/fr/'),
+('d7ec7507-4bc4-11ee-b615-0cc47a39c2c2', '5e26131f-06bd-11ee-b776-0cc47a39c2c0', 'Pour aller plus loin (numérique responsable tenant compte des volets sociaux et économiques en plus des considérations environnementales) : \r\n- au GR491, le guide de référence de conception responsabl', 'https://gr491.isit-europe.org/'),
+('d7ec77e3-4bc4-11ee-b615-0cc47a39c2c2', '5e26131f-06bd-11ee-b776-0cc47a39c2c0', 'Pour en vérifier la bonne application, voir les outils suivants : - ecoIndex (outil en ligne du collectif GreenIT) :  ', 'https://www.ecoindex.fr/'),
+('d7ec7ab5-4bc4-11ee-b615-0cc47a39c2c2', '5e26131f-06bd-11ee-b776-0cc47a39c2c0', '- Kastor (outil en ligne basé sur le référentiel de l\'INR) ; ', 'https://kastor.green/'),
+('d7ec7d83-4bc4-11ee-b615-0cc47a39c2c2', '5e26131f-06bd-11ee-b776-0cc47a39c2c0', '- NumÉcoDiag (outil d\'audit basé sur le RGESN) ; ', 'https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/numecodiag/'),
+('d7ec804d-4bc4-11ee-b615-0cc47a39c2c2', '5e26131f-06bd-11ee-b776-0cc47a39c2c0', '- ecometer (outil en ligne développé avec le soutien de l\'ADEME) ; ', 'http://ecometer.org/'),
+('d7ec8313-4bc4-11ee-b615-0cc47a39c2c2', '5e26131f-06bd-11ee-b776-0cc47a39c2c0', '- GreenIT-Analysis (outil d\'analyse automatisée - extension navigateur) ;', ''),
+('d7ec85d3-4bc4-11ee-b615-0cc47a39c2c2', '5e26131f-06bd-11ee-b776-0cc47a39c2c0', '- Lighthouse (outil d\'analyse automatisée - extension navigateur) ;', ''),
+('d7ec89a2-4bc4-11ee-b615-0cc47a39c2c2', '5e26131f-06bd-11ee-b776-0cc47a39c2c0', '- Yellow Lab Tools (site web : - outil d\'analyse automatisée). ', 'https://yellowlab.tools/'),
+('dfee32dd-4be1-11ee-b615-0cc47a39c2c2', '5e21974f-06bd-11ee-b776-0cc47a39c2c0', 'Se référer au code européen de bonne conduite pour les datas centers : ', 'https://e3p.jrc.ec.europa.eu/communities/data-centres-code-conduct'),
+('dfee370c-4be1-11ee-b615-0cc47a39c2c2', '5e21974f-06bd-11ee-b776-0cc47a39c2c0', 'Voir également les guides d\'Ecoinfo (CNRS) : ', 'https://ecoinfo.cnrs.fr/2017/06/07/bonnes-pratiques-pour-linfrastructure-dun-datacentre-eco-responsable/'),
+('dfee3af2-4be1-11ee-b615-0cc47a39c2c2', '5e21974f-06bd-11ee-b776-0cc47a39c2c0', '', 'https://ecoinfo.cnrs.fr/2020/05/19/guide-des-bonnes-pratiques-du-code-de-conduite-europeen-sur-les-datacentres/'),
+('ebfab372-4be3-11ee-b615-0cc47a39c2c2', '5e210bfc-06bd-11ee-b776-0cc47a39c2c0', 'Consulter la page relative à cette initiative (en anglais) : ', 'https://ec.europa.eu/jrc/en/energy-efficiency/code-conduct/datacentres');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `recommandation_status`
+--
+
+DROP TABLE IF EXISTS `recommandation_status`;
+CREATE TABLE IF NOT EXISTS `recommandation_status` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `label` varchar(50) NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `recommandation_status`
+--
+
+INSERT INTO `recommandation_status` (`Id`, `label`) VALUES
+(0, 'Planifiée'),
+(1, 'En cours'),
+(2, 'Réalisée'),
+(3, 'À planifier'),
+(4, 'À définir');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `recommandation_success_indicator`
+--
+
+DROP TABLE IF EXISTS `recommandation_success_indicator`;
+CREATE TABLE IF NOT EXISTS `recommandation_success_indicator` (
+  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `recommandation_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `text` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_89DE30BB61AAE789` (`recommandation_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `recommandation_success_indicator`
+--
+
+INSERT INTO `recommandation_success_indicator` (`id`, `recommandation_id`, `text`) VALUES
+('058ee094-4c97-11ee-b615-0cc47a39c2c2', 'cdca3837-4c96-11ee-b615-0cc47a39c2c2', 'Documentation mise en place : oui / non ; '),
+('058ee51a-4c97-11ee-b615-0cc47a39c2c2', 'cdca3837-4c96-11ee-b615-0cc47a39c2c2', 'Suivi d’indicateurs de pilotage : oui / non ;'),
+('094b2ae7-4be3-11ee-b615-0cc47a39c2c2', '5e224bd1-06bd-11ee-b776-0cc47a39c2c0', 'Espace utilisé en moyenne par les utilisateurs ;'),
+('094b2fba-4be3-11ee-b615-0cc47a39c2c2', '5e224bd1-06bd-11ee-b776-0cc47a39c2c0', 'Capacité de stockage utilisée par la structure ;'),
+('094b32a2-4be3-11ee-b615-0cc47a39c2c2', '5e224bd1-06bd-11ee-b776-0cc47a39c2c0', 'Capacité de stockage/utilisateur ; '),
+('094b3530-4be3-11ee-b615-0cc47a39c2c2', '5e224bd1-06bd-11ee-b776-0cc47a39c2c0', 'Volume total de données stockées (en To) ;'),
+('094b379e-4be3-11ee-b615-0cc47a39c2c2', '5e224bd1-06bd-11ee-b776-0cc47a39c2c0', 'Volume total de données par nombre d’utilisateurs ;'),
+('09694de7-4bcd-11ee-b615-0cc47a39c2c2', '5e18248f-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('09695530-4bcd-11ee-b615-0cc47a39c2c2', '5e18248f-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ; '),
+('0969585b-4bcd-11ee-b615-0cc47a39c2c2', '5e18248f-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ; '),
+('09695b1b-4bcd-11ee-b615-0cc47a39c2c2', '5e18248f-06bd-11ee-b776-0cc47a39c2c0', 'Durée effective d’utilisation des matériels ; '),
+('09695f8e-4bcd-11ee-b615-0cc47a39c2c2', '5e18248f-06bd-11ee-b776-0cc47a39c2c0', 'Taux moyen de renouvellement des équipements numériques ; '),
+('0ca92d28-4be4-11ee-b615-0cc47a39c2c2', '5e209dec-06bd-11ee-b776-0cc47a39c2c0', 'Espace utilisé en moyenne par les utilisateurs ;'),
+('0ca93383-4be4-11ee-b615-0cc47a39c2c2', '5e209dec-06bd-11ee-b776-0cc47a39c2c0', 'Capacité de stockage utilisée par la structure ;'),
+('0ca93812-4be4-11ee-b615-0cc47a39c2c2', '5e209dec-06bd-11ee-b776-0cc47a39c2c0', 'Capacité de stockage/utilisateur ; '),
+('0ca93c2f-4be4-11ee-b615-0cc47a39c2c2', '5e209dec-06bd-11ee-b776-0cc47a39c2c0', 'Volume total de données stockées (en To) ;'),
+('0ca94005-4be4-11ee-b615-0cc47a39c2c2', '5e209dec-06bd-11ee-b776-0cc47a39c2c0', 'Volume total de données par nombre d’utilisateurs ;'),
+('12d783af-4bcc-11ee-b615-0cc47a39c2c2', '5e13858c-06bd-11ee-b776-0cc47a39c2c0', 'Autorisation du recours à la double SIM encadrée via la charte informatique : oui / non ; '),
+('12d789c1-4bcc-11ee-b615-0cc47a39c2c2', '5e13858c-06bd-11ee-b776-0cc47a39c2c0', '% d\'utilisateurs ayant recours à la double SIM ; '),
+('12d78d2d-4bcc-11ee-b615-0cc47a39c2c2', '5e13858c-06bd-11ee-b776-0cc47a39c2c0', '% d’agents équipés d’un smartphone professionnel ; '),
+('13b29a4c-4be2-11ee-b615-0cc47a39c2c2', '5e21974f-06bd-11ee-b776-0cc47a39c2c0', '% de rack confinés ; '),
+('13b29f89-4be2-11ee-b615-0cc47a39c2c2', '5e21974f-06bd-11ee-b776-0cc47a39c2c0', '% du centre de données/de la salle informatique organisé en allées chaudes et allées froides ; '),
+('13b2a4a8-4be2-11ee-b615-0cc47a39c2c2', '5e21974f-06bd-11ee-b776-0cc47a39c2c0', '% des équipements conformes aux exigences ASHRAE ; '),
+('13b2a810-4be2-11ee-b615-0cc47a39c2c2', '5e21974f-06bd-11ee-b776-0cc47a39c2c0', '% d\'équipement acheté avec une efficacité énergétique minimum ; '),
+('13b2aad5-4be2-11ee-b615-0cc47a39c2c2', '5e21974f-06bd-11ee-b776-0cc47a39c2c0', '% des serveurs virtualisés ; '),
+('13b2aeda-4be2-11ee-b615-0cc47a39c2c2', '5e21974f-06bd-11ee-b776-0cc47a39c2c0', '% de serveurs paramétrés ; '),
+('13b2b16b-4be2-11ee-b615-0cc47a39c2c2', '5e21974f-06bd-11ee-b776-0cc47a39c2c0', 'température de consigne ; '),
+('13b2b3e2-4be2-11ee-b615-0cc47a39c2c2', '5e21974f-06bd-11ee-b776-0cc47a39c2c0', '% des centres de données/salles informatiques de la structure utilisant un refroidissement naturel ; '),
+('13b2b659-4be2-11ee-b615-0cc47a39c2c2', '5e21974f-06bd-11ee-b776-0cc47a39c2c0', '% des centres de données/salles informatiques de l\'organisation utilisant d’un refroidissement économe en énergie ; '),
+('13b2b8cd-4be2-11ee-b615-0cc47a39c2c2', '5e21974f-06bd-11ee-b776-0cc47a39c2c0', 'Différents indicateurs de performance environnementale, notamment le PUE (Power Usage Effectiveness, indicateur d\'efficacité énergétique), CUE (Carbone Usage Effectiveness, indicateur d\'impact environ'),
+('13ffa4ed-4be7-11ee-b615-0cc47a39c2c2', '5e1cea54-06bd-11ee-b776-0cc47a39c2c0', 'Utilisation effective du logiciel : oui/non ; '),
+('13ffa98f-4be7-11ee-b615-0cc47a39c2c2', '5e1cea54-06bd-11ee-b776-0cc47a39c2c0', 'Consommation moyenne d\'électricité ; '),
+('13ffaca2-4be7-11ee-b615-0cc47a39c2c2', '5e1cea54-06bd-11ee-b776-0cc47a39c2c0', '% des postes managés via la solution ; '),
+('19bc929b-4bc8-11ee-b615-0cc47a39c2c2', '5e28fe0e-06bd-11ee-b776-0cc47a39c2c0', 'Désignation d\'un DPD auprès de la CNIL pour les structures concernées par l\'obligation : oui/non ;'),
+('19bc980b-4bc8-11ee-b615-0cc47a39c2c2', '5e28fe0e-06bd-11ee-b776-0cc47a39c2c0', 'Registres des traitements, des sous-traitants, ainsi que des demandes d\'exercice de droit des personnes et des violations de données le cas échéant tenus et à jour : oui/non ;'),
+('19bc9deb-4bc8-11ee-b615-0cc47a39c2c2', '5e28fe0e-06bd-11ee-b776-0cc47a39c2c0', 'Application des grands principes : finalité des traitements, pertinence des données collectées, durée de conservation limitée des données, droits des personnes ainsi que sécurité et confidentialité de'),
+('1b381caa-4bd1-11ee-b615-0cc47a39c2c2', '5e1e6525-06bd-11ee-b776-0cc47a39c2c0', '% de papiers recyclés et/ou écolabellisés'),
+('1b3821a6-4bd1-11ee-b615-0cc47a39c2c2', '5e1e6525-06bd-11ee-b776-0cc47a39c2c0', '% de cartouches d\'encre et toner issus du réemploi ou de la réutilisation ; '),
+('1b4d8d9c-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Existence de la documentation : oui / non ; '),
+('1b4d93cc-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Durée de vie moyenne des équipements numériques ;'),
+('1b4d987d-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Durée de vie moyenne des équipements par type ; '),
+('1b4d9d0d-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Durée de vie moyenne des équipements par modèle ; '),
+('1b4da0ff-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Durée effective d’utilisation des matériels ; '),
+('1b4da4c5-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Durée de garantie souscrite (minimum pris en compte à l’achat) ; '),
+('1b4daaec-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Taux de casse par an ;'),
+('1b4dafaa-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', '% de retours SAV ;'),
+('1b4db3cd-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Nombre de réparations réalisées sur une période donnée ; '),
+('1b4db798-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Nombre d\'équipements informatiques remis en état ou à niveau ;'),
+('1b4dbb57-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', '% des DEEE évités par les remises en état / à niveau par rapport au poids total des DEEE générés ;'),
+('1b4dbf0c-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Taux de panne des équipements par modèle et par an ;'),
+('1b4dc2ae-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Taux de remplacement des matériels ; '),
+('1b4dc64e-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Taux de remplacement en lien avec la durée de garantie ; '),
+('1b4dc9e7-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', '% du parc numérique mis à niveau plutôt que renouvelé/durée moyenne de l\'allongement en résultant ; '),
+('1b4dceec-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Nombre, pourcentage et/ou poids des matériels en état qui ont été donnés ou vendus ;'),
+('1b4dd2af-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Présence d\'une stratégie de décommissionnement des équipements numériques : oui / non'),
+('1b4dd646-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Présence d\'une stratégie de décommissionnement des services numériques : oui / non'),
+('1b4dd9d9-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Indice de réparabilité des équipements numériques acquis ; '),
+('1b4ddd6c-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', '% du parc numérique issu du réemploi ou de la réutilisation ou contenant des matériaux recyclés ;'),
+('1b4de100-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', '% de solutions logicielles et applications écoconçues ; '),
+('1b4de497-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', '% d\'équipements numériques écolabellisés ; '),
+('1b4de830-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', '% d\'équipements numériques loués ; '),
+('1b4debc1-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Quantité qu\'équipements numériques non-attribués '),
+('1b4def54-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Taux d\'équipement moyen des utilisateurs ;'),
+('1b4df2da-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Nombre moyen d’écrans par utilisateur ;'),
+('1b4df724-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Taille moyenne des écrans ; '),
+('1b4dfac2-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Durée moyenne de stockage des équipements ; '),
+('1b4dfe4e-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', '% d’agents équipés d’un smartphone/téléphone professionnel ; '),
+('1b4e01e1-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', '% d\'utilisateurs ayant recours à la pratique du BYOD ; '),
+('1b4e05d5-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', '% d\'utilisateurs ayant recours à la double SIM ; '),
+('1b4e0973-4bd3-11ee-b615-0cc47a39c2c2', '10025f8d-09ba-11ee-b881-0cc47a39c2c2', 'Taux moyen de renouvellement des équipements numériques ; '),
+('1cb1b45b-4be4-11ee-b615-0cc47a39c2c2', '5e2a26cd-06bd-11ee-b776-0cc47a39c2c0', 'Homologation RGS réalisée : oui/non ; '),
+('1d94b9e5-4bc3-11ee-b615-0cc47a39c2c2', '5e0d96a4-06bd-11ee-b776-0cc47a39c2c0', '% d\'électricité issue d\'énergies primaires renouvelables ;'),
+('25a72232-4bcf-11ee-b615-0cc47a39c2c2', '5e13362e-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('25a72727-4bcf-11ee-b615-0cc47a39c2c2', '5e13362e-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ; '),
+('25a72afe-4bcf-11ee-b615-0cc47a39c2c2', '5e13362e-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ; '),
+('25a72fbc-4bcf-11ee-b615-0cc47a39c2c2', '5e13362e-06bd-11ee-b776-0cc47a39c2c0', 'Durée effective d’utilisation des matériels ; '),
+('25a732e9-4bcf-11ee-b615-0cc47a39c2c2', '5e13362e-06bd-11ee-b776-0cc47a39c2c0', '% équipements protégés ;'),
+('25a73671-4bcf-11ee-b615-0cc47a39c2c2', '5e13362e-06bd-11ee-b776-0cc47a39c2c0', 'Taux de casse par an ;'),
+('25a73aaa-4bcf-11ee-b615-0cc47a39c2c2', '5e13362e-06bd-11ee-b776-0cc47a39c2c0', '% de retours SAV ;'),
+('25a73d27-4bcf-11ee-b615-0cc47a39c2c2', '5e13362e-06bd-11ee-b776-0cc47a39c2c0', 'Nombre de réparations réalisées sur une période donnée ; '),
+('25a73f81-4bcf-11ee-b615-0cc47a39c2c2', '5e13362e-06bd-11ee-b776-0cc47a39c2c0', 'Taux de panne des équipements par modèle et par an ;'),
+('25a7427f-4bcf-11ee-b615-0cc47a39c2c2', '5e13362e-06bd-11ee-b776-0cc47a39c2c0', 'Taux de remplacement des matériels ; '),
+('25a744ee-4bcf-11ee-b615-0cc47a39c2c2', '5e13362e-06bd-11ee-b776-0cc47a39c2c0', 'Taux moyen de renouvellement des équipements numériques ; '),
+('293af814-4be7-11ee-b615-0cc47a39c2c2', '4eddb6c8-09ba-11ee-b881-0cc47a39c2c2', 'Différents indicateurs de performance environnementale, notamment le PUE (Power Usage Effectiveness, indicateur d\'efficacité énergétique), CUE (Carbone Usage Effectiveness, indicateur d\'impact environ'),
+('2ce3f497-4bd4-11ee-b615-0cc47a39c2c2', '5e27dd50-06bd-11ee-b776-0cc47a39c2c0', 'Objectifs liés aux achats numériques : oui/non ; '),
+('2ce3fa0a-4bd4-11ee-b615-0cc47a39c2c2', '5e27dd50-06bd-11ee-b776-0cc47a39c2c0', 'Documentation mise en place : oui/non ;'),
+('2f5c593e-4bc5-11ee-b615-0cc47a39c2c2', '5e26131f-06bd-11ee-b776-0cc47a39c2c0', 'Impact environnemental/score des services numériques'),
+('31e12155-4be3-11ee-b615-0cc47a39c2c2', '5e1988a3-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('31e126c7-4be3-11ee-b615-0cc47a39c2c2', '5e1988a3-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ; '),
+('31e12a02-4be3-11ee-b615-0cc47a39c2c2', '5e1988a3-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ; '),
+('31e12d47-4be3-11ee-b615-0cc47a39c2c2', '5e1988a3-06bd-11ee-b776-0cc47a39c2c0', 'Durée effective d’utilisation des matériels ; '),
+('31e130de-4be3-11ee-b615-0cc47a39c2c2', '5e1988a3-06bd-11ee-b776-0cc47a39c2c0', 'Taux moyen de renouvellement des équipements numériques ; '),
+('31e133a7-4be3-11ee-b615-0cc47a39c2c2', '5e1988a3-06bd-11ee-b776-0cc47a39c2c0', '% du parc numérique mis à niveau plutôt que renouvelé/durée moyenne de l\'allongement en résultant ; '),
+('32435f8d-4bca-11ee-b615-0cc47a39c2c2', '5e13d5b9-06bd-11ee-b776-0cc47a39c2c0', 'Documentation mise en place : oui/non ;'),
+('345611a6-4bd1-11ee-b615-0cc47a39c2c2', '5e1c617d-06bd-11ee-b776-0cc47a39c2c0', 'Outils mis en place : oui/non ;'),
+('3510a8f5-4bcc-11ee-b615-0cc47a39c2c2', '5e287524-06bd-11ee-b776-0cc47a39c2c0', 'DAS moyen du parc en Watts / kg ;'),
+('36c11bd2-4bce-11ee-b615-0cc47a39c2c2', '5e16c38b-06bd-11ee-b776-0cc47a39c2c0', 'Nombre moyen de téléphones fixes par utilisateur ; '),
+('36c12164-4bce-11ee-b615-0cc47a39c2c2', '5e16c38b-06bd-11ee-b776-0cc47a39c2c0', 'Nombre moyen de téléphones portables par utilisateur ; '),
+('36c12593-4bce-11ee-b615-0cc47a39c2c2', '5e16c38b-06bd-11ee-b776-0cc47a39c2c0', '% d’agents équipés d’un smartphone professionnel ;'),
+('41a81163-4be4-11ee-b615-0cc47a39c2c2', '5e15dfe9-06bd-11ee-b776-0cc47a39c2c0', 'Nombre moyen d’écrans par utilisateur ;'),
+('41a81665-4be4-11ee-b615-0cc47a39c2c2', '5e15dfe9-06bd-11ee-b776-0cc47a39c2c0', 'Taille moyenne des écrans ;'),
+('4388f991-4bcb-11ee-b615-0cc47a39c2c2', '5e1597fd-06bd-11ee-b776-0cc47a39c2c0', 'Existence de la documentation : oui/non ; '),
+('4388ff31-4bcb-11ee-b615-0cc47a39c2c2', '5e1597fd-06bd-11ee-b776-0cc47a39c2c0', 'Quantité qu\'équipements numériques non-attribués ;'),
+('438903e1-4bcb-11ee-b615-0cc47a39c2c2', '5e1597fd-06bd-11ee-b776-0cc47a39c2c0', 'Taux d\'équipement moyen des utilisateurs ;'),
+('438906f9-4bcb-11ee-b615-0cc47a39c2c2', '5e1597fd-06bd-11ee-b776-0cc47a39c2c0', 'Nombre d’écrans par utilisateur ;'),
+('438909d6-4bcb-11ee-b615-0cc47a39c2c2', '5e1597fd-06bd-11ee-b776-0cc47a39c2c0', 'Taille moyenne des écrans ; '),
+('43890ed5-4bcb-11ee-b615-0cc47a39c2c2', '5e1597fd-06bd-11ee-b776-0cc47a39c2c0', '% d’équipements en stock ;'),
+('43891106-4bcb-11ee-b615-0cc47a39c2c2', '5e1597fd-06bd-11ee-b776-0cc47a39c2c0', 'Durée moyenne de stockage des équipements ;'),
+('43891335-4bcb-11ee-b615-0cc47a39c2c2', '5e1597fd-06bd-11ee-b776-0cc47a39c2c0', '% d’agents équipés d’un smartphone/téléphone professionnel ;'),
+('44a4122d-4bcc-11ee-b615-0cc47a39c2c2', '5e0b9f13-06bd-11ee-b776-0cc47a39c2c0', 'Documentation mise en place : oui/non ; '),
+('4b1069ae-4bc9-11ee-b615-0cc47a39c2c2', '5e0af297-06bd-11ee-b776-0cc47a39c2c0', 'Désignation réalisée : oui/non ; '),
+('4e53390a-4bc7-11ee-b615-0cc47a39c2c2', '5e176a1a-06bd-11ee-b776-0cc47a39c2c0', 'Nombre d\'agents et autres personnels, ainsi que d\'élus et autres membres des instances délibérantes sensibilisés ;'),
+('4e533d25-4bc7-11ee-b615-0cc47a39c2c2', '5e176a1a-06bd-11ee-b776-0cc47a39c2c0', ' Sensibilisation sur les impacts environnementaux du numérique des nouveaux arrivants dans l\'organisation : oui / non ;'),
+('4f9e2bad-4bc2-11ee-b615-0cc47a39c2c2', '5e2018ad-06bd-11ee-b776-0cc47a39c2c0', 'Espace utilisé en moyenne par les utilisateurs ;'),
+('4f9e308a-4bc2-11ee-b615-0cc47a39c2c2', '5e2018ad-06bd-11ee-b776-0cc47a39c2c0', 'Capacité de stockage utilisée par la structure ;'),
+('4f9e34df-4bc2-11ee-b615-0cc47a39c2c2', '5e2018ad-06bd-11ee-b776-0cc47a39c2c0', 'Capacité de stockage/utilisateur ; '),
+('4f9e37e5-4bc2-11ee-b615-0cc47a39c2c2', '5e2018ad-06bd-11ee-b776-0cc47a39c2c0', 'Volume total de données stockées (en To) ;'),
+('4f9e3ac9-4bc2-11ee-b615-0cc47a39c2c2', '5e2018ad-06bd-11ee-b776-0cc47a39c2c0', 'Volume total de données par nombre d’utilisateurs ;'),
+('519f2941-4be4-11ee-b615-0cc47a39c2c2', '5e2bcda7-06bd-11ee-b776-0cc47a39c2c0', 'Respect des obligations : oui/non ; '),
+('51e30693-4bc3-11ee-b615-0cc47a39c2c2', '5e14be3b-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('51e30d42-4bc3-11ee-b615-0cc47a39c2c2', '5e14be3b-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ;'),
+('51e3111d-4bc3-11ee-b615-0cc47a39c2c2', '5e14be3b-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ;'),
+('56887b44-4be6-11ee-b615-0cc47a39c2c2', '10026bd4-09ba-11ee-b881-0cc47a39c2c2', 'Espace utilisé en moyenne par les utilisateurs ;'),
+('5688802b-4be6-11ee-b615-0cc47a39c2c2', '10026bd4-09ba-11ee-b881-0cc47a39c2c2', 'Capacité de stockage utilisée par la structure ;'),
+('56888362-4be6-11ee-b615-0cc47a39c2c2', '10026bd4-09ba-11ee-b881-0cc47a39c2c2', 'Capacité de stockage/utilisateur ; '),
+('5688879c-4be6-11ee-b615-0cc47a39c2c2', '10026bd4-09ba-11ee-b881-0cc47a39c2c2', 'Volume total de données stockées (en To) ;'),
+('56888ad7-4be6-11ee-b615-0cc47a39c2c2', '10026bd4-09ba-11ee-b881-0cc47a39c2c2', 'Volume total de données par nombre d’utilisateurs ;'),
+('5a7dc7e5-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('5a7dcdc5-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ; '),
+('5a7dd18d-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ; '),
+('5a7dd41f-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Durée effective d’utilisation des matériels ; '),
+('5a7dd691-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Durée de garantie souscrite (minimum pris en compte à l’achat) ; '),
+('5a7dd99f-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Taux de remplacement des matériels ; '),
+('5a7ddbe5-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Taux de remplacement en lien avec la durée de garantie ; '),
+('5a7ddf81-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Indice de réparabilité des équipements numériques acquis ; '),
+('5a7de1f1-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', '% du parc numérique issu du réemploi ou de la réutilisation ou contenant des matériaux recyclés ;'),
+('5a7de454-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', '% des achats annuels HT des catégories de produits concernés ; '),
+('5a7de6ca-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', '% de solutions logicielles et applications écoconçues ; '),
+('5a7deb9a-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', '% d\'équipements numériques écolabellisés ; '),
+('5a7dee6a-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Clauses intégrées dans le cadre des marchés numériques : oui/non'),
+('5a7df106-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', '% d\'équipements numériques loués ; '),
+('5a7df3a2-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Objectifs liés aux achats numériques : oui/non ;'),
+('5a7df6c7-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Quantité qu\'équipements numériques non-attribués ; '),
+('5a7dfa6e-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Taux d\'équipement moyen des utilisateurs ;'),
+('5a7dfcc4-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Nombre d’écrans par utilisateur ;'),
+('5a7dff20-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Taille moyenne des écrans ; '),
+('5a7e0219-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Durée moyenne de stockage des équipements ; '),
+('5a7e0459-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', '% d’agents équipés d’un smartphone/téléphone professionnel ; '),
+('5a7e0698-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Taux moyen de renouvellement des équipements numériques ; '),
+('5a7e08df-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Taux de matériels non renouvelés car redondants ; '),
+('5a7e0b16-4bd2-11ee-b615-0cc47a39c2c2', '5e11627e-06bd-11ee-b776-0cc47a39c2c0', 'Consommation d\'électricité moyenne ; '),
+('5ffb7773-4be1-11ee-b615-0cc47a39c2c2', '5e1b9e62-06bd-11ee-b776-0cc47a39c2c0', '% des équipements effectivement éteints en dehors des heures d’utilisation ; '),
+('5ffb7bf5-4be1-11ee-b615-0cc47a39c2c2', '5e1b9e62-06bd-11ee-b776-0cc47a39c2c0', 'Consommation d\'électricité moyenne ; '),
+('5ffb7eea-4be1-11ee-b615-0cc47a39c2c2', '5e1b9e62-06bd-11ee-b776-0cc47a39c2c0', 'Part du SI dans la consommation totale d\'énergie ;'),
+('644ed8e7-4bc9-11ee-b615-0cc47a39c2c2', '5e0b2b43-06bd-11ee-b776-0cc47a39c2c0', 'Présence dans l\'organisation d\'une personne déléguée ou référente au numérique responsable : oui / non ;'),
+('644edf7c-4bc9-11ee-b615-0cc47a39c2c2', '5e0b2b43-06bd-11ee-b776-0cc47a39c2c0', 'Place dans l\'organigramme de cette personne ; '),
+('644ee35d-4bc9-11ee-b615-0cc47a39c2c2', '5e0b2b43-06bd-11ee-b776-0cc47a39c2c0', 'Charge dédiée au référent \"Sobriété numérique\" (% ETP) ;'),
+('66a0a631-4bc5-11ee-b615-0cc47a39c2c2', '5e29e7fe-06bd-11ee-b776-0cc47a39c2c0', 'Actions sur la sécurité informatique : oui/non'),
+('66a0abec-4bc5-11ee-b615-0cc47a39c2c2', '5e29e7fe-06bd-11ee-b776-0cc47a39c2c0', 'Nombre d\'attaques cyber subies/détectées'),
+('66f48145-0e29-11f0-97c8-0242ac110004', '5e11ca07-06bd-11ee-b776-0cc47a39c2c0', '% de papiers recyclés et/ou écolabellisés'),
+('66f49482-0e29-11f0-97c8-0242ac110004', '5e11ca07-06bd-11ee-b776-0cc47a39c2c0', '% de cartouches d\'encre et toner issus du réemploi ou de la réutilisation ;'),
+('670054ae-4bd4-11ee-b615-0cc47a39c2c2', '5e0d4df5-06bd-11ee-b776-0cc47a39c2c0', 'Consommation d\'électricité moyenne ; '),
+('670058fa-4bd4-11ee-b615-0cc47a39c2c2', '5e0d4df5-06bd-11ee-b776-0cc47a39c2c0', 'Part du SI dans la consommation totale d\'énergie ;'),
+('6aaa9171-4bcc-11ee-b615-0cc47a39c2c2', '5e1b49da-06bd-11ee-b776-0cc47a39c2c0', 'Nombre de personnes formées ; '),
+('6aaa95f6-4bcc-11ee-b615-0cc47a39c2c2', '5e1b49da-06bd-11ee-b776-0cc47a39c2c0', 'Certificat de formation ou de connaissances des personnes chargées de la démarche ;'),
+('6b04f762-4bca-11ee-b615-0cc47a39c2c2', '100259dd-09ba-11ee-b881-0cc47a39c2c2', 'Durée de vie moyenne des équipements numériques ;'),
+('6b04fb3a-4bca-11ee-b615-0cc47a39c2c2', '100259dd-09ba-11ee-b881-0cc47a39c2c2', 'Durée de vie moyenne des équipements par type ; '),
+('6b04fee9-4bca-11ee-b615-0cc47a39c2c2', '100259dd-09ba-11ee-b881-0cc47a39c2c2', 'Durée de vie moyenne des équipements par modèle ; '),
+('6b050184-4bca-11ee-b615-0cc47a39c2c2', '100259dd-09ba-11ee-b881-0cc47a39c2c2', 'Documentation mise en place : oui/non ;'),
+('6c2968ec-4be5-11ee-b615-0cc47a39c2c2', '5e22ab8f-06bd-11ee-b776-0cc47a39c2c0', 'Espace utilisé en moyenne par les utilisateurs ;'),
+('6c296e49-4be5-11ee-b615-0cc47a39c2c2', '5e22ab8f-06bd-11ee-b776-0cc47a39c2c0', 'Capacité de stockage utilisée par la structure ;'),
+('6c297327-4be5-11ee-b615-0cc47a39c2c2', '5e22ab8f-06bd-11ee-b776-0cc47a39c2c0', 'Capacité de stockage/utilisateur ; '),
+('6c29765d-4be5-11ee-b615-0cc47a39c2c2', '5e22ab8f-06bd-11ee-b776-0cc47a39c2c0', 'Volume total de données stockées (en To) ;'),
+('6c2978c7-4be5-11ee-b615-0cc47a39c2c2', '5e22ab8f-06bd-11ee-b776-0cc47a39c2c0', 'Volume total de données par nombre d’utilisateurs ;'),
+('705cae1e-4bcb-11ee-b615-0cc47a39c2c2', '5e1f0544-06bd-11ee-b776-0cc47a39c2c0', 'Documentation mise en place : oui / non ; '),
+('705cb566-4bcb-11ee-b615-0cc47a39c2c2', '5e1f0544-06bd-11ee-b776-0cc47a39c2c0', 'Quantité de DEEE collectés/traités ; '),
+('705cba43-4bcb-11ee-b615-0cc47a39c2c2', '5e1f0544-06bd-11ee-b776-0cc47a39c2c0', 'Poids des DEEE confiés aux éco-organismes ; \r\n'),
+('705cbdcc-4bcb-11ee-b615-0cc47a39c2c2', '5e1f0544-06bd-11ee-b776-0cc47a39c2c0', '% des DEEE confiés aux éco-organismes par rapport au poids total des DEEE générés ; '),
+('705cc147-4bcb-11ee-b615-0cc47a39c2c2', '5e1f0544-06bd-11ee-b776-0cc47a39c2c0', 'Poids des matières recyclées à l’issue des opérations gérées par les éco-organisme ; '),
+('705cc488-4bcb-11ee-b615-0cc47a39c2c2', '5e1f0544-06bd-11ee-b776-0cc47a39c2c0', 'Poids des DEEE valorisés en énergie ou en substitution ;'),
+('76e35daf-4bc3-11ee-b615-0cc47a39c2c2', '5e147765-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('76e363d3-4bc3-11ee-b615-0cc47a39c2c2', '5e147765-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ;'),
+('76e36708-4bc3-11ee-b615-0cc47a39c2c2', '5e147765-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ;'),
+('79bfe230-4be2-11ee-b615-0cc47a39c2c2', '5e129146-06bd-11ee-b776-0cc47a39c2c0', '% de papiers recyclés et/ou écolabellisés ;'),
+('7d05bcaf-4be3-11ee-b615-0cc47a39c2c2', '5e123aa5-06bd-11ee-b776-0cc47a39c2c0', '% de papiers recyclés et/ou écolabellisés ;'),
+('7fb999c1-4bd5-11ee-b615-0cc47a39c2c2', '5e0c6b0d-06bd-11ee-b776-0cc47a39c2c0', 'Documentation mise en place : oui / non ; '),
+('7fb99f4d-4bd5-11ee-b615-0cc47a39c2c2', '5e0c6b0d-06bd-11ee-b776-0cc47a39c2c0', 'Suivi d’indicateurs de pilotage : oui / non ;'),
+('7ff40763-4be5-11ee-b615-0cc47a39c2c2', '5e2474eb-06bd-11ee-b776-0cc47a39c2c0', 'Consommation d\'électricité moyenne ; '),
+('7ff40c66-4be5-11ee-b615-0cc47a39c2c2', '5e2474eb-06bd-11ee-b776-0cc47a39c2c0', 'Part du SI dans la consommation totale d\'énergie ;'),
+('81217295-4bc8-11ee-b615-0cc47a39c2c2', '5e274443-06bd-11ee-b776-0cc47a39c2c0', 'Charte graphique intégrant la notion de sobriété numérique : oui/non ; '),
+('838f5c89-4bd1-11ee-b615-0cc47a39c2c2', '5e1d9f54-06bd-11ee-b776-0cc47a39c2c0', 'Outils mis en place : oui/non ;'),
+('838f64fb-4bd1-11ee-b615-0cc47a39c2c2', '5e1d9f54-06bd-11ee-b776-0cc47a39c2c0', 'Quantité moyenne de GES, consommation en eau et énergie primaire, épuisement des ressources abiotiques générés par le parc numérique de la structure ; '),
+('838f690b-4bd1-11ee-b615-0cc47a39c2c2', '5e1d9f54-06bd-11ee-b776-0cc47a39c2c0', 'Part du SI dans l\'impact environnemental global ;'),
+('85a884a5-4bcb-11ee-b615-0cc47a39c2c2', '5e142565-06bd-11ee-b776-0cc47a39c2c0', 'Présence d\'une stratégie de décommissionnement des équipements numériques : oui / non ; '),
+('8796e6da-4bd0-11ee-b615-0cc47a39c2c2', '5e2307bd-06bd-11ee-b776-0cc47a39c2c0', 'Nombre de courriels reçus par mois ; '),
+('8796ee09-4bd0-11ee-b615-0cc47a39c2c2', '5e2307bd-06bd-11ee-b776-0cc47a39c2c0', 'Nombre de courriels envoyés par mois ; '),
+('8796f1e3-4bd0-11ee-b615-0cc47a39c2c2', '5e2307bd-06bd-11ee-b776-0cc47a39c2c0', 'Poids moyen des courriels ; '),
+('8796f5a1-4bd0-11ee-b615-0cc47a39c2c2', '5e2307bd-06bd-11ee-b776-0cc47a39c2c0', 'Volume moyen utilisé de la boîte mail ; '),
+('8796f9b3-4bd0-11ee-b615-0cc47a39c2c2', '5e2307bd-06bd-11ee-b776-0cc47a39c2c0', 'Espace utilisé en moyenne par les utilisateurs ;'),
+('8796fc21-4bd0-11ee-b615-0cc47a39c2c2', '5e2307bd-06bd-11ee-b776-0cc47a39c2c0', 'Capacité de stockage utilisée par la structure ;'),
+('8796fe86-4bd0-11ee-b615-0cc47a39c2c2', '5e2307bd-06bd-11ee-b776-0cc47a39c2c0', 'Capacité de stockage/utilisateur ; '),
+('87970142-4bd0-11ee-b615-0cc47a39c2c2', '5e2307bd-06bd-11ee-b776-0cc47a39c2c0', 'Volume total de données stockées (en To) ;'),
+('8797041c-4bd0-11ee-b615-0cc47a39c2c2', '5e2307bd-06bd-11ee-b776-0cc47a39c2c0', 'Volume total de données par nombre d’utilisateurs ;'),
+('88dc19d3-4bca-11ee-b615-0cc47a39c2c2', '100256a2-09ba-11ee-b881-0cc47a39c2c2', 'Durée de vie moyenne des équipements numériques ; '),
+('88dc1dea-4bca-11ee-b615-0cc47a39c2c2', '100256a2-09ba-11ee-b881-0cc47a39c2c2', 'Durée de vie moyenne des équipements par type ; '),
+('88dc209b-4bca-11ee-b615-0cc47a39c2c2', '100256a2-09ba-11ee-b881-0cc47a39c2c2', 'Durée de vie moyenne des équipements par modèle ;'),
+('88dc22de-4bca-11ee-b615-0cc47a39c2c2', '100256a2-09ba-11ee-b881-0cc47a39c2c2', 'Documentation mise en place : oui/non ;'),
+('8ac3b854-4be1-11ee-b615-0cc47a39c2c2', '036c12fc-4b00-11ee-b615-0cc47a39c2c2', 'Nombre moyen d\'impressions/utilisateur sur une période donnée ;'),
+('8ac3bd7d-4be1-11ee-b615-0cc47a39c2c2', '036c12fc-4b00-11ee-b615-0cc47a39c2c2', 'Nombre de feuilles, toner et cartouches d\'encre consommés ; '),
+('8ac3c494-4be1-11ee-b615-0cc47a39c2c2', '036c12fc-4b00-11ee-b615-0cc47a39c2c2', 'Quantité de papier collectée/recyclée ; '),
+('8ac3c7e9-4be1-11ee-b615-0cc47a39c2c2', '036c12fc-4b00-11ee-b615-0cc47a39c2c2', '% du poids du papier collecté par rapport au poids du papier acheté ; '),
+('8ac3cabc-4be1-11ee-b615-0cc47a39c2c2', '036c12fc-4b00-11ee-b615-0cc47a39c2c2', 'Durée de vie moyenne des imprimantes, scanners ; '),
+('94c0a5e4-4bc8-11ee-b615-0cc47a39c2c2', '5e0bd836-06bd-11ee-b776-0cc47a39c2c0', 'Engagements rendus publics : oui/non ; '),
+('97674e23-4be6-11ee-b615-0cc47a39c2c2', '5e1116b4-06bd-11ee-b776-0cc47a39c2c0', 'Indice de réparabilité des équipements numériques acquis ; '),
+('976754c3-4be6-11ee-b615-0cc47a39c2c2', '5e1116b4-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('9767584f-4be6-11ee-b615-0cc47a39c2c2', '5e1116b4-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ; '),
+('97675b45-4be6-11ee-b615-0cc47a39c2c2', '5e1116b4-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ; '),
+('97675e04-4be6-11ee-b615-0cc47a39c2c2', '5e1116b4-06bd-11ee-b776-0cc47a39c2c0', 'Durée effective d’utilisation des matériels ; '),
+('976760a5-4be6-11ee-b615-0cc47a39c2c2', '5e1116b4-06bd-11ee-b776-0cc47a39c2c0', 'Nombre de réparations réalisées sur une période donnée ;'),
+('976763de-4be6-11ee-b615-0cc47a39c2c2', '5e1116b4-06bd-11ee-b776-0cc47a39c2c0', 'Nombre d\'équipements informatiques remis en état ou à niveau ;'),
+('9767668e-4be6-11ee-b615-0cc47a39c2c2', '5e1116b4-06bd-11ee-b776-0cc47a39c2c0', '% des DEEE évités par les remises en état / à niveau par rapport au poids total des DEEE générés ;'),
+('9767692c-4be6-11ee-b615-0cc47a39c2c2', '5e1116b4-06bd-11ee-b776-0cc47a39c2c0', 'Taux de panne des équipements par modèle et par an ;'),
+('97676bc9-4be6-11ee-b615-0cc47a39c2c2', '5e1116b4-06bd-11ee-b776-0cc47a39c2c0', 'Taux de remplacement des matériels ; '),
+('983b66ff-4bc3-11ee-b615-0cc47a39c2c2', '5e21f181-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('983b6d0e-4bc3-11ee-b615-0cc47a39c2c2', '5e21f181-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ;'),
+('983b706d-4bc3-11ee-b615-0cc47a39c2c2', '5e21f181-06bd-11ee-b776-0cc47a39c2c0', 'Durée effective d’utilisation des matériels ;'),
+('a3852c7d-4bc5-11ee-b615-0cc47a39c2c2', '5e23c64a-06bd-11ee-b776-0cc47a39c2c0', 'Existence de la documentation : oui/non ; '),
+('a3853098-4bc5-11ee-b615-0cc47a39c2c2', '5e23c64a-06bd-11ee-b776-0cc47a39c2c0', 'Quantité qu\'équipements numériques non-attribués'),
+('a3853420-4bc5-11ee-b615-0cc47a39c2c2', '5e23c64a-06bd-11ee-b776-0cc47a39c2c0', 'Taux d\'équipement moyen des utilisateurs ;'),
+('a38536e8-4bc5-11ee-b615-0cc47a39c2c2', '5e23c64a-06bd-11ee-b776-0cc47a39c2c0', 'Nombre d’écrans par utilisateur ;'),
+('a3853968-4bc5-11ee-b615-0cc47a39c2c2', '5e23c64a-06bd-11ee-b776-0cc47a39c2c0', 'Taille moyenne des écrans ;'),
+('a3853baa-4bc5-11ee-b615-0cc47a39c2c2', '5e23c64a-06bd-11ee-b776-0cc47a39c2c0', '% d’équipements en stock ;'),
+('a3853dc7-4bc5-11ee-b615-0cc47a39c2c2', '5e23c64a-06bd-11ee-b776-0cc47a39c2c0', 'Durée moyenne de stockage des équipements ;'),
+('a385406b-4bc5-11ee-b615-0cc47a39c2c2', '5e23c64a-06bd-11ee-b776-0cc47a39c2c0', '% d’agents équipés d’un smartphone/téléphone professionnel ;'),
+('a402658b-4bcb-11ee-b615-0cc47a39c2c2', '100251a8-09ba-11ee-b881-0cc47a39c2c2', 'Présence d\'une stratégie de décommissionnement des services numériques : oui / non ; '),
+('a4dcc1d0-4bca-11ee-b615-0cc47a39c2c2', '10027220-09ba-11ee-b881-0cc47a39c2c2', 'Durée de vie moyenne des équipements numériques ;'),
+('a4dcc711-4bca-11ee-b615-0cc47a39c2c2', '10027220-09ba-11ee-b881-0cc47a39c2c2', 'Durée de vie moyenne des équipements par modèle ;'),
+('a4dcc9dc-4bca-11ee-b615-0cc47a39c2c2', '10027220-09ba-11ee-b881-0cc47a39c2c2', 'Durée effective d’utilisation des matériels ; '),
+('a51da9cc-4be6-11ee-b615-0cc47a39c2c2', '5e0d053a-06bd-11ee-b776-0cc47a39c2c0', 'Documentation mise en place : oui/non ;'),
+('a66493fb-4be1-11ee-b615-0cc47a39c2c2', '5e12e526-06bd-11ee-b776-0cc47a39c2c0', '% de cartouches d\'encre et toner issus du réemploi ou de la réutilisation ; '),
+('a664994d-4be1-11ee-b615-0cc47a39c2c2', '5e12e526-06bd-11ee-b776-0cc47a39c2c0', 'Quantité de cartouches d\'encre/toner consommés ; '),
+('aae9c9a2-4bc9-11ee-b615-0cc47a39c2c2', '5e0e7cd4-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('aae9d0ac-4bc9-11ee-b615-0cc47a39c2c2', '5e0e7cd4-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ;'),
+('aae9d3b2-4bc9-11ee-b615-0cc47a39c2c2', '5e0e7cd4-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ;'),
+('aae9d65e-4bc9-11ee-b615-0cc47a39c2c2', '5e0e7cd4-06bd-11ee-b776-0cc47a39c2c0', 'Durée effective d’utilisation des matériels ;'),
+('aae9d8ec-4bc9-11ee-b615-0cc47a39c2c2', '5e0e7cd4-06bd-11ee-b776-0cc47a39c2c0', 'Taux de remplacement des matériels ; '),
+('aae9db6f-4bc9-11ee-b615-0cc47a39c2c2', '5e0e7cd4-06bd-11ee-b776-0cc47a39c2c0', 'Quantité qu\'équipements numériques non-attribués ;'),
+('aae9de83-4bc9-11ee-b615-0cc47a39c2c2', '5e0e7cd4-06bd-11ee-b776-0cc47a39c2c0', 'Durée moyenne de stockage des équipements ;'),
+('aae9e22d-4bc9-11ee-b615-0cc47a39c2c2', '5e0e7cd4-06bd-11ee-b776-0cc47a39c2c0', 'Taux moyen de renouvellement des équipements numériques ;'),
+('ac3b01f5-4be0-11ee-b615-0cc47a39c2c2', '4eddae39-09ba-11ee-b881-0cc47a39c2c2', 'Espace utilisé en moyenne par les utilisateurs ;'),
+('ac3b0927-4be0-11ee-b615-0cc47a39c2c2', '4eddae39-09ba-11ee-b881-0cc47a39c2c2', 'Capacité de stockage utilisée par la structure ;'),
+('ac3b0cb6-4be0-11ee-b615-0cc47a39c2c2', '4eddae39-09ba-11ee-b881-0cc47a39c2c2', 'Capacité de stockage/utilisateur ; '),
+('ac3b113f-4be0-11ee-b615-0cc47a39c2c2', '4eddae39-09ba-11ee-b881-0cc47a39c2c2', 'Volume total de données stockées (en To) ;'),
+('ac3b13d5-4be0-11ee-b615-0cc47a39c2c2', '4eddae39-09ba-11ee-b881-0cc47a39c2c2', 'Volume total de données par nombre d’utilisateurs ;'),
+('b087ef9b-4be3-11ee-b615-0cc47a39c2c2', '5e24dd53-06bd-11ee-b776-0cc47a39c2c0', '% d\'équipements numériques loués ; '),
+('b4ccb979-4bd0-11ee-b615-0cc47a39c2c2', '5e1e096e-06bd-11ee-b776-0cc47a39c2c0', '% du parc numérique issu du réemploi ou de la réutilisation ou contenant des matériaux recyclés ;'),
+('b4ccbdcc-4bd0-11ee-b615-0cc47a39c2c2', '5e1e096e-06bd-11ee-b776-0cc47a39c2c0', '% des achats annuels HT des catégories de produits concernés ; '),
+('b4ccc094-4bd0-11ee-b615-0cc47a39c2c2', '5e1e096e-06bd-11ee-b776-0cc47a39c2c0', '% de solutions logicielles et applications écoconçues ; '),
+('b4ccc304-4bd0-11ee-b615-0cc47a39c2c2', '5e1e096e-06bd-11ee-b776-0cc47a39c2c0', '% d\'équipements numériques écolabellisés ; '),
+('b4ccc5e7-4bd0-11ee-b615-0cc47a39c2c2', '5e1e096e-06bd-11ee-b776-0cc47a39c2c0', 'Clauses intégrées dans le cadre des marchés numériques : oui/non'),
+('b4ccc811-4bd0-11ee-b615-0cc47a39c2c2', '5e1e096e-06bd-11ee-b776-0cc47a39c2c0', '% d\'équipements numériques loués ; '),
+('b4ccca36-4bd0-11ee-b615-0cc47a39c2c2', '5e1e096e-06bd-11ee-b776-0cc47a39c2c0', 'Objectifs liés aux achats numériques : oui/non'),
+('b4cccc5c-4bd0-11ee-b615-0cc47a39c2c2', '5e1e096e-06bd-11ee-b776-0cc47a39c2c0', 'Indice de réparabilité des équipements numériques acquis ; '),
+('b4ccce86-4bd0-11ee-b615-0cc47a39c2c2', '5e1e096e-06bd-11ee-b776-0cc47a39c2c0', 'Durée de garantie souscrite (minimum pris en compte à l’achat) ;'),
+('b705615b-4bd4-11ee-b615-0cc47a39c2c2', '5e1a440e-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('b705660f-4bd4-11ee-b615-0cc47a39c2c2', '5e1a440e-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ; '),
+('b7056917-4bd4-11ee-b615-0cc47a39c2c2', '5e1a440e-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ; '),
+('b7056bb9-4bd4-11ee-b615-0cc47a39c2c2', '5e1a440e-06bd-11ee-b776-0cc47a39c2c0', 'Durée effective d’utilisation des matériels ; '),
+('b7056f8e-4bd4-11ee-b615-0cc47a39c2c2', '5e1a440e-06bd-11ee-b776-0cc47a39c2c0', 'Nombre d\'équipements informatiques remis en état ou à niveau ;'),
+('b7057277-4bd4-11ee-b615-0cc47a39c2c2', '5e1a440e-06bd-11ee-b776-0cc47a39c2c0', '% des DEEE évités par les remises en état / à niveau par rapport au poids total des DEEE générés ;'),
+('b705751e-4bd4-11ee-b615-0cc47a39c2c2', '5e1a440e-06bd-11ee-b776-0cc47a39c2c0', 'Taux de remplacement des matériels ; '),
+('b70577af-4bd4-11ee-b615-0cc47a39c2c2', '5e1a440e-06bd-11ee-b776-0cc47a39c2c0', '% du parc numérique mis à niveau plutôt que renouvelé/durée moyenne de l\'allongement en résultant ; '),
+('b7057b99-4bd4-11ee-b615-0cc47a39c2c2', '5e1a440e-06bd-11ee-b776-0cc47a39c2c0', 'Taux moyen de renouvellement des équipements numériques ; '),
+('bbb68ae2-4bc8-11ee-b615-0cc47a39c2c2', '5e1c1153-06bd-11ee-b776-0cc47a39c2c0', 'Documentation mise en place : oui/non ;'),
+('bffa8613-4bc7-11ee-b615-0cc47a39c2c2', '100274d4-09ba-11ee-b881-0cc47a39c2c2', 'Autorisation de l\'utilisation du matériel professionnel à des fins personnelles encadrée via la charte informatique : oui / non ;'),
+('bffa8aaf-4bc7-11ee-b615-0cc47a39c2c2', '100274d4-09ba-11ee-b881-0cc47a39c2c2', 'Autorisation de la pratique du BYOD encadrée via la charte informatique : oui / non ;'),
+('bffa8daf-4bc7-11ee-b615-0cc47a39c2c2', '100274d4-09ba-11ee-b881-0cc47a39c2c2', '% d\'utilisateurs ayant recours à la pratique du BYOD ;'),
+('bffa9050-4bc7-11ee-b615-0cc47a39c2c2', '100274d4-09ba-11ee-b881-0cc47a39c2c2', '% d’agents équipés d’un smartphone professionnel ;'),
+('c2b3f371-4bcc-11ee-b615-0cc47a39c2c2', '1002624a-09ba-11ee-b881-0cc47a39c2c2', 'Nombre de personnes formées ; '),
+('c2b3f7c8-4bcc-11ee-b615-0cc47a39c2c2', '1002624a-09ba-11ee-b881-0cc47a39c2c2', 'Certificat de formation ou de connaissances des personnes chargées de la démarche ;'),
+('c3a59310-4bca-11ee-b615-0cc47a39c2c2', '10025cc4-09ba-11ee-b881-0cc47a39c2c2', 'Durée de vie moyenne des équipements numériques ; '),
+('c3a599a8-4bca-11ee-b615-0cc47a39c2c2', '10025cc4-09ba-11ee-b881-0cc47a39c2c2', 'Durée de vie moyenne des équipements par type ; '),
+('c3a59cf3-4bca-11ee-b615-0cc47a39c2c2', '10025cc4-09ba-11ee-b881-0cc47a39c2c2', 'Durée de vie moyenne des équipements par modèle ; '),
+('c3a59fcf-4bca-11ee-b615-0cc47a39c2c2', '10025cc4-09ba-11ee-b881-0cc47a39c2c2', 'Documentation mise en place : oui/non ;'),
+('c4f9ab24-4bc5-11ee-b615-0cc47a39c2c2', '5e2355b3-06bd-11ee-b776-0cc47a39c2c0', 'Volume total de données stockées (en To) ;'),
+('c4f9b134-4bc5-11ee-b615-0cc47a39c2c2', '5e2355b3-06bd-11ee-b776-0cc47a39c2c0', 'Volume total de données par nombre d’utilisateurs ;'),
+('c7892757-4bce-11ee-b615-0cc47a39c2c2', '5e1718ce-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('c7892d25-4bce-11ee-b615-0cc47a39c2c2', '5e1718ce-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ;'),
+('c7893024-4bce-11ee-b615-0cc47a39c2c2', '5e1718ce-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ;'),
+('c78932bc-4bce-11ee-b615-0cc47a39c2c2', '5e1718ce-06bd-11ee-b776-0cc47a39c2c0', 'Durée effective d’utilisation des matériels ; '),
+('c7893538-4bce-11ee-b615-0cc47a39c2c2', '5e1718ce-06bd-11ee-b776-0cc47a39c2c0', 'Taux de remplacement des matériels ; '),
+('c78937a1-4bce-11ee-b615-0cc47a39c2c2', '5e1718ce-06bd-11ee-b776-0cc47a39c2c0', 'Taux moyen de renouvellement des équipements numériques ; '),
+('cb933e10-4be3-11ee-b615-0cc47a39c2c2', '10026eb6-09ba-11ee-b881-0cc47a39c2c2', 'Centre de données situé en France: oui/non'),
+('cb9342a1-4be3-11ee-b615-0cc47a39c2c2', '10026eb6-09ba-11ee-b881-0cc47a39c2c2', 'Centre de données situé en Europe : oui/non'),
+('ccbc3093-4bc3-11ee-b615-0cc47a39c2c2', '5e15069b-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('ccbc3552-4bc3-11ee-b615-0cc47a39c2c2', '5e15069b-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ;'),
+('ccbc3839-4bc3-11ee-b615-0cc47a39c2c2', '5e15069b-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ;'),
+('ccbc3b70-4bc3-11ee-b615-0cc47a39c2c2', '5e15069b-06bd-11ee-b776-0cc47a39c2c0', 'Documentation mise en place : oui/non ;'),
+('cfd4c49f-4bcb-11ee-b615-0cc47a39c2c2', '5e0cb729-06bd-11ee-b776-0cc47a39c2c0', '% du budget de la collectivité dédié à la démarche ; '),
+('d14ae9fb-4bca-11ee-b615-0cc47a39c2c2', '5e1d42d4-06bd-11ee-b776-0cc47a39c2c0', 'Part du SI dans la consommation totale d\'énergie ;'),
+('d1a8141c-4bc9-11ee-b615-0cc47a39c2c2', '5e18f0ef-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('d1a818e3-4bc9-11ee-b615-0cc47a39c2c2', '5e18f0ef-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ;'),
+('d1a81bc9-4bc9-11ee-b615-0cc47a39c2c2', '5e18f0ef-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ;'),
+('d1a81e30-4bc9-11ee-b615-0cc47a39c2c2', '5e18f0ef-06bd-11ee-b776-0cc47a39c2c0', 'Durée effective d’utilisation des matériels ;'),
+('d1a8215d-4bc9-11ee-b615-0cc47a39c2c2', '5e18f0ef-06bd-11ee-b776-0cc47a39c2c0', 'Taux moyen de renouvellement des équipements numériques ;'),
+('d910af05-4be0-11ee-b615-0cc47a39c2c2', '5e193f00-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('d910b42a-4be0-11ee-b615-0cc47a39c2c2', '5e193f00-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ; '),
+('d910b8e4-4be0-11ee-b615-0cc47a39c2c2', '5e193f00-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ; '),
+('d910bc32-4be0-11ee-b615-0cc47a39c2c2', '5e193f00-06bd-11ee-b776-0cc47a39c2c0', 'Durée effective d’utilisation des matériels ; '),
+('d910be7d-4be0-11ee-b615-0cc47a39c2c2', '5e193f00-06bd-11ee-b776-0cc47a39c2c0', 'Taux moyen de renouvellement des équipements numériques ; '),
+('d910c0b0-4be0-11ee-b615-0cc47a39c2c2', '5e193f00-06bd-11ee-b776-0cc47a39c2c0', '% du parc numérique mis à niveau plutôt que renouvelé/durée moyenne de l\'allongement en résultant ; '),
+('dbf33794-4bd5-11ee-b615-0cc47a39c2c2', '5e0edb76-06bd-11ee-b776-0cc47a39c2c0', '% du parc numérique issu du réemploi ou de la réutilisation ou contenant des matériaux recyclés ;'),
+('dbf33ccf-4bd5-11ee-b615-0cc47a39c2c2', '5e0edb76-06bd-11ee-b776-0cc47a39c2c0', '% des achats annuels HT des catégories de produits concernés ; '),
+('e00043ef-4bcd-11ee-b615-0cc47a39c2c2', '5e282bc3-06bd-11ee-b776-0cc47a39c2c0', 'Clauses intégrées dans le cadre des marchés impactés : oui/non'),
+('e190890d-4bc1-11ee-b615-0cc47a39c2c2', '5e18ad87-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('e1908e41-4bc1-11ee-b615-0cc47a39c2c2', '5e18ad87-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ;'),
+('e19092f6-4bc1-11ee-b615-0cc47a39c2c2', '5e18ad87-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ;'),
+('e19095c2-4bc1-11ee-b615-0cc47a39c2c2', '5e18ad87-06bd-11ee-b776-0cc47a39c2c0', 'Durée effective d\'utilisation des matériels ;'),
+('e1909824-4bc1-11ee-b615-0cc47a39c2c2', '5e18ad87-06bd-11ee-b776-0cc47a39c2c0', 'Taux moyen de renouvellement des équipements numériques ;'),
+('e491d4d9-4bce-11ee-b615-0cc47a39c2c2', '5e2c1c1c-06bd-11ee-b776-0cc47a39c2c0', 'Nombre de points d\'accès Wifi mis à disposition du public'),
+('e5200b93-4bd4-11ee-b615-0cc47a39c2c2', '5e252e66-06bd-11ee-b776-0cc47a39c2c0', 'Nombre, pourcentage et/ou poids des matériels en état qui ont été donnés ou vendus ;'),
+('e52010ff-4bd4-11ee-b615-0cc47a39c2c2', '5e252e66-06bd-11ee-b776-0cc47a39c2c0', 'Taux de remplacement des matériels ; '),
+('e5201534-4bd4-11ee-b615-0cc47a39c2c2', '5e252e66-06bd-11ee-b776-0cc47a39c2c0', 'Taux moyen de renouvellement des équipements numériques ;'),
+('e8626b1e-4bd7-11ee-b615-0cc47a39c2c2', '5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', '% du parc numérique issu du réemploi ou de la réutilisation ou contenant des matériaux recyclés ;'),
+('e86270fa-4bd7-11ee-b615-0cc47a39c2c2', '5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', '% des achats annuels HT des catégories de produits concernés ; '),
+('e8627441-4bd7-11ee-b615-0cc47a39c2c2', '5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', '% de solutions logicielles et applications écoconçues ; '),
+('e8627712-4bd7-11ee-b615-0cc47a39c2c2', '5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', '% d\'équipements numériques écolabellisés ; '),
+('e8627b0e-4bd7-11ee-b615-0cc47a39c2c2', '5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', 'Clauses intégrées dans le cadre des marchés numériques : oui/non'),
+('e8627d30-4bd7-11ee-b615-0cc47a39c2c2', '5e0f3a5c-06bd-11ee-b776-0cc47a39c2c0', 'Objectifs liés aux achats numériques : oui/non'),
+('ea674c44-4be3-11ee-b615-0cc47a39c2c2', '5e210bfc-06bd-11ee-b776-0cc47a39c2c0', '% de prestataires ayant ratifié le code européen de bonne conduite pour les datas centers ou certifié ; '),
+('ea675298-4be3-11ee-b615-0cc47a39c2c2', '5e210bfc-06bd-11ee-b776-0cc47a39c2c0', '% de centre de données ou m² de datacentre ou kWh (facture d’électricité par exemple) gérés par des fournisseurs ayant signé le Code de Conduite européen des centres de données ou certifiés ; '),
+('eb46b891-4be0-11ee-b615-0cc47a39c2c2', '5e0b6541-06bd-11ee-b776-0cc47a39c2c0', 'Existence de l\'instance : oui/non'),
+('f3985da1-4bc2-11ee-b615-0cc47a39c2c2', '5e17d587-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('f39863df-4bc2-11ee-b615-0cc47a39c2c2', '5e17d587-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ;'),
+('f39868ca-4bc2-11ee-b615-0cc47a39c2c2', '5e17d587-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ;'),
+('f3986b4c-4bc2-11ee-b615-0cc47a39c2c2', '5e17d587-06bd-11ee-b776-0cc47a39c2c0', 'Durée effective d’utilisation des matériels ;'),
+('f3986fd0-4bc2-11ee-b615-0cc47a39c2c2', '5e17d587-06bd-11ee-b776-0cc47a39c2c0', '% équipements protégés ;'),
+('f39872c8-4bc2-11ee-b615-0cc47a39c2c2', '5e17d587-06bd-11ee-b776-0cc47a39c2c0', 'Taux de casse par an ;'),
+('f398751d-4bc2-11ee-b615-0cc47a39c2c2', '5e17d587-06bd-11ee-b776-0cc47a39c2c0', '% de retours SAV ;'),
+('f398774b-4bc2-11ee-b615-0cc47a39c2c2', '5e17d587-06bd-11ee-b776-0cc47a39c2c0', 'Nombre de réparations réalisées sur une période donnée ;'),
+('f3987971-4bc2-11ee-b615-0cc47a39c2c2', '5e17d587-06bd-11ee-b776-0cc47a39c2c0', 'Taux de panne des équipements par modèle et par an ;'),
+('f3987cff-4bc2-11ee-b615-0cc47a39c2c2', '5e17d587-06bd-11ee-b776-0cc47a39c2c0', 'Taux de remplacement des matériels ; '),
+('f81eb654-4bcd-11ee-b615-0cc47a39c2c2', '5e0a60c3-06bd-11ee-b776-0cc47a39c2c0', 'Documentation mise en place : oui/non ;'),
+('f87929d8-4be4-11ee-b615-0cc47a39c2c2', '5e2b59fb-06bd-11ee-b776-0cc47a39c2c0', 'Audit RGAA des services de communication au public en ligne réalisé et en cours de validité : oui/non ; '),
+('f8792fec-4be4-11ee-b615-0cc47a39c2c2', '5e2b59fb-06bd-11ee-b776-0cc47a39c2c0', 'Déclaration(s) d\'accessibilité correspondante(s) publiée(s) : oui/non ; '),
+('f8793589-4be4-11ee-b615-0cc47a39c2c2', '5e2b59fb-06bd-11ee-b776-0cc47a39c2c0', 'Schéma de mise en accessibilité et sa déclinaison pour l\'année publiés : oui/non ; '),
+('f8793909-4be4-11ee-b615-0cc47a39c2c2', '5e2b59fb-06bd-11ee-b776-0cc47a39c2c0', 'Moyen de signaler les problèmes d\'accessibilité mis à disposition des usagers : oui/non ; '),
+('f8793bb4-4be4-11ee-b615-0cc47a39c2c2', '5e2b59fb-06bd-11ee-b776-0cc47a39c2c0', 'Existence d\'une page \"Accessibilité\" sur le site internet de la structure : oui/non ; '),
+('f98a7e72-4bc9-11ee-b615-0cc47a39c2c2', '5e186c49-06bd-11ee-b776-0cc47a39c2c0', 'Durée de dotation moyenne des équipements numériques ;'),
+('f98a83e0-4bc9-11ee-b615-0cc47a39c2c2', '5e186c49-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('f98a8730-4bc9-11ee-b615-0cc47a39c2c2', '5e186c49-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ;'),
+('f98a89cd-4bc9-11ee-b615-0cc47a39c2c2', '5e186c49-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ;'),
+('f98a8e0a-4bc9-11ee-b615-0cc47a39c2c2', '5e186c49-06bd-11ee-b776-0cc47a39c2c0', 'Durée effective d’utilisation des matériels ;'),
+('f98a90e0-4bc9-11ee-b615-0cc47a39c2c2', '5e186c49-06bd-11ee-b776-0cc47a39c2c0', 'Taux moyen de renouvellement des équipements numériques ;'),
+('fa11f258-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', 'Durée de garantie souscrite (minimum pris en compte à l’achat) ; '),
+('fa11f7b1-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', '% équipements protégés ;'),
+('fa11faa2-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', 'Taux de casse par an ;'),
+('fa11fd2d-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', '% de retours SAV ;'),
+('fa11ffb8-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', 'Nombre de réparations réalisées sur une période donnée ; '),
+('fa1202cf-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', 'Nombre d\'équipements informatiques remis en état ou à niveau ;'),
+('fa120595-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', '% des DEEE évités par les remises en état / à niveau par rapport au poids total des DEEE générés ;');
+INSERT INTO `recommandation_success_indicator` (`id`, `recommandation_id`, `text`) VALUES
+('fa120816-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', 'Taux de panne des équipements par modèle et par an ;'),
+('fa120a80-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', 'Taux de remplacement des matériels ; '),
+('fa120cdc-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', 'Taux de remplacement en lien avec la durée de garantie ; '),
+('fa1210a2-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', 'Indice de réparabilité des équipements numériques acquis ; '),
+('fa1212e1-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements numériques ;'),
+('fa12151b-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par type ; '),
+('fa121815-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', 'Durée de vie moyenne des équipements par modèle ; '),
+('fa121a5f-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', 'Durée effective d’utilisation des matériels ; '),
+('fa121ca6-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', 'Indice de réparabilité des équipements numériques acquis ; '),
+('fa121ef5-4be6-11ee-b615-0cc47a39c2c2', '5e19f23e-06bd-11ee-b776-0cc47a39c2c0', 'Taux moyen de renouvellement des équipements numériques ; ');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `region`
+--
+
+DROP TABLE IF EXISTS `region`;
+CREATE TABLE IF NOT EXISTS `region` (
+  `code` char(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `region`
+--
+
+INSERT INTO `region` (`code`, `name`) VALUES
+('1', 'Guadeloupe'),
+('11', 'Île-de-France'),
+('2', 'Martinique'),
+('24', 'Centre-Val de Loire'),
+('27', 'Bourgogne-Franche-Comté'),
+('28', 'Normandie'),
+('3', 'Guyane'),
+('32', 'Hauts-de-France'),
+('4', 'La Réunion'),
+('44', 'Grand Est'),
+('52', 'Pays de la Loire'),
+('53', 'Bretagne'),
+('6', 'Mayotte'),
+('75', 'Nouvelle-Aquitaine'),
+('76', 'Occitanie'),
+('84', 'Auvergne-Rhône-Alpes'),
+('93', 'Provence-Alpes-Côte d’Azur'),
+('94', 'Corse');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `reset_password_request`
+--
+
+DROP TABLE IF EXISTS `reset_password_request`;
+CREATE TABLE IF NOT EXISTS `reset_password_request` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `selector` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hashed_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `requested_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `expires_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  PRIMARY KEY (`id`),
+  KEY `IDX_7CE748AA76ED395` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `score`
+--
+
+DROP TABLE IF EXISTS `score`;
+CREATE TABLE IF NOT EXISTS `score` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `collectivite_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `score` int NOT NULL,
+  `scored_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  `category_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:guid)',
+  PRIMARY KEY (`id`),
+  KEY `IDX_32993751A7991F51` (`collectivite_id`),
+  KEY `IDX_3299375112469DE2` (`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `theme`
+--
+
+DROP TABLE IF EXISTS `theme`;
+CREATE TABLE IF NOT EXISTS `theme` (
+  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `label` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `category_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:guid)',
+  `sort_order` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_9775E70812469DE2` (`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `theme`
+--
+
+INSERT INTO `theme` (`id`, `label`, `category_id`, `sort_order`) VALUES
+('0', NULL, NULL, 0),
+('b11043a2-0453-11ee-b776-0cc47a39c2c0', 'Connaissance du parc numérique', '8444bdb4-432a-11ed-af88-040300000000', 1),
+('b11106a0-0453-11ee-b776-0cc47a39c2c0', 'Allongement de la durée de vie ', '8444bdb4-432a-11ed-af88-040300000000', 2),
+('b111b80e-0453-11ee-b776-0cc47a39c2c0', 'Énergie et impact environnemental', '8444bdb4-432a-11ed-af88-040300000000', 3),
+('b112172d-0453-11ee-b776-0cc47a39c2c0', 'Déchets d\'Équipements Électriques et Électroniques (DEEE ou D3E)', '8444bdb4-432a-11ed-af88-040300000000', 4),
+('ffef7f08-0699-11ee-b776-0cc47a39c2c0', 'Achats responsables', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 1),
+('ffef8496-0699-11ee-b776-0cc47a39c2c0', 'Protection des données et sécurité informatique', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 2),
+('ffef87b9-0699-11ee-b776-0cc47a39c2c0', 'Inclusion numérique', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 3),
+('ffef8a66-0699-11ee-b776-0cc47a39c2c0', 'Territoire connecté et durable', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 4),
+('ffef8d65-0699-11ee-b776-0cc47a39c2c0', 'Actions envers le public', '526bb3e9-0156-11ee-b776-0cc47a39c2c0', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `email` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `collectivite_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:guid)',
+  `admin_collectivite` tinyint(1) NOT NULL,
+  `token` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `username` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `cgu_checked` tinyint(1) NOT NULL DEFAULT '0',
+  `verified` tinyint(1) NOT NULL DEFAULT '0',
+  `admin_opsn` tinyint(1) NOT NULL DEFAULT '0',
+  `super_admin` tinyint(1) NOT NULL DEFAULT '0',
+  `opsn_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:guid)',
+  `is_vu` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_8D93D649F85E0677` (`username`),
+  KEY `IDX_8D93D649A7991F51` (`collectivite_id`),
+  KEY `IDX_8D93D649173BE8BE` (`opsn_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `user`
+--
+
+INSERT INTO `user` (`id`, `email`, `last_name`, `first_name`, `password`, `collectivite_id`, `admin_collectivite`, `token`, `username`, `active`, `cgu_checked`, `verified`, `admin_opsn`, `super_admin`, `opsn_id`, `is_vu`) VALUES
+('a75b0e12-5b02-11f0-9376-3822e20d3cc2', 'demo@demo.fr', 'demo', 'demo', NULL, '404', 1, NULL, 'demo.demo', 1, 1, 1, 1, 1, '404', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `user_preference`
+--
+
+DROP TABLE IF EXISTS `user_preference`;
+CREATE TABLE IF NOT EXISTS `user_preference` (
+  `user_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:guid)',
+  `code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `json` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`user_id`,`code`),
+  KEY `IDX_FA0E76BFA76ED395` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `answer`
+--
+ALTER TABLE `answer`
+  ADD CONSTRAINT `FK_DADD4A25AA0960C5` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `collectivite`
+--
+ALTER TABLE `collectivite`
+  ADD CONSTRAINT `FK_CFA408A1839E14D2` FOREIGN KEY (`departement_id`) REFERENCES `departement` (`code`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_CFA408A19C5891A6` FOREIGN KEY (`type_id`) REFERENCES `collectivite_type` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_CFA408A1BF07875A` FOREIGN KEY (`opsn_id`) REFERENCES `opsn` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_CFA408A1BF77FE2D` FOREIGN KEY (`link_demand_id`) REFERENCES `opsn` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `collectivite_answer`
+--
+ALTER TABLE `collectivite_answer`
+  ADD CONSTRAINT `FK_85E830175E1EF114` FOREIGN KEY (`collectivite_id`) REFERENCES `collectivite` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_85E83017A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_85E83017CDFE3796` FOREIGN KEY (`answer_id`) REFERENCES `answer` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `collectivite_status`
+--
+ALTER TABLE `collectivite_status`
+  ADD CONSTRAINT `FK_1E527E2161AAE789` FOREIGN KEY (`recommandation_id`) REFERENCES `recommandation` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_24351F2E6BF700BD` FOREIGN KEY (`status_id`) REFERENCES `recommandation_status` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_24351F2EA7991F51` FOREIGN KEY (`collectivite_id`) REFERENCES `collectivite` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `departement`
+--
+ALTER TABLE `departement`
+  ADD CONSTRAINT `FK_C1765B63AEB327AF` FOREIGN KEY (`region_code`) REFERENCES `region` (`code`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `notification`
+--
+ALTER TABLE `notification`
+  ADD CONSTRAINT `FK_BF5476CA4FB6A46E` FOREIGN KEY (`collectivite_id`) REFERENCES `collectivite` (`id`),
+  ADD CONSTRAINT `FK_BF5476CA9777D11E` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
+
+--
+-- Contraintes pour la table `opsn_departement`
+--
+ALTER TABLE `opsn_departement`
+  ADD CONSTRAINT `FK_BC35EDDF839E14D2` FOREIGN KEY (`departement_code`) REFERENCES `departement` (`code`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_DB4914C6173BE8BE` FOREIGN KEY (`opsn_id`) REFERENCES `opsn` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `population`
+--
+ALTER TABLE `population`
+  ADD CONSTRAINT `FK_B449A008DC4E869` FOREIGN KEY (`collectivite_type_id`) REFERENCES `collectivite_type` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `question`
+--
+ALTER TABLE `question`
+  ADD CONSTRAINT `FK_B6F7494E12469DE2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_B6F7494E4F0C9D89` FOREIGN KEY (`theme_id`) REFERENCES `theme` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_B6F7494EA7E9AA83` FOREIGN KEY (`parent_id`) REFERENCES `question` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_B6F7494EBDA9E152` FOREIGN KEY (`parent_answer_id`) REFERENCES `answer` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `recommandation`
+--
+ALTER TABLE `recommandation`
+  ADD CONSTRAINT `FK_C7782A285FB14BA7` FOREIGN KEY (`level_id`) REFERENCES `recommandation_level` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_C7782A286BF700BD` FOREIGN KEY (`status_id`) REFERENCES `recommandation_status` (`Id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_C7782A28AA0960C5` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `recommandation_answer`
+--
+ALTER TABLE `recommandation_answer`
+  ADD CONSTRAINT `FK_C4D2A9D661AAE789` FOREIGN KEY (`recommandation_id`) REFERENCES `recommandation` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_C4D2A9D6AA334807` FOREIGN KEY (`answer_id`) REFERENCES `answer` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `recommandation_custom`
+--
+ALTER TABLE `recommandation_custom`
+  ADD CONSTRAINT `FK_74EADD021E27F6BF` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_74EADD0261AAE789` FOREIGN KEY (`recommandation_id`) REFERENCES `recommandation` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_74EADD02A7991F51` FOREIGN KEY (`collectivite_id`) REFERENCES `collectivite` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `recommandation_perso`
+--
+ALTER TABLE `recommandation_perso`
+  ADD CONSTRAINT `FK_6DBFAEF51E27F6BF` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`),
+  ADD CONSTRAINT `FK_6DBFAEF55FB14BA7` FOREIGN KEY (`level_id`) REFERENCES `recommandation_level` (`id`),
+  ADD CONSTRAINT `FK_6DBFAEF56BF700BD` FOREIGN KEY (`status_id`) REFERENCES `recommandation_status` (`Id`),
+  ADD CONSTRAINT `FK_6DBFAEF5A7991F51` FOREIGN KEY (`collectivite_id`) REFERENCES `collectivite` (`id`);
+
+--
+-- Contraintes pour la table `recommandation_resource`
+--
+ALTER TABLE `recommandation_resource`
+  ADD CONSTRAINT `FK_10A45F1361AAE789` FOREIGN KEY (`recommandation_id`) REFERENCES `recommandation` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `recommandation_success_indicator`
+--
+ALTER TABLE `recommandation_success_indicator`
+  ADD CONSTRAINT `FK_89DE30BB61AAE789` FOREIGN KEY (`recommandation_id`) REFERENCES `recommandation` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `reset_password_request`
+--
+ALTER TABLE `reset_password_request`
+  ADD CONSTRAINT `FK_7CE748AA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `score`
+--
+ALTER TABLE `score`
+  ADD CONSTRAINT `FK_3299375112469DE2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_329937515E1EF114` FOREIGN KEY (`collectivite_id`) REFERENCES `collectivite` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `theme`
+--
+ALTER TABLE `theme`
+  ADD CONSTRAINT `FK_9775E708330B72B5` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `FK_8D93D649173BE8BE` FOREIGN KEY (`opsn_id`) REFERENCES `opsn` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_8D93D6495E1EF114` FOREIGN KEY (`collectivite_id`) REFERENCES `collectivite` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `user_preference`
+--
+ALTER TABLE `user_preference`
+  ADD CONSTRAINT `FK_FA0E76BF8290D882` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
