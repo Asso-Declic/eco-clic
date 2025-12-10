@@ -56,7 +56,7 @@ class QuestionRepository extends ServiceEntityRepository
         }
 
         if ($category !== null) {
-            $reqCateg = "AND question.category_id = $category";
+            $reqCateg = "AND question.category_id ='" $category->getId()"'";
         }
 
         // Create native query
